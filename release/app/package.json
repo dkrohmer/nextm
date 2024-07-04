@@ -1,0 +1,25 @@
+{
+  "name": "nextm",
+  "version": "0.1.0",
+  "description": "A portable threat modeling tool for agile development.",
+  "license": "AGPL-3.0-only",
+  "author": {
+    "name": "dkrohmer",
+    "email": "dkrohmer@proton.me",
+    "url": "https://github.com/dkrohmer"
+  },
+  "main": "./dist/main/main.js",
+  "scripts": {
+    "rebuild": "node -r ts-node/register ../../.erb/scripts/electron-rebuild.js",
+    "postinstall": "npm run rebuild && npm run link-modules",
+    "link-modules": "node -r ts-node/register ../../.erb/scripts/link-modules.ts"
+  },
+  "dependencies": {
+    "fs": "^0.0.1-security",
+    "sqlite3": "^5.1.6",
+    "typeorm": "^0.3.20"
+  },
+  "devDependencies": {
+    "@electron/rebuild": "^3.6.0"
+  }
+}

@@ -1,0 +1,178 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.form-button-group {
+  display: flex;
+  justify-content: space-between; /* This pushes the first item to the left and the last item to the right */
+}
+
+.cancel-button {
+  margin-left: auto; /* This pushes the cancel button to the far right */
+}
+
+.ui.table th {
+  max-width: 180px; /* Ensure headers have the same width as cells */
+}
+
+/* used for hovering over table rows in /projects */
+.clickable-row:hover {
+  background-color: #f0f0f0;
+}
+
+/* used for the link of "name" column in /projects */
+.clickable-row a {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+/* shown when no projects exist in /projects */
+.empty-message-header {
+  text-align: center;
+  padding-top: 20px;
+  margin-bottom: 5px;
+  color: #999;
+}
+
+/* shown when no projects exist in /projects */
+.empty-message-body {
+  text-align: center;
+  padding-bottom: 20px;
+  color: #999;
+}
+
+/* Ellipsis for table cells in /projects */
+.ellipsis {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.ui.grid > .row {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.ui.grid > .row > .column {
+  display: flex;
+  align-items: center;
+}
+
+.ui.table.no-border-table {
+  border-top: none !important;
+  border-bottom: none !important;
+}
+
+.ui.item-group .item:hover {
+  background-color: #f4f4f5;  /* Light grey background on hover */
+  cursor: pointer;            /* Changes the cursor to a pointer to indicate it's clickable */
+}
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+}
+
+/* Ensure sidebar and pusher take up full height */
+.ui.sidebar {
+  height: 100%;
+}
+
+.ui.sidebar + .pusher {
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.content-wrapper {
+  flex: 1;
+  /* overflow: hidden; */
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.ui.fluid.input.inverted input {
+  background-color: #1b1c1d;
+  color: #ffffff;
+  border: 1px solid #333333;
+  padding: 10px;
+  border-radius: 0.28571429rem;
+}
+
+.ui.fluid.input.inverted input::placeholder {
+  color: #777777;
+}
+
+.sidebar-pusher {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+/*
+ * UI container
+ */
+ .app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden; /* Ensure no scrollbars */
+}
+
+.graph-container {
+  flex: 1 1 auto;
+  overflow: hidden;
+}
+
+.toolbar {
+  background-color: #282828;
+  position: absolute;
+  width: 100%;
+  z-index: 2;
+  border-top: 0.5px solid #404040;
+}
+
+.topbar {
+  background-color: #f8f8f8; /* Example background color */
+}
+
+/*
+ * x6 overrides
+ */
+ .x6-widget-stencil  {
+  border: 0.5px solid;
+  border-radius: 5px;
+
+}
+
+.x6-widget-stencil-title {
+  background-color: #282828;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.x6-toolbar-group::before {
+  background-color: #404040;
+}
+
+.x6-toolbar.x6-toolbar-hover-effect { 
+  color: #000;
+}
+
+.x6-toolbar-item-icon {
+  color: #fff;
+}
