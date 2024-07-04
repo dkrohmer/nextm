@@ -123,7 +123,6 @@ const create = (
                 'edge-source-handle' ||
                 'edge-target-handle'
               ) {
-                console.log('FALSE');
                 keepItemInHistory = false;
               }
             }
@@ -137,7 +136,6 @@ const create = (
                 'edge-source-handle' ||
                 'edge-target-handle'
               ) {
-                console.log('FALSE');
                 keepItemInHistory = false;
               }
             }

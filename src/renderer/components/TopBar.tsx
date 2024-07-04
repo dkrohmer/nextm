@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch } from '../store';
 import { setSidebarVisible } from '../store/SettingsStore';
 
-import logo from '../../../../../../../assets/logo.svg';
+import logo from '../../../assets/logo.svg'
 
 const TopBar: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();

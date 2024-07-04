@@ -28,7 +28,7 @@ import {
   setModelsIsCloning,
 } from '../../store/ModelsStore';
 
-import thumbnail from '../../../../../../../../assets/thumbnail.png';
+import thumbnail from '../../../../assets/thumbnail.png'
 
 import { fetchLatestVersion } from '../../store/VersionsStore';
 
