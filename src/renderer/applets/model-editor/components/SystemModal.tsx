@@ -2,9 +2,10 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Graph } from '@antv/x6';
 
-import System from '../shapes/system'
+import { Form, Modal, TextAreaProps } from 'semantic-ui-react';
+import System from '../shapes/system';
 
-import { 
+import {
   setSystemDescription,
   setSystemModalOpen,
   setSystemName,
@@ -13,16 +14,13 @@ import {
 
 import { RootState, AppDispatch } from '../../../store';
 
-import { Form, Modal, TextAreaProps } from 'semantic-ui-react';
-
 interface SystemModalProps {
   graph: Graph;
-  onClose: () => void
 }
 
-const SystemModal: React.FC<SystemModalProps> = ({ graph, onClose }) => {
+const SystemModal: React.FC<SystemModalProps> = ({ graph }) => {
   const dispatch = useDispatch<AppDispatch>();
-  
+
   // global redux states
   const {
     systemModalOpen,
@@ -32,26 +30,24 @@ const SystemModal: React.FC<SystemModalProps> = ({ graph, onClose }) => {
     systemDescription,
     // textModeInputValue,
     // textModeSelectedCell,
-  } = useSelector((state: RootState) => state.modelEditor)
+  } = useSelector((state: RootState) => state.modelEditor);
 
   const handleSubmit = () => {
     if (systemModalSelectedCell) {
       const cell = graph.getCellById(systemModalSelectedCell);
       if (cell.isNode()) {
-
         const attrs = System.setSystemAttrs(systemName, systemStack);
         // todo: set Description
         cell.setAttrs(attrs);
-        cell.setData({description: systemDescription})
+        cell.setData({ description: systemDescription });
       }
       dispatch(setSystemModalOpen(false));
     }
   };
 
   const handleClose = () => {
-    dispatch(setSystemModalOpen(false))
-    onClose()
-  }
+    dispatch(setSystemModalOpen(false));
+  };
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(setSystemName(event.target.value));
@@ -61,8 +57,11 @@ const SystemModal: React.FC<SystemModalProps> = ({ graph, onClose }) => {
     dispatch(setSystemStack(event.target.value));
   };
 
-  const handleDescriptionChange =  (_e: React.ChangeEvent<HTMLTextAreaElement>, data: TextAreaProps) => {
-    dispatch(setSystemDescription(data.value as string))
+  const handleDescriptionChange = (
+    _e: React.ChangeEvent<HTMLTextAreaElement>,
+    data: TextAreaProps,
+  ) => {
+    dispatch(setSystemDescription(data.value as string));
   };
 
   return (
@@ -96,13 +95,15 @@ const SystemModal: React.FC<SystemModalProps> = ({ graph, onClose }) => {
           />
 
           <Form.Group className="form-button-group">
-            <Form.Button primary type='submit'>Submit</Form.Button>
+            <Form.Button primary type="submit">
+              Submit
+            </Form.Button>
             <Form.Button onClick={handleClose}>Cancel</Form.Button>
           </Form.Group>
         </Form>
       </Modal.Content>
     </Modal>
   );
-}
+};
 
 export default SystemModal;

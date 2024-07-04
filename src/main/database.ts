@@ -23,7 +23,7 @@ export const initializeDataSource = async (databasePath: string) => {
   console.log(`Initializing data source with database path: ${databasePath}`);
 
   if (AppDataSource && AppDataSource.isInitialized) {
-    console.log("Destroying existing data source...");
+    console.log('Destroying existing data source...');
     await AppDataSource.destroy();
   }
 
@@ -32,13 +32,7 @@ export const initializeDataSource = async (databasePath: string) => {
     database: databasePath,
     synchronize: true,
     logging: false,
-    entities: [
-      Product,
-      Increment,
-      Model,
-      Version,
-      Responsible
-    ],
+    entities: [Product, Increment, Model, Version, Responsible],
     migrations: [],
     subscribers: [],
   });
@@ -46,11 +40,10 @@ export const initializeDataSource = async (databasePath: string) => {
   const response = await AppDataSource.initialize();
 
   if (response) {
-    console.log("Data source initialized successfully at: ", databasePath);
-    return true
-  } else {
-    return false;
+    console.log('Data source initialized successfully at: ', databasePath);
+    return true;
   }
+  return false;
 };
 
 export function getDataSource() {

@@ -1,19 +1,19 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Graph } from '@antv/x6';
+import { Checkbox, Form, Modal } from 'semantic-ui-react';
 import type { DataflowStride } from '../../../store/ModelEditorStore';
-import Dataflow  from '../shapes/dataflow'
+import Dataflow from '../shapes/dataflow';
 
-import { 
+import {
   // setTextMode,
   setDataflowModalOpen,
   setDataflowLabel,
   setDataflowProtocol,
-  setDataflowStride
+  setDataflowStride,
 } from '../../../store/ModelEditorStore';
 
 import { RootState } from '../../../store';
-import { Checkbox, Form, Modal } from 'semantic-ui-react';
 
 interface DataflowModalProps {
   graph: Graph;
@@ -21,30 +21,31 @@ interface DataflowModalProps {
 
 const DataflowModal: React.FC<DataflowModalProps> = ({ graph }) => {
   const dispatch = useDispatch();
-  
+
   // global redux states
   const {
     dataflowLabel,
     dataflowProtocol,
     dataflowModalSelectedCell,
     dataflowModalOpen,
-    dataflowStride
-  } = useSelector((state: RootState) => state.modelEditor)
+    dataflowStride,
+  } = useSelector((state: RootState) => state.modelEditor);
 
   const handleSubmit = () => {
     if (dataflowModalSelectedCell) {
       const cell = graph.getCellById(dataflowModalSelectedCell);
-     if (cell.isEdge()) {
-
+      if (cell.isEdge()) {
         const strideString = Object.keys(dataflowStride)
-        .filter(key => dataflowStride[key as keyof DataflowStride])
-        .map(key => key.charAt(0).toUpperCase())
+          .filter((key) => dataflowStride[key as keyof DataflowStride])
+          .map((key) => key.charAt(0).toUpperCase())
           .join(' ');
 
-        const label = Dataflow.setDataflowLabel(dataflowLabel, dataflowProtocol, strideString);
+        const label = Dataflow.setDataflowLabel(
+          dataflowLabel,
+          dataflowProtocol,
+          strideString,
+        );
         cell.setLabelAt(0, label);
-
-        console.log(cell.getLabelAt(0));
       }
       dispatch(setDataflowModalOpen(false));
     }
@@ -67,7 +68,11 @@ const DataflowModal: React.FC<DataflowModalProps> = ({ graph }) => {
   };
 
   return (
-    <Modal open={dataflowModalOpen} onClose={() => dispatch(setDataflowModalOpen(false))} dimmer="blurring">
+    <Modal
+      open={dataflowModalOpen}
+      onClose={() => dispatch(setDataflowModalOpen(false))}
+      dimmer="blurring"
+    >
       <Modal.Header>Edit Dataflow</Modal.Header>
       <Modal.Content>
         <Form onSubmit={handleSubmit}>
@@ -89,47 +94,71 @@ const DataflowModal: React.FC<DataflowModalProps> = ({ graph }) => {
             onChange={handleProtocolChange}
           />
 
-          <div className='field' style={{ paddingBottom: '5px' }}>
+          <div className="field" style={{ paddingBottom: '5px' }}>
             <label>STRIDE threats</label>
             <Form.Group>
               <Form.Field>
-                <Checkbox 
-                  label={<label><strong>S</strong>poofing</label>} 
+                <Checkbox
+                  label={
+                    <label>
+                      <strong>S</strong>poofing
+                    </label>
+                  }
                   checked={dataflowStride.spoofing}
                   onChange={() => handleStrideChange('spoofing')}
                 />
               </Form.Field>
               <Form.Field>
-                <Checkbox 
-                  label={<label><strong>T</strong>ampering</label>} 
+                <Checkbox
+                  label={
+                    <label>
+                      <strong>T</strong>ampering
+                    </label>
+                  }
                   checked={dataflowStride.tampering}
                   onChange={() => handleStrideChange('tampering')}
                 />
               </Form.Field>
               <Form.Field>
-                <Checkbox 
-                  label={<label><strong>R</strong>epudiation</label>} 
+                <Checkbox
+                  label={
+                    <label>
+                      <strong>R</strong>epudiation
+                    </label>
+                  }
                   checked={dataflowStride.repudiation}
                   onChange={() => handleStrideChange('repudiation')}
                 />
               </Form.Field>
               <Form.Field>
-                <Checkbox 
-                  label={<label><strong>I</strong>nformation disclosure</label>} 
+                <Checkbox
+                  label={
+                    <label>
+                      <strong>I</strong>nformation disclosure
+                    </label>
+                  }
                   checked={dataflowStride.informationDisclosure}
                   onChange={() => handleStrideChange('informationDisclosure')}
                 />
               </Form.Field>
               <Form.Field>
-                <Checkbox 
-                  label={<label><strong>D</strong>enial of service</label>} 
+                <Checkbox
+                  label={
+                    <label>
+                      <strong>D</strong>enial of service
+                    </label>
+                  }
                   checked={dataflowStride.denialOfService}
                   onChange={() => handleStrideChange('denialOfService')}
                 />
               </Form.Field>
               <Form.Field>
-                <Checkbox 
-                  label={<label><strong>E</strong>levate privilege</label>} 
+                <Checkbox
+                  label={
+                    <label>
+                      <strong>E</strong>levate privilege
+                    </label>
+                  }
                   checked={dataflowStride.elevatePrivilege}
                   onChange={() => handleStrideChange('elevatePrivilege')}
                 />
@@ -138,13 +167,17 @@ const DataflowModal: React.FC<DataflowModalProps> = ({ graph }) => {
           </div>
 
           <Form.Group className="form-button-group">
-            <Form.Button primary type='submit'>Submit</Form.Button>
-            <Form.Button onClick={() => dispatch(setDataflowModalOpen(false))}>Cancel</Form.Button>
+            <Form.Button primary type="submit">
+              Submit
+            </Form.Button>
+            <Form.Button onClick={() => dispatch(setDataflowModalOpen(false))}>
+              Cancel
+            </Form.Button>
           </Form.Group>
         </Form>
       </Modal.Content>
     </Modal>
   );
-}
+};
 
 export default DataflowModal;

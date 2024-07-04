@@ -1,65 +1,64 @@
-import { Graph } from "@antv/x6";
-
+import { Graph } from '@antv/x6';
 
 const exportAction = (graph: Graph) => {
   graph.exportPNG('export');
   return true;
-}
+};
 
 const importAction = () => {
-  //Todo  
+  // Todo
   return true;
-}
+};
 
 const fitViewAction = (graph: Graph) => {
-  graph.zoomToFit({padding: {left: 200, right: 200}})
+  graph.zoomToFit({ padding: { left: 200, right: 200 } });
   return true;
-}
+};
 
 const zoomInAction = (graph: Graph) => {
-  graph.zoom(0.2)
+  graph.zoom(0.2);
   // graph.drawGrid()
   return true;
-}
+};
 
 const zoomOutAction = (graph: Graph) => {
-  graph.zoom(-0.2)
+  graph.zoom(-0.2);
   return true;
-}
+};
 
 const undoAction = (graph: Graph) => {
   if (graph.canUndo()) {
-    graph.undo()
+    graph.undo();
     return true;
   }
-  return false
-}
+  return false;
+};
 
 const redoAction = (graph: Graph) => {
   if (graph.canRedo()) {
-    graph.redo()
+    graph.redo();
     return true;
   }
-  return false
-}
+  return false;
+};
 
 const selectAllAction = (graph: Graph) => {
-  const cells = graph.getCells()
+  const cells = graph.getCells();
   if (cells.length > 0) {
     graph.select(cells);
     return true;
   }
   return false;
-}
+};
 
 const cutAction = (graph: Graph) => {
-  const cells = graph.getSelectedCells()
+  const cells = graph.getSelectedCells();
   if (cells.length) {
-    graph.cut(cells)
+    graph.cut(cells);
     return true;
   }
-  return false
-}
+  return false;
+};
 
 const copyAction = (graph: Graph) => {
   const cells = graph.getSelectedCells();
@@ -68,27 +67,26 @@ const copyAction = (graph: Graph) => {
     return true;
   }
   return false;
-}
+};
 
 const pasteAction = (graph: Graph) => {
   if (!graph.isClipboardEmpty()) {
-    const cells = graph.paste({ offset: 32 })
-    graph.cleanSelection()
-    graph.select(cells)
+    const cells = graph.paste({ offset: 32 });
+    graph.cleanSelection();
+    graph.select(cells);
     return true;
   }
-  return false
-}
+  return false;
+};
 
 const deleteAction = (graph: Graph) => {
-  const cells = graph.getSelectedCells()
+  const cells = graph.getSelectedCells();
   if (cells.length) {
-    graph.removeCells(cells)
+    graph.removeCells(cells);
     return true;
-  } else {
-    return false;
   }
-}
+  return false;
+};
 
 export default {
   exportAction,
@@ -102,5 +100,5 @@ export default {
   deleteAction,
   fitViewAction,
   zoomInAction,
-  zoomOutAction
+  zoomOutAction,
 };

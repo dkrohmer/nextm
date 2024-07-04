@@ -21,7 +21,7 @@ const StencilContainer: React.FC<StencilContainerProps> = ({ graph }) => {
     width: '135px',
     height: '400px',
     zIndex: 2,
-  }
+  };
 
   useEffect(() => {
     if (!graph) {
@@ -30,7 +30,7 @@ const StencilContainer: React.FC<StencilContainerProps> = ({ graph }) => {
     }
 
     if (graph && stencilContainerRef.current) {
-      const stencil = new Stencil({ 
+      const stencil = new Stencil({
         target: graph,
         stencilGraphWidth: 250,
         stencilGraphHeight: 350,
@@ -54,7 +54,7 @@ const StencilContainer: React.FC<StencilContainerProps> = ({ graph }) => {
 
       stencil.load([a, s, d, z], 'group1');
     }
-    
+
     // Assuming you might want to perform some cleanup or further actions
     // return () => {
     //   // Cleanup logic here if necessary
@@ -64,9 +64,9 @@ const StencilContainer: React.FC<StencilContainerProps> = ({ graph }) => {
   // Since this component is used for side effects rather than rendering, return null
   return (
     <div>
-      <div ref={stencilContainerRef} style={stencilContainerStyle}/>
+      <div ref={stencilContainerRef} style={stencilContainerStyle} />
     </div>
-  )
+  );
 };
 
 export default StencilContainer;

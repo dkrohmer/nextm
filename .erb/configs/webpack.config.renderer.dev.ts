@@ -76,56 +76,56 @@ const configuration: webpack.Configuration = {
         test: /.(scss|sass)$/,
         use: ['style-loader', 'css-loader', 'sass-loader'], // Only apply sass-loader to .scss/.sass files
       },
-        // {
-        // test: /.(png|jpe?g|gif|svg)$/, // Add this rule for handling image files
-        // use: [
-        // {
-        // loader: 'file-loader',
-        // options: {
-        // name: '[name].[hash].[ext]',
-        // outputPath: 'assets',
-        // publicPath: 'assets',
-        // },
-        // },
-        // ],
-        // },
-        // {
-        // test: /.s?(c|a)ss$/,
-        // use: [
-        // 'style-loader',
-        // {
-        // loader: 'css-loader',
-        // options: {
-        // modules: true,
-        // sourceMap: true,
-        // importLoaders: 1,
-        // },
-        // },
-        // 'sass-loader',
-        // ],
-        // include: /.module.s?(c|a)ss$/,
-        // },
-        // {
-        // test: /.s?css$/,
-        // use: [
-        // 'style-loader',
-        // 'css-loader',
-        // 'sass-loader',
-        // {
-        // loader: 'postcss-loader',
-        // options: {
-        // postcssOptions: {
-        // plugins:
-        // [
-        // require('semantic-ui-css/semantic.min.css'),
-        // // require('autoprefixer'),
-        // ]
-        // },
-        // },
-        // },
-        // ],
-        // exclude: /.module.s?(c|a)ss$/,
-        // },
+      // {
+      // test: /.(png|jpe?g|gif|svg)$/, // Add this rule for handling image files
+      // use: [
+      // {
+      // loader: 'file-loader',
+      // options: {
+      // name: '[name].[hash].[ext]',
+      // outputPath: 'assets',
+      // publicPath: 'assets',
+      // },
+      // },
+      // ],
+      // },
+      // {
+      // test: /.s?(c|a)ss$/,
+      // use: [
+      // 'style-loader',
+      // {
+      // loader: 'css-loader',
+      // options: {
+      // modules: true,
+      // sourceMap: true,
+      // importLoaders: 1,
+      // },
+      // },
+      // 'sass-loader',
+      // ],
+      // include: /.module.s?(c|a)ss$/,
+      // },
+      // {
+      // test: /.s?css$/,
+      // use: [
+      // 'style-loader',
+      // 'css-loader',
+      // 'sass-loader',
+      // {
+      // loader: 'postcss-loader',
+      // options: {
+      // postcssOptions: {
+      // plugins:
+      // [
+      // require('semantic-ui-css/semantic.min.css'),
+      // // require('autoprefixer'),
+      // ]
+      // },
+      // },
+      // },
+      // ],
+      // exclude: /.module.s?(c|a)ss$/,
+      // },
       // Fonts
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/i,

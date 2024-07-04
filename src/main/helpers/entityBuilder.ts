@@ -6,7 +6,8 @@ import { Model } from '../models/Model';
 import { Version } from '../models/Version';
 
 export function buildProductEntity(productData: Product): Product {
-  const { name, description, startsAt, endsAt, increments, responsibles } = productData;
+  const { name, description, startsAt, endsAt, increments, responsibles } =
+    productData;
 
   const product = new Product();
   product.name = name;
@@ -19,22 +20,29 @@ export function buildProductEntity(productData: Product): Product {
   }
 
   if (increments && increments.length > 0) {
-    product.increments = increments.map((incrementData: Increment, index: number) => buildIncrementEntity(incrementData, index));
+    product.increments = increments.map(
+      (incrementData: Increment, index: number) =>
+        buildIncrementEntity(incrementData, index),
+    );
   } else {
     const incrementData = {
-      name: `${product.name} - Baseline`
-    }
-    product.increments = []
-    product.increments.push(buildIncrementEntity(incrementData, 0))
+      name: `${product.name} - Baseline`,
+    };
+    product.increments = [];
+    product.increments.push(buildIncrementEntity(incrementData, 0));
   }
 
   if (responsibles && responsibles.length > 0) {
-    product.responsibles = responsibles.map((responsibleData: Responsible) => buildResponsibleEntity(responsibleData));
+    product.responsibles = responsibles.map((responsibleData: Responsible) =>
+      buildResponsibleEntity(responsibleData),
+    );
   }
   return product;
 }
 
-export function buildResponsibleEntity(responsibleData: Responsible): Responsible {
+export function buildResponsibleEntity(
+  responsibleData: Responsible,
+): Responsible {
   const { firstName, lastName, role } = responsibleData;
 
   const responsible = new Responsible();
@@ -45,7 +53,10 @@ export function buildResponsibleEntity(responsibleData: Responsible): Responsibl
   return responsible;
 }
 
-export function buildIncrementEntity(incrementData: any, index: number): Increment {
+export function buildIncrementEntity(
+  incrementData: any,
+  index: number,
+): Increment {
   const { name, incrementIndex, models } = incrementData;
 
   const increment = new Increment();
@@ -54,11 +65,13 @@ export function buildIncrementEntity(incrementData: any, index: number): Increme
   if (incrementIndex !== undefined && incrementIndex !== null) {
     increment.incrementIndex = incrementIndex;
   } else {
-    increment.incrementIndex = index
+    increment.incrementIndex = index;
   }
 
   if (models && models.length > 0) {
-    increment.models = models.map((modelData: Model) => buildModelEntity(modelData));
+    increment.models = models.map((modelData: Model) =>
+      buildModelEntity(modelData),
+    );
   }
   return increment;
 }
@@ -69,15 +82,16 @@ export function buildModelEntity(modelData: Model): Model {
   const model = new Model();
   model.name = name;
   if (versions && versions.length > 0) {
-    model.versions = versions.map((versionData: any, index: number) => buildVersionEntity(versionData, index));
-  } 
-  else {
+    model.versions = versions.map((versionData: any, index: number) =>
+      buildVersionEntity(versionData, index),
+    );
+  } else {
     const versionData = {
-      payload: "{}",
-      thumbnail: ""
-    }
-    model.versions = []
-    model.versions.push(buildVersionEntity(versionData, 0))
+      payload: '{}',
+      thumbnail: '',
+    };
+    model.versions = [];
+    model.versions.push(buildVersionEntity(versionData, 0));
   }
   return model;
 }
@@ -90,7 +104,7 @@ export function buildVersionEntity(versionData: any, index: number): Version {
   if (versionIndex !== undefined && versionIndex !== null) {
     version.versionIndex = versionIndex;
   } else {
-    version.versionIndex = index
+    version.versionIndex = index;
   }
 
   version.payload = payload;

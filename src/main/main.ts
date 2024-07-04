@@ -10,7 +10,7 @@
  */
 import fs from 'fs';
 import path from 'path';
-import { app, BrowserWindow, shell, ipcMain, screen, dialog, Product } from 'electron';
+import { app, BrowserWindow, shell, ipcMain, screen, dialog } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from './menu';
@@ -21,29 +21,26 @@ import { IncrementController } from './controllers/IncrementController';
 import { ModelController } from './controllers/ModelController';
 import { ProductController } from './controllers/ProductController';
 import { VersionController } from './controllers/VersionController';
-import { ConsoleSqlOutlined } from '@ant-design/icons';
-import { Increment } from './models/Increment';
-import { version } from 'os';
-import { Version } from './models/Version';
-import { fixedDot } from '@antv/x6/lib/registry/grid/fixed-dot';
 
-let isQuitting: boolean = false
+let isQuitting: boolean = false;
 
 let productController: ProductController;
 let incrementController: IncrementController;
 let modelController: ModelController;
 let versionController: VersionController;
 
-const configPath: string = (process.env.NODE_ENV === 'development')
-? 'nextm.conf'
-: path.resolve(app.getPath('userData'), 'nextm.conf');
+const configPath: string =
+  process.env.NODE_ENV === 'development'
+    ? 'nextm.conf'
+    : path.resolve(app.getPath('userData'), 'nextm.conf');
 
 const getDefaultDbPath = () => {
-  const dbPath = (process.env.NODE_ENV === 'development') 
-    ? 'nextm.db' 
-    : path.resolve(app.getPath('userData'), 'nextm.db'); 
+  const dbPath =
+    process.env.NODE_ENV === 'development'
+      ? 'nextm.db'
+      : path.resolve(app.getPath('userData'), 'nextm.db');
   return dbPath;
-}
+};
 
 // const setCurrentDbPath = (dbPath: string) => {
 //   const config = { databasePath: dbPath }
@@ -70,16 +67,15 @@ const setConfig = (configKey: string, configValue: string) => {
   }
   config[configKey] = configValue;
   fs.writeFileSync(configPath, JSON.stringify(config), 'utf-8');
-}
+};
 
 const getConfig = (configKey: string) => {
   if (fs.existsSync(configPath)) {
     const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
     return config[configKey];
-  } else {
-    return null;
   }
-}
+  return null;
+};
 
 const initializeControllers = () => {
   if (productController) {
@@ -87,7 +83,7 @@ const initializeControllers = () => {
   }
   if (incrementController) {
     incrementController.destroy();
-  }      
+  }
   if (modelController) {
     modelController.destroy();
   }
@@ -99,15 +95,15 @@ const initializeControllers = () => {
   incrementController = new IncrementController();
   modelController = new ModelController();
   versionController = new VersionController();
-}
+};
 
-import( 'electron-unhandled')
+import('electron-unhandled')
   .then((m) => {
-    console.log("Loeded electron-unhandled")
+    console.log('Loaded electron-unhandled');
   })
-  .catch(err => {
-    console.error('Error during loading module: ' + err)
-  })
+  .catch((err) => {
+    console.error(`Error during loading module: ${err}`);
+  });
 
 class AppUpdater {
   constructor() {
@@ -161,13 +157,14 @@ const createWindow = async () => {
 
   mainWindow = new BrowserWindow({
     show: false,
-    width: width,
-    height: height,
+    width,
+    height,
     icon: getAssetPath('icon.png'),
     webPreferences: {
-      preload: process.env.NODE_ENV === 'development'
-        ? path.join(__dirname, '../../.erb/dll/preload.js') 
-        : path.join(__dirname, 'preload.js')
+      preload:
+        process.env.NODE_ENV === 'development'
+          ? path.join(__dirname, '../../.erb/dll/preload.js')
+          : path.join(__dirname, 'preload.js'),
       // preload: app.isPackaged
       // ? path.join(__dirname, 'preload.js')
       // : path.join(__dirname, '../../.erb/dll/preload.js'),
@@ -181,7 +178,7 @@ const createWindow = async () => {
     mainWindow.webContents.openDevTools();
   }
 
-  /** 
+  /**
    * mainWindow listeners
    */
   mainWindow.on('ready-to-show', async () => {
@@ -198,21 +195,24 @@ const createWindow = async () => {
   mainWindow.on('close', (event) => {
     if (!isQuitting) {
       event.preventDefault();
-      dialog.showMessageBox(mainWindow!, {
-        type: 'warning', // Set to 'warning' to enable the icon
-        buttons: ['Cancel', 'Quit'],
-        defaultId: 1,
-        cancelId: 0,
-        title: 'Confirm',
-        message: 'Do you really want to quit?',
-        detail: 'All unsaved changes will be lost.',
-        icon: getAssetPath('icon.png'), // Path to your custom icon
-      }).then(result => {
-        if (result.response === 1) { // 'Quit' button
-          isQuitting = true;
-          app.quit();
-        }
-      });
+      dialog
+        .showMessageBox(mainWindow!, {
+          type: 'warning', // Set to 'warning' to enable the icon
+          buttons: ['Cancel', 'Quit'],
+          defaultId: 1,
+          cancelId: 0,
+          title: 'Confirm',
+          message: 'Do you really want to quit?',
+          detail: 'All unsaved changes will be lost.',
+          icon: getAssetPath('icon.png'), // Path to your custom icon
+        })
+        .then((result) => {
+          if (result.response === 1) {
+            // 'Quit' button
+            isQuitting = true;
+            app.quit();
+          }
+        });
     }
   });
 
@@ -220,7 +220,6 @@ const createWindow = async () => {
     mainWindow = null;
   });
 
-  
   /**
    * IPC handlers
    */
@@ -232,16 +231,13 @@ const createWindow = async () => {
 
       const result = await dialog.showOpenDialog(mainWindow!, {
         properties: ['openFile'],
-        filters: [
-          { name: 'Database Files', extensions: ['db', 'sqlite'] }
-        ],
+        filters: [{ name: 'Database Files', extensions: ['db', 'sqlite'] }],
         // multiSelections: false
       });
       if (!result.canceled && result.filePaths.length > 0) {
         return result.filePaths[0];
-      } else {
-        throw new Error('No file selected');
       }
+      throw new Error('No file selected');
     } catch (error) {
       console.error('Error opening file dialog:', error);
       throw error;
@@ -253,16 +249,15 @@ const createWindow = async () => {
       if (!mainWindow) {
         throw new Error('Main window is not ready');
       }
-  
+
       const result = await dialog.showOpenDialog(mainWindow, {
-        properties: ['openDirectory'] // Ensure 'openDirectory' is in an array of allowed properties
+        properties: ['openDirectory'], // Ensure 'openDirectory' is in an array of allowed properties
       });
-  
+
       if (!result.canceled && result.filePaths.length > 0) {
         return result.filePaths[0];
-      } else {
-        throw new Error('No directory selected');
       }
+      throw new Error('No directory selected');
     } catch (error) {
       console.error('Error opening directory dialog:', error);
       throw error;
@@ -273,12 +268,12 @@ const createWindow = async () => {
     try {
       // Check if the directory exists
       fs.accessSync(input, fs.constants.F_OK);
-  
+
       // Generate a unique file name if file already exists
       let count = 1;
       let dbPath = input;
-  
-      console.log(input)
+
+      console.log(input);
 
       while (true) {
         try {
@@ -286,52 +281,52 @@ const createWindow = async () => {
           dbPath = path.join(input, filename);
 
           if (fs.existsSync(dbPath)) {
-            count++
-            continue
+            count++;
+            continue;
           } else {
-            break
+            break;
           }
         } catch (error) {
           break; // Break the loop if the file does not exist
         }
       }
-  
+
       // Perform any other checks or validations as needed
       // For now, assuming directory exists and filename is unique
-  
+
       // Call initialization function
       const result = await initializeDataSource(dbPath); // Adjust function call as per your logic
 
       if (result) {
         // persist current dbPath in config file
         setConfig('databasePath', dbPath);
-        initializeControllers()
-        return { success: true, message: 'Database created successfully' };;
-      } else {
-        return { success: false, message: 'Failed to create database' };
+        initializeControllers();
+        return { success: true, message: 'Database created successfully' };
       }
+      return { success: false, message: 'Failed to create database' };
     } catch (error) {
       console.error('Error creating database:', error);
       return { success: false, message: error };
     }
   });
-  
+
   ipcMain.handle('open-database', async (event, input) => {
     try {
       console.log(input);
       let dbPath = input;
-  
+
       // Check if the file exists
       if (input === 'default') {
-        dbPath = (process.env.NODE_ENV === 'development')
-          ? 'nextm.db'
-          : path.resolve(app.getPath('userData'), 'nextm.db');
+        dbPath =
+          process.env.NODE_ENV === 'development'
+            ? 'nextm.db'
+            : path.resolve(app.getPath('userData'), 'nextm.db');
       } else if (fs.existsSync(input)) {
         dbPath = input;
       } else {
         return { success: false, message: 'Invalid input specified' };
       }
-  
+
       const result = await initializeDataSource(dbPath);
 
       if (result) {
@@ -339,12 +334,11 @@ const createWindow = async () => {
         setConfig('databasePath', dbPath);
         initializeControllers();
         return { success: true, message: 'Database opened successfully' };
-      } else {
-        return { success: false, message: 'Unable to open database' };
       }
+      return { success: false, message: 'Unable to open database' };
     } catch (error) {
       console.error(error);
-      return { success: false, error: error };
+      return { success: false, error };
     }
   });
 
@@ -359,34 +353,34 @@ const createWindow = async () => {
   ipcMain.handle('set-grid-type', async (event, input) => {
     try {
       if (input === 'none' || 'dot' || 'mesh') {
-        setConfig('gridType', input)
-        return { success: false, message: 'Grid type set successfully' }; 
+        setConfig('gridType', input);
+        return { success: false, message: 'Grid type set successfully' };
       }
     } catch (error) {
       console.error(error);
-      return { success: false, error: error }
+      return { success: false, error };
     }
-  })
+  });
 
   ipcMain.handle('get-grid-type', async (event) => {
     return getConfig('gridType');
-  })
+  });
 
   ipcMain.handle('set-explicit-object-selection', async (event, input) => {
     try {
       if (input === true || false) {
-        setConfig('explicitObjectSelection', input)
-        return { success: false, message: 'Grid type set successfully' }; 
+        setConfig('explicitObjectSelection', input);
+        return { success: false, message: 'Grid type set successfully' };
       }
     } catch (error) {
       console.error(error);
-      return { success: false, error: error }
+      return { success: false, error };
     }
-  })
+  });
 
   ipcMain.handle('get-explicit-object-selection', async (event) => {
     return getConfig('explicitObjectSelection');
-  })
+  });
 
   const menuBuilder = new MenuBuilder(mainWindow);
   menuBuilder.buildMenu();
@@ -406,21 +400,21 @@ const createWindow = async () => {
 /**
  * Add event listeners...
  */
-  // Listen for before-quit event
-  // app.on('before-quit', (event) => {
-  //   console.log("ipcMain: Quit triggered")
-  //   // Send the 'before-quit' event to the renderer process
-  //   if (mainWindow) {
-  //     mainWindow.webContents.send('pong');
-  //     // Delay the quit to ensure the renderer process has time to handle the event
-  //     event.preventDefault();
-  //     setTimeout(() => {
-  //       app.quit();
-  //     }, 3000);
-  //   }
-  // });
+// Listen for before-quit event
+// app.on('before-quit', (event) => {
+//   console.log("ipcMain: Quit triggered")
+//   // Send the 'before-quit' event to the renderer process
+//   if (mainWindow) {
+//     mainWindow.webContents.send('pong');
+//     // Delay the quit to ensure the renderer process has time to handle the event
+//     event.preventDefault();
+//     setTimeout(() => {
+//       app.quit();
+//     }, 3000);
+//   }
+// });
 
-let isModelSaved = false;
+const isModelSaved = false;
 
 // app.on('before-quit', (event) => {
 //   if (!isModelSaved) {
@@ -451,15 +445,14 @@ app.on('window-all-closed', () => {
 
 app
   .whenReady()
-  .then(async() => {
-
-    let dbPath = getConfig('databasePath')
+  .then(async () => {
+    let dbPath = getConfig('databasePath');
 
     if (!dbPath) {
-      dbPath = getDefaultDbPath()
-      setConfig('databasePath', dbPath)
+      dbPath = getDefaultDbPath();
+      setConfig('databasePath', dbPath);
     }
-    
+
     // const databasePath = path.join(__dirname, '..', 'nextm.db');
     await initializeDataSource(dbPath); // Initialize the data source
     initializeControllers();

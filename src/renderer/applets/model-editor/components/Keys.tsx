@@ -3,12 +3,12 @@
  */
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../../../store';
 import { Graph, Rectangle } from '@antv/x6';
 
 import { useParams } from 'react-router-dom';
+import { AppDispatch, RootState } from '../../../store';
 
-import Actions from '../actions'
+import Actions from '../actions';
 import {
   setExportModalOpen,
   setImportModalOpen,
@@ -25,11 +25,9 @@ import {
   setDeletePressed,
   setSavePressed,
   setSelectAllPressed,
-} from '../../../store/ModelEditorStore'
+} from '../../../store/ModelEditorStore';
 
-import {
-  addLatestVersion 
-} from '../../../store/VersionsStore' 
+import { addLatestVersion } from '../../../store/VersionsStore';
 import { showToast } from '../../../store/SettingsStore';
 import { compareHashes } from '../../../utils';
 
@@ -41,23 +39,17 @@ const Keys: React.FC<KeysProps> = ({ graph }) => {
   const dispatch = useDispatch<AppDispatch>();
   const { modelId } = useParams();
 
-  const { 
-    latestVersion
-  } = useSelector((state: RootState) => state.versions);
+  const { latestVersion } = useSelector((state: RootState) => state.versions);
 
-  const { 
-    actorModalOpen,
-    systemModalOpen,
-    zoneModalOpen,
-    dataflowModalOpen
-  } = useSelector((state: RootState) => state.modelEditor);
+  const { actorModalOpen, systemModalOpen, zoneModalOpen, dataflowModalOpen } =
+    useSelector((state: RootState) => state.modelEditor);
 
   // suppress default key shortcuts...
   useEffect(() => {
-    const handleKeyPress = (event:KeyboardEvent) => {
+    const handleKeyPress = (event: KeyboardEvent) => {
       // Check if Cmd (metaKey on Mac) is pressed along with "+" (equal sign key with shift)
       if (event.metaKey && event.key === '+') {
-          event.preventDefault(); // Prevent the default action (zoom in this case)
+        event.preventDefault(); // Prevent the default action (zoom in this case)
       }
 
       // Check if Cmd (metaKey on Mac) is pressed along with "-" (equal sign key with shift)
@@ -73,7 +65,11 @@ const Keys: React.FC<KeysProps> = ({ graph }) => {
       // Check if Cmd (metaKey on Mac) is pressed along with "s" (equal sign key with shift)
       if (event.metaKey && event.key === 'a') {
         // do not prevent default behavior of ctrl/meta + a when any modal is open
-        const except = actorModalOpen || systemModalOpen || zoneModalOpen || dataflowModalOpen
+        const except =
+          actorModalOpen ||
+          systemModalOpen ||
+          zoneModalOpen ||
+          dataflowModalOpen;
 
         if (!except) {
           event.preventDefault(); // Prevent the default action (zoom in this case)
@@ -91,14 +87,9 @@ const Keys: React.FC<KeysProps> = ({ graph }) => {
 
     // Cleanup the event listener on component unmount
     return () => {
-        document.removeEventListener('keydown', handleKeyPress);
+      document.removeEventListener('keydown', handleKeyPress);
     };
-  }, [
-    actorModalOpen, 
-    systemModalOpen, 
-    zoneModalOpen, 
-    dataflowModalOpen
-  ]);
+  }, [actorModalOpen, systemModalOpen, zoneModalOpen, dataflowModalOpen]);
 
   // Update ref whenever `isTextMode` changes
   // useEffect(() => {
@@ -108,125 +99,127 @@ const Keys: React.FC<KeysProps> = ({ graph }) => {
 
   // Function to register all keybindings
   const registerKeyBindings = () => {
-
     const handleSaveSubmit = async () => {
       if (modelId && graph && latestVersion) {
-        const oldGraph = latestVersion.payload.cells
-            const newGraph =graph.toJSON().cells
-      
-            if (compareHashes(oldGraph, newGraph) === true) {
-              // if hashes match, we do not save.
-              return false;
-            }
+        const oldGraph = latestVersion.payload.cells;
+        const newGraph = graph.toJSON().cells;
 
-        const { x, y, height, width }: Rectangle = graph.getGraphArea()
-        const promise = dispatch(addLatestVersion({graph, modelId, x, y, height, width}))
+        if (compareHashes(oldGraph, newGraph) === true) {
+          // if hashes match, we do not save.
+          return false;
+        }
 
-        dispatch(showToast({
-          promise,
-          loadingMessage: 'Saving threat model...',
-          successMessage: 'Threat model saved',
-          errorMessage: 'Failed to save threat model',
-        }));
+        const { x, y, height, width }: Rectangle = graph.getGraphArea();
+        const promise = dispatch(
+          addLatestVersion({ graph, modelId, x, y, height, width }),
+        );
+
+        dispatch(
+          showToast({
+            promise,
+            loadingMessage: 'Saving threat model...',
+            successMessage: 'Threat model saved',
+            errorMessage: 'Failed to save threat model',
+          }),
+        );
         return true;
       }
       return false;
-    }
+    };
 
     // save -> ctrl/meta + s
     const registerSaveKeys = async () => {
       graph.bindKey(['meta+s', 'ctrl+s'], async () => {
         if (await handleSaveSubmit()) {
-          dispatch(setSavePressed(true))
+          dispatch(setSavePressed(true));
         }
-      })
-    }
+      });
+    };
 
     // export -> ctrl/meta + e
     const registerExportKeys = async () => {
       graph.bindKey(['meta+e', 'ctrl+e'], async () => {
-          dispatch(setExportModalOpen(true));
-          dispatch(setExportPressed(true))
-      })
-    }
+        dispatch(setExportModalOpen(true));
+        dispatch(setExportPressed(true));
+      });
+    };
 
     // import -> ctrl/meta + i
     const registerImportKeys = async () => {
       graph.bindKey(['meta+i', 'ctrl+i'], async () => {
-          dispatch(setImportModalOpen(true));
-          dispatch(setImportPressed(true))
-      })
-    }
+        dispatch(setImportModalOpen(true));
+        dispatch(setImportPressed(true));
+      });
+    };
 
     // fit view -> ctrl/meta + whitespace
     const registerFitViewKeys = () => {
       graph.bindKey(['meta+space', 'ctrl+space'], () => {
         if (Actions.fitViewAction(graph)) {
-          dispatch(setFitViewPressed(true))
+          dispatch(setFitViewPressed(true));
         }
-      })
-    }
+      });
+    };
 
     // zoom in -> ctrl/meta + "-"
     const registerZoomInKeys = () => {
       graph.bindKey(['meta+=', 'ctrl+='], () => {
         if (Actions.zoomInAction(graph)) {
-          dispatch(setZoomInPressed(true))
+          dispatch(setZoomInPressed(true));
         }
-      })
-    }
+      });
+    };
 
     // zoom out -> ctrl/meta + "+"
     const registerZoomOutKeys = () => {
       graph.bindKey(['meta+-', 'ctrl+-'], () => {
         if (Actions.zoomOutAction(graph)) {
-          dispatch(setZoomOutPressed(true))
+          dispatch(setZoomOutPressed(true));
         }
-      })
-    }
-    
+      });
+    };
 
     // undo -> ctrl/meta + z
     const registerUndoKeys = () => {
       graph.bindKey(['meta+z', 'ctrl+z'], () => {
         if (Actions.undoAction(graph)) {
-          dispatch(setUndoPressed(true))
+          dispatch(setUndoPressed(true));
         }
-      })
-    }
+      });
+    };
 
-    // redo -> ctrl/meta + shift + z 
+    // redo -> ctrl/meta + shift + z
     const registerRedoKeys = () => {
       graph.bindKey(['meta+shift+z', 'ctrl+shift+z'], () => {
         if (Actions.redoAction(graph)) {
-          dispatch(setRedoPressed(true))
+          dispatch(setRedoPressed(true));
         }
-      })
-    }
+      });
+    };
 
     // cut -> ctrl/meta + a
     const registerSelectAllKeys = () => {
       graph.bindKey(['meta+a', 'ctrl+a'], () => {
         if (Actions.selectAllAction(graph)) {
-          dispatch(setSelectAllPressed(true))
+          dispatch(setSelectAllPressed(true));
         }
-      })
-    }
+      });
+    };
 
     // cut -> ctrl/meta + x
     const registerCutKeys = () => {
       graph.bindKey(['meta+x', 'ctrl+x'], () => {
         if (Actions.cutAction(graph)) {
-          dispatch(setCutPressed(true))
+          dispatch(setCutPressed(true));
         }
-      })
-    }
+      });
+    };
 
     // copy -> ctrl/meta + c
     const registerCopyKeys = () => {
       graph.bindKey(['meta+c', 'ctrl+c'], () => {
         if (Actions.copyAction(graph)) {
-          dispatch(setCopyPressed(true))
+          dispatch(setCopyPressed(true));
         }
       });
     };
@@ -235,20 +228,20 @@ const Keys: React.FC<KeysProps> = ({ graph }) => {
     const registerPasteKeys = () => {
       graph.bindKey(['meta+v', 'ctrl+v'], () => {
         if (Actions.pasteAction(graph)) {
-          dispatch(setPastePressed(true))
+          dispatch(setPastePressed(true));
         }
-      })
-    }
+      });
+    };
 
     // delete -> backspace
     const registerDeleteKeys = () => {
       graph.bindKey('backspace', () => {
         if (Actions.deleteAction(graph)) {
-          dispatch(setDeletePressed(true))
+          dispatch(setDeletePressed(true));
         }
-      })
-    }
-    
+      });
+    };
+
     registerSaveKeys();
     registerExportKeys();
     registerImportKeys();
@@ -264,15 +257,17 @@ const Keys: React.FC<KeysProps> = ({ graph }) => {
     registerDeleteKeys();
   };
 
-  useEffect(() => {
-    registerKeyBindings();
+  useEffect(
+    () => {
+      registerKeyBindings();
 
-    // Cleanup function to unbind all keybindings when the component unmounts
-    return () => {
-      // Here you would remove all the bindings to avoid memory leaks
-      // This might depend on the API provided by @antv/x6 for unbinding
-    };
-  }, /*[graph, dispatch, isTextMode]*/); // Add dependencies as needed
+      // Cleanup function to unbind all keybindings when the component unmounts
+      return () => {
+        // Here you would remove all the bindings to avoid memory leaks
+        // This might depend on the API provided by @antv/x6 for unbinding
+      };
+    } /* [graph, dispatch, isTextMode] */,
+  ); // Add dependencies as needed
 
   // Component doesn't render anything, so return null
   return null;

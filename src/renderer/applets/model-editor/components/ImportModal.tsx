@@ -1,29 +1,25 @@
 import React, { useCallback, useRef, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Form } from 'semantic-ui-react';
-import { Graph } from "@antv/x6";
+import { Graph } from '@antv/x6';
 
+import { ImportOutlined } from '@ant-design/icons';
 import { AppDispatch } from '../../../store';
 
-import { 
+import {
   importGraph,
-  setImportModalOpen 
+  setImportModalOpen,
 } from '../../../store/ModelEditorStore';
 
-import {
-  ImportOutlined
-} from '@ant-design/icons';
 import { showToast, hideToast } from '../../../store/SettingsStore';
 
 interface ImportModalProps {
-  graph: Graph
+  graph: Graph;
 }
 
 const ImportModal: React.FC<ImportModalProps> = ({ graph }) => {
   const dispatch = useDispatch<AppDispatch>();
-  const {
-    isImportModalOpen
-  } = useSelector((state: any) => state.modelEditor);
+  const { isImportModalOpen } = useSelector((state: any) => state.modelEditor);
 
   const [isDragging, setIsDragging] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -54,7 +50,7 @@ const ImportModal: React.FC<ImportModalProps> = ({ graph }) => {
       e.stopPropagation();
       setIsDragging(false);
 
-      const files = e.dataTransfer.files;
+      const { files } = e.dataTransfer;
       if (files.length <= 0) {
         setError('No files selected.');
         setFileName(null);
@@ -97,7 +93,7 @@ const ImportModal: React.FC<ImportModalProps> = ({ graph }) => {
         setIsFileValid(false);
       }
     },
-    [handleFileUpload]
+    [handleFileUpload],
   );
 
   const handleFileChange = useCallback(
@@ -131,7 +127,7 @@ const ImportModal: React.FC<ImportModalProps> = ({ graph }) => {
         setIsFileValid(false);
       }
     },
-    [handleFileUpload]
+    [handleFileUpload],
   );
 
   const handleClick = () => {
@@ -146,13 +142,13 @@ const ImportModal: React.FC<ImportModalProps> = ({ graph }) => {
 
         dispatch(
           showToast({
-            promise: promise,
+            promise,
             loadingMessage: 'Importing threat model...',
             successMessage: 'Threat model imported successfully',
             errorMessage: 'Failed to import threat model',
-          })
+          }),
         );
-        
+
         await promise;
 
         setFileName(null);
@@ -166,7 +162,7 @@ const ImportModal: React.FC<ImportModalProps> = ({ graph }) => {
         setIsFileValid(false);
       }
     } else {
-      setError("No file selected");
+      setError('No file selected');
     }
   };
 
@@ -191,9 +187,7 @@ const ImportModal: React.FC<ImportModalProps> = ({ graph }) => {
 
   return (
     <Modal open={isImportModalOpen} onClose={handleClose} dimmer="blurring">
-      <Modal.Header>
-        {'Import existing model'}
-      </Modal.Header>
+      <Modal.Header>Import existing model</Modal.Header>
       <Modal.Content>
         <Form onSubmit={handleImport}>
           <Form.Field>
@@ -211,9 +205,17 @@ const ImportModal: React.FC<ImportModalProps> = ({ graph }) => {
                 cursor: 'pointer',
               }}
             >
-              <ImportOutlined style={{ fontSize: '50px', color: 'gray', padding: '20px' }} />
-              {!fileName && <p style={{ color: 'gray' }}>Drag and drop a JSON file here, or click to select a file.</p>}
-              {fileName && <p style={{ color: 'gray' }}>Selected file: {fileName}</p>}
+              <ImportOutlined
+                style={{ fontSize: '50px', color: 'gray', padding: '20px' }}
+              />
+              {!fileName && (
+                <p style={{ color: 'gray' }}>
+                  Drag and drop a JSON file here, or click to select a file.
+                </p>
+              )}
+              {fileName && (
+                <p style={{ color: 'gray' }}>Selected file: {fileName}</p>
+              )}
               {error && <p style={{ color: 'red' }}>{error}</p>}
               <input
                 type="file"
@@ -225,7 +227,7 @@ const ImportModal: React.FC<ImportModalProps> = ({ graph }) => {
             </div>
           </Form.Field>
           <Form.Group className="form-button-group">
-            <Form.Button primary type='submit' disabled={!isFileValid}>
+            <Form.Button primary type="submit" disabled={!isFileValid}>
               Import
             </Form.Button>
             <Form.Button className="cancel-button" onClick={handleClose}>

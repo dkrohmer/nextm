@@ -8,7 +8,11 @@ export class IncrementRepository {
     return await this.incrementRepository.save(increment);
   }
 
-  async getAllIncrements(sortBy: string, sort: 'asc' | 'desc', productId?: string): Promise<[Increment[], number]> {
+  async getAllIncrements(
+    sortBy: string,
+    sort: 'asc' | 'desc',
+    productId?: string,
+  ): Promise<[Increment[], number]> {
     const where = productId ? { productId } : {};
 
     const [increments, count] = await this.incrementRepository.findAndCount({
@@ -22,23 +26,25 @@ export class IncrementRepository {
     return [increments, count];
   }
 
-  async getIncrementById(id: string, eager: boolean): Promise<Increment | null> {
+  async getIncrementById(
+    id: string,
+    eager: boolean,
+  ): Promise<Increment | null> {
     if (eager) {
       return await this.incrementRepository.findOne({
         where: { id },
         relations: ['models', 'models.versions'],
       });
-    } else {
-      return await this.incrementRepository.findOne({
-        where: { id },
-        relations: [],
-      });
     }
+    return await this.incrementRepository.findOne({
+      where: { id },
+      relations: [],
+    });
   }
 
   async getLatestIncrement(productId?: string): Promise<Increment | null> {
     const where = productId ? { productId } : {};
-    
+
     return await this.incrementRepository.findOne({
       where,
       order: {
@@ -47,8 +53,10 @@ export class IncrementRepository {
     });
   }
 
-    async getLatestIncrementId(productId: string): Promise<string | null> {
-    const latestIncrement = await AppDataSource.getRepository('Increment').findOne({
+  async getLatestIncrementId(productId: string): Promise<string | null> {
+    const latestIncrement = await AppDataSource.getRepository(
+      'Increment',
+    ).findOne({
       where: { product: { id: productId } },
       order: { incrementIndex: 'DESC' },
     });
@@ -56,7 +64,10 @@ export class IncrementRepository {
     return latestIncrement?.id || null;
   }
 
-  async updateIncrement(id: string, data: Partial<Increment>): Promise<Increment | null> {
+  async updateIncrement(
+    id: string,
+    data: Partial<Increment>,
+  ): Promise<Increment | null> {
     const increment = await this.incrementRepository.findOneBy({ id });
     if (!increment) {
       return null;
@@ -69,4 +80,3 @@ export class IncrementRepository {
     await this.incrementRepository.delete(id);
   }
 }
-

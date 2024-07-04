@@ -6,9 +6,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState, AppDispatch } from '../../store';
 
 import { IModel } from '../../interfaces/IModel';
-import { 
-  fetchModel, 
-  fetchModels, 
+import {
+  fetchModel,
+  fetchModels,
   addOrUpdateModel,
   setModelsModalOpen,
   setModelsIsEditing,
@@ -16,18 +16,17 @@ import {
   setModelsCurrentModel,
 } from '../../store/ModelsStore';
 
-
 const ModelsModal: React.FC = () => {
   const { incrementId } = useParams<{ incrementId: string }>();
 
   const dispatch = useDispatch<AppDispatch>();
-  
+
   // global redux states
   const {
     modelsIsEditing,
     modelsModalOpen,
     modelsCurrentModel,
-    modelsIsCloning
+    modelsIsCloning,
   } = useSelector((state: RootState) => state.models);
 
   // const [newModel, setNewModel] = useState<IModel>({
@@ -61,20 +60,29 @@ const ModelsModal: React.FC = () => {
   //   }
   // };
 
+  const handleClose = () => {
+    dispatch(setModelsModalOpen(false));
+    dispatch(setModelsCurrentModel(null)); // Clear the increment to clone
+    dispatch(setModelsIsEditing(false));
+    dispatch(setModelsIsCloning(false));
+  };
+
   const handleSubmit = async () => {
     if (modelsCurrentModel && incrementId) {
       let model: IModel;
 
       if (modelsIsCloning) {
-          const cloneResponse = await dispatch(fetchModel({ modelId: modelsCurrentModel.id, isEagerLoading: true }));
-          if (fetchModel.fulfilled.match(cloneResponse)) {
-              const eagerModel: IModel = cloneResponse.payload;
-              model = { ...eagerModel, id: '', name: `${modelsCurrentModel.name}` };
-          } else {
-              // Handle the case where cloning fails
-              console.error("Cloning failed");
-              return;
-          }
+        const cloneResponse = await dispatch(
+          fetchModel({ modelId: modelsCurrentModel.id, isEagerLoading: true }),
+        );
+        if (fetchModel.fulfilled.match(cloneResponse)) {
+          const eagerModel: IModel = cloneResponse.payload;
+          model = { ...eagerModel, id: '', name: `${modelsCurrentModel.name}` };
+        } else {
+          // Handle the case where cloning fails
+          // console.error('Cloning failed');
+          return;
+        }
       } else {
         model = modelsCurrentModel;
       }
@@ -82,30 +90,33 @@ const ModelsModal: React.FC = () => {
       dispatch(fetchModels({ incrementId }));
     }
     handleClose();
-};
-
-  const handleClose = () => {
-    dispatch(setModelsModalOpen(false));
-    dispatch(setModelsCurrentModel(null)); // Clear the increment to clone
-    dispatch(setModelsIsEditing(false))
-    dispatch(setModelsIsCloning(false))
-
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, key: string) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    key: string,
+  ) => {
     if (modelsCurrentModel) {
-      dispatch(setModelsCurrentModel({ ...modelsCurrentModel, [key]: e.target.value }));
+      dispatch(
+        setModelsCurrentModel({ ...modelsCurrentModel, [key]: e.target.value }),
+      );
     }
   };
 
-  const modalHeader = modelsIsCloning ? 'Clone Model' : modelsIsEditing ? 'Edit Model' : 'Add Model';
-  const submitButtonText = modelsIsCloning ? 'Clone' : modelsIsEditing ? 'Edit' : 'Add';
+  const modalHeader = modelsIsCloning
+    ? 'Clone Model'
+    : modelsIsEditing
+      ? 'Edit Model'
+      : 'Add Model';
+  const submitButtonText = modelsIsCloning
+    ? 'Clone'
+    : modelsIsEditing
+      ? 'Edit'
+      : 'Add';
 
   return (
     <Modal open={modelsModalOpen} onClose={handleClose} dimmer="blurring">
-      <Modal.Header>
-        {modalHeader}
-      </Modal.Header>
+      <Modal.Header>{modalHeader}</Modal.Header>
       <Modal.Content>
         <Form onSubmit={handleSubmit}>
           <Form.Input
@@ -119,9 +130,13 @@ const ModelsModal: React.FC = () => {
           />
           {/* Add additional inputs for start, end, deadline, and state */}
           <Form.Group className="form-button-group">
-              <Form.Button primary type='submit'>{submitButtonText}</Form.Button>
-              <Form.Button className="cancel-button" onClick={handleClose}>Cancel</Form.Button>
-            </Form.Group>
+            <Form.Button primary type="submit">
+              {submitButtonText}
+            </Form.Button>
+            <Form.Button className="cancel-button" onClick={handleClose}>
+              Cancel
+            </Form.Button>
+          </Form.Group>
         </Form>
       </Modal.Content>
     </Modal>

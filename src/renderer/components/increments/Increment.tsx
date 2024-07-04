@@ -1,18 +1,13 @@
 import React, { useState } from 'react';
-import { 
-  Accordion,
-  Button,
-  Icon,
-  Popup
-} from 'semantic-ui-react';
-import Models from '../models/Models'
+import { Accordion, Button, Icon, Popup } from 'semantic-ui-react';
+import { useDispatch } from 'react-redux';
+import Models from '../models/Models';
 import type { IIncrement } from '../../interfaces/IIncrement';
 import type { IProduct } from '../../interfaces/IProduct';
 
-import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../store';
 
-import { 
+import {
   setIncrementsModalOpen,
   setCurrentIncrement,
   setIncrementToDelete,
@@ -27,7 +22,10 @@ interface IncrementProps {
   index: number;
   number: number;
   isActive: boolean;
-  handleAccordionClick: (e: React.MouseEvent<HTMLDivElement>, titleProps: any) => void;
+  handleAccordionClick: (
+    e: React.MouseEvent<HTMLDivElement>,
+    titleProps: any,
+  ) => void;
 }
 
 const Increment: React.FC<IncrementProps> = ({
@@ -36,36 +34,35 @@ const Increment: React.FC<IncrementProps> = ({
   index,
   number,
   isActive,
-  handleAccordionClick
+  handleAccordionClick,
 }) => {
-
   const dispatch = useDispatch<AppDispatch>();
 
-
-  const [showThreatModels, ] = useState<boolean>(true); // State to manage whether to show ThreatModel component
+  const [showThreatModels] = useState<boolean>(true); // State to manage whether to show ThreatModel component
   const [isHovering, setIsHovering] = useState(false);
 
   const handleMouseEnter = () => {
     setIsHovering(true);
   };
-  
+
   const handleMouseLeave = () => {
     setIsHovering(false);
   };
 
   const handleEdit = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation()
+    e.stopPropagation();
     dispatch(setIncrementsIsEditing(true));
     dispatch(setCurrentIncrement(increment));
     dispatch(setIncrementsModalOpen(true));
   };
 
   const handleClone = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation()
+    e.stopPropagation();
 
-
-    dispatch(setIncrementsIsCloning(true))
-    dispatch(setCurrentIncrement({...increment, name: `${increment.name} (Copy)`})); // Set the increment to clone
+    dispatch(setIncrementsIsCloning(true));
+    dispatch(
+      setCurrentIncrement({ ...increment, name: `${increment.name} (Copy)` }),
+    ); // Set the increment to clone
     dispatch(setIncrementsModalOpen(true)); // Open the modal
   };
 
@@ -75,69 +72,73 @@ const Increment: React.FC<IncrementProps> = ({
   };
 
   return (
-    <React.Fragment>
-      <div       
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-      >
+    <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       <Accordion.Title
-          active={isActive}
-          index={index}
-          onClick={(e) => handleAccordionClick(e, { index })}
-        >
-          <div style={{ display: 'flex'}}>
-            <div style={{ flex: 1, alignItems: 'center', justifyContent: 'left', display: 'flex' }}>
-              <Icon name='dropdown' />
-              Increment #{number}: {increment.name}
-            </div>
-            {/* {isHovering && ( */}
-            <div style={{ visibility: isHovering ? 'visible' : 'hidden'}}>
-              <Popup
-                trigger={
-                  <Button basic size='tiny' icon onClick={handleEdit}>
-                    <Icon name='pencil' />
-                  </Button>
-                }
-                content={`Edit increment "#${number}: ${increment.name}"`}
-              />
+        active={isActive}
+        index={index}
+        onClick={(e) => handleAccordionClick(e, { index })}
+      >
+        <div style={{ display: 'flex' }}>
+          <div
+            style={{
+              flex: 1,
+              alignItems: 'center',
+              justifyContent: 'left',
+              display: 'flex',
+            }}
+          >
+            <Icon name="dropdown" />
+            Increment #{number}: {increment.name}
+          </div>
+          {/* {isHovering && ( */}
+          <div style={{ visibility: isHovering ? 'visible' : 'hidden' }}>
+            <Popup
+              trigger={
+                <Button basic size="tiny" icon onClick={handleEdit}>
+                  <Icon name="pencil" />
+                </Button>
+              }
+              content={`Edit increment "#${number}: ${increment.name}"`}
+            />
 
-              <Popup
-                trigger={
-                  <Button basic size='tiny' icon onClick={handleClone}>
-                    <Icon name="clone" />
-                  </Button>
-                }
-                content={`Clone increment "#${number}: ${increment.name}"`}
-              />
+            <Popup
+              trigger={
+                <Button basic size="tiny" icon onClick={handleClone}>
+                  <Icon name="clone" />
+                </Button>
+              }
+              content={`Clone increment "#${number}: ${increment.name}"`}
+            />
 
-              <Popup
-                trigger={
-                  <Button basic size='tiny' icon onClick={(e) => {
+            <Popup
+              trigger={
+                <Button
+                  basic
+                  size="tiny"
+                  icon
+                  onClick={(e) => {
                     e.stopPropagation();
                     handleDelete(increment.id);
-                  }}>
-                    <Icon color='red' name='trash' />
-                  </Button>
-                }
-                content={`Delete increment "#${number}: ${increment.name}"`}
-              />
-            </div>
-  {/* )} */}
+                  }}
+                >
+                  <Icon color="red" name="trash" />
+                </Button>
+              }
+              content={`Delete increment "#${number}: ${increment.name}"`}
+            />
           </div>
-        </Accordion.Title>
-        <Accordion.Content active={isActive}>
-          {/* <Segment attached='bottom'> */}
-            {showThreatModels && 
-              <Models 
-                product={product} 
-                increment={increment}
-                number={number}
-              />} 
-          {/* </Segment> */}
-        </Accordion.Content>
-      </div>
-      
-    </React.Fragment>  );
+          {/* )} */}
+        </div>
+      </Accordion.Title>
+      <Accordion.Content active={isActive}>
+        {/* <Segment attached='bottom'> */}
+        {showThreatModels && (
+          <Models product={product} increment={increment} number={number} />
+        )}
+        {/* </Segment> */}
+      </Accordion.Content>
+    </div>
+  );
 };
 
 export default Increment;

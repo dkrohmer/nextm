@@ -1,8 +1,3 @@
-interface IResponsibles {
-  responsibles: IResponsible[],
-  responsiblesCount: number 
-}
-
 interface IResponsible {
   id: string;
   firstName: string;
@@ -10,4 +5,9 @@ interface IResponsible {
   role: string;
 }
 
-export type { IResponsibles, IResponsible }
+interface IResponsibles {
+  responsibles: IResponsible[];
+  responsiblesCount: number;
+}
+
+export type { IResponsibles, IResponsible };

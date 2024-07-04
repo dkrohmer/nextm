@@ -3,10 +3,15 @@
 import { ipcMain } from 'electron';
 import { ProductService } from '../services/ProductService';
 import { Product } from '../models/Product';
-import { Responsible } from '../models/Responsible';
 
 function validateSortBy(sortby: string): boolean {
-  const validSortByFields = ['name', 'createdAt', 'description', 'startsAt', 'endsAt'];
+  const validSortByFields = [
+    'name',
+    'createdAt',
+    'description',
+    'startsAt',
+    'endsAt',
+  ];
   return validSortByFields.includes(sortby);
 }
 
@@ -19,8 +24,8 @@ export class ProductController {
   private productService: ProductService;
 
   constructor() {
-      this.productService = new ProductService();
-      this.initializeProductHandlers();
+    this.productService = new ProductService();
+    this.initializeProductHandlers();
   }
 
   destroy() {
@@ -35,28 +40,28 @@ export class ProductController {
     /**
      * get-all-products
      */
-    ipcMain.handle('get-all-products', async (_event, data) => { 
+    ipcMain.handle('get-all-products', async (_event, data) => {
       try {
         const limit = parseInt(data.limit as string) || 10;
         const offset = parseInt(data.offset as string) || 0;
         let sort = data.sort as 'asc' | 'desc';
-        let sortby = data.sortby as string || 'createdAt';
-  
+        let sortby = (data.sortby as string) || 'createdAt';
+
         if (!validateSortBy(sortby)) {
-          sortby = 'createdAt';  // default sort field
+          sortby = 'createdAt'; // default sort field
         }
-  
+
         if (!validateSortDirection(sort)) {
-          sort = 'desc';  // Default to descending
+          sort = 'desc'; // Default to descending
         }
-  
-        const { products, productsCount } = await this.productService.getAllProducts(limit, offset, sort, sortby);
-  
+
+        const { products, productsCount } =
+          await this.productService.getAllProducts(limit, offset, sort, sortby);
+
         if (products) {
           return { products, productsCount };
-        } else {
-          throw new Error ('Failed to get products')
         }
+        throw new Error('Failed to get products');
       } catch (error) {
         console.error(error);
       }
@@ -70,16 +75,18 @@ export class ProductController {
         const { productId } = data;
         const { isEagerLoading }: { isEagerLoading: boolean } = data;
 
-        const product = await this.productService.getProductById(productId, isEagerLoading);
-        
+        const product = await this.productService.getProductById(
+          productId,
+          isEagerLoading,
+        );
+
         if (product) {
-          return product
-        } else {
-          throw new Error ('Failed to get product')
+          return product;
         }
+        throw new Error('Failed to get product');
       } catch (error) {
         console.error(error);
-      }    
+      }
     });
 
     /**
@@ -88,7 +95,7 @@ export class ProductController {
     ipcMain.handle('create-product', async (_event, data: Product) => {
       try {
         const result = await this.productService.createProduct(data);
-        return result
+        return result;
       } catch (error) {
         console.error(error);
       }
@@ -104,18 +111,20 @@ export class ProductController {
 
         const { increments, ...filteredProduct } = product; // we don't want increments to be included
 
-        const updatedProduct = await this.productService.updateProduct(productId, filteredProduct);
-  
+        const updatedProduct = await this.productService.updateProduct(
+          productId,
+          filteredProduct,
+        );
+
         if (updatedProduct) {
-          return updatedProduct
-        } else {
-          throw new Error('Failed to update product')
+          return updatedProduct;
         }
+        throw new Error('Failed to update product');
       } catch (error) {
-        console.error(error)
+        console.error(error);
       }
     });
-    
+
     /**
      * delete-product
      */
@@ -124,7 +133,7 @@ export class ProductController {
         const { productId }: { productId: string } = data;
         await this.productService.deleteProduct(productId);
       } catch (error) {
-        console.error(error)
+        console.error(error);
       }
     });
   }

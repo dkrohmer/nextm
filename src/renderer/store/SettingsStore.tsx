@@ -1,5 +1,5 @@
 // src/store/ProductStore.tsx
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface SettingsState {
   // General settings
@@ -32,7 +32,7 @@ const initialSettingsState: SettingsState = {
   pathError: null,
   // Model Editor settings
   gridVisible: 'none',
-  explicitObjectSelection: false
+  explicitObjectSelection: false,
 };
 
 // products slices
@@ -44,7 +44,15 @@ const productsSlice = createSlice({
     setSidebarVisible(state, action: PayloadAction<boolean>) {
       state.sidebarVisible = action.payload;
     },
-    showToast: (state, action: PayloadAction<{ promise: Promise<any>; loadingMessage: string; successMessage: string; errorMessage: string }>) => {
+    showToast: (
+      state,
+      action: PayloadAction<{
+        promise: Promise<any>;
+        loadingMessage: string;
+        successMessage: string;
+        errorMessage: string;
+      }>,
+    ) => {
       state.toastVisible = true;
       state.toastPromise = action.payload.promise;
       state.toastLoadingMessage = action.payload.loadingMessage;
@@ -71,13 +79,13 @@ const productsSlice = createSlice({
   },
 });
 
-export const { 
+export const {
   setSidebarVisible,
   showToast,
   hideToast,
   setGridVisible,
   setDatabasePath,
-  setExplicitObjectSelection
+  setExplicitObjectSelection,
 } = productsSlice.actions;
 
 export default productsSlice.reducer;

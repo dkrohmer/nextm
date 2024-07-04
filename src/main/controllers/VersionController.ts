@@ -7,14 +7,13 @@ function validateSortDirection(sort: string): boolean {
   return ['asc', 'desc'].includes(sort);
 }
 
-
 // src/controllers/ModelController.ts
 export class VersionController {
   private versionService: VersionService;
 
   constructor() {
-      this.versionService = new VersionService();
-      this.initializeModelHandlers();
+    this.versionService = new VersionService();
+    this.initializeModelHandlers();
   }
 
   destroy() {
@@ -31,17 +30,25 @@ export class VersionController {
      */
     ipcMain.handle('create-version', async (_event, data) => {
       try {
-        const { modelId }: { modelId: string } = data
-        const { payload }: { payload: any } = data
-        const { thumbnail }: { thumbnail: string } = data
-        const { x }: { x: number } = data
-        const { y }: { y: number } = data
-        const { width }: { width: number } = data
-        const { height }: { height: number } = data
+        const { modelId }: { modelId: string } = data;
+        const { payload }: { payload: any } = data;
+        const { thumbnail }: { thumbnail: string } = data;
+        const { x }: { x: number } = data;
+        const { y }: { y: number } = data;
+        const { width }: { width: number } = data;
+        const { height }: { height: number } = data;
 
-        const graphJson = JSON.stringify(payload.graph)
+        const graphJson = JSON.stringify(payload.graph);
 
-        const newVersion = await this.versionService.createVersion({ modelId, thumbnail, payload: graphJson, x, y, width, height });
+        const newVersion = await this.versionService.createVersion({
+          modelId,
+          thumbnail,
+          payload: graphJson,
+          x,
+          y,
+          width,
+          height,
+        });
 
         // Return the created version with the graph still as an object for immediate use
         return { ...newVersion, payload: graphJson };
@@ -53,25 +60,25 @@ export class VersionController {
     /**
      * get-all-versions
      */
-    ipcMain.handle('get-all-versions', async (_event, data) => { 
+    ipcMain.handle('get-all-versions', async (_event, data) => {
       try {
         let sort = data.sort as 'asc' | 'desc';
-        let sortby = data.sortby as string || 'createdAt';
+        let sortby = (data.sortby as string) || 'createdAt';
         const modelId = data.modelId as string | undefined;
-  
+
         sortby = 'createdAt'; // default sort field if invalid
-        
+
         if (!validateSortDirection(sort)) {
           sort = 'desc'; // Default to ascending if invalid
         }
-  
-        const { versions, versionsCount } = await this.versionService.getAllVersions(sortby, sort, modelId);
-  
+
+        const { versions, versionsCount } =
+          await this.versionService.getAllVersions(sortby, sort, modelId);
+
         if (versions) {
-          return  { versions, versionsCount }
-        } else {
-          throw new Error('Failed to get versions')
+          return { versions, versionsCount };
         }
+        throw new Error('Failed to get versions');
       } catch (error) {
         console.error(error);
       }
@@ -82,17 +89,16 @@ export class VersionController {
      */
     ipcMain.handle('get-version-by-id', async (_event, data) => {
       try {
-        const { versionId }: { versionId: string } = data
+        const { versionId }: { versionId: string } = data;
         const version = await this.versionService.getVersionById(versionId);
         if (version) {
           const payloadWithParsedGraph = {
             ...version,
-            payload: JSON.parse(version.payload) // Parse the payload back to JSON object
+            payload: JSON.parse(version.payload), // Parse the payload back to JSON object
           };
-          return payloadWithParsedGraph
-        } else {
-          throw new Error('Failed to get version')
+          return payloadWithParsedGraph;
         }
+        throw new Error('Failed to get version');
       } catch (error) {
         console.error(error);
       }
@@ -106,10 +112,11 @@ export class VersionController {
         const modelId = data.modelId as string;
 
         if (!modelId) {
-          throw new Error('No modelId provided')
+          throw new Error('No modelId provided');
         }
-  
-        const latestVersion = await this.versionService.getLatestVersionByModelId(modelId);
+
+        const latestVersion =
+          await this.versionService.getLatestVersionByModelId(modelId);
         if (latestVersion) {
           const payloadWithParsedGraph = {
             ...latestVersion,
@@ -117,24 +124,23 @@ export class VersionController {
           };
           // console.log(payloadWithParsedGraph)
 
-          return payloadWithParsedGraph
-        } else {
-          throw new Error('Failed to get latest version')
+          return payloadWithParsedGraph;
         }
+        throw new Error('Failed to get latest version');
       } catch (error) {
         console.error(error);
-      }    
+      }
     });
-    
+
     /**
      * delete-version
      */
     ipcMain.handle('delete-version', async (_event, data) => {
       try {
-        const { modelId }: { modelId: string } = data
+        const { modelId }: { modelId: string } = data;
         await this.versionService.deleteVersion(modelId);
       } catch (error) {
-        console.error(error)
+        console.error(error);
       }
     });
   }

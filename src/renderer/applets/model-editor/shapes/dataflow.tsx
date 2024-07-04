@@ -1,4 +1,4 @@
-import { Graph, Node } from "@antv/x6";
+import { Graph, Node } from '@antv/x6';
 
 // shape for stencil view
 const registerEdgeStencil = () => {
@@ -12,11 +12,11 @@ const registerEdgeStencil = () => {
       markup: [
         {
           tagName: 'path',
-          selector: 'boundary'
+          selector: 'boundary',
         },
         {
           tagName: 'text',
-          selector: 'label'
+          selector: 'label',
         },
       ],
       attrs: {
@@ -24,28 +24,28 @@ const registerEdgeStencil = () => {
           strokeWidth: 1.0,
           stroke: 'black',
           fill: 'transparent',
-          refD: 'M 30 20 C 80 20 65 100 110 100'
+          refD: 'M 30 20 C 80 20 65 100 110 100',
         },
         label: {
           text: 'Data flow',
           fill: 'black',
-          textVerticalAnchor: 'middle'
+          textVerticalAnchor: 'middle',
         },
         line: {
           targetMarker: 'block',
-          sourceMarker: ''
-        }
+          sourceMarker: '',
+        },
       },
     },
     true,
-  )
-}
+  );
+};
 
 const createEdgeStencil = (graph: Graph) => {
   return graph.createNode({
     shape: 'dataflow-stencil',
-  })
-}
+  });
+};
 
 const registerEdge = () => {
   try {
@@ -56,57 +56,57 @@ const registerEdge = () => {
         attrs: {
           line: {
             stroke: 'black',
-            strokeWidth: 0.8
+            strokeWidth: 0.8,
           },
         },
       },
       true,
-    )
-  } catch (error){
-    console.log(error)
+    );
+  } catch (error) {
+    console.log(error);
   }
-}
+};
 
 const setDataflowLabel = (label: string, protocol: string, stride: string) => {
   return {
     markup: [
       {
-        tagName: "rect",
-        selector: "body"
+        tagName: 'rect',
+        selector: 'body',
       },
       {
-        tagName: "text",
-        selector: "label"
+        tagName: 'text',
+        selector: 'label',
       },
       {
-        tagName: "rect",
-        selector: "protocolBody"
+        tagName: 'rect',
+        selector: 'protocolBody',
       },
       {
-        tagName: "text",
-        selector: "protocol"
+        tagName: 'text',
+        selector: 'protocol',
       },
       {
-        tagName: "rect",
-        selector: "strideBody"
+        tagName: 'rect',
+        selector: 'strideBody',
       },
       {
-        tagName: "text",
-        selector: "stride"
-      }
+        tagName: 'text',
+        selector: 'stride',
+      },
     ],
     attrs: {
       label: {
         text: label,
-        fill: "#000",
+        fill: '#000',
         fontSize: 12,
-        textAnchor: "middle",
-        textVerticalAnchor: "middle",
+        textAnchor: 'middle',
+        textVerticalAnchor: 'middle',
         // pointerEvents: "none"
       },
       body: {
-        ref: "label",
-        fill: "#fff",
+        ref: 'label',
+        fill: '#fff',
         // stroke: '#5755a1',
         // strokeWidth: 2,
         rx: 4,
@@ -117,19 +117,19 @@ const setDataflowLabel = (label: string, protocol: string, stride: string) => {
         refY: '-20%',
       },
       protocol: {
-        ref: "label",
+        ref: 'label',
         text: protocol,
-        fill: "white",
+        fill: 'white',
         fontSize: 10,
-        textAnchor: "middle",
-        textVerticalAnchor: "middle",
-        pointerEvents: "none",
+        textAnchor: 'middle',
+        textVerticalAnchor: 'middle',
+        pointerEvents: 'none',
         // refX: 16.5,
-        refY: -7
+        refY: -7,
       },
       protocolBody: {
-        ref: "protocol",
-        fill: "black",
+        ref: 'protocol',
+        fill: 'black',
         stroke: 'white',
         strokeWidth: 2,
         rx: 4,
@@ -140,29 +140,29 @@ const setDataflowLabel = (label: string, protocol: string, stride: string) => {
         refY: '-20%',
       },
       stride: {
-        ref: "label",
+        ref: 'label',
         text: stride,
-        fill: "#ff0000",
+        fill: '#ff0000',
         fontSize: 8,
-        textAnchor: "middle",
-        textVerticalAnchor: "middle",
-        pointerEvents: "none",
+        textAnchor: 'middle',
+        textVerticalAnchor: 'middle',
+        pointerEvents: 'none',
         // refX: 16.5,
-        refY: 20
+        refY: 20,
       },
       strideBody: {
-        ref: "stride",
-        fill: "#fff",
+        ref: 'stride',
+        fill: '#fff',
         rx: 4,
         ry: 4,
         refWidth: '140%',
         refHeight: '140%',
         refX: '-20%',
         refY: '-20%',
-      }
-    }
-  }
-}
+      },
+    },
+  };
+};
 
 // the actual edge after being dragged to canvas
 const createEdge = (graph: Graph, node: Node) => {
@@ -180,24 +180,24 @@ const createEdge = (graph: Graph, node: Node) => {
   };
 
   const edge = graph.addEdge({
-      shape: "dataflow-edge",
-      source: source,
-      target: target,
-      vertices: [midpoint]
+    shape: 'dataflow-edge',
+    source,
+    target,
+    vertices: [midpoint],
   });
 
-  const label = setDataflowLabel('Data flow', '', '')
-  edge.appendLabel(label)
+  const label = setDataflowLabel('Data flow', '', '');
+  edge.appendLabel(label);
 };
 
 const register = () => {
-  registerEdgeStencil()
-  registerEdge()
-}
+  registerEdgeStencil();
+  registerEdge();
+};
 
 export default {
   register,
   createEdgeStencil,
   createEdge,
-  setDataflowLabel
+  setDataflowLabel,
 };

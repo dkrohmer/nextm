@@ -8,21 +8,25 @@ export class ResponsibleRepository {
     return await this.responsibleRepository.save(responsible);
   }
 
-  async getAllResponsibles(productId?: string): Promise<[Responsible[], number]> {
+  async getAllResponsibles(
+    productId?: string,
+  ): Promise<[Responsible[], number]> {
     if (productId) {
       return await this.responsibleRepository.findAndCount({
-        where: { productId }
+        where: { productId },
       });
-    } else {
-      return await this.responsibleRepository.findAndCount();
     }
+    return await this.responsibleRepository.findAndCount();
   }
 
   async getResponsibleById(id: string): Promise<Responsible | null> {
     return await this.responsibleRepository.findOneBy({ id });
   }
 
-  async updateResponsible(id: string, data: Partial<Responsible>): Promise<Responsible | null> {
+  async updateResponsible(
+    id: string,
+    data: Partial<Responsible>,
+  ): Promise<Responsible | null> {
     const responsible = await this.responsibleRepository.findOneBy({ id });
     if (!responsible) {
       return null;

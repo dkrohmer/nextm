@@ -2,12 +2,12 @@ import { Graph } from '@antv/x6';
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 
 interface DataflowStride {
-    spoofing: boolean;
-    tampering: boolean;
-    repudiation: boolean;
-    informationDisclosure: boolean;
-    denialOfService: boolean;
-    elevatePrivilege: boolean;
+  spoofing: boolean;
+  tampering: boolean;
+  repudiation: boolean;
+  informationDisclosure: boolean;
+  denialOfService: boolean;
+  elevatePrivilege: boolean;
 }
 
 interface ModelEditorState {
@@ -38,7 +38,7 @@ interface ModelEditorState {
   systemModalOpen: boolean;
   systemModalSelectedCell: string | null;
   systemName: string;
-  systemStack: string
+  systemStack: string;
   systemDescription: string;
 
   zoneModalOpen: boolean;
@@ -51,9 +51,9 @@ interface ModelEditorState {
   dataflowModalSelectedCell: string | null;
   dataflowLabel: string;
   dataflowProtocol: string;
-  dataflowStride: DataflowStride,
-  isTextMode: boolean, //deprecated
-  textModeInputValue: string, //deprecated
+  dataflowStride: DataflowStride;
+  isTextMode: boolean; // deprecated
+  textModeInputValue: string; // deprecated
   textModeSelectedCell: string; // deprecated
 }
 
@@ -104,33 +104,32 @@ const initialState: ModelEditorState = {
     repudiation: false,
     informationDisclosure: false,
     denialOfService: false,
-    elevatePrivilege: false
+    elevatePrivilege: false,
   },
 
-
-  isTextMode: false, //deprecated
-  textModeInputValue: '', //deprecated
-  textModeSelectedCell: '' // deprecated
+  isTextMode: false, // deprecated
+  textModeInputValue: '', // deprecated
+  textModeSelectedCell: '', // deprecated
 };
 
 // interfaces
 interface ExportGraphArgs {
-  format: string,
-  filename: string,
-  graph: Graph
+  format: string;
+  filename: string;
+  graph: Graph;
 }
 
 interface ImportGraphArgs {
-  graph: Graph,
-  jsonData: any
+  graph: Graph;
+  jsonData: any;
 }
 
 interface ExportJsonArgs {
-  filename: string,
-  graph: Graph
+  filename: string;
+  graph: Graph;
 }
 
-const exportJSON = ({filename, graph}: ExportJsonArgs) => {
+const exportJSON = ({ filename, graph }: ExportJsonArgs) => {
   const jsonString = JSON.stringify(graph, null, 2);
   const blob = new Blob([jsonString], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
@@ -140,7 +139,7 @@ const exportJSON = ({filename, graph}: ExportJsonArgs) => {
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
-}
+};
 
 // export graph
 export const exportGraph = createAsyncThunk(
@@ -148,21 +147,21 @@ export const exportGraph = createAsyncThunk(
   async ({ format, filename, graph }: ExportGraphArgs, { rejectWithValue }) => {
     switch (format) {
       case 'json':
-        exportJSON({filename, graph})
+        exportJSON({ filename, graph });
         return true;
       case 'png':
-        graph.exportPNG(filename, {padding: 50, quality: 1.0})
+        graph.exportPNG(filename, { padding: 50, quality: 1.0 });
         return true;
       case 'jpeg':
-        graph.exportJPEG(filename, {padding: 50, quality: 1.0})
+        graph.exportJPEG(filename, { padding: 50, quality: 1.0 });
         return true;
       case 'svg':
-        graph.exportSVG(filename)        
+        graph.exportSVG(filename);
         return true;
       default:
         return rejectWithValue('Invalid graph format.');
     }
-  }
+  },
 );
 
 // import graph
@@ -171,22 +170,22 @@ export const importGraph = createAsyncThunk(
   async ({ graph, jsonData }: ImportGraphArgs, { rejectWithValue }) => {
     try {
       if (graph) {
-        const fallback = graph.toJSON()
-        graph.fromJSON(jsonData);  // Ensure graphInstance is defined
-        const cells = graph.getCells()
-        console.log("Result: ", cells)
+        const fallback = graph.toJSON();
+        graph.fromJSON(jsonData); // Ensure graphInstance is defined
+        const cells = graph.getCells();
+        console.log('Result: ', cells);
 
         if (!cells || cells.length <= 0) {
-          graph.fromJSON(fallback)
+          graph.fromJSON(fallback);
           return rejectWithValue('The graph payload is erroneous or empty.');
         }
 
-        graph.zoomToFit({padding: {left: 200, right: 200}})
+        graph.zoomToFit({ padding: { left: 200, right: 200 } });
       }
     } catch (error) {
       return rejectWithValue(error);
     }
-  }
+  },
 );
 
 const modelEditorSlice = createSlice({
@@ -242,7 +241,7 @@ const modelEditorSlice = createSlice({
     setSelectedNodeId(state, action: PayloadAction<string | null>) {
       state.selectedNodeId = action.payload;
     },
-    setSelectedEdgeId(state, action: PayloadAction<string | null>) {
+    setSelectedEdgeId(state, action: PayloadAction<string | null>) {
       state.selectedEdgeId = action.payload;
     },
     // actor values
@@ -310,13 +309,13 @@ const modelEditorSlice = createSlice({
     setTextMode(state, action: PayloadAction<boolean>) {
       state.isTextMode = action.payload;
     },
-    setTextModeInputValue (state, action: PayloadAction<string>) {
+    setTextModeInputValue(state, action: PayloadAction<string>) {
       state.textModeInputValue = action.payload;
     },
-    setTextModeSelectedCell (state, action: PayloadAction<string>) {
+    setTextModeSelectedCell(state, action: PayloadAction<string>) {
       state.textModeSelectedCell = action.payload;
     },
-  }
+  },
 });
 
 export const {

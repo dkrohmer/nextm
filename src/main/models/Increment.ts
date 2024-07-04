@@ -1,12 +1,12 @@
-import { 
-  Column, 
-  CreateDateColumn, 
-  Entity, 
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
   JoinColumn,
   ManyToOne,
   OneToMany,
-  PrimaryGeneratedColumn, 
-  Relation
+  PrimaryGeneratedColumn,
+  Relation,
 } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -24,11 +24,13 @@ export class Increment {
   @Column()
   name!: string;
 
-  @OneToMany(() => Model, model => model.increment, { cascade: true})
+  @OneToMany(() => Model, (model) => model.increment, { cascade: true })
   models!: Relation<Model[]>;
 
-  @ManyToOne(() => Product, product => product.increments, { onDelete: 'CASCADE' })
-  @JoinColumn({name: 'productId'})
+  @ManyToOne(() => Product, (product) => product.increments, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({ name: 'productId' })
   product!: Relation<Product>;
 
   @Column()
@@ -41,7 +43,7 @@ export class Increment {
     return {
       ...this,
       createdAt: this.createdAt.toISOString(),
-      models: this.models ? this.models.map(model => model.toJSON()) : [], 
+      models: this.models ? this.models.map((model) => model.toJSON()) : [],
     };
   }
 }

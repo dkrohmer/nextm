@@ -90,11 +90,11 @@ const configuration: webpack.Configuration = {
           {
             loader: '@svgr/webpack',
             options: {
-            prettier: false,
-            svgo: false,
-            svgoConfig: {
-              plugins: [{ removeViewBox: false }],
-            },
+              prettier: false,
+              svgo: false,
+              svgoConfig: {
+                plugins: [{ removeViewBox: false }],
+              },
               titleProp: true,
               ref: true,
             },
@@ -102,8 +102,8 @@ const configuration: webpack.Configuration = {
           'file-loader',
         ],
       },
-      ],
-    },
+    ],
+  },
 
   optimization: {
     minimize: true,

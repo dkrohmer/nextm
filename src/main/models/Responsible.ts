@@ -1,10 +1,10 @@
-import { 
+import {
   Column,
-  Entity,  
+  Entity,
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
-  Relation
+  Relation,
 } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -24,10 +24,12 @@ export class Responsible {
   @Column({ type: 'text', nullable: true })
   role!: string | null;
 
-  @ManyToOne(() => Product, product => product.responsibles, { onDelete: 'CASCADE' })
-  @JoinColumn({name: 'productId'})
+  @ManyToOne(() => Product, (product) => product.responsibles, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({ name: 'productId' })
   product!: Relation<Product>;
-  
+
   @Column()
   productId!: string;
 }

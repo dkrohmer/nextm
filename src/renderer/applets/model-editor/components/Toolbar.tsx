@@ -1,6 +1,24 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { Graph, Rectangle } from '@antv/x6';
+import { Toolbar } from '@antv/x6-react-components';
+import {
+  SaveOutlined,
+  ExportOutlined,
+  ImportOutlined,
+  ZoomInOutlined,
+  ZoomOutOutlined,
+  RedoOutlined,
+  UndoOutlined,
+  DeleteOutlined,
+  CompressOutlined,
+  ScissorOutlined,
+  CopyOutlined,
+  SnippetsOutlined,
+  CloseOutlined,
+  ExpandOutlined,
+} from '@ant-design/icons';
 import { RootState, AppDispatch } from '../../../store';
 import actions from '../actions';
 import {
@@ -22,28 +40,10 @@ import {
 } from '../../../store/ModelEditorStore';
 import { showToast } from '../../../store/SettingsStore';
 import { addLatestVersion } from '../../../store/VersionsStore';
-import { Graph, Rectangle } from '@antv/x6';
-import { Toolbar } from '@antv/x6-react-components';
 import '@antv/x6-react-components/es/menu/style/index.css';
 import '@antv/x6-react-components/es/toolbar/style/index.css';
 import '@antv/x6-react-components/es/color-picker/style/index.css';
 import 'antd/dist/reset.css';
-import {
-  SaveOutlined,
-  ExportOutlined,
-  ImportOutlined,
-  ZoomInOutlined,
-  ZoomOutOutlined,
-  RedoOutlined,
-  UndoOutlined,
-  DeleteOutlined,
-  CompressOutlined,
-  ScissorOutlined,
-  CopyOutlined,
-  SnippetsOutlined,
-  CloseOutlined,
-  ExpandOutlined,
-} from '@ant-design/icons';
 import { compareHashes } from '../../../utils';
 
 const Item = Toolbar.Item; // eslint-disable-line
@@ -54,7 +54,6 @@ interface CustomToolbarProps {
 }
 
 const CustomToolbar: React.FC<CustomToolbarProps> = ({ graph }) => {
-
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const { productId, incrementId, modelId } = useParams();
@@ -186,15 +185,17 @@ const CustomToolbar: React.FC<CustomToolbarProps> = ({ graph }) => {
         return;
       }
 
-      const { x, y, height, width }: Rectangle = graph.getGraphArea()
-      const promise = dispatch(addLatestVersion({ modelId, graph, x, y, height, width }));
+      const { x, y, height, width }: Rectangle = graph.getGraphArea();
+      const promise = dispatch(
+        addLatestVersion({ modelId, graph, x, y, height, width }),
+      );
       dispatch(
         showToast({
           promise,
           loadingMessage: 'Saving threat model...',
           successMessage: 'Threat model saved',
           errorMessage: 'Failed to save threat model',
-        })
+        }),
       );
     }
   };
@@ -206,7 +207,7 @@ const CustomToolbar: React.FC<CustomToolbarProps> = ({ graph }) => {
 
   return (
     <div id="toolbar" className="toolbar">
-      <Toolbar hoverEffect={true} size="big">
+      <Toolbar hoverEffect size="big">
         {/* Save group */}
         <Group>
           <Item

@@ -1,9 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Cell, Graph, Rectangle } from '@antv/x6';
-import { Breadcrumb, Dimmer, Label, Loader, Message } from 'semantic-ui-react';
-import toast, { Toaster } from 'react-hot-toast';
+import { Graph, Rectangle } from '@antv/x6';
+import { Breadcrumb, Dimmer, Loader, Message } from 'semantic-ui-react';
 
 import system from './shapes/system';
 import dataflow from './shapes/dataflow';
@@ -28,16 +27,17 @@ import { RootState, AppDispatch } from '../../store';
 import { fetchProduct } from '../../store/ProductsStore';
 import { fetchIncrement } from '../../store/IncrementsStore';
 import { fetchModel } from '../../store/ModelsStore';
-import { addLatestVersion, fetchLatestVersion,  } from '../../store/VersionsStore';
-import { showToast, hideToast } from '../../store/SettingsStore';
+import {
+  addLatestVersion,
+  fetchLatestVersion,
+} from '../../store/VersionsStore';
+import { showToast } from '../../store/SettingsStore';
 
 import './ModelEditor.css';
 import ExportModal from './components/ExportModal';
 import ImportModal from './components/ImportModal';
 
 import { compareHashes } from '../../utils';
-import { ipcRenderer } from 'electron';
-import { setSystemModalOpen } from '../../store/ModelEditorStore';
 
 const ModelEditor: React.FC = () => {
   const { productId, incrementId, modelId } = useParams();
@@ -49,29 +49,29 @@ const ModelEditor: React.FC = () => {
   const isGraphInitialized = useRef(false);
 
   // global redux states
-  const { product, productIsLoading, productError } = useSelector((state: RootState) => state.products);
-  const { increment, incrementIsLoading, incrementError } = useSelector((state: RootState) => state.increments);
-  const { model, modelIsLoading, modelError } = useSelector((state: RootState) => state.models);
-  const { latestVersion, latestVersionIsLoading, latestVersionIsLoaded, latestVersionError } = useSelector((state: RootState) => state.versions);
+  const { product, productIsLoading, productError } = useSelector(
+    (state: RootState) => state.products,
+  );
+  const { increment, incrementIsLoading, incrementError } = useSelector(
+    (state: RootState) => state.increments,
+  );
+  const { model, modelIsLoading, modelError } = useSelector(
+    (state: RootState) => state.models,
+  );
+  const { latestVersion, latestVersionIsLoading, latestVersionError } =
+    useSelector((state: RootState) => state.versions);
   const { gridVisible } = useSelector((state: RootState) => state.settings);
   const state = useSelector((state: RootState) => state);
-
 
   // local states
   const [graph, setGraph] = useState<Graph>();
   const [isFirstLoad, setIsFirstLoad] = useState<boolean>(true);
 
   // global redux states
-  const {
-    actorModalOpen,
-    systemModalOpen,
-    zoneModalOpen,
-    dataflowModalOpen
-  } = useSelector((state: RootState) => state.modelEditor)
+  const { actorModalOpen, systemModalOpen, zoneModalOpen, dataflowModalOpen } =
+    useSelector((state: RootState) => state.modelEditor);
 
-  const {
-    sidebarVisible
-  } = useSelector((state: RootState) => state.settings)
+  const { sidebarVisible } = useSelector((state: RootState) => state.settings);
 
   // fetching objects
   useEffect(() => {
@@ -85,37 +85,38 @@ const ModelEditor: React.FC = () => {
 
   // load latest graph
   useEffect(() => {
-    if (graph && latestVersion && latestVersion.payload && latestVersion.payload.cells) {
-      const cells: Cell[] = latestVersion.payload.cells;
+    if (
+      graph &&
+      latestVersion &&
+      latestVersion.payload &&
+      latestVersion.payload.cells
+    ) {
+      const { cells } = latestVersion.payload;
       graph.fromJSON(cells);
 
       if (isFirstLoad) {
-        const { x, y, height, width } = latestVersion
+        const { x, y, height, width } = latestVersion;
 
         if (x && y && height && width) {
-          graph.zoomToRect({x, y, height, width})
+          graph.zoomToRect({ x, y, height, width });
         } else {
-          graph.zoomToFit({padding: {left: 200, right: 200}})
+          graph.zoomToFit({ padding: { left: 200, right: 200 } });
         }
-        setIsFirstLoad(false)
+        setIsFirstLoad(false);
       }
     }
   }, [dispatch, latestVersion]);
 
   useEffect(() => {
     if (containerRef && containerRef.current) {
-      const modalsOpen = actorModalOpen || systemModalOpen || dataflowModalOpen || zoneModalOpen
+      const modalsOpen =
+        actorModalOpen || systemModalOpen || dataflowModalOpen || zoneModalOpen;
 
       if (!modalsOpen) {
-        containerRef.current.focus()
+        containerRef.current.focus();
       }
     }
-}, [
-  actorModalOpen,
-  systemModalOpen,
-  zoneModalOpen,
-  dataflowModalOpen
-])
+  }, [actorModalOpen, systemModalOpen, zoneModalOpen, dataflowModalOpen]);
 
   // graph initialization
   useEffect(() => {
@@ -133,7 +134,7 @@ const ModelEditor: React.FC = () => {
       system.register();
       zone.register();
       tools.register();
-      
+
       setGraph(graphInstance);
       isGraphInitialized.current = true; // Mark the graph as initialized
       containerRef.current.focus();
@@ -143,9 +144,9 @@ const ModelEditor: React.FC = () => {
 
   useEffect(() => {
     if (!sidebarVisible && containerRef && containerRef.current) {
-      containerRef.current.focus()
+      containerRef.current.focus();
     }
-  }, [sidebarVisible]) 
+  }, [sidebarVisible]);
 
   useEffect(() => {
     updateGrid();
@@ -172,19 +173,19 @@ const ModelEditor: React.FC = () => {
         // if hashes match, we do not save.
         return;
       }
-      const {x, y, height, width}: Rectangle = graph.getGraphArea()
-      const promise = dispatch(addLatestVersion({ modelId, graph, x, y, height, width })).unwrap()
+      const { x, y, height, width }: Rectangle = graph.getGraphArea();
+      const promise = dispatch(
+        addLatestVersion({ modelId, graph, x, y, height, width }),
+      ).unwrap();
       dispatch(
         showToast({
-          promise: promise, // Resolve immediately since there's no async operation
+          promise, // Resolve immediately since there's no async operation
           loadingMessage: 'Saving threat model...', // No loading message needed
           successMessage: `Threat model saved`, // Success message with grid type
           errorMessage: 'Failed to save threat model', // No error message needed
-        })
+        }),
       );
-
     } else {
-      return;
     }
   };
 
@@ -193,38 +194,52 @@ const ModelEditor: React.FC = () => {
     navigate(path);
   };
 
-  const handleModalClose = () => {
-    console.log('')
-  };
-
   return (
     <div id="x6-graph-container" className="graph-container">
       <div className="x6-graph-wrap">
-        <Breadcrumb style={{ position: 'absolute', left: 200, top: 130, zIndex: 2 }}>
+        <Breadcrumb
+          style={{ position: 'absolute', left: 200, top: 130, zIndex: 2 }}
+        >
           <Breadcrumb.Section link onClick={() => handleNavigate(`/products`)}>
             Products
           </Breadcrumb.Section>
           <Breadcrumb.Divider icon="right chevron" />
-          <Breadcrumb.Section link onClick={() => handleNavigate(`/products/${product!.id}`)}>
+          <Breadcrumb.Section
+            link
+            onClick={() => handleNavigate(`/products/${product!.id}`)}
+          >
             {product?.name}
           </Breadcrumb.Section>
           <Breadcrumb.Divider icon="right chevron" />
-          <Breadcrumb.Section link onClick={() => handleNavigate(`/products/${product!.id}/increments/${increment!.id}`)}>
+          <Breadcrumb.Section
+            link
+            onClick={() =>
+              handleNavigate(
+                `/products/${product!.id}/increments/${increment!.id}`,
+              )
+            }
+          >
             {increment?.name}
           </Breadcrumb.Section>
           <Breadcrumb.Divider icon="right chevron" />
           <Breadcrumb.Section active>{model?.name}</Breadcrumb.Section>
         </Breadcrumb>
-       
+
         {/* Loader */}
-        {(productIsLoading || incrementIsLoading || modelIsLoading || latestVersionIsLoading) && (
-          <Dimmer active inverted={true}>
+        {(productIsLoading ||
+          incrementIsLoading ||
+          modelIsLoading ||
+          latestVersionIsLoading) && (
+          <Dimmer active inverted>
             <Loader>Loading Model...</Loader>
           </Dimmer>
         )}
 
         {/* Error handling */}
-        {(productError || incrementError || modelError || latestVersionError) && (
+        {(productError ||
+          incrementError ||
+          modelError ||
+          latestVersionError) && (
           <Message negative style={{ textAlign: 'center' }}>
             <Message.Header>Error</Message.Header>
             <p>{modelError}</p>
@@ -240,10 +255,13 @@ const ModelEditor: React.FC = () => {
             <Toolbar graph={graph} />
 
             {/* Modals */}
-            <ExportModal graph={graph} filename={`${product.name}_${increment.name}_${model.name}`} />
+            <ExportModal
+              graph={graph}
+              filename={`${product.name}_${increment.name}_${model.name}`}
+            />
             <ImportModal graph={graph} />
             <ActorModal graph={graph} />
-            <SystemModal graph={graph} onClose={handleModalClose}/>
+            <SystemModal graph={graph} />
             <ZoneModal graph={graph} />
             <DataflowModal graph={graph} />
           </div>

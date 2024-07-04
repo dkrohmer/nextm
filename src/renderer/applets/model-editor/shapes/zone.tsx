@@ -1,4 +1,4 @@
-import { Graph } from "@antv/x6";
+import { Graph } from '@antv/x6';
 
 const setZoneAttrs = (name: string, trustLevel: string) => {
   return {
@@ -17,17 +17,17 @@ const setZoneAttrs = (name: string, trustLevel: string) => {
       textSize: 12,
     },
     trustLevel: {
-      ref: "name",
+      ref: 'name',
       text: trustLevel,
-      fill: "black",
+      fill: 'black',
       fontSize: 10,
-      textAnchor: "middle",
-      textVerticalAnchor: "middle",
-      pointerEvents: "none",
-      refY: 20
+      textAnchor: 'middle',
+      textVerticalAnchor: 'middle',
+      pointerEvents: 'none',
+      refY: 20,
     },
-  }
-}
+  };
+};
 
 const register = () => {
   try {
@@ -38,17 +38,17 @@ const register = () => {
         resizing: true,
         width: 80,
         height: 40,
-        cursor: 'grab', //TODO
+        cursor: 'grab', // TODO
 
-        data:{ 
+        data: {
           parent: true,
-          description: ''
+          description: '',
         },
 
         markup: [
           {
             tagName: 'rect',
-            selector: 'body'
+            selector: 'body',
           },
           {
             tagName: 'text',
@@ -61,24 +61,24 @@ const register = () => {
         ],
       },
       true,
-    )
-  } catch(error) {
-    console.log(error)
+    );
+  } catch (error) {
+    console.log(error);
   }
-}
+};
 
 const create = (graph: Graph) => {
   const node = graph.createNode({
     shape: 'zone',
-  })
-  const attrs = setZoneAttrs('Zone', '')
-  node.setAttrs(attrs)
+  });
+  const attrs = setZoneAttrs('Zone', '');
+  node.setAttrs(attrs);
 
   return node;
-}
+};
 
 export default {
   register,
   create,
-  setZoneAttrs
+  setZoneAttrs,
 };

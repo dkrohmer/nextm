@@ -1,4 +1,4 @@
-import { Graph } from "@antv/x6";
+import { Graph } from '@antv/x6';
 
 const setSystemAttrs = (name: string, stack: string) => {
   return {
@@ -10,11 +10,11 @@ const setSystemAttrs = (name: string, stack: string) => {
       refY: 0.5,
       refX: 0.5,
       textAnchor: 'middle',
-      fontSize: 12
+      fontSize: 12,
     },
     stackBody: {
-      ref: "stack",
-      fill: "black",
+      ref: 'stack',
+      fill: 'black',
       stroke: 'white',
       strokeWidth: 2,
       rx: 4,
@@ -25,17 +25,17 @@ const setSystemAttrs = (name: string, stack: string) => {
       refY: '-20%',
     },
     stack: {
-      ref: "name",
+      ref: 'name',
       text: stack,
-      fill: "white",
+      fill: 'white',
       fontSize: 10,
-      textAnchor: "middle",
-      textVerticalAnchor: "middle",
-      pointerEvents: "none",
-      refY: -7
+      textAnchor: 'middle',
+      textVerticalAnchor: 'middle',
+      pointerEvents: 'none',
+      refY: -7,
     },
-  }
-}
+  };
+};
 
 const register = () => {
   try {
@@ -51,7 +51,7 @@ const register = () => {
         markup: [
           {
             tagName: 'circle',
-            selector: 'body'
+            selector: 'body',
           },
           {
             tagName: 'text',
@@ -59,7 +59,7 @@ const register = () => {
           },
           {
             tagName: 'rect',
-            selector: 'stackBody'
+            selector: 'stackBody',
           },
           {
             tagName: 'text',
@@ -68,16 +68,16 @@ const register = () => {
         ],
         // propHooks(meta) {
         //   const { name, attributes, ...others } = meta
-    
+
         //   if (!(name && attributes)) {
         //     return meta
         //   }
-    
+
         //   const rects = [
         //     { type: 'name', text: name },
         //     { type: 'attrs', text: attributes },
         //   ]
-    
+
         //   let offsetY = 0
         //   rects.forEach((rect) => {
         //     const height = rect.text.length * 12 + 16
@@ -94,31 +94,31 @@ const register = () => {
         //     )
         //     offsetY += height
         //   })
-    
+
         //   others.size = { width: 160, height: offsetY }
-    
+
         //   return others
         // },
       },
       true,
-    )
+    );
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
-}
+};
 
 const create = (graph: Graph) => {
   const node = graph.createNode({
     shape: 'system',
-  })
-  const attrs = setSystemAttrs('System', '')
-  node.setAttrs(attrs)
+  });
+  const attrs = setSystemAttrs('System', '');
+  node.setAttrs(attrs);
 
   return node;
-}
+};
 
 export default {
   register,
   create,
-  setSystemAttrs
+  setSystemAttrs,
 };

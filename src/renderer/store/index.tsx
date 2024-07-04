@@ -4,7 +4,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import productsReducer from './ProductsStore';
 import incrementsReducer from './IncrementsStore';
 import modelsReducer from './ModelsStore';
-import versionsReducer from './VersionsStore'
+import versionsReducer from './VersionsStore';
 import modelEditorReducer from './ModelEditorStore';
 import settingsReducer from './SettingsStore';
 
@@ -15,7 +15,7 @@ const store = configureStore({
     models: modelsReducer,
     versions: versionsReducer,
     modelEditor: modelEditorReducer,
-    settings: settingsReducer
+    settings: settingsReducer,
   },
   // ignore non-serializable data for toasts...
   middleware: (getDefaultMiddleware) =>

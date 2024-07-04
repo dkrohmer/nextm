@@ -5,7 +5,7 @@ import {
   Column,
   ManyToOne,
   JoinColumn,
-  Relation
+  Relation,
 } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
 import { Model } from './Model';
@@ -21,7 +21,7 @@ export class Version {
   @Column()
   payload!: string;
 
-  @ManyToOne(() => Model, model => model.versions, { onDelete: 'CASCADE' })
+  @ManyToOne(() => Model, (model) => model.versions, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'modelId' })
   model!: Relation<Model>;
 
@@ -34,16 +34,16 @@ export class Version {
   @Column()
   thumbnail!: string;
 
-  @Column({ type: 'float', nullable: true})
+  @Column({ type: 'float', nullable: true })
   x!: number | null;
 
-  @Column({ type: 'float', nullable: true})
+  @Column({ type: 'float', nullable: true })
   y!: number | null;
 
-  @Column({ type: 'float', nullable: true})
+  @Column({ type: 'float', nullable: true })
   height!: number | null;
 
-  @Column({ type: 'float', nullable: true})
+  @Column({ type: 'float', nullable: true })
   width!: number | null;
 
   // Method to convert dates to strings

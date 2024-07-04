@@ -14,7 +14,11 @@ export class ModelRepository {
     return await this.modelRepository.save(model);
   }
 
-  async getAllModels(sortBy: string, sort: 'asc' | 'desc', incrementId?: string): Promise<[Model[], number]> {
+  async getAllModels(
+    sortBy: string,
+    sort: 'asc' | 'desc',
+    incrementId?: string,
+  ): Promise<[Model[], number]> {
     const where = incrementId ? { incrementId } : {};
 
     return await this.modelRepository.findAndCount({
@@ -22,7 +26,7 @@ export class ModelRepository {
       order: {
         [sortBy]: sort,
       },
-      relations: []
+      relations: [],
     });
   }
 
@@ -32,12 +36,11 @@ export class ModelRepository {
         where: { id },
         relations: ['versions'],
       });
-    } else {
-      return await this.modelRepository.findOne({
-        where: { id },
-        relations: []
-      });
     }
+    return await this.modelRepository.findOne({
+      where: { id },
+      relations: [],
+    });
   }
 
   async updateModel(id: string, data: Partial<Model>): Promise<Model | null> {

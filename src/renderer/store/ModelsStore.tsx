@@ -1,8 +1,7 @@
 // modelsSlice.ts
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
 
-import { IModel, IModels } from '../interfaces/IModel';
+import { IModel } from '../interfaces/IModel';
 
 interface ModelsState {
   // states related to models
@@ -44,17 +43,17 @@ const initialState: ModelsState = {
 
 // interfaces
 interface FetchModelsArgs {
-  incrementId: string
+  incrementId: string;
 }
 
 interface FetchModelArgs {
-  modelId: string,
-  isEagerLoading: boolean
+  modelId: string;
+  isEagerLoading: boolean;
 }
 
 interface AddOrUpdateModelArgs {
-  model: IModel,
-  incrementId: string
+  model: IModel;
+  incrementId: string;
 }
 
 // get all models
@@ -64,27 +63,30 @@ export const fetchModels = createAsyncThunk(
     try {
       // const response = await fetch(`/api/models?incrementId=${incrementId}`);
       // const data = await response.json();
-      const response = await window.electron.getAllModels({ incrementId })
+      const response = await window.electron.getAllModels({ incrementId });
       return response;
     } catch (error) {
       return rejectWithValue(error);
     }
-  }
+  },
 );
 
 // get one model
 export const fetchModel = createAsyncThunk(
   'models/fetchModel',
-  async ({modelId, isEagerLoading}: FetchModelArgs, { rejectWithValue }) => {
+  async ({ modelId, isEagerLoading }: FetchModelArgs, { rejectWithValue }) => {
     try {
       // const response = await axios.get<IModel>(`/api/models/${modelId}?eager=${isEagerLoading ? 'true' : 'false'}`);
       // return response.data;
-      const response = await window.electron.getModelById({ modelId, isEagerLoading })
-      return response
+      const response = await window.electron.getModelById({
+        modelId,
+        isEagerLoading,
+      });
+      return response;
     } catch (error) {
       return rejectWithValue(error);
     }
-  }
+  },
 );
 
 // Add or update a product
@@ -95,31 +97,39 @@ export const addOrUpdateModel = createAsyncThunk(
       if (model.id) {
         // const response = await axios.put(`/api/models/${model.id}`, modelData);
         // return response.data;
-        const response = await window.electron.updateModel({ ...model, incrementId })
-        return response
-      } else {
-        // const response = await axios.post('/api/models', modelData);
-        // return response.data;
-        const response = await window.electron.createModel({ ...model, incrementId })
-        return response
+        const response = await window.electron.updateModel({
+          ...model,
+          incrementId,
+        });
+        return response;
       }
+      // const response = await axios.post('/api/models', modelData);
+      // return response.data;
+      const response = await window.electron.createModel({
+        ...model,
+        incrementId,
+      });
+      return response;
     } catch (error) {
       return rejectWithValue('Failed to save product.');
     }
-  }
+  },
 );
 
 // delete a model
-export const deleteModel = createAsyncThunk('models/deleteModel', async (modelId: string, { rejectWithValue }) => {
-  try {
-    // await axios.delete(`/api/models/${modelId}`);
-    // return modelId;
-    await window.electron.deleteModel({ modelId })
-    return modelId
-  } catch (error) {
-    return rejectWithValue(error);
-  }
-});
+export const deleteModel = createAsyncThunk(
+  'models/deleteModel',
+  async (modelId: string, { rejectWithValue }) => {
+    try {
+      // await axios.delete(`/api/models/${modelId}`);
+      // return modelId;
+      await window.electron.deleteModel({ modelId });
+      return modelId;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+);
 
 const modelsSlice = createSlice({
   name: 'models',
@@ -143,7 +153,7 @@ const modelsSlice = createSlice({
     },
     setModelToDelete(state, action) {
       state.modelToDelete = action.payload;
-    }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -178,7 +188,9 @@ const modelsSlice = createSlice({
       })
       // cases for deleting a model
       .addCase(deleteModel.fulfilled, (state, action) => {
-        state.models = state.models.filter(model => model.id !== action.payload);
+        state.models = state.models.filter(
+          (model) => model.id !== action.payload,
+        );
         state.modelsConfirmOpen = false;
       })
       .addCase(deleteModel.rejected, (state, action) => {
@@ -188,13 +200,13 @@ const modelsSlice = createSlice({
   },
 });
 
-export const { 
-  setModelsModalOpen, 
-  setModelsCurrentModel, 
+export const {
+  setModelsModalOpen,
+  setModelsCurrentModel,
   setModelsIsCloning,
   setModelsIsEditing,
   setModelsConfirmOpen,
-  setModelToDelete
+  setModelToDelete,
 } = modelsSlice.actions;
 
 export default modelsSlice.reducer;

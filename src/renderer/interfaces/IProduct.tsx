@@ -1,12 +1,4 @@
-import { IIncrement } from './IIncrement';
-import './IResponsible'
-
 import { IResponsible } from './IResponsible';
-
-interface IProducts {
-  products: IProduct[],
-  productsCount: number
-}
 
 interface IProduct {
   id: string;
@@ -15,9 +7,14 @@ interface IProduct {
   description?: string;
   startsAt?: string;
   endsAt?: string;
-  responsibles?: IResponsible[],
+  responsibles?: IResponsible[];
   // increments?: IIncrement[],
-  latestIncrementId?: string
+  latestIncrementId?: string;
+}
+
+interface IProducts {
+  products: IProduct[];
+  productsCount: number;
 }
 
 export type { IProducts, IProduct };

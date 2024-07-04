@@ -5,14 +5,17 @@ export class VersionRepository {
   private versionRepository = AppDataSource.getRepository(Version);
 
   async createVersion(data: Partial<Version>): Promise<Version> {
-
     const version = this.versionRepository.create(data);
-    const response = await this.versionRepository.save(version)
+    const response = await this.versionRepository.save(version);
 
     return response;
   }
 
-  async getAllVersions(sortBy: string, sort: 'asc' | 'desc', modelId?: string): Promise<[Version[], number]> {
+  async getAllVersions(
+    sortBy: string,
+    sort: 'asc' | 'desc',
+    modelId?: string,
+  ): Promise<[Version[], number]> {
     const where = modelId ? { modelId } : {};
 
     const [versions, count] = await this.versionRepository.findAndCount({
@@ -49,7 +52,7 @@ export class VersionRepository {
         versionIndex: 'ASC',
       },
     });
-    
+
     if (earliestVersion) {
       await this.versionRepository.remove(earliestVersion);
     }

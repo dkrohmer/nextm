@@ -1,11 +1,10 @@
-import { 
-  Column, 
+import {
+  Column,
   CreateDateColumn,
-  Entity, 
+  Entity,
   OneToMany,
-  JoinColumn,
-  PrimaryGeneratedColumn, 
-  Relation
+  PrimaryGeneratedColumn,
+  Relation,
 } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -38,10 +37,14 @@ export class Product {
   @Column({ type: 'datetime', nullable: true })
   endsAt!: Date | null;
 
-  @OneToMany(() => Responsible, responsible => responsible.product, { cascade: true })
+  @OneToMany(() => Responsible, (responsible) => responsible.product, {
+    cascade: true,
+  })
   responsibles!: Relation<Responsible[]>;
 
-  @OneToMany(() => Increment, increment => increment.product, { cascade: true })
+  @OneToMany(() => Increment, (increment) => increment.product, {
+    cascade: true,
+  })
   increments!: Relation<Increment[]>;
 
   latestIncrementId?: string | null;
@@ -53,7 +56,9 @@ export class Product {
       createdAt: this.createdAt.toISOString(),
       startsAt: this.startsAt ? this.startsAt.toISOString() : null,
       endsAt: this.endsAt ? this.endsAt.toISOString() : null,
-      increments: this.increments ? this.increments.map(increment => increment.toJSON()) : [],
+      increments: this.increments
+        ? this.increments.map((increment) => increment.toJSON())
+        : [],
     };
   }
 }

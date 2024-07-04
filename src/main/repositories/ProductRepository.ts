@@ -6,13 +6,17 @@ export class ProductRepository {
   private productRepository = AppDataSource.getRepository(Product);
   // private responsibleRepository = AppDataSource.getRepository(Responsible);
 
-
   async createProduct(product: Product): Promise<Product> {
     const newProduct = await this.productRepository.save(product);
     return newProduct;
   }
 
-  async getAllProducts(limit: number, offset: number, sort: 'asc' | 'desc', sortby: string): Promise<[Product[], number]> {
+  async getAllProducts(
+    limit: number,
+    offset: number,
+    sort: 'asc' | 'desc',
+    sortby: string,
+  ): Promise<[Product[], number]> {
     const [products, count] = await this.productRepository.findAndCount({
       relations: ['responsibles'],
       take: limit,
@@ -33,14 +37,18 @@ export class ProductRepository {
     if (eager) {
       return await this.productRepository.findOne({
         where: { id },
-        relations: ['responsibles', 'increments', 'increments.models', 'increments.models.versions'],
-      });
-    } else {
-      return await this.productRepository.findOne({
-        where: { id },
-        relations: ['responsibles'],
+        relations: [
+          'responsibles',
+          'increments',
+          'increments.models',
+          'increments.models.versions',
+        ],
       });
     }
+    return await this.productRepository.findOne({
+      where: { id },
+      relations: ['responsibles'],
+    });
   }
 
   async updateProduct(id: string, data: any): Promise<Product | null> {

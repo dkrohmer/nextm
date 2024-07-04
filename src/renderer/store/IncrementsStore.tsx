@@ -2,7 +2,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import type { IIncrement, IIncrements } from '../interfaces/IIncrement';
 
-import { RootState } from './';
+import { RootState } from '.';
 
 interface IncrementsState {
   // states related to increments
@@ -48,72 +48,99 @@ const initialState: IncrementsState = {
 
 // interfaces
 interface FetchIncrementsArgs {
-  productId: string
+  productId: string;
 }
 
 interface FetchIncrementArgs {
-  incrementId: string,
-  isEagerLoading: boolean
+  incrementId: string;
+  isEagerLoading: boolean;
 }
 
 // get all increments
 export const fetchIncrements = createAsyncThunk(
-  'increments/fetchIncrements', 
-  async ({productId}: FetchIncrementsArgs, { rejectWithValue }) => {
+  'increments/fetchIncrements',
+  async ({ productId }: FetchIncrementsArgs, { rejectWithValue }) => {
     try {
       // const response = await axios.get(`/api/increments?productId=${productId}&sortBy=incrementIndex&sort=desc`);
       // return response.data.increments;
-      const response = await window.electron.getAllIncrements({productId, sortby: 'incrementIndex', sort: 'desc'})
-      return response
+      const response = await window.electron.getAllIncrements({
+        productId,
+        sortby: 'incrementIndex',
+        sort: 'desc',
+      });
+      return response;
     } catch (error) {
       return rejectWithValue('Failed to load increments.');
     }
-});
+  },
+);
 
 // get one increment
 export const fetchIncrement = createAsyncThunk(
   'increments/fetchIncrement',
-  async ({incrementId, isEagerLoading}: FetchIncrementArgs, { rejectWithValue }) => {
+  async (
+    { incrementId, isEagerLoading }: FetchIncrementArgs,
+    { rejectWithValue },
+  ) => {
     try {
       // const response = await axios.get<IIncrement>(`/api/increments/${incrementId}?eager=${isEagerLoading ? 'true' : 'false'}`);
       // return response.data;
-      const response = await window.electron.getIncrementById({incrementId, isEagerLoading})
-      return response
+      const response = await window.electron.getIncrementById({
+        incrementId,
+        isEagerLoading,
+      });
+      return response;
     } catch (error) {
       return rejectWithValue('Failed to load increment.');
     }
-  }
+  },
 );
 
 // Add or update an increment
-export const addOrUpdateIncrement = createAsyncThunk<IIncrement, { increment: IIncrement; productId: string }, { state: RootState }>(
+export const addOrUpdateIncrement = createAsyncThunk<
+  IIncrement,
+  { increment: IIncrement; productId: string },
+  { state: RootState }
+>(
   'increments/addOrUpdateIncrement',
-  async ({ increment, productId }: { increment: IIncrement; productId: string }, { rejectWithValue }) => {
+  async (
+    { increment, productId }: { increment: IIncrement; productId: string },
+    { rejectWithValue },
+  ) => {
     try {
       if (increment.id) {
-        const incrementId = increment.id
-        const response = await window.electron.updateIncrement({...increment, incrementId, productId });
-        return response
-      } else {
-        const response = await window.electron.createIncrement({...increment, productId});
+        const incrementId = increment.id;
+        const response = await window.electron.updateIncrement({
+          ...increment,
+          incrementId,
+          productId,
+        });
         return response;
       }
+      const response = await window.electron.createIncrement({
+        ...increment,
+        productId,
+      });
+      return response;
     } catch (error) {
       return rejectWithValue(error);
     }
-  }
+  },
 );
 
 // delete an increment
-export const deleteIncrement = createAsyncThunk('increments/deleteIncrement', async (incrementId: string, { rejectWithValue }) => {
-  try {
-    await window.electron.deleteIncrement({incrementId})
-    // dispatch(fetchIncrements());
-    return incrementId;
-  } catch (error) {
-    return rejectWithValue(error);
-  }
-});
+export const deleteIncrement = createAsyncThunk(
+  'increments/deleteIncrement',
+  async (incrementId: string, { rejectWithValue }) => {
+    try {
+      await window.electron.deleteIncrement({ incrementId });
+      // dispatch(fetchIncrements());
+      return incrementId;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+);
 
 const incrementsSlice = createSlice({
   name: 'increments',
@@ -150,7 +177,6 @@ const incrementsSlice = createSlice({
       .addCase(fetchIncrements.pending, (state) => {
         state.incrementsIsLoading = true;
         state.incrementsIsLoaded = false;
-
       })
       .addCase(fetchIncrements.fulfilled, (state, action) => {
         state.increments = action.payload.increments;
@@ -160,20 +186,19 @@ const incrementsSlice = createSlice({
       .addCase(fetchIncrements.rejected, (state, action) => {
         state.incrementsIsLoading = false;
         state.incrementsIsLoaded = false;
-        state.incrementsError = action.error.message || 'Failed to load increments';
+        state.incrementsError =
+          action.error.message || 'Failed to load increments';
       })
       // cases for fetching one increment
       .addCase(fetchIncrement.pending, (state) => {
         state.incrementIsLoading = true;
         state.incrementError = null;
         state.incrementIsLoaded = false;
-
       })
       .addCase(fetchIncrement.fulfilled, (state, action) => {
         state.increment = action.payload;
         state.incrementIsLoading = false;
         state.incrementIsLoaded = true;
-
       })
       .addCase(fetchIncrement.rejected, (state, action) => {
         state.incrementIsLoading = false;
@@ -182,34 +207,38 @@ const incrementsSlice = createSlice({
       })
       // cases for adding or updating one increment
       .addCase(addOrUpdateIncrement.fulfilled, (state, action) => {
-        const index = state.increments.findIndex(inc => inc.id === action.payload.id);
+        const index = state.increments.findIndex(
+          (inc) => inc.id === action.payload.id,
+        );
         if (index !== -1) {
           state.increments[index] = action.payload;
         } else {
           state.increments.unshift(action.payload);
         }
-        state.incrementsModalOpen = false;  // Close modal on success
+        state.incrementsModalOpen = false; // Close modal on success
       })
       // cases for deleting one increment
       .addCase(deleteIncrement.fulfilled, (state, action) => {
-        state.increments = state.increments.filter(increment => increment.id !== action.payload);
+        state.increments = state.increments.filter(
+          (increment) => increment.id !== action.payload,
+        );
         state.incrementsConfirmOpen = false;
       })
       .addCase(deleteIncrement.rejected, (state, action) => {
         state.incrementsError = action.payload as string;
         state.incrementsConfirmOpen = false;
       });
-  }
+  },
 });
 
-export const { 
-  setIncrementsActiveIndex, 
+export const {
+  setIncrementsActiveIndex,
   setIncrementsActiveIncrementId,
-  setIncrementsModalOpen, 
-  setIncrementsIsEditing, 
+  setIncrementsModalOpen,
+  setIncrementsIsEditing,
   setIncrementsIsCloning,
-  setCurrentIncrement, 
-  setIncrementsConfirmOpen, 
+  setCurrentIncrement,
+  setIncrementsConfirmOpen,
   setIncrementToDelete,
 } = incrementsSlice.actions;
 

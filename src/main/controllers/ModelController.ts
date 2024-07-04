@@ -17,10 +17,9 @@ export class ModelController {
   private modelService: ModelService;
 
   constructor() {
-      this.modelService = new ModelService();
-      this.initializeModelHandlers();
-      console.log("Model controllers initialized.")
-
+    this.modelService = new ModelService();
+    this.initializeModelHandlers();
+    console.log('Model controllers initialized.');
   }
 
   destroy() {
@@ -30,7 +29,7 @@ export class ModelController {
     ipcMain.removeHandler('update-model');
     ipcMain.removeHandler('delete-model');
   }
-  
+
   private initializeModelHandlers() {
     /**
      * create-model
@@ -38,7 +37,7 @@ export class ModelController {
     ipcMain.handle('create-model', async (_event, data) => {
       try {
         const model = await this.modelService.createModel(data);
-        return model
+        return model;
       } catch (error) {
         console.error(error);
       }
@@ -47,27 +46,30 @@ export class ModelController {
     /**
      * get-all-models
      */
-    ipcMain.handle('get-all-models', async (_event, data) => { 
+    ipcMain.handle('get-all-models', async (_event, data) => {
       try {
         let sort = data.sort as 'asc' | 'desc';
-        let sortby = data.sortby as string || 'createdAt';
+        let sortby = (data.sortby as string) || 'createdAt';
         const incrementId = data.incrementId as string | undefined;
-  
+
         if (!validateSortBy(sortby)) {
           sortby = 'createdAt'; // default sort field if invalid
         }
-  
+
         if (!validateSortDirection(sort)) {
           sort = 'desc'; // Default to ascending if invalid
         }
-  
-        const { models, modelsCount } = await this.modelService.getAllModels(sortby, sort, incrementId);
-  
+
+        const { models, modelsCount } = await this.modelService.getAllModels(
+          sortby,
+          sort,
+          incrementId,
+        );
+
         if (models) {
-          return { models, modelsCount }
-        } else {
-          throw new Error('Failed to get models')
+          return { models, modelsCount };
         }
+        throw new Error('Failed to get models');
       } catch (error) {
         console.error(error);
       }
@@ -80,16 +82,18 @@ export class ModelController {
       try {
         const { modelId } = data;
         const { isEagerLoading }: { isEagerLoading: boolean } = data;
-    
-        const model = await this.modelService.getModelById(modelId, isEagerLoading);
+
+        const model = await this.modelService.getModelById(
+          modelId,
+          isEagerLoading,
+        );
         if (model) {
-          return model
-        } else {
-          throw new Error('Failed to get model')
+          return model;
         }
+        throw new Error('Failed to get model');
       } catch (error) {
         console.error(error);
-      }    
+      }
     });
 
     /**
@@ -99,27 +103,26 @@ export class ModelController {
       try {
         const { id }: { id: string } = data;
         const { name }: { name: string } = data;
-        
+
         const updatedModel = await this.modelService.updateModel(id, { name });
         if (updatedModel) {
-          return updatedModel
-        } else {
-          throw new Error('Failed to update model')
+          return updatedModel;
         }
+        throw new Error('Failed to update model');
       } catch (error) {
-        console.error(error)
+        console.error(error);
       }
     });
-    
+
     /**
      * delete-model
      */
     ipcMain.handle('delete-model', async (_event, data) => {
       try {
-        const { modelId } = data
+        const { modelId } = data;
         await this.modelService.deleteModel(modelId);
       } catch (error) {
-        console.error(error)
+        console.error(error);
       }
     });
   }

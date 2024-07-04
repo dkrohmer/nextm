@@ -5,7 +5,13 @@ import { IncrementService } from '../services/IncrementService';
 import { Increment } from '../models/Increment';
 
 function validateSortBy(sortBy: string): boolean {
-  const validSortByFields = ['name', 'createdAt', 'start', 'end', 'incrementIndex'];
+  const validSortByFields = [
+    'name',
+    'createdAt',
+    'start',
+    'end',
+    'incrementIndex',
+  ];
   return validSortByFields.includes(sortBy);
 }
 
@@ -18,10 +24,9 @@ export class IncrementController {
   private incrementService: IncrementService;
 
   constructor() {
-      this.incrementService = new IncrementService();
-      this.initializeIncrementHandlers();
-      console.log("Increment controllers initialized.")
-
+    this.incrementService = new IncrementService();
+    this.initializeIncrementHandlers();
+    console.log('Increment controllers initialized.');
   }
 
   destroy() {
@@ -41,11 +46,9 @@ export class IncrementController {
       try {
         const increment = await this.incrementService.createIncrement(data);
         if (increment) {
-
-          return increment
-        } else {
-          throw new Error('Failed to create increment');
+          return increment;
         }
+        throw new Error('Failed to create increment');
       } catch (error) {
         console.error(error);
       }
@@ -54,95 +57,99 @@ export class IncrementController {
     /**
      * get-all-increments
      */
-    ipcMain.handle('get-all-increments', async (_event, data) => { 
+    ipcMain.handle('get-all-increments', async (_event, data) => {
       try {
-        let { sort }: { sort: 'asc' | 'desc' } = data
-        let { sortby }: { sortby: string } = data || 'createdAt'
-        const { productId }: { productId: string | undefined } = data
+        let { sort }: { sort: 'asc' | 'desc' } = data;
+        let { sortby }: { sortby: string } = data || 'createdAt';
+        const { productId }: { productId: string | undefined } = data;
         // let sort = data.sort as 'asc' | 'desc';
         // let sortby = data.sortby as string || 'createdAt';
         // const productId = data.productId as string | undefined;
-  
+
         if (!validateSortBy(sortby)) {
           sortby = 'createdAt'; // default sort field if invalid
         }
-  
+
         if (!validateSortDirection(sort)) {
           sort = 'desc'; // Default to ascending if invalid
         }
-  
-        const { increments, incrementsCount } = await this.incrementService.getAllIncrements(sortby, sort, productId);
+
+        const { increments, incrementsCount } =
+          await this.incrementService.getAllIncrements(sortby, sort, productId);
         if (increments) {
           return { increments, incrementsCount };
-        } else {
-          throw new Error ('Failed to get increments')
         }
+        throw new Error('Failed to get increments');
       } catch (error) {
         console.error(error);
       }
     });
-    
+
     /**
      * get-increment-by-id
      */
-    ipcMain.handle('get-increment-by-id', async (_event, data) => { 
+    ipcMain.handle('get-increment-by-id', async (_event, data) => {
       try {
         const { incrementId }: { incrementId: string } = data;
         const { isEagerLoading }: { isEagerLoading: boolean } = data;
 
-        const increment = await this.incrementService.getIncrementById(incrementId, isEagerLoading);
+        const increment = await this.incrementService.getIncrementById(
+          incrementId,
+          isEagerLoading,
+        );
 
         if (increment) {
           return increment;
-        } else {
-          throw new Error('Failed to get increment');
         }
+        throw new Error('Failed to get increment');
       } catch (error) {
         console.error(error);
-      }      
+      }
     });
 
     /**
      * get-latest-increment
      */
-    ipcMain.handle('get-latest-increment', async (_event, data) => { 
+    ipcMain.handle('get-latest-increment', async (_event, data) => {
       try {
-        const { productId }: { productId: string | undefined } = data
-        const latestIncrement = await this.incrementService.getLatestIncrement(productId);
-  
+        const { productId }: { productId: string | undefined } = data;
+        const latestIncrement =
+          await this.incrementService.getLatestIncrement(productId);
+
         if (latestIncrement) {
-          return latestIncrement
-        } else {
-          throw new Error('Failed to get latest increment.')
+          return latestIncrement;
         }
+        throw new Error('Failed to get latest increment.');
       } catch (error) {
         console.error(error);
       }
     });
-    
+
     /**
      * update-increment
      */
     ipcMain.handle('update-increment', async (_event, data) => {
       try {
-        const { incrementId }: {incrementId: string} = data;
-        const { name }: { name: string} = data;
+        const { incrementId }: { incrementId: string } = data;
+        const { name }: { name: string } = data;
 
-        const updatedIncrement = await this.incrementService.updateIncrement(incrementId, { name });
+        const updatedIncrement = await this.incrementService.updateIncrement(
+          incrementId,
+          { name },
+        );
         if (updatedIncrement) {
-          return updatedIncrement
-        } else {
-          throw new Error('Failed to update increment');
+          return updatedIncrement;
         }
+        throw new Error('Failed to update increment');
       } catch (error) {
         console.error(error);
       }
     });
-    
+
     /**
      * delete-increment
      */
-    ipcMain.handle('delete-increment', async (_event, data) => {      
+    ipcMain.handle('delete-increment', async (_event, data) => {
       try {
         const { incrementId }: { incrementId: string } = data;
         await this.incrementService.deleteIncrement(incrementId);
