@@ -93,7 +93,10 @@
     ],
     "transform": {
       "\\.(ts|tsx|js|jsx)$": "ts-jest"
-    }
+    },
+    "collectCoverage": true,
+    "coverageDirectory": "coverage",
+    "coverageReporters": ["html", "text"]
   },
   "dependencies": {
     "@ant-design/icons": "^5.3.7",
