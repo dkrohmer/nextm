@@ -37,13 +37,14 @@ export const initializeDataSource = async (databasePath: string) => {
     subscribers: [],
   });
 
-  const response = await AppDataSource.initialize();
-
-  if (response) {
+  try {
+    await AppDataSource.initialize();
     console.log('Data source initialized successfully at: ', databasePath);
     return true;
+  } catch (error) {
+    console.error('Data source initialization failed: ', error);
+    return false;
   }
-  return false;
 };
 
 export function getDataSource() {
