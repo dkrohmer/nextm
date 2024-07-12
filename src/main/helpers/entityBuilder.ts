@@ -15,6 +15,8 @@ export function buildProductEntity(productData: Product): Product {
   product.startsAt = startsAt ? new Date(startsAt) : null;
   product.endsAt = endsAt ? new Date(endsAt) : null;
 
+  console.log(product);
+
   if (endsAt && startsAt && new Date(endsAt) < new Date(startsAt)) {
     throw new Error('The end date cannot be earlier than the start date.');
   }
@@ -100,6 +102,9 @@ export function buildVersionEntity(versionData: any, index: number): Version {
   const { payload, thumbnail, versionIndex, x, y, height, width } = versionData;
 
   const version = new Version();
+
+  console.log("VERSION!!!")
+  console.log(version);
 
   if (versionIndex !== undefined && versionIndex !== null) {
     version.versionIndex = versionIndex;

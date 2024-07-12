@@ -50,80 +50,86 @@ export class ProductService {
 
   async getProductById(id: string, eager: boolean): Promise<Product | null> {
     const product = await this.productRepository.getProductById(id, eager);
-    const serializedProduct = product!.toJSON();
-
-    return serializedProduct;
-  }
-
-  async updateProduct(id: string, data: any) {
-    const { responsibles } = data;
-
-    const filteredResponsibles = responsibles.filter((resp: Responsible) => {
-      return (
-        (resp.firstName || resp.lastName) && {
-          ...resp,
-          role: resp.role || null,
-        }
-      );
-    });
-
-    const product = await this.productRepository.getProductById(id, false);
-
     if (!product) {
       throw new Error('Product not found');
     }
-
-    // Get existing responsibles
-    const existingResponsibles = product.responsibles;
-
-    // Create maps for quick lookup
-    const existingResponsibleMap = new Map(
-      existingResponsibles.map((resp: any) => [resp.id, resp]),
-    );
-    const newResponsibleMap = new Map(
-      filteredResponsibles.map((resp: any) => [resp.id, resp]),
-    );
-
-    // Identify responsibles to delete
-    for (const existingResponsible of existingResponsibles) {
-      if (!newResponsibleMap.has(existingResponsible.id)) {
-        await this.responsibleRepository.deleteResponsible(
-          existingResponsible.id,
-        );
-      }
+    const serializedProduct = product.toJSON();
+  
+    return serializedProduct;
+  }
+  
+  async updateProduct(id: string, data: any) {
+    const { responsibles } = data;
+  
+    console.log("New product data from ProductService");
+    console.log(data);
+  
+    const product = await this.productRepository.getProductById(id, false);
+  
+    if (!product) {
+      throw new Error('Product not found');
     }
-
-    // Identify responsibles to insert or update
-    for (const newResponsible of filteredResponsibles) {
-      if (existingResponsibleMap.has(newResponsible.id)) {
-        // Update existing responsible if needed
-        const existingResponsible = existingResponsibleMap.get(
-          newResponsible.id,
-        );
-        if (
-          existingResponsible!.firstName !== newResponsible.firstName ||
-          existingResponsible!.lastName !== newResponsible.lastName ||
-          existingResponsible!.role !== newResponsible.role
-        ) {
-          await this.responsibleRepository.updateResponsible(
-            newResponsible.id,
-            newResponsible,
+  
+    console.log("Existing product data from ProductService");
+    console.log(product);
+  
+    let filteredResponsibles: Responsible[] = [];
+    if (responsibles) {
+      filteredResponsibles = responsibles.filter((resp: Responsible) => {
+        return (resp.firstName && resp.lastName) && {
+          ...resp,
+          role: resp.role || null,
+        };
+      });
+    }
+  
+    const existingResponsibles = product.responsibles;
+  
+    if (existingResponsibles && filteredResponsibles.length > 0) {
+      const existingResponsibleMap = new Map(
+        existingResponsibles.map((resp: any) => [resp.id, resp]),
+      );
+      const newResponsibleMap = new Map(
+        filteredResponsibles.map((resp: any) => [resp.id, resp]),
+      );
+  
+      for (const existingResponsible of existingResponsibles) {
+        if (!newResponsibleMap.has(existingResponsible.id)) {
+          await this.responsibleRepository.deleteResponsible(
+            existingResponsible.id,
           );
         }
-      } else {
-        // Insert new responsible
-        const responsibleEntity = buildResponsibleEntity(newResponsible);
-        responsibleEntity.productId = product.id; // Ensure productId is set
-        await this.responsibleRepository.createResponsible(responsibleEntity);
-        product.responsibles.push(responsibleEntity);
+      }
+  
+      for (const newResponsible of filteredResponsibles) {
+        if (existingResponsibleMap.has(newResponsible.id)) {
+          const existingResponsible = existingResponsibleMap.get(
+            newResponsible.id,
+          );
+          if (
+            existingResponsible!.firstName !== newResponsible.firstName ||
+            existingResponsible!.lastName !== newResponsible.lastName ||
+            existingResponsible!.role !== newResponsible.role
+          ) {
+            await this.responsibleRepository.updateResponsible(
+              newResponsible.id,
+              newResponsible,
+            );
+          }
+        } else {
+          const responsibleEntity = buildResponsibleEntity(newResponsible);
+          responsibleEntity.productId = product.id;
+          await this.responsibleRepository.createResponsible(responsibleEntity);
+          product.responsibles.push(responsibleEntity);
+        }
       }
     }
-
-    // Update the product with new data (excluding responsibles which are already handled)
+  
     const { responsibles: _, ...productData } = data;
     return this.productRepository.updateProduct(product.id, productData);
   }
-
+  
+  
   async deleteProduct(id: string): Promise<void> {
     await this.productRepository.deleteProduct(id);
   }
