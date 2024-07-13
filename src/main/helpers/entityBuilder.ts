@@ -103,9 +103,6 @@ export function buildVersionEntity(versionData: any, index: number): Version {
 
   const version = new Version();
 
-  console.log("VERSION!!!")
-  console.log(version);
-
   if (versionIndex !== undefined && versionIndex !== null) {
     version.versionIndex = versionIndex;
   } else {

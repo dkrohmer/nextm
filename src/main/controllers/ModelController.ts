@@ -65,11 +65,7 @@ export class ModelController {
           sort,
           incrementId,
         );
-
-        if (models) {
-          return { models, modelsCount };
-        }
-        throw new Error('Failed to get models');
+        return { models, modelsCount };
       } catch (error) {
         console.error(error);
       }

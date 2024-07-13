@@ -45,10 +45,7 @@ export class IncrementController {
     ipcMain.handle('create-increment', async (_event, data: Increment) => {
       try {
         const increment = await this.incrementService.createIncrement(data);
-        if (increment) {
-          return increment;
-        }
-        throw new Error('Failed to create increment');
+        return increment;
       } catch (error) {
         console.error(error);
       }
@@ -60,7 +57,8 @@ export class IncrementController {
     ipcMain.handle('get-all-increments', async (_event, data) => {
       try {
         let { sort }: { sort: 'asc' | 'desc' } = data;
-        let { sortby }: { sortby: string } = data || 'createdAt';
+        let { sortby }: { sortby: string } = data;
+        sortby = sortby || 'createdAt';
         const { productId }: { productId: string | undefined } = data;
         // let sort = data.sort as 'asc' | 'desc';
         // let sortby = data.sortby as string || 'createdAt';
@@ -76,10 +74,7 @@ export class IncrementController {
 
         const { increments, incrementsCount } =
           await this.incrementService.getAllIncrements(sortby, sort, productId);
-        if (increments) {
-          return { increments, incrementsCount };
-        }
-        throw new Error('Failed to get increments');
+        return { increments, incrementsCount };
       } catch (error) {
         console.error(error);
       }

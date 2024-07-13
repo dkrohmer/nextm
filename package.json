@@ -78,7 +78,9 @@
     ],
     "moduleNameMapper": {
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/.erb/mocks/fileMock.js",
-      "\\.(css|less|sass|scss)$": "identity-obj-proxy"
+      "\\.(css|less|sass|scss)$": "identity-obj-proxy",
+      "^electron$": "<rootDir>/src/__mocks__/electron-mock.ts"
+
     },
     "setupFiles": [
       "./.erb/scripts/check-build-exists.ts"
@@ -96,7 +98,10 @@
     },
     "collectCoverage": true,
     "coverageDirectory": "coverage",
-    "coverageReporters": ["html", "text"]
+    "coverageReporters": [
+      "html",
+      "text"
+    ]
   },
   "dependencies": {
     "@ant-design/icons": "^5.3.7",
@@ -141,7 +146,7 @@
     "@testing-library/react": "^14.0.0",
     "@types/crypto-js": "^4.2.2",
     "@types/electron": "^1.6.10",
-    "@types/jest": "^29.5.5",
+    "@types/jest": "^29.5.12",
     "@types/js-cookie": "^3.0.6",
     "@types/node": "20.6.2",
     "@types/react": "^18.2.21",
@@ -164,6 +169,7 @@
     "electron": "^26.2.1",
     "electron-builder": "^24.6.4",
     "electron-devtools-installer": "^3.2.0",
+    "electron-mock-ipc": "^0.3.12",
     "electronmon": "^2.0.2",
     "eslint": "^8.49.0",
     "eslint-config-airbnb-base": "^15.0.0",
@@ -191,7 +197,7 @@
     "sass-loader": "^13.3.3",
     "style-loader": "^3.3.4",
     "terser-webpack-plugin": "^5.3.10",
-    "ts-jest": "^29.1.1",
+    "ts-jest": "^29.2.2",
     "ts-loader": "^9.5.1",
     "ts-node": "^10.9.1",
     "tsconfig-paths-webpack-plugin": "^4.1.0",

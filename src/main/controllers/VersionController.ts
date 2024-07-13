@@ -53,7 +53,7 @@ export class VersionController {
         // Return the created version with the graph still as an object for immediate use
         return { ...newVersion, payload: graphJson };
       } catch (error) {
-        console.error(error);
+        return error;
       }
     });
 
@@ -71,16 +71,12 @@ export class VersionController {
         if (!validateSortDirection(sort)) {
           sort = 'desc'; // Default to ascending if invalid
         }
-
         const { versions, versionsCount } =
           await this.versionService.getAllVersions(sortby, sort, modelId);
 
-        if (versions) {
-          return { versions, versionsCount };
-        }
-        throw new Error('Failed to get versions');
+        return { versions, versionsCount };
       } catch (error) {
-        console.error(error);
+        return error;
       }
     });
 
@@ -91,6 +87,7 @@ export class VersionController {
       try {
         const { versionId }: { versionId: string } = data;
         const version = await this.versionService.getVersionById(versionId);
+
         if (version) {
           const payloadWithParsedGraph = {
             ...version,
@@ -100,7 +97,7 @@ export class VersionController {
         }
         throw new Error('Failed to get version');
       } catch (error) {
-        console.error(error);
+        return error;
       }
     });
 
@@ -122,13 +119,12 @@ export class VersionController {
             ...latestVersion,
             payload: JSON.parse(latestVersion.payload),
           };
-          // console.log(payloadWithParsedGraph)
 
           return payloadWithParsedGraph;
         }
         throw new Error('Failed to get latest version');
       } catch (error) {
-        console.error(error);
+        return error;
       }
     });
 
@@ -140,7 +136,7 @@ export class VersionController {
         const { modelId }: { modelId: string } = data;
         await this.versionService.deleteVersion(modelId);
       } catch (error) {
-        console.error(error);
+        return error;
       }
     });
   }

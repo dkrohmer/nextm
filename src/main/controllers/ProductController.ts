@@ -57,11 +57,7 @@ export class ProductController {
 
         const { products, productsCount } =
           await this.productService.getAllProducts(limit, offset, sort, sortby);
-
-        if (products) {
-          return { products, productsCount };
-        }
-        throw new Error('Failed to get products');
+        return { products, productsCount };
       } catch (error) {
         console.error(error);
       }
