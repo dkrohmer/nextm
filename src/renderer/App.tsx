@@ -12,7 +12,7 @@ import Product from './components/products/Product';
 import TopBar from './components/TopBar';
 import ModelEditor from './applets/model-editor/ModelEditor';
 import Footer from './components/Footer';
-import Sidebar from './components/Sidebar';
+import Sidebar from './components/SideBar';
 import { ToastManager } from './components/ToastManager';
 import store, { AppDispatch, RootState } from './store'; // Ensure this imports your configured Redux store
 
