@@ -1,4 +1,4 @@
-import { ipcMain, ipcRenderer } from '../../../__mocks__/electron-mock';
+import { ipcMain, ipcRenderer } from 'electron';
 import { ProductService } from '../../../main/services/ProductService';
 import { ProductController } from '../../../main/controllers/ProductController';
 import { Product } from '../../../main/models/Product';

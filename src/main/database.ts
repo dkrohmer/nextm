@@ -1,3 +1,4 @@
+// database.ts
 import { DataSource } from 'typeorm';
 
 import { Product } from './models/Product';
@@ -11,13 +12,6 @@ import { ProductController } from './controllers/ProductController';
 import { VersionController } from './controllers/VersionController';
 
 export let AppDataSource: DataSource;
-// export const AppDataSource = new DataSource({
-//   type: 'sqlite',
-//   database: 'database.sqlite',
-//   synchronize: true,
-//   logging: false,
-//   entities: [Product, Responsible, Increment],
-// });
 
 export const initializeDataSource = async (databasePath: string) => {
   console.log(`Initializing data source with database path: ${databasePath}`);

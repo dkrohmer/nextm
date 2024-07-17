@@ -2,33 +2,6 @@
 /* eslint no-unused-vars: off */
 import { contextBridge, ipcRenderer } from 'electron';
 
-// const electronHandler = {
-//   ipcRenderer: {
-//     sendMessage(channel: Channels, ...args: unknown[]) {
-//       ipcRenderer.send(channel, ...args);
-//     },
-//     on(channel: Channels, func: (...args: unknown[]) => void) {
-//       const subscription = (_event: IpcRendererEvent, ...args: unknown[]) =>
-//         func(...args);
-//       ipcRenderer.on(channel, subscription);
-
-//       return () => {
-//         ipcRenderer.removeListener(channel, subscription);
-//       };
-//     },
-//     once(channel: Channels, func: (...args: unknown[]) => void) {
-//       ipcRenderer.once(channel, (_event, ...args) => func(...args));
-//     },
-//   },
-// };
-
-// contextBridge.exposeInMainWorld('electron', electronHandler);
-// preload.js
-
-// In a suitable TypeScript file (e.g., typings.d.ts or directly in Sidebar.tsx)
-
-// export type Channels = 'pong';
-
 // TODO: change "payload: any" to respective types.
 const electronHandler = {
   // general
