@@ -11,8 +11,8 @@ import Products from './components/products/Products';
 import Product from './components/products/Product';
 import TopBar from './components/TopBar';
 import ModelEditor from './applets/model-editor/ModelEditor';
-import SideBar from './components/SideBar';
 import Footer from './components/Footer';
+import Sidebar from './components/Sidebar';
 import { ToastManager } from './components/ToastManager';
 import store, { AppDispatch, RootState } from './store'; // Ensure this imports your configured Redux store
 
@@ -53,7 +53,7 @@ const App: React.FC = () => {
   return (
     <div className="app-container">
       <SidebarPushable>
-        <SideBar />
+        <Sidebar />
         <SidebarPusher className="sidebar-pusher">
           <ToastManager />
           <TopBar />
@@ -62,22 +62,10 @@ const App: React.FC = () => {
               <Route path="/" element={<Navigate to="/products" replace />} />
               <Route path="/products" element={<Products />} />
               <Route path="/products/:productId" element={<Product />} />
-              <Route
-                path="/products/:productId/increments"
-                element={<Product />}
-              />
-              <Route
-                path="/products/:productId/increments/:incrementId"
-                element={<Product />}
-              />
-              <Route
-                path="/products/:productId/increments/:incrementId/models"
-                element={<Product />}
-              />
-              <Route
-                path="/products/:productId/increments/:incrementId/models/:modelId"
-                element={<ModelEditor />}
-              />
+              <Route path="/products/:productId/increments" element={<Product />} />
+              <Route path="/products/:productId/increments/:incrementId" element={<Product />} />
+              <Route path="/products/:productId/increments/:incrementId/models" element={<Product />} />
+              <Route path="/products/:productId/increments/:incrementId/models/:modelId" element={<ModelEditor />} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </div>
