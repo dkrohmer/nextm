@@ -1,0 +1,27 @@
+.settings {
+  border: 0.5px solid gray !important;
+  border-radius: 4px !important;
+}
+
+.settings-title {
+  padding-top: 10px !important;
+  padding-left: 15px !important;
+}
+
+.settings-label {
+  display: inline-block;
+}
+
+.settings-info {
+  display: inline-block;
+  padding-left: 10px;
+}
+
+.settings-input-path-change {
+  direction: rtl;
+  text-overflow: ellipsis;
+}
+
+.settings-form-padded {
+  padding-top: 50px;
+}

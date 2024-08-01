@@ -1,0 +1,21 @@
+.topbar-menu {
+  margin: 0px !important;
+  padding: 0px !important; 
+  border-radius: 0px !important;
+}
+
+.topbar-menu-header {
+  display: flex;
+  align-items: center;
+  margin: 10px;
+}
+
+.topbar-menu-header-img {
+  margin: 10px;
+  width: 150px;
+  padding: 0px;
+}
+
+.topbar-menu-item-settings {
+  cursor: pointer;
+}

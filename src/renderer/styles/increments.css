@@ -1,0 +1,23 @@
+.increments-header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.increments-header-title {
+  flex: 1;
+}
+
+.increments-header-text {
+  font-size: 16px;
+  margin-bottom: 0;
+}
+
+.increments-segment {
+  min-height: 150px;
+  padding-bottom: 50px !important;
+}
+
+.increments-message {
+  text-align: center;
+}

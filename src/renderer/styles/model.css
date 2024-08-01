@@ -1,0 +1,28 @@
+.model-error-message {
+    text-align: center;
+  }
+  
+.model-clickable-row {
+  cursor: pointer;
+  align-items: center;
+  display: flex;
+  padding: 10px;
+  border-radius: 5px;
+  border: 0px;
+}
+
+.model-thumbnail {
+  width: 150px;
+  margin-right: 10px;
+  border: 0.5px solid gray;
+}
+
+.model-content {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.model-actions {
+  display: flex;
+  align-items: center;
+}

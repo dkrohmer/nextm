@@ -1,0 +1,25 @@
+.toolbar {
+  background-color: #282828;
+  position: absolute;
+  width: 100%;
+  z-index: 2;
+  border-top: 0.5px solid #404040;
+}  
+
+.x6-toolbar-group::before {
+background-color: #404040;
+}
+
+.x6-toolbar.x6-toolbar-hover-effect { 
+color: #000;
+}
+
+.x6-toolbar-item-icon {
+color: #fff;
+}
+
+.save-and-close-button {
+  position: absolute;
+  right: 0;
+  height: 32px
+}

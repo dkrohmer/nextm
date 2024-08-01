@@ -1,0 +1,144 @@
+.products-container {
+  margin-top: 10em;
+}
+
+.products-breadcrumb {
+  margin-bottom: 20px;
+}
+
+.products-filters {
+  display: flex;
+  padding-top: 20px;
+}
+
+.products-filter-buttons {
+  flex: 1;
+  display: flex;
+  justify-content: left;
+}
+
+.products-sort-button {
+  margin-right: 10px;
+}
+
+.products-add-product-button {
+  margin-left: auto;
+}
+
+.products-table-cell-max-width {
+  max-width: 200px;
+}
+
+.products-table-description-cell {
+  max-width: 300px;
+}
+
+.products-table-responsibles-cell {
+  max-width: 300px;
+}
+
+.products-table-responsibles-cell-label {
+  margin: 2px;
+}
+
+.products-ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.products-action-icons .button {
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
+}
+
+.products-action-icons .button:hover {
+  opacity: 1;
+  background-color: transparent;
+}
+
+.products-action-icons .button .icon {
+  color: inherit;
+}
+
+.products-action-icons {
+  display: flex;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+.products-pagination-items-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 20px;
+  padding-bottom: 50px;
+}
+
+.products-items-per-page {
+  font-size: 14px;
+  width: auto;
+  max-width: 120px;
+}
+
+.products-empty-message-header {
+  font-weight: bold;
+}
+
+.products-empty-message-body {
+  margin-top: 5px;
+}
+
+.products-modal-field {
+  margin-bottom: 20px;
+}
+
+.products-modal-form-button-group {
+  display: flex;
+  justify-content: space-between;
+}
+
+.products-modal-cancel-button {
+  color: #333;
+}
+
+.products-modal-add-responsible-button {
+  margin-bottom: 20px;
+}
+
+/* semantic ui overrides */
+.ui.grid > .row {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.ui.grid > .row > .column {
+  display: flex;
+  align-items: center;
+}
+
+.ui.table.no-border-table {
+  border-top: none !important;
+  border-bottom: none !important;
+}
+
+.ui.item-group .item:hover {
+  background-color: #f4f4f5;
+  cursor: pointer;
+}
+
+.form-button-group {
+  display: flex;
+  justify-content: space-between;
+}
+
+.cancel-button {
+  margin-left: auto;
+}
+
+.ui.table th {
+  max-width: 180px;
+}

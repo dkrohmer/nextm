@@ -1,0 +1,31 @@
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.sidebar-pusher {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.content-wrapper {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.ui.sidebar {
+  height: 100%;
+}
+
+.ui.sidebar + .pusher {
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}

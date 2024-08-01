@@ -1,0 +1,12 @@
+.models-segment {
+  min-height: 100px;
+}
+
+.models-message {
+  text-align: center;
+}
+
+.models-add-button {
+  margin-top: 1rem;
+  width: 100%;
+}

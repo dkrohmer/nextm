@@ -1,0 +1,19 @@
+.product-container {
+  margin-top: 5em;
+}
+
+.product-segment {
+  min-height: 150px;
+}
+
+.product-error-message {
+  text-align: center;
+}
+
+.product-row {
+  padding-bottom: 0;
+}
+
+.product-label {
+  margin: 2px;
+}

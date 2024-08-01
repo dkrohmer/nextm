@@ -1,0 +1,39 @@
+.drag-and-drop-area {
+    background: #f0f0f0;
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+  }
+  
+  .drag-and-drop-area.dragging {
+    border: 2px dashed #2185d0;
+  }
+  
+  .import-icon {
+    font-size: 50px;
+    color: gray;
+    padding: 20px;
+  }
+  
+  .file-message {
+    color: gray;
+  }
+  
+  .error-message {
+    color: red;
+  }
+  
+  .hidden-input {
+    display: none;
+  }
+  
+  .form-button-group {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .cancel-button {
+    margin-left: 10px;
+  }

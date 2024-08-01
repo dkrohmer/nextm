@@ -1,0 +1,11 @@
+.x6-widget-stencil  {
+border: 0.5px solid;
+border-radius: 5px;
+
+}
+
+.x6-widget-stencil-title {
+background-color: #282828;
+border-top-left-radius: 5px;
+border-top-right-radius: 5px;
+}

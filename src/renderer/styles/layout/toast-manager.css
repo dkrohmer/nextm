@@ -1,0 +1,8 @@
+.toast-container {
+  margin-top: 120px;
+  background: #1b1c1d;
+  color: #ffffff;
+  box-shadow: 0 .5px 3px rgba(0, 0, 0, 0.2);
+  border-radius: 0.28571429rem;
+  border: 0.5px white solid;
+}

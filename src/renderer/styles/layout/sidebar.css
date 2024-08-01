@@ -1,0 +1,21 @@
+.sidebar {
+  padding: 15px;
+}
+
+.ui.sidebar {
+  height: 100%;
+}
+
+.ui.sidebar + .pusher {
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-pusher {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
