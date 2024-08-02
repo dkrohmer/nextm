@@ -28,6 +28,7 @@ const registerEdgeTargetHandle = () => {
   }
 };
 
+
 const registerEdgeVertices = () => {
   if (!Registry.EdgeTool.registry.data['edge-vertices']) {
     Graph.registerEdgeTool('edge-vertices', {

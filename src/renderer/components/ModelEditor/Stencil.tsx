@@ -1,6 +1,7 @@
 import React from 'react';
 import { Graph } from '@antv/x6';
 import useSetupStencil from '../../hooks/model-editor/useSetupStencil';
+import '../../styles/model-editor/stencil.css'
 
 interface StencilContainerProps {
   graph: Graph;

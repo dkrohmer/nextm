@@ -92,7 +92,7 @@ const create = (
     .use(new Snapline())
     .use(
       new Selection({
-        className: 'selection',
+        className: 'custom-selection',
         rubberband: true,
         showNodeSelectionBox: true,
         showEdgeSelectionBox: true,
@@ -108,6 +108,8 @@ const create = (
       new History({
         beforeAddCommand: (event: string, args: any) => {
           let keepItemInHistory: boolean = true;
+
+          // do not keep vertices in history
           if (args && args.current && args.current.items) {
             const { items } = args.current;
             for (const item of items) {
@@ -121,6 +123,7 @@ const create = (
             }
           }
 
+          // do not keep vertices in history
           if (args && args.previous && args.previous.items) {
             const { items } = args.previous;
             for (const item of items) {
@@ -131,6 +134,13 @@ const create = (
               ) {
                 keepItemInHistory = false;
               }
+            }
+          }
+
+          // do not keep mouse hover highlighting in history
+          if (args && args.options && args.options.propertyPath) {
+            if (args.options.propertyPath === 'attrs/line/strokeWidth' || args.options.propertyPath === 'attrs/body/strokeWidth') {
+              keepItemInHistory = false;
             }
           }
 

@@ -1,13 +1,14 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { AppDispatch } from '../store';
-import { fetchProduct } from '../services/api/products';
-import { fetchIncrement } from '../services/api/increments';
-import { fetchModel } from '../services/api/models';
-import { fetchLatestVersion } from '../services/api/versions';
+import { AppDispatch } from '../../store';
+import { fetchProduct } from '../../services/api/products';
+import { fetchIncrement } from '../../services/api/increments';
+import { fetchModel } from '../../services/api/models';
+import { fetchLatestVersion } from '../../services/api/versions';
+import { IVersion } from '../../interfaces/IVersion';
 
-const useFetchObjects = () => {
+const useFetchObjects = (latestVersion: IVersion | null) => {
   const { productId, incrementId, modelId } = useParams();
   const dispatch = useDispatch<AppDispatch>();
 
@@ -18,7 +19,7 @@ const useFetchObjects = () => {
       dispatch(fetchModel({ modelId, isEagerLoading: false }));
       dispatch(fetchLatestVersion({ modelId }));
     }
-  }, [dispatch, productId, incrementId, modelId]);
+  }, [dispatch, productId, incrementId, modelId, latestVersion!.id]);
 };
 
 export default useFetchObjects;

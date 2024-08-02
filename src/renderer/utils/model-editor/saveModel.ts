@@ -14,6 +14,8 @@ export async function saveModel (
     const oldGraph = latestVersion.payload.cells;
     const newGraph = graph.toJSON().cells;
 
+    if (!oldGraph || !newGraph) return;
+
     if (compareGraphHashes(oldGraph, newGraph)) return;
 
     const { x, y, height, width }: Rectangle = graph.getGraphArea();

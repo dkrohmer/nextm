@@ -5,7 +5,7 @@ import { Graph } from '@antv/x6';
 import { RootState, AppDispatch } from '../../store';
 import { saveModel } from '../../utils/model-editor/saveModel';
 import { handleNavigate } from '../../utils/model-editor/navigationHandler';
-import useFetchObjects from '../../hooks/useFetchObjects';
+import useFetchObjects from '../../hooks/model-editor/useFetchObjects';
 import useLoadLatestGraph from '../../hooks/model-editor/useLoadLatestGraph';
 import useFocusContainer from '../../hooks/model-editor/useFocusContainer';
 import useFocusOnSidebarChange from '../../hooks/useFocusOnSidebarChange';
@@ -17,6 +17,7 @@ import useNodeEmbed from '../../hooks/model-editor/useNodeEmbed';
 import useKeys from '../../hooks/model-editor/useKeys';
 import useKeysPreventDefault from '../../hooks/model-editor/useKeysPreventDefault';
 import useInitializeGraph from '../../hooks/model-editor/useInitializeGraph';
+import useHoverCells from '../../hooks/model-editor/useHoverCells';
 import ModelEditorBreadcrumbs from './Breadcrumbs';
 import ModelEditorLoader from './Loader';
 import ModelEditorError from './Error';
@@ -41,17 +42,18 @@ const ModelEditor: React.FC = () => {
 
   const [graph, setGraph] = useState<Graph | undefined>(undefined);
 
-  useFetchObjects();
+  useFetchObjects(latestVersion);
   useLoadLatestGraph(graph);
   useFocusContainer(containerRef);
   useFocusOnSidebarChange(containerRef);
   useUpdateGrid(graph, gridVisible);
+  useKeys(graph);
+  useKeysPreventDefault();
   useNodeAdded(graph);
   useEdgeEvents(graph);
   useNodeEvents(graph);
   useNodeEmbed(graph);
-  useKeys(graph);
-  useKeysPreventDefault();
+  useHoverCells(graph);
   useInitializeGraph(containerRef, minimapRef, isGraphInitialized, setGraph, gridVisible);
 
   return (
