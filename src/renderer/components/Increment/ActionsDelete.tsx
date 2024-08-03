@@ -4,6 +4,7 @@ import { Button, Icon, Popup } from 'semantic-ui-react';
 import { handleDelete } from '../../utils/incrementHandlers';
 import { AppDispatch } from '../../store';
 import { IIncrement } from '../../interfaces/IIncrement';
+import '../../styles/products.css'; // Ensure this path is correct based on your project structure
 
 interface ActionsDeleteProps {
   increment: IIncrement;
@@ -20,7 +21,7 @@ const ActionsDelete: React.FC<ActionsDeleteProps> = ({
     <Popup
       trigger={
         <Button
-          className="action-delete"
+          className="action-button"
           basic
           size="tiny"
           icon

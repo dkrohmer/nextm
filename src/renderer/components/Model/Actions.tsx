@@ -5,6 +5,7 @@ import ModelActionsClone from './ActionsClone';
 import ModelActionsDelete from './ActionsDelete';
 import { AppDispatch } from '../../store';
 import type { IModel } from '../../interfaces/IModel';
+import '../../styles/products.css'; // Ensure this path is correct based on your project structure
 
 interface ActionsProps {
   model: IModel;

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Icon, Popup } from 'semantic-ui-react';
 import { IProduct } from '../../interfaces/IProduct';
+import '../../styles/products.css'; // Ensure this path is correct based on your project structure
 
 interface TableCellActionsDeleteProps {
   product: IProduct;
@@ -16,7 +17,11 @@ const TableCellActionsDelete: React.FC<TableCellActionsDeleteProps> = ({
   return (
     <Popup
       trigger={
-        <Button basic size="tiny" icon
+        <Button
+          basic
+          size="tiny"
+          icon
+          className="products-button"
           onClick={(e) => {
             e.stopPropagation();
             setProductToDelete(product.id);

@@ -35,3 +35,12 @@
   display: flex;
   align-items: center;
 }
+
+.model-actions .action-button {
+  opacity: 0.2;
+  transition: opacity 0.3s ease;
+}
+
+.model-actions .action-button:hover {
+  opacity: 1;
+}

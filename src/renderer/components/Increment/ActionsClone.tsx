@@ -4,6 +4,7 @@ import { Button, Icon, Popup } from 'semantic-ui-react';
 import { IIncrement } from '../../interfaces/IIncrement';
 import { handleClone } from '../../utils/incrementHandlers';
 import { AppDispatch } from '../../store';
+import '../../styles/products.css'; // Ensure this path is correct based on your project structure
 
 interface ActionsCloneProps {
   increment: IIncrement;
@@ -20,7 +21,7 @@ const ActionsClone: React.FC<ActionsCloneProps> = ({
     <Popup
       trigger={
         <Button
-          className="action-clone"
+          className="action-button"
           basic
           size="tiny"
           icon
