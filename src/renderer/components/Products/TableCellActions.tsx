@@ -1,4 +1,5 @@
 import React from 'react';
+import { Table } from 'semantic-ui-react';
 import { IProduct } from '../../interfaces/IProduct';
 import TableCellActionsEdit from './TableCellActionsEdit';
 import TableCellActionsClone from './TableCellActionsClone';
@@ -15,7 +16,7 @@ const TableCellActions: React.FC<TableCellActionsProps> = ({
   setProductToDelete,
   setOpenConfirm,
 }) => (
-  <div className="products-action-icons">
+  <Table.Cell className="products-table-actions-cell">
     <TableCellActionsEdit product={product} />
     <TableCellActionsClone product={product} />
     <TableCellActionsDelete
@@ -23,7 +24,7 @@ const TableCellActions: React.FC<TableCellActionsProps> = ({
       setProductToDelete={setProductToDelete}
       setOpenConfirm={setOpenConfirm}
     />
-  </div>
+  </Table.Cell>
 );
 
 export default TableCellActions;

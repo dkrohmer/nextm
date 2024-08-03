@@ -6,7 +6,7 @@ interface TableCellCreatedProps {
 }
 
 const TableCellCreated: React.FC<TableCellCreatedProps> = ({ createdAt }) => (
-  <Table.Cell>
+  <Table.Cell className="products-table-created-at-cell">
     {new Date(createdAt).toLocaleString()}
   </Table.Cell>
 );

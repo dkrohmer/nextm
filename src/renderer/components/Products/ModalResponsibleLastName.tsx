@@ -16,6 +16,7 @@ const ModalResponsibleLastName: React.FC<ModalResponsibleLastNameProps> = ({ ind
 
   return (
     <Form.Input
+      required
       placeholder="Last Name"
       value={responsible.lastName}
       onChange={(e) =>

@@ -24,7 +24,7 @@ const TableCellActionsClone: React.FC<TableCellActionsCloneProps> = ({ product }
           <Icon name="clone" />
         </Button>
       }
-      content={`Clone product "${product.name}"`}
+      content={<span><strong>Clone product</strong> "{product.name}"</span>}
     />
   );
 };

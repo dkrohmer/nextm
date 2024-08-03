@@ -16,6 +16,7 @@ const ModalResponsibleFirstName: React.FC<ModalResponsibleFirstNameProps> = ({ i
 
   return (
     <Form.Input
+      required
       placeholder="First Name"
       value={responsible.firstName}
       onChange={(e) =>

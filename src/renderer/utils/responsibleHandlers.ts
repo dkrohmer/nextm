@@ -21,24 +21,24 @@ export const addResponsible = (
   }
 };
 
+
 export const removeResponsible = (
   index: number,
   productsCurrentProduct: IProduct | null,
   dispatch: AppDispatch
 ) => {
   if (productsCurrentProduct) {
-    const updatedResponsibles =
-      productsCurrentProduct.responsibles?.length === 1
-        ? [{ id: '', firstName: '', lastName: '', role: '' }]
-        : productsCurrentProduct.responsibles?.filter((_, i) => i !== index) || [];
+    const updatedResponsibles = productsCurrentProduct.responsibles?.filter((_, i) => i !== index) || [];
+    
     dispatch(
       setProductsCurrentProduct({
         ...productsCurrentProduct,
-        responsibles: updatedResponsibles,
+        responsibles: updatedResponsibles.length ? updatedResponsibles : [],
       })
     );
   }
 };
+
 
 export const handleResponsibleChange = (
   index: number,

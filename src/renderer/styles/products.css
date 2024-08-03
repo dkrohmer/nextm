@@ -25,7 +25,14 @@
   margin-left: auto;
 }
 
-.products-table-cell-max-width {
+.products-ellipsis {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.products-table-name-cell {
   max-width: 200px;
 }
 
@@ -34,17 +41,27 @@
 }
 
 .products-table-responsibles-cell {
-  max-width: 300px;
+  max-width: 250px;
 }
 
 .products-table-responsibles-cell-label {
-  margin: 2px;
+  margin: 2px !important;
 }
 
-.products-ellipsis {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.products-table-responsibles-cell-label .icon {
+  margin-right: 5px;
+}
+
+.products-table-created-at-cell {
+  max-width: 150px;
+}
+
+.products-table-deadline-cell {
+  max-width: 100px;
+}
+
+.products-table-actions-cell {
+  min-width: 130px;
 }
 
 .products-action-icons .button {
@@ -141,4 +158,42 @@
 
 .ui.table th {
   max-width: 180px;
+}
+
+/* Responsive Table Styles */
+.segment.basic {
+  overflow-x: auto;
+  padding: 0;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .ui.table th, .ui.table td {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .ui.table th {
+    text-align: left;
+  }
+
+  .ui.table td {
+    border-top: none !important;
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+  }
+
+  .ui.table td:before {
+    content: attr(data-label);
+    flex: 1;
+    font-weight: bold;
+    padding-right: 10px;
+    white-space: nowrap;
+  }
+
+  .products-action-icons {
+    justify-content: flex-end !important;
+  }
 }

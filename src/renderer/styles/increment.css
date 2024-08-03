@@ -1,32 +1,31 @@
 .increment-wrapper {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-  }
-  
-  .increment-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .increment-title {
-    flex-grow: 1;
-    display: flex;
-    align-items: center;
-  }
-  
-  .increment-actions {
-    display: flex;
-    align-items: center;
-    visibility: hidden;
-  }
-  
-  .increment-actions.visible {
-    visibility: visible;
-  }
-  
-  .increment-content {
-    padding-left: 2em;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.increment-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.increment-title {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+}
+
+.increment-actions {
+  display: flex;
+  align-items: center;
+  visibility: hidden;
+}
+
+.increment-actions.visible {
+  visibility: visible;
+}
+
+.increment-content {
+  padding-left: 2em;
+}

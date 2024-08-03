@@ -27,7 +27,7 @@ const TableCellActionsEdit: React.FC<TableCellActionsEditProps> = ({ product }) 
           <Icon name="pencil" />
         </Button>
       }
-      content={`Edit product "${product.name}"`}
+      content={<span><strong>Edit product</strong> "{product.name}"</span>}
     />
   );
 };

@@ -12,11 +12,11 @@ interface ActionsCloneProps {
 const ActionsClone: React.FC<ActionsCloneProps> = ({ model, dispatch }) => (
   <Popup
     trigger={
-      <Button icon size="tiny" onClick={(e) => handleClone(e, model, dispatch)}>
+      <Button basic icon size="tiny" onClick={(e) => handleClone(e, model, dispatch)}>
         <Icon name="clone" />
       </Button>
     }
-    content={`Clone model "${model.name}"`}
+    content={<span><strong>Clone model</strong> "{model.name}"</span>}
   />
 );
 

@@ -4,6 +4,7 @@ import { Form, Checkbox } from 'semantic-ui-react';
 import { RootState } from '../../store';
 import { handleDataflowModalStrideChange } from '../../utils/model-editor/dataflowModalHandlers';
 import type { DataflowStride } from '../../store/modelEditor';
+import '../../styles/model-editor/dataflow-modal.css'; // Import the CSS file
 
 const DataflowModalStride: React.FC = () => {
   const dispatch = useDispatch();
@@ -12,7 +13,7 @@ const DataflowModalStride: React.FC = () => {
   return (
     <div className="field" style={{ paddingBottom: '5px' }}>
       <label>STRIDE threats</label>
-      <Form.Group>
+      <Form.Group className="checkbox-group">
         {Object.keys(dataflowStride).map((key) => (
           <Form.Field key={key}>
             <Checkbox

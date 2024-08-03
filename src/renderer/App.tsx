@@ -13,10 +13,12 @@ import {
 } from './components';
 import store from './store';
 import useInitializeApp from './hooks/useInitializeApp';
+import usePreventDefaultHistoryKeys from './hooks/usePreventDefaultHistoryKeys';
 import './styles/app.css'
 
 const App: React.FC = () => {
   useInitializeApp();
+  usePreventDefaultHistoryKeys();
 
   return (
     <div className="app-container">

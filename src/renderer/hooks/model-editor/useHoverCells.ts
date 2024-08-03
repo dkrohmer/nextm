@@ -8,9 +8,9 @@ const useHoverCells = (graph?: Graph) => {
 
     const hoverCells = ({ cell }: { cell: Cell }) => {
       if (cell.isNode()) {
-        cell.attr('body/strokeWidth', 2);
+        cell.attr('body/strokeWidth', 3);
       } else if (cell.isEdge()) {
-        cell.attr('line/strokeWidth', 2);
+        cell.attr('line/strokeWidth', 3);
       }
     }
 

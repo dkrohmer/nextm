@@ -12,7 +12,7 @@ const ModalResponsible: React.FC = () => {
   const { productsCurrentProduct } = useSelector((state: RootState) => state.products);
 
   return (
-    <div className="products-modal-field">
+    <div className="field">
       <label>Responsible(s)</label>
       {productsCurrentProduct?.responsibles?.map((responsible, index) => (
         <Form.Group width="equal" key={index}>

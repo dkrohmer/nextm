@@ -12,11 +12,11 @@ interface ModelActionsEditProps {
 const ModelActionsEdit: React.FC<ModelActionsEditProps> = ({ model, dispatch }) => (
   <Popup
     trigger={
-      <Button icon size="tiny" onClick={(e) => handleEdit(e, model, dispatch)}>
+      <Button basic icon size="tiny" onClick={(e) => handleEdit(e, model, dispatch)}>
         <Icon name="pencil" />
       </Button>
     }
-    content={`Edit model "${model.name}"`}
+    content={<span><strong>Edit model</strong> "{model.name}"</span>}
   />
 );
 

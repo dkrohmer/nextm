@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Button, Icon, Popup } from 'semantic-ui-react';
 import { IIncrement } from '../../interfaces/IIncrement';
@@ -12,18 +12,28 @@ interface ActionsEditProps {
 
 const ActionsEdit: React.FC<ActionsEditProps> = ({
   increment,
-  number,
 }) => {
   const dispatch = useDispatch<AppDispatch>();
+  const [popupOpen, setPopupOpen] = useState(false);
 
   return (
     <Popup
       trigger={
-        <Button basic size="tiny" icon onClick={(e) => handleEdit(e, dispatch, increment)}>
+        <Button
+          className="action-edit"
+          basic
+          size="tiny"
+          icon
+          onClick={(e) => handleEdit(e, dispatch, increment)}
+          onMouseEnter={() => setPopupOpen(true)}
+          onMouseLeave={() => setPopupOpen(false)}
+        >
           <Icon name="pencil" />
         </Button>
       }
-      content={`Edit increment "#${number}: ${increment.name}"`}
+      content={<span><strong>Edit increment</strong> "{increment.name}"</span>}
+      open={popupOpen}
+      onClose={() => setPopupOpen(false)}
     />
   );
 };

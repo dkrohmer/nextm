@@ -6,7 +6,7 @@ interface TableCellDeadlineProps {
 }
 
 const TableCellDeadline: React.FC<TableCellDeadlineProps> = ({ endsAt }) => (
-  <Table.Cell>
+  <Table.Cell className="products-table-name-cell">
     {endsAt ? new Date(endsAt).toLocaleDateString() : 'n/a'}
   </Table.Cell>
 );

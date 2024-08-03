@@ -15,7 +15,7 @@ const Actions: React.FC<ActionsProps> = ({ model, dispatch }) => (
   <List.Content className="model-actions">
     <ModelActionsEdit model={model} dispatch={dispatch} />
     <ModelActionsClone model={model} dispatch={dispatch} />
-    <ModelActionsDelete modelId={model.id} dispatch={dispatch} />
+    <ModelActionsDelete model={model} dispatch={dispatch} />
   </List.Content>
 );
 

@@ -11,6 +11,15 @@
   border: 0px;
 }
 
+.model-clickable-row:hover {
+  background-color: #f0f0f0;
+}
+
+.model-clickable-row a {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
 .model-thumbnail {
   width: 150px;
   margin-right: 10px;

@@ -61,17 +61,11 @@ export class ProductService {
   async updateProduct(id: string, data: any) {
     const { responsibles } = data;
   
-    console.log("New product data from ProductService");
-    console.log(data);
-  
     const product = await this.productRepository.getProductById(id, false);
   
     if (!product) {
       throw new Error('Product not found');
     }
-  
-    console.log("Existing product data from ProductService");
-    console.log(product);
   
     let filteredResponsibles: Responsible[] = [];
     if (responsibles) {
@@ -85,7 +79,7 @@ export class ProductService {
   
     const existingResponsibles = product.responsibles;
   
-    if (existingResponsibles && filteredResponsibles.length > 0) {
+    if (existingResponsibles) {
       const existingResponsibleMap = new Map(
         existingResponsibles.map((resp: any) => [resp.id, resp]),
       );

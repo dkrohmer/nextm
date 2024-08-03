@@ -26,7 +26,7 @@ const TableCellActionsDelete: React.FC<TableCellActionsDeleteProps> = ({
           <Icon color="red" name="trash" />
         </Button>
       }
-      content={`Delete product "${product.name}"`}
+      content={<span><strong>Delete product</strong> "{product.name}"</span>}
     />
   );
 };
