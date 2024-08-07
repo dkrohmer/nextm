@@ -1,12 +1,12 @@
 import React from 'react';
 import { List } from 'semantic-ui-react';
 
-const toolName = "nexTM";
-const toolVersion = "v0.1.0";
+const appName = process.env.APP_NAME;
+const appVersion = process.env.APP_VERSION;
 
 const FooterToolInfo: React.FC = () => (
   <List.Item>
-    {toolName} {toolVersion}
+    {appName} {appVersion}
   </List.Item>
 );
 

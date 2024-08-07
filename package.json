@@ -1,5 +1,28 @@
 {
-  "description": "A foundation for scalable desktop apps",
+  "name": "nexTM",
+  "version": "0.1.0",
+  "year": "2024",
+  "description": "nexTM is a threat modeling tool tailored towards agile software development.",
+  "license": "AGPL v3.0",
+  "licenseUrl": "https://www.gnu.org/licenses/agpl-3.0.txt", 
+  "github": "https://github.com/dkrohmer/nextm",
+  "discord": "https://discord.gg/NUXjtM43A3",
+  "patreon": "https://patreon.com/nextm",
+  "author": {
+    "name": "Daniel Krohmer",
+    "email": "dkrohmer@proton.me",
+    "url": "https://github.com/dkrohmer"
+  },
+  "contributors": [
+  ],
+  "homepage": "https://github.com/dkrohmer/nextm#readme",
+  "bugs": {
+    "url": "https://github.com/dkrohmer/nextm/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dkrohmer/nextm.git"
+  },
   "keywords": [
     "electron",
     "boilerplate",
@@ -10,27 +33,6 @@
     "webpack",
     "hot",
     "reload"
-  ],
-  "homepage": "https://github.com/electron-react-boilerplate/electron-react-boilerplate#readme",
-  "bugs": {
-    "url": "https://github.com/electron-react-boilerplate/electron-react-boilerplate/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/electron-react-boilerplate/electron-react-boilerplate.git"
-  },
-  "license": "MIT",
-  "author": {
-    "name": "Electron React Boilerplate Maintainers",
-    "email": "electronreactboilerplate@gmail.com",
-    "url": "https://electron-react-boilerplate.js.org"
-  },
-  "contributors": [
-    {
-      "name": "Amila Welihinda",
-      "email": "amilajack@gmail.com",
-      "url": "https://github.com/amilajack"
-    }
   ],
   "main": "./src/main/main.ts",
   "scripts": {
