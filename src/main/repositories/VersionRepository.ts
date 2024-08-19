@@ -41,6 +41,18 @@ export class VersionRepository {
     });
   }
 
+  async getLatestVersionThumbnailByModelId(modelId: string): Promise<string | null> {
+    const version = await this.versionRepository.findOne({
+      where: { modelId },
+      order: {
+        versionIndex: 'DESC',
+      },
+      select: ['thumbnail'],  // Select only the thumbnail field
+    });
+    return version ? version.thumbnail : null;  // Return only the thumbnail
+  }
+  
+
   async countVersionsByModelId(modelId: string): Promise<number> {
     return await this.versionRepository.count({ where: { modelId } });
   }

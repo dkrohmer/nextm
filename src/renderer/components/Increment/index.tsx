@@ -6,46 +6,83 @@ import type { IProduct } from '../../interfaces/IProduct';
 import '../../styles/increment.css';
 import Title from './Title';
 import Actions from './Actions';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../store';
+import { setIncrementsActiveIndex } from '../../store/increments';
+import { useNavigate } from 'react-router-dom';
 
 interface IncrementProps {
-  increment: IIncrement;
   product: IProduct;
+  increment: IIncrement;
   index: number;
-  number: number;
-  isActive: boolean;
-  handleAccordionClick: (
-    e: React.MouseEvent<HTMLDivElement>,
-    titleProps: any,
-  ) => void;
 }
 
-const Increment: React.FC<IncrementProps> = ({
-  increment,
-  product,
-  index,
-  number,
-  isActive,
-  handleAccordionClick,
-}) => {
+const Increment: React.FC<IncrementProps> = ( { product, increment, index } ) => {  
+  /*
+   * local states
+   */  
   const [isHovering, setIsHovering] = useState(false);
 
+  /*
+   * global states
+   */  
+  const {
+    increments,
+    incrementsActiveIndex,
+  } = useSelector((state: RootState) => state.increments);
+
+  /*
+   * hooks
+   */
+  const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
+
+  /*
+   * handlers
+   */
+  const handleAccordionClick = () => {
+    const increment = increments[index];
+    if (index === incrementsActiveIndex) {
+      dispatch(setIncrementsActiveIndex(-1));
+      navigate(`/products/${product?.id}`);
+    } else {
+      navigate(`/products/${product?.id}/increments/${increment.id}`);
+      dispatch(setIncrementsActiveIndex(index));
+    }
+  };
+
+  const handleMouseEnter = () => {
+    setIsHovering(true);
+  }
+
+  const handleMouseLeave = () => {
+    setIsHovering(false);
+  }
+
+  const handleNumbering = () => {
+    return increments.length - index - 1
+  }
+
+  /*
+   * tsx
+   */
   return (
     <div
-      onMouseEnter={() => setIsHovering(true)}
-      onMouseLeave={() => setIsHovering(false)}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
       className="increment-wrapper"
     >
       <Accordion.Title
-        active={isActive}
+        active={incrementsActiveIndex === index}
         index={index}
-        onClick={(e) => handleAccordionClick(e, { index })}
+        onClick={handleAccordionClick}
         className="increment-container"
       >
-        <Title number={number} name={increment.name} />
-        <Actions increment={increment} number={number} isHovering={isHovering} />
+        <Title number={handleNumbering()} name={increment.name} />
+        <Actions increment={increment} number={handleNumbering()} isHovering={isHovering} />
       </Accordion.Title>
-      <Accordion.Content active={isActive} className="increment-content">
-        <Models product={product} increment={increment} number={number} />
+      <Accordion.Content active={incrementsActiveIndex === index} className="increment-content">
+        <Models product={product} increment={increment} />
       </Accordion.Content>
     </div>
   );

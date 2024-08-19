@@ -15,6 +15,11 @@ interface SettingsState {
   // Model Editor settings
   gridVisible: 'none' | 'dot' | 'mesh';
   explicitObjectSelection: boolean;
+  useDefaultDatabase: boolean;
+  inputPath: string;
+  buttonLabel: string;
+  activeSettingsIndex: number;
+  customDatabasePath: string;
 }
 
 const initialSettingsState: SettingsState = {
@@ -32,6 +37,11 @@ const initialSettingsState: SettingsState = {
   // Model Editor settings
   gridVisible: 'none',
   explicitObjectSelection: false,
+  useDefaultDatabase: true,
+  inputPath: 'default',
+  buttonLabel: 'Open',  
+  activeSettingsIndex: -1,
+  customDatabasePath: ''
 };
 
 // products slices
@@ -75,6 +85,22 @@ const productsSlice = createSlice({
     setExplicitObjectSelection(state, action: PayloadAction<boolean>) {
       state.explicitObjectSelection = action.payload;
     },
+    // Existing reducers...
+    setUseDefaultDatabase(state, action: PayloadAction<boolean>) {
+      state.useDefaultDatabase = action.payload;
+    },
+    setInputPath(state, action: PayloadAction<string>) {
+      state.inputPath = action.payload;
+    },
+    setButtonLabel(state, action: PayloadAction<string>) {
+      state.buttonLabel = action.payload;
+    },
+    setActiveSettingsIndex(state, action: PayloadAction<number>) {
+      state.activeSettingsIndex = action.payload;
+    },
+    setCustomDatabasePath(state, action: PayloadAction<string>) {
+      state.customDatabasePath = action.payload;
+    }
   },
 });
 
@@ -85,6 +111,11 @@ export const {
   setGridVisible,
   setDatabasePath,
   setExplicitObjectSelection,
+  setUseDefaultDatabase,
+  setInputPath,
+  setButtonLabel,
+  setActiveSettingsIndex,
+  setCustomDatabasePath
 } = productsSlice.actions;
 
 export default productsSlice.reducer;

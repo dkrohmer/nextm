@@ -1,6 +1,8 @@
 .settings {
   border: 0.5px solid gray !important;
   border-radius: 4px !important;
+  margin-bottom: -10px !important;
+  margin-top: -10px !important;
 }
 
 .settings-title {

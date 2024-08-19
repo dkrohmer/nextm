@@ -1,33 +1,24 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../store';
+import { fetchProduct } from '../services/api/products';
+import { fetchIncrement } from '../services/api/increments';
+import { fetchModel } from '../services/api/models';
 import { fetchLatestVersion } from '../services/api/versions';
-import type { IModel } from '../interfaces/IModel';
 
-const useFetchVersion = (model: IModel) => {
+const useFetchVersion = () => {
+  const { productId, incrementId, modelId } = useParams();
   const dispatch = useDispatch<AppDispatch>();
 
-  const [localVersion, setLocalVersion] = useState<{ thumbnail: string | null }>({ thumbnail: null });
-  const [isVersionLoading, setIsVersionLoading] = useState(false);
-  const [versionError, setVersionError] = useState<string | null>(null);
-
   useEffect(() => {
-    const fetchVersion = async () => {
-      try {
-        setIsVersionLoading(true);
-        const version = await dispatch(fetchLatestVersion({ modelId: model.id })).unwrap();
-        setLocalVersion({ thumbnail: version.thumbnail });
-        setIsVersionLoading(false);
-      } catch (err) {
-        setVersionError('Failed to load version.');
-        setIsVersionLoading(false);
-      }
-    };
-
-    fetchVersion();
-  }, [model, dispatch]);
-
-  return { localVersion, isVersionLoading, versionError };
+    if (productId && incrementId && modelId) {
+      dispatch(fetchProduct({ productId, isEagerLoading: false }));
+      dispatch(fetchIncrement({ incrementId, isEagerLoading: false }));
+      dispatch(fetchModel({ modelId, isEagerLoading: false }));
+      dispatch(fetchLatestVersion({ modelId }));
+    }
+  }, [dispatch, productId, incrementId, modelId]);
 };
 
 export default useFetchVersion;

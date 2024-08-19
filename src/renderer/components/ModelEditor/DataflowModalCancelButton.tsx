@@ -1,13 +1,26 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Form } from 'semantic-ui-react';
-import { handleDataflowModalCancel } from '../../utils/model-editor/dataflowModalHandlers';
+import { setDataflowModalOpen } from '../../store/modelEditor';
 
 const DataflowModalCancelButton: React.FC = () => {
+  /**
+   * hooks
+   */
   const dispatch = useDispatch();
 
+  /**
+   * handlers
+   */
+  const handleCancel = () => {
+    dispatch(setDataflowModalOpen(false));
+  }
+
+  /**
+   * tsx
+   */
   return (
-    <Form.Button type="button" onClick={() => handleDataflowModalCancel(dispatch)}>
+    <Form.Button type="button" onClick={handleCancel}>
       Cancel
     </Form.Button>
   );

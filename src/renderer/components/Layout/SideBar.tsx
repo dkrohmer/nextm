@@ -6,11 +6,25 @@ import useHandleClickOutside from '../../hooks/useHandleClickOutside';
 import Settings from "../Settings"
 
 const SideBar: React.FC = () => {
+
+  /**
+   * global states
+   */
   const { sidebarVisible } = useSelector((state: RootState) => state.settings);
+
+  /**
+   * hooks
+   */
   const sidebarRef = useRef<HTMLDivElement>(null);
 
+  /**
+   * handlers
+   */
   useHandleClickOutside(sidebarRef);
 
+  /**
+   * tsx
+   */
   return (
     <SemanticSidebar
       as={Segment}

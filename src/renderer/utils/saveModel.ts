@@ -1,8 +1,8 @@
 import { Graph, Rectangle } from '@antv/x6';
-import { addLatestVersion } from '../../services/api/versions';
-import { showToast } from '../../store/settings';
+import { addLatestVersion, fetchLatestVersion } from '../services/api/versions';
+import { showToast } from '../store/settings';
 import { compareGraphHashes } from './compareGraphHashes';
-import { AppDispatch } from '../../store';
+import { AppDispatch } from '../store';
 
 export async function saveModel (
   modelId: string | undefined,
@@ -15,7 +15,6 @@ export async function saveModel (
     const newGraph = graph.toJSON().cells;
 
     if (!oldGraph || !newGraph) return;
-
     if (compareGraphHashes(oldGraph, newGraph)) return;
 
     const { x, y, height, width }: Rectangle = graph.getGraphArea();
@@ -31,6 +30,8 @@ export async function saveModel (
         errorMessage: 'Failed to save threat model',
       })
     );
+
+    await promise;
+    dispatch(fetchLatestVersion({ modelId }));
   }
 }
-

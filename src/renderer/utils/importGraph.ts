@@ -14,7 +14,6 @@ export const importGraph = createAsyncThunk(
         const fallback = graph.toJSON();
         graph.fromJSON(jsonData);
         const cells = graph.getCells();
-        console.log('Result: ', cells);
 
         if (!cells || cells.length <= 0) {
           graph.fromJSON(fallback);

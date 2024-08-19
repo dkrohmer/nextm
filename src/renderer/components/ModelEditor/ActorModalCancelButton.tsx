@@ -1,15 +1,27 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { Form } from 'semantic-ui-react';
 import { AppDispatch } from '../../store';
-import { handleClose } from '../../utils/model-editor/actorModalHandlers';
+import { setActorModalOpen } from '../../store/modelEditor';
 
-interface ActorModalCancelButtonProps {
-  dispatch: AppDispatch;
-}
+const ActorModalCancelButton: React.FC = () => {
+  /**
+   * hooks
+   */
+  const dispatch = useDispatch<AppDispatch>()
+  
+  /**
+   * handlers
+   */
+  const handleClose = () => {
+    dispatch(setActorModalOpen(false));
+  };
 
-const ActorModalCancelButton: React.FC<ActorModalCancelButtonProps> = ({ dispatch }) => {
+  /**
+   * tsx
+   */
   return (
-    <Form.Button onClick={() => handleClose(dispatch)}>
+    <Form.Button onClose={handleClose}>
       Cancel
     </Form.Button>
   );

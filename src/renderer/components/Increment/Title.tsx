@@ -6,7 +6,10 @@ interface TitleProps {
   name: string;
 }
 
-const Title: React.FC<TitleProps> = ({ number, name }) => (
+const Title: React.FC<TitleProps> = ({ number, name }) => (  
+  /**
+   * tsx
+   */
   <div className="increment-title">
     <Icon name="dropdown" />
     Increment #{number}: {name}

@@ -15,7 +15,9 @@ interface AddOrUpdateModelArgs {
   incrementId: string;
 }
 
-// get all models
+/**
+ * get all models
+ */
 export const fetchModels = createAsyncThunk(
   'models/fetchModels',
   async ({ incrementId }: FetchModelsArgs, { rejectWithValue }) => {
@@ -30,7 +32,9 @@ export const fetchModels = createAsyncThunk(
   },
 );
 
-// get one model
+/**
+ * get one model
+ */
 export const fetchModel = createAsyncThunk(
   'models/fetchModel',
   async ({ modelId, isEagerLoading }: FetchModelArgs, { rejectWithValue }) => {
@@ -48,7 +52,9 @@ export const fetchModel = createAsyncThunk(
   },
 );
 
-// Add or update a model
+/**
+ * add or update a model
+ */
 export const addOrUpdateModel = createAsyncThunk(
   'models/addOrUpdateModel',
   async ({ model, incrementId }: AddOrUpdateModelArgs, { rejectWithValue }) => {
@@ -75,7 +81,9 @@ export const addOrUpdateModel = createAsyncThunk(
   },
 );
 
-// delete a model
+/**
+ * delete a model
+ */
 export const deleteModel = createAsyncThunk(
   'models/deleteModel',
   async (modelId: string, { rejectWithValue }) => {

@@ -7,24 +7,19 @@ import TableCellActionsDelete from './TableCellActionsDelete';
 
 interface TableCellActionsProps {
   product: IProduct;
-  setProductToDelete: React.Dispatch<React.SetStateAction<string | null>>;
-  setOpenConfirm: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const TableCellActions: React.FC<TableCellActionsProps> = ({
-  product,
-  setProductToDelete,
-  setOpenConfirm,
-}) => (
-  <Table.Cell className="products-table-actions-cell">
-    <TableCellActionsEdit product={product} />
-    <TableCellActionsClone product={product} />
-    <TableCellActionsDelete
-      product={product}
-      setProductToDelete={setProductToDelete}
-      setOpenConfirm={setOpenConfirm}
-    />
-  </Table.Cell>
-);
+const TableCellActions: React.FC<TableCellActionsProps> = ({ product }) => {
+  /**
+   * tsx
+   */
+  return (
+    <Table.Cell className="products-table-actions-cell">
+      <TableCellActionsEdit product={product} />
+      <TableCellActionsClone product={product} />
+      <TableCellActionsDelete product={product} />
+    </Table.Cell>
+  )
+}
 
 export default TableCellActions;

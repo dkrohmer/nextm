@@ -1,15 +1,32 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Form } from 'semantic-ui-react';
-import { handleNameChange } from '../../utils/model-editor/zoneModalHandlers';
+import { setZoneName } from '../../store/modelEditor';
+import { RootState } from '../../store';
 
-interface ZoneModalNameProps {
-  zoneName: string;
-}
+const ZoneModalName: React.FC = () => {
+  /**
+   * global states
+   */
+  const { zoneName } = useSelector((state: RootState) => state.modelEditor);
 
-const ZoneModalName: React.FC<ZoneModalNameProps> = ({ zoneName }) => {
+
+  /**
+   * hooks
+   */
   const dispatch = useDispatch();
 
+  /**
+   * handlers
+   */
+
+  const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(setZoneName(event.target.value));
+  };
+
+  /**
+   * tsx
+   */
   return (
     <Form.Input
       label="Name"
@@ -18,7 +35,7 @@ const ZoneModalName: React.FC<ZoneModalNameProps> = ({ zoneName }) => {
       value={zoneName}
       autoFocus
       required
-      onChange={(e) => handleNameChange(e, dispatch)}
+      onChange={handleNameChange}
     />
   );
 };

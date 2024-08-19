@@ -5,15 +5,20 @@ interface ProductsErrorProps {
   error: string;
 }
 
-const Error: React.FC<ProductsErrorProps> = ({ error }) => (
-  <Table.Row>
-    <Table.Cell colSpan="8" textAlign="center">
-      <Message negative>
-        <Message.Header>Error❗️</Message.Header>
-        <p>{error}</p>
-      </Message>
-    </Table.Cell>
-  </Table.Row>
-);
+const Error: React.FC<ProductsErrorProps> = ({ error }) => {
+  /**
+   * tsx
+   */
+  return (
+    <Table.Row>
+      <Table.Cell colSpan="8" textAlign="center">
+        <Message negative>
+          <Message.Header>Error❗️</Message.Header>
+          <p>{error}</p>
+        </Message>
+      </Table.Cell>
+    </Table.Row>
+  )
+}
 
 export default Error;

@@ -8,26 +8,6 @@ export class VersionService {
 
   private modelRepository = new ModelRepository();
 
-  // async createVersion(data: any): Promise<Version> {
-  //   const { modelId } = data;
-
-  //   const model = await this.modelRepository.getModelById(modelId, false);
-  //   if (!model) {
-  //     throw new Error('Product not found');
-  //   }
-
-  //   // Find the latest version number for the given modelId
-  //   const latestVersion = await this.versionRepository.getLatestVersionByModelId(modelId)
-  //   // Set the new version number
-  //   const newVersionIndex = latestVersion ? latestVersion.versionIndex + 1 : 0;
-  //   // version.versionIndex = newVersionNumber
-
-  //   let version: Version = buildVersionEntity(data, newVersionIndex)
-  //   version.modelId = modelId
-
-  //   return await this.versionRepository.createVersion(version);
-  // }
-
   async createVersion(data: any): Promise<Version> {
     const { modelId } = data;
 
@@ -83,6 +63,12 @@ export class VersionService {
       await this.versionRepository.getLatestVersionByModelId(modelId);
     const serializedVerison = version!.toJSON();
     return serializedVerison;
+  }
+
+  async getLatestVersionThumbnailByModelId(modelId: string): Promise<string | null> {
+    const versionThumbnail =
+      await this.versionRepository.getLatestVersionThumbnailByModelId(modelId);
+    return versionThumbnail;
   }
 
   async deleteVersion(id: string): Promise<void> {

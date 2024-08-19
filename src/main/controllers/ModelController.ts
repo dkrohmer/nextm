@@ -19,7 +19,6 @@ export class ModelController {
   constructor() {
     this.modelService = new ModelService();
     this.initializeModelHandlers();
-    console.log('Model controllers initialized.');
   }
 
   destroy() {

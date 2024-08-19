@@ -1,20 +1,36 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Form, TextAreaProps } from 'semantic-ui-react';
-import { AppDispatch } from '../../store';
-import { handleDescriptionChange } from '../../utils/model-editor/systemModalHandlers';
+import { AppDispatch, RootState } from '../../store';
+import { setSystemDescription } from '../../store/modelEditor';
 
-interface SystemModalDescriptionProps {
-  systemDescription: string;
-  dispatch: AppDispatch;
-}
+const SystemModalDescription: React.FC = () => {
+  /**
+   * hooks
+   */
+  const dispatch = useDispatch<AppDispatch>()
+  
+  /**
+   * global states
+   */
+  const { systemDescription } = useSelector((state: RootState) => state.modelEditor);
+  
+  /**
+   * handlers
+   */
+  const handleDescriptionChange = (data: TextAreaProps) => {
+    dispatch(setSystemDescription(data.value as string));
+  };
 
-const SystemModalDescription: React.FC<SystemModalDescriptionProps> = ({ systemDescription, dispatch }) => {
+  /**
+   * tsx
+   */
   return (
     <Form.TextArea
       label="Description"
       placeholder="Description"
       value={systemDescription}
-      onChange={(e, data) => handleDescriptionChange(e, data as TextAreaProps, dispatch)}
+      onChange={handleDescriptionChange}
     />
   );
 };

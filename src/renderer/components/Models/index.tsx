@@ -17,16 +17,26 @@ import '../../styles/models.css';
 interface ModelsProps {
   product: IProduct;
   increment: IIncrement;
-  number: number;
 }
 
 const Models: React.FC<ModelsProps> = ({ product, increment }) => {
-  const { models, modelsError, modelsIsLoading, modelsConfirmOpen, modelToDelete } = useSelector(
-    (state: RootState) => state.models
-  );
+  /**
+   * global states
+   */
+  const { 
+    models, 
+    modelsError, 
+    modelsIsLoading, 
+  } = useSelector((state: RootState) => state.models);
 
+  /**
+   * hooks
+   */
   useFetchModels();
 
+  /**
+   * tsx
+   */
   return (
     <div>
       <Segment basic className="models-segment">
@@ -39,7 +49,7 @@ const Models: React.FC<ModelsProps> = ({ product, increment }) => {
       </Segment>
       <Add />
       <Modal />
-      <Confirm open={modelsConfirmOpen} modelToDelete={modelToDelete} />
+      <Confirm />
     </div>
   );
 };

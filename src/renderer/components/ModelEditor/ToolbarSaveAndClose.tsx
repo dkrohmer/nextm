@@ -1,39 +1,47 @@
 import React from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Graph } from '@antv/x6';
 import { Toolbar } from '@antv/x6-react-components';
 import { CloseOutlined } from '@ant-design/icons';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '../../store';
-import { handleSaveAndCloseSubmit } from '../../utils/model-editor/toolbarHandlers';
-
-const { Item } = Toolbar;
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../store';
+import { saveModel } from '../../utils/saveModel';
 
 interface ToolbarSaveAndCloseProps {
   graph: Graph;
-  modelId: string | undefined;
-  latestVersion: any;
-  navigate: (path: string) => void;
-  productId: string | undefined;
-  incrementId: string | undefined;
 }
 
-const ToolbarSaveAndClose: React.FC<ToolbarSaveAndCloseProps> = ({
-  graph,
-  modelId,
-  latestVersion,
-  navigate,
-  productId,
-  incrementId,
-}) => {
-  const dispatch = useDispatch<AppDispatch>();
+const ToolbarSaveAndClose: React.FC<ToolbarSaveAndCloseProps> = ({ graph }) => {
+  /**
+   * global states
+   */
+  const { latestVersion } = useSelector((state: RootState) => state.versions);
 
+  /**
+   * hooks
+   */
+  const { productId, incrementId, modelId } = useParams();
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+
+  /**
+   * handlers
+   */
+  const handleSaveAndCloseSubmit = async () => {
+    await saveModel(modelId, graph, latestVersion, dispatch);
+    navigate(`/products/${productId}/increments/${incrementId}`);
+  };
+
+  /**
+   * tsx
+   */
   return (
-    <Item
+    <Toolbar.Item
       className="save-and-close-button"
       name="saveandclose"
       tooltip="Save and Close Threat Model Editor"
       icon={<CloseOutlined />}
-      onClick={() => handleSaveAndCloseSubmit(graph, modelId, latestVersion, dispatch, navigate, productId, incrementId)}
+      onClick={handleSaveAndCloseSubmit}
     />
   );
 };

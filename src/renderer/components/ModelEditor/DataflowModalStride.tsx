@@ -2,24 +2,51 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Form, Checkbox } from 'semantic-ui-react';
 import { RootState } from '../../store';
-import { handleDataflowModalStrideChange } from '../../utils/model-editor/dataflowModalHandlers';
-import type { DataflowStride } from '../../store/modelEditor';
-import '../../styles/model-editor/dataflow-modal.css'; // Import the CSS file
+import { setDataflowStride, type DataflowStride } from '../../store/modelEditor';
+import '../../styles/model-editor/dataflow-modal.css';
 
 const DataflowModalStride: React.FC = () => {
-  const dispatch = useDispatch();
+  /**
+   * global states
+   */
   const { dataflowStride } = useSelector((state: RootState) => state.modelEditor);
 
+  /**
+   * hooks
+   */
+  const dispatch = useDispatch();
+
+  /**
+   * handlers
+   */
+  const handleStrideChange = (key: keyof DataflowStride, dataflowStride: DataflowStride) => {
+    const updatedDataflowStride = {
+        ...dataflowStride,
+        [key]: !dataflowStride[key],
+    };
+    dispatch(setDataflowStride(updatedDataflowStride));
+  };
+
+  /**
+   * Format the key to include spaces before capital letters
+   */
+  const formatLabel = (key: string) => {
+    return key.replace(/([A-Z])/g, ' $1').trim();
+  };
+
+  /**
+   * tsx
+   */
   return (
-    <div className="field" style={{ paddingBottom: '5px' }}>
+    <div className="field">
       <label>STRIDE threats</label>
       <Form.Group className="checkbox-group">
         {Object.keys(dataflowStride).map((key) => (
           <Form.Field key={key}>
             <Checkbox
-              label={<label><strong>{key.charAt(0).toUpperCase()}</strong>{key.slice(1)}</label>}
+              label={<label><strong>{key.charAt(0).toUpperCase()}</strong>{formatLabel(key.slice(1))}</label>}
               checked={dataflowStride[key as keyof DataflowStride]}
-              onChange={() => handleDataflowModalStrideChange(key as keyof DataflowStride, dataflowStride, dispatch)}
+              onChange={() => handleStrideChange(key as keyof DataflowStride, dataflowStride)}
             />
           </Form.Field>
         ))}

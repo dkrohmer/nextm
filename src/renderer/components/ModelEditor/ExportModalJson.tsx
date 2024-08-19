@@ -6,16 +6,21 @@ interface ExportModalJsonProps {
   setFormat: (format: string) => void;
 }
 
-const ExportModalJson: React.FC<ExportModalJsonProps> = ({ format, setFormat }) => (
-  <Form.Field>
-    <Radio
-      label="JSON"
-      name="format"
-      value="json"
-      checked={format === 'json'}
-      onChange={() => setFormat('json')}
-    />
-  </Form.Field>
-);
+const ExportModalJson: React.FC<ExportModalJsonProps> = ({ format, setFormat }) => {
+  /**
+   * tsx
+   */
+  return (
+    <Form.Field>
+      <Radio
+        label="JSON"
+        name="format"
+        value="json"
+        checked={format === 'json'}
+        onChange={() => setFormat('json')}
+      />
+    </Form.Field>
+  )
+}
 
 export default ExportModalJson;

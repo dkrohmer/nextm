@@ -2,9 +2,13 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { Graph } from '@antv/x6';
 import type { IVersion } from '../../interfaces/IVersion';
 import { RootState } from '../../store';
-import { graphToPng } from '../../utils/model-editor/graphToPng';
+import { graphToPng } from '../../utils/graphToPng';
 
 interface FetchLatestVersionArgs {
+  modelId: string;
+}
+
+interface FetchLatestVersionThumbnailArgs {
   modelId: string;
 }
 
@@ -17,14 +21,14 @@ interface AddLatestVersionArgs {
   width: number;
 }
 
-// get latest version
-export const fetchLatestVersion = createAsyncThunk(
+/**
+ * get latest version
+ */
+export const fetchLatestVersion = createAsyncThunk<IVersion, FetchLatestVersionArgs>(
   'versions/fetchLatestVersion',
-  async ({ modelId }: FetchLatestVersionArgs, { rejectWithValue }) => {
+  async ({ modelId }, { rejectWithValue }) => {
     try {
-      // const response = await axios.get<IVersion>(`/api/versions/latest?modelId=${modelId}`);
-      // return response.data;
-      const response = await window.electron.getLatestVersion({ modelId });
+      const response: IVersion = await window.electron.getLatestVersion({ modelId });
       return response;
     } catch (error) {
       return rejectWithValue('Failed to load increment.');
@@ -32,7 +36,27 @@ export const fetchLatestVersion = createAsyncThunk(
   },
 );
 
-// Add latest version
+/**
+ * Get latest version thumbnail
+ */
+export const fetchLatestVersionThumbnail = createAsyncThunk<
+  string,
+  FetchLatestVersionThumbnailArgs
+>(
+  'versions/fetchLatestVersionThumbnail',
+  async ({ modelId }, { rejectWithValue }) => {
+    try {
+      const response: string = await window.electron.getLatestVersionThumbnail({ modelId });
+      return response;
+    } catch (error) {
+      return rejectWithValue('Failed to load version thumbnail.');
+    }
+  },
+);
+
+/**
+ * add latest version
+ */
 export const addLatestVersion = createAsyncThunk<
   IVersion,
   {

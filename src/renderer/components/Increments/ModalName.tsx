@@ -1,24 +1,45 @@
 import React from 'react';
-import { Form } from 'semantic-ui-react';
-import { IIncrement } from '../../interfaces/IIncrement';
-import { AppDispatch } from '../../store';
-import { handleInputChange } from '../../utils/incrementsHandlers';
+import { Form, InputOnChangeData } from 'semantic-ui-react';
+import { AppDispatch, RootState } from '../../store';
+import { useDispatch, useSelector } from 'react-redux';
+import { setCurrentIncrement } from '../../store/increments';
 
-interface ModalNameProps {
-  currentIncrement: IIncrement | null;
-  dispatch: AppDispatch;
+const ModalName: React.FC = () => {
+  /**
+   * global states
+   */
+  const { currentIncrement } = useSelector((state: RootState) => state.increments);
+  
+  /**
+   * hooks
+   */
+  const dispatch = useDispatch<AppDispatch>();
+
+  /**
+   * handlers
+   */
+  const handleInputChange = (data: InputOnChangeData) => {
+    if (currentIncrement) {
+      dispatch(
+        setCurrentIncrement({ ...currentIncrement, [data.name]: data.value }),
+      );
+    }
+  };
+
+  /**
+   * tsx
+   */
+  return (
+    <Form.Input
+      label="Name"
+      placeholder="Increment Name"
+      name="name"
+      value={currentIncrement?.name || ''}
+      autoFocus
+      required
+      onChange={(_e, data) => handleInputChange(data)}
+    />
+  )
 }
-
-const ModalName: React.FC<ModalNameProps> = ({ currentIncrement, dispatch }) => (
-  <Form.Input
-    label="Name"
-    placeholder="Increment Name"
-    name="name"
-    value={currentIncrement?.name || ''}
-    autoFocus
-    required
-    onChange={(e, data) => handleInputChange(data, currentIncrement, dispatch)}
-  />
-);
 
 export default ModalName;

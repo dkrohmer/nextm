@@ -2,17 +2,33 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Button, Icon, Popup } from 'semantic-ui-react';
 import { IProduct } from '../../interfaces/IProduct';
-import { openEditModal } from '../../utils/productsHandlers';
 import { AppDispatch } from '../../store';
-import '../../styles/products.css'; // Ensure this path is correct based on your project structure
+import '../../styles/products.css';
+import { setProductsCurrentProduct, setProductsIsEditing, setProductsModalOpen } from '../../store/products';
 
 interface TableCellActionsEditProps {
   product: IProduct;
 }
 
 const TableCellActionsEdit: React.FC<TableCellActionsEditProps> = ({ product }) => {
+  /**
+   * hooks
+   */
   const dispatch = useDispatch<AppDispatch>();
 
+  /**
+   * handlers
+   */
+  const handleEdit = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    dispatch(setProductsCurrentProduct(product));
+    dispatch(setProductsModalOpen(true));
+    dispatch(setProductsIsEditing(true));  
+  };
+
+  /**
+   * tsx
+   */
   return (
     <Popup
       trigger={
@@ -21,10 +37,7 @@ const TableCellActionsEdit: React.FC<TableCellActionsEditProps> = ({ product }) 
           size="tiny"
           icon
           className="products-button"
-          onClick={(e) => {
-            e.stopPropagation();
-            openEditModal(dispatch, product);
-          }}
+          onClick={handleEdit}
         >
           <Icon name="pencil" />
         </Button>

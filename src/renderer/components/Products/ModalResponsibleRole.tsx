@@ -2,8 +2,8 @@ import React from 'react';
 import { Form } from 'semantic-ui-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch } from '../../store';
-import { handleResponsibleChange } from '../../utils/responsibleHandlers';
 import { IResponsible } from '../../interfaces/IResponsible';
+import { setProductsCurrentProduct } from '../../store/products';
 
 interface ProductsModalResponsibleRoleProps {
   index: number;
@@ -11,22 +11,42 @@ interface ProductsModalResponsibleRoleProps {
 }
 
 const ModalResponsibleRole: React.FC<ProductsModalResponsibleRoleProps> = ({ index, responsible }) => {
-  const dispatch = useDispatch<AppDispatch>();
+  /**
+   * global states
+   */
   const { productsCurrentProduct } = useSelector((state: RootState) => state.products);
 
+  /**
+   * hooks
+   */
+  const dispatch = useDispatch<AppDispatch>();
+
+  /**
+   * handlers
+   */
+  const handleResponsibleChange = (field: keyof IResponsible, value: string) => {
+    if (productsCurrentProduct) {
+      const updatedResponsibles =
+        productsCurrentProduct.responsibles?.map((resp, i) =>
+          i === index ? { ...resp, [field]: value } : resp
+        ) || [];
+      dispatch(
+        setProductsCurrentProduct({
+          ...productsCurrentProduct,
+          responsibles: updatedResponsibles,
+        })
+      );
+    }
+  };
+
+  /**
+   * tsx
+   */
   return (
     <Form.Input
       placeholder="Role"
       value={responsible.role || ''}
-      onChange={(e) =>
-        handleResponsibleChange(
-          index,
-          'role',
-          e.target.value,
-          productsCurrentProduct,
-          dispatch
-        )
-      }
+      onChange={(e) =>handleResponsibleChange('role', e.target.value)}
     />
   );
 };

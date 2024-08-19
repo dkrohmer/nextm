@@ -6,15 +6,28 @@ interface ErrorProps {
 }
 
 const Error: React.FC<ErrorProps> = ({ errors }) => {
-  const hasErrors = errors.some(error => error);
 
-  if (!hasErrors) return null;
+  /**
+   * handlers
+   */
+  const hasErrors = () => {
+    if (errors.some(error => error)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
+  /**
+   * tsx
+   */
   return (
-    <Message negative style={{ textAlign: 'center' }}>
-      <Message.Header>Error</Message.Header>
-      {errors.map((error, index) => error && <p key={index}>{error}</p>)}
-    </Message>
+    hasErrors() ? (
+      <Message negative style={{ textAlign: 'center' }}>
+        <Message.Header>Error</Message.Header>
+        {errors.map((error, index) => error && <p key={index}>{error}</p>)}
+      </Message>
+    ) : null
   );
 };
 

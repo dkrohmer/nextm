@@ -17,9 +17,15 @@ import usePreventDefaultHistoryKeys from './hooks/usePreventDefaultHistoryKeys';
 import './styles/app.css'
 
 const App: React.FC = () => {
+  /**
+   * hooks
+   */
   useInitializeApp();
   usePreventDefaultHistoryKeys();
 
+  /**
+   * tsx
+   */
   return (
     <div className="app-container">
       <SidebarPushable>

@@ -47,7 +47,7 @@ const register = () => {
       true,
     );
   } catch (error) {
-    console.log(error);
+    throw Error('Registering actor failed');
   }
 };
 

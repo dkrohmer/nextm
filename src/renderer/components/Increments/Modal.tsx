@@ -3,44 +3,101 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal as SemanticModal, Form } from 'semantic-ui-react';
 import { RootState, AppDispatch } from '../../store';
-import { getModalHeader, getSubmitButtonText, handleClose, handleSubmit } from '../../utils/incrementsHandlers';
-import IncrementsModalName from './ModalName';
-import IncrementsModalCancelButton from './ModalCancelButton';
-import IncrementsModalSubmitButton from './ModalSubmitButton';
+import ModalName from './ModalName';
+import ModalCancelButton from './ModalCancelButton';
+import ModalSubmitButton from './ModalSubmitButton';
 import '../../styles/increments.css';
+import { IIncrement } from '../../interfaces/IIncrement';
+import { addOrUpdateIncrement, fetchIncrement } from '../../services/api/increments';
+import { setCurrentIncrement, setIncrementsIsCloning, setIncrementsIsEditing, setIncrementsModalOpen } from '../../store/increments';
 
 const Modal: React.FC = () => {
-  const { productId } = useParams<{ productId: string }>();
-  const dispatch = useDispatch<AppDispatch>();
-  const navigate = useNavigate();
-
+  /**
+   * global states
+   */
   const {
     incrementsModalOpen,
     incrementsIsEditing,
     incrementsIsCloning,
     currentIncrement,
   } = useSelector((state: RootState) => state.increments);
+  
+  /**
+   * hooks
+   */
+  const { productId } = useParams<{ productId: string }>();
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
 
+  /**
+   * handlers
+   */
+  const handleSubmit = async () => {
+    if (currentIncrement && productId) {
+      let increment: IIncrement;
+  
+      if (incrementsIsCloning) {
+        const cloneResponse = await dispatch(
+          fetchIncrement({
+            incrementId: currentIncrement.id,
+            isEagerLoading: true,
+          }),
+        );
+        if (fetchIncrement.fulfilled.match(cloneResponse)) {
+          const eagerIncrement: IIncrement = cloneResponse.payload;
+          increment = {
+            ...eagerIncrement,
+            id: '',
+            name: `${currentIncrement.name}`,
+          };
+        } else {
+          console.error('Cloning failed');
+          return;
+        }
+      } else {
+        increment = currentIncrement;
+      }
+  
+      const response = await dispatch(
+        addOrUpdateIncrement({ increment, productId }),
+      );
+      if (addOrUpdateIncrement.fulfilled.match(response)) {
+        const responseIncrement: IIncrement = response.payload;
+        navigate(`/products/${productId}/increments/${responseIncrement.id}`);
+      }
+    }
+    handleClose();
+  };
+
+  const handleClose = () => {
+    dispatch(setIncrementsModalOpen(false));
+    dispatch(setCurrentIncrement(null));
+    dispatch(setIncrementsIsCloning(false));
+    dispatch(setIncrementsIsEditing(false));
+  };
+
+  const getModalHeader = () => (
+    incrementsIsCloning
+    ? 'Clone Increment'
+    : incrementsIsEditing
+      ? 'Edit Increment'
+      : 'Add Increment'
+  );
+
+  /**
+   * tsx
+   */
   return (
-    <SemanticModal 
-      open={incrementsModalOpen}
-      onClose={() => handleClose(dispatch)}
-      dimmer="blurring"
-    >
-      <SemanticModal.Header>{getModalHeader(incrementsIsCloning, incrementsIsEditing)}</SemanticModal.Header>
+    <SemanticModal open={incrementsModalOpen} onClose={handleClose} dimmer="blurring">
+      <SemanticModal.Header>
+        {getModalHeader()}
+      </SemanticModal.Header>
       <SemanticModal.Content>
-        <Form onSubmit={() => handleSubmit(currentIncrement, incrementsIsCloning, productId, dispatch, navigate)}>
-          <IncrementsModalName currentIncrement={currentIncrement} dispatch={dispatch} />
+        <Form onSubmit={handleSubmit}>
+          <ModalName />
           <Form.Group>
-            <IncrementsModalSubmitButton
-              currentIncrement={currentIncrement}
-              incrementsIsCloning={incrementsIsCloning}
-              productId={productId}
-              dispatch={dispatch}
-              navigate={navigate}
-              submitButtonText={getSubmitButtonText(incrementsIsCloning, incrementsIsEditing)}
-            />
-            <IncrementsModalCancelButton dispatch={dispatch} />
+            <ModalSubmitButton />
+            <ModalCancelButton />
           </Form.Group>
         </Form>
       </SemanticModal.Content>

@@ -1,14 +1,30 @@
 import React from 'react';
 import { Form } from 'semantic-ui-react';
-import { AppDispatch } from '../../store';
-import { handleNameChange } from '../../utils/model-editor/actorModalHandlers';
+import { AppDispatch, RootState } from '../../store';
+import { useDispatch, useSelector } from 'react-redux';
+import { setActorName } from '../../store/modelEditor';
 
-interface ActorModalNameProps {
-  actorName: string;
-  dispatch: AppDispatch;
-}
+const ActorModalName: React.FC = () => {
+  /**
+   * global states
+   */
+  const { actorName } = useSelector((state: RootState) => state.modelEditor);
 
-const ActorModalName: React.FC<ActorModalNameProps> = ({ actorName, dispatch }) => {
+  /**
+   * hooks
+   */
+  const dispatch = useDispatch<AppDispatch>()
+
+  /**
+   * handlers
+   */
+  const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(setActorName(event.target.value));
+  };
+
+  /**
+   * tsx
+   */
   return (
     <Form.Input
       label="Name"
@@ -17,7 +33,7 @@ const ActorModalName: React.FC<ActorModalNameProps> = ({ actorName, dispatch }) 
       value={actorName}
       autoFocus
       required
-      onChange={(e) => handleNameChange(e, dispatch)}
+      onChange={handleNameChange}
     />
   );
 };

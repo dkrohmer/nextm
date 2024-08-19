@@ -1,30 +1,49 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { Button, Icon, Popup } from 'semantic-ui-react';
+import { IModel } from '../../interfaces/IModel';
 import { AppDispatch } from '../../store';
-import { handleClone } from '../../utils/modelHandlers';
-import type { IModel } from '../../interfaces/IModel';
-import '../../styles/products.css'; // Ensure this path is correct based on your project structure
+import { setModelsCurrentModel, setModelsIsCloning, setModelsModalOpen } from '../../store/models';
+import '../../styles/products.css';
 
 interface ActionsCloneProps {
   model: IModel;
-  dispatch: AppDispatch;
 }
 
-const ActionsClone: React.FC<ActionsCloneProps> = ({ model, dispatch }) => (
-  <Popup
-    trigger={
-      <Button
-        basic
-        icon
-        size="tiny"
-        className="action-button"
-        onClick={(e) => handleClone(e, model, dispatch)}
-      >
-        <Icon name="clone" />
-      </Button>
-    }
-    content={<span><strong>Clone model</strong> "{model.name}"</span>}
-  />
-);
+const ActionsClone: React.FC<ActionsCloneProps> = ({ model }) => {
+  /**
+   * hooks
+   */
+  const dispatch = useDispatch<AppDispatch>();
+  
+  /**
+   * handlers
+   */
+  const handleClone = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    dispatch(setModelsIsCloning(true));
+    dispatch(setModelsCurrentModel({ ...model, name: `${model.name} (Copy)` }));
+    dispatch(setModelsModalOpen(true));
+  };
 
+  /**
+   * tsx
+   */
+  return (
+    <Popup
+      trigger={
+        <Button
+          basic
+          icon
+          size="tiny"
+          className="action-button"
+          onClick={handleClone}
+        >
+          <Icon name="clone" />
+        </Button>
+      }
+      content={<span><strong>Clone model</strong> "{model.name}"</span>}
+    />
+  )
+}
 export default ActionsClone;

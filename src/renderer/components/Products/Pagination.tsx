@@ -1,34 +1,52 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
-import { Pagination as SemanticPagination} from 'semantic-ui-react';
-import { handlePaginationChange } from '../../utils/productsHandlers';
-import { AppDispatch } from '../../store';
+import { useDispatch, useSelector } from 'react-redux';
+import { PaginationProps, Pagination as SemanticPagination} from 'semantic-ui-react';
+import { AppDispatch, RootState } from '../../store';
 import '../../styles/products.css';
+import { setProductsCurrentPage } from '../../store/products';
+import { fetchProducts } from '../../services/api/products';
 
-interface PaginationProps {
-  productsCurrentPage: number;
-  productsCount: number;
-  productsItemsPerPage: number;
-  productsSort: string;
-  productsSortby: string;
-}
+const Pagination: React.FC = () => {
+  /**
+   * global states
+   */
+  const {
+    productsCurrentPage,
+    productsCount,
+    productsItemsPerPage,
+    productsSort,
+    productsSortby,
+  } = useSelector((state: RootState) => state.products);
 
-const Pagination: React.FC<PaginationProps> = ({
-  productsCurrentPage,
-  productsCount,
-  productsItemsPerPage,
-  productsSort,
-  productsSortby,
-}) => {
+  /**
+   * hooks
+   */
   const dispatch = useDispatch<AppDispatch>();
 
+  /**
+   * handlers 
+   */
+  const handlePaginationChange = (_e: React.MouseEvent<HTMLAnchorElement>, { activePage }: PaginationProps) => {
+    dispatch(setProductsCurrentPage(activePage as number));
+    const offset = ((activePage as number) - 1) * productsItemsPerPage;
+    dispatch(
+      fetchProducts({
+        limit: productsItemsPerPage,
+        offset,
+        sort: productsSort,
+        sortby: productsSortby,
+      })
+    );
+  };
+
+  /**
+   * tsx
+   */
   return (
     <div className="products-pagination-container">
       <SemanticPagination
         activePage={productsCurrentPage}
-        onPageChange={(e, data) =>
-          handlePaginationChange(e, data, productsItemsPerPage, productsSort, productsSortby, dispatch)
-        }
+        onPageChange={handlePaginationChange}
         totalPages={Math.ceil(productsCount / productsItemsPerPage)}
         boundaryRange={1}
         ellipsisItem={undefined}

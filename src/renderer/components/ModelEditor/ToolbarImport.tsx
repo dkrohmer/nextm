@@ -2,19 +2,30 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Toolbar } from '@antv/x6-react-components';
 import { ImportOutlined } from '@ant-design/icons';
-import { handleImport } from '../../utils/model-editor/toolbarHandlers';
-
-const { Item } = Toolbar;
+import { setImportModalOpen } from '../../store/modelEditor';
 
 const ToolbarImport: React.FC = () => {
+  /**
+   * hooks
+   */
   const dispatch = useDispatch();
 
+  /**
+   * handlers
+   */
+  const handleImport = () => {
+    dispatch(setImportModalOpen(true));
+  };
+
+  /**
+   * tsx
+   */
   return (
-    <Item
+    <Toolbar.Item
       name="import"
       tooltip="Import model (cmd + i)"
       icon={<ImportOutlined />}
-      onClick={() => handleImport(dispatch)}
+      onClick={handleImport}
     />
   );
 };

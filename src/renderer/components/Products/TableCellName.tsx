@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Table } from 'semantic-ui-react';
+import { Table, Popup } from 'semantic-ui-react';
 
 interface TableCellNameProps {
   name: string;
@@ -8,16 +8,29 @@ interface TableCellNameProps {
 }
 
 const TableCellName: React.FC<TableCellNameProps> = ({ name, productId }) => {
+  /**
+   * hooks
+   */
   const navigate = useNavigate();
 
+  /**
+   * tsx
+   */
   return (
-    <Table.Cell>
-      <div className="products-table-name-cell products-ellipsis">
-        <a onClick={() => navigate(`/products/${productId}`)}>
-          <b>{name}</b>
-        </a>
-      </div>
-    </Table.Cell>
+    <Popup
+      trigger={
+        <Table.Cell>
+          <div className="products-table-name-cell products-ellipsis">
+            <a onClick={() => navigate(`/products/${productId}`)}>
+              <b>{name}</b>
+            </a>
+          </div>
+        </Table.Cell>
+      }
+      content={name}
+      position="top center"
+      hoverable
+    />
   );
 };
 

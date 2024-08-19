@@ -2,17 +2,35 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Button, Icon, Popup } from 'semantic-ui-react';
 import { IProduct } from '../../interfaces/IProduct';
-import { handleClone } from '../../utils/productsHandlers';
 import { AppDispatch } from '../../store';
-import '../../styles/products.css'; // Ensure this path is correct based on your project structure
+import '../../styles/products.css';
+import { setProductsCurrentProduct, setProductsIsCloning, setProductsModalOpen } from '../../store/products';
 
 interface TableCellActionsCloneProps {
   product: IProduct;
 }
 
 const TableCellActionsClone: React.FC<TableCellActionsCloneProps> = ({ product }) => {
+  /**
+   * hooks
+   */
   const dispatch = useDispatch<AppDispatch>();
 
+  /**
+   * handlers
+   */
+  const handleClone = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    dispatch(setProductsIsCloning(true));
+    dispatch(
+      setProductsCurrentProduct({ ...product, name: `${product.name} (Copy)` })
+    );
+    dispatch(setProductsModalOpen(true));
+  };
+
+  /**
+   * tsx
+   */
   return (
     <Popup
       trigger={
@@ -21,7 +39,7 @@ const TableCellActionsClone: React.FC<TableCellActionsCloneProps> = ({ product }
           size="tiny"
           icon
           className="products-button"
-          onClick={(e) => handleClone(e, product, dispatch)}
+          onClick={handleClone}
         >
           <Icon name="clone" />
         </Button>

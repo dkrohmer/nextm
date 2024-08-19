@@ -1,21 +1,49 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
-import { Dropdown, Button, Icon } from 'semantic-ui-react';
-import { handleSortFieldChange, toggleSortDirection, sortFields } from '../../utils/productsHandlers';
-import { AppDispatch } from '../../store';
+import { useDispatch, useSelector } from 'react-redux';
+import { Dropdown, Button, Icon, DropdownProps } from 'semantic-ui-react';
+import { AppDispatch, RootState } from '../../store';
 import '../../styles/products.css';
+import { setProductsSortby, toggleProductsSort } from '../../store/products';
 
-interface FiltersProps {
-  productsSortby: string;
-  productsSort: string;
-}
+const sortFields = [
+  { key: 'createdAt', text: 'Created at', value: 'createdAt' },
+  { key: 'name', text: 'Name', value: 'name' },
+  { key: 'startsAt', text: 'Product start', value: 'startsAt' },
+  { key: 'endsAt', text: 'Product end', value: 'endsAt' },
+];
 
-const Filters: React.FC<FiltersProps> = ({
-  productsSortby,
-  productsSort,
-}) => {
+const validSortFields: string[] = sortFields.map((field) => field.value);
+
+const Filters: React.FC = () => {
+  /**
+   * global states
+   */
+  const {
+    productsSort,
+    productsSortby,
+  } = useSelector((state: RootState) => state.products);
+
+  /**
+   * hooks
+   */
   const dispatch = useDispatch<AppDispatch>();
 
+  /**
+   * handlers
+   */
+  const handleSortDirection = (dispatch: AppDispatch) => {
+    dispatch(toggleProductsSort());
+  };
+
+  const handleSortFieldChange = (_event: React.SyntheticEvent<HTMLElement>, data: DropdownProps) => {
+    if (typeof data.value === 'string' && validSortFields.includes(data.value)) {
+      dispatch(setProductsSortby({ sortby: data.value }));
+    }
+  };
+
+  /**
+   * tsx
+   */
   return (
     <div className="products-filter-buttons">
       <Dropdown
@@ -27,11 +55,11 @@ const Filters: React.FC<FiltersProps> = ({
         className="icon products-sort-button"
         options={sortFields}
         value={productsSortby}
-        onChange={(e, data) => handleSortFieldChange(e, data, dispatch)}
+        onChange={handleSortFieldChange}
       />
       <Button
         icon
-        onClick={() => toggleSortDirection(dispatch)}
+        onClick={() => handleSortDirection(dispatch)}
         className="products-sort-button"
       >
         <Icon

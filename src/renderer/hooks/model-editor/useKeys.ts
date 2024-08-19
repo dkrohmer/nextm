@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Graph } from '@antv/x6';
 import { AppDispatch, RootState } from '../../store';
-import { saveModel } from '../../utils/model-editor/saveModel';
+import { saveModel } from '../../utils/saveModel';
 import { 
   setExportModalOpen, 
   setImportModalOpen, 
@@ -32,8 +32,10 @@ const useKeys = (graph: Graph | undefined) => {
     if (!graph) return;
 
     graph.bindKey(['meta+s', 'ctrl+s'], async () => {
-      await saveModel(modelId, graph, latestVersion, dispatch);
-      dispatch(setSavePressed(true));
+      if (graph && latestVersion) {
+        await saveModel(modelId, graph, latestVersion, dispatch);
+        dispatch(setSavePressed(true));
+      }
     });
 
     graph.bindKey(['meta+e', 'ctrl+e'], () => {

@@ -1,11 +1,22 @@
 import { useEffect } from 'react';
 import { Graph } from '@antv/x6';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../store';
+import { setCanRedo, setCanUndo } from '../../store/modelEditor';
 
-const useGraphHistoryChange = (graph: Graph, setCanRedo: (canRedo: boolean) => void, setCanUndo: (canUndo: boolean) => void) => {
+const useGraphHistoryChange = (graph: Graph | undefined) => {
+  const dispatch = useDispatch<AppDispatch>()
+
   useEffect(() => {
+    if (!graph) {
+      dispatch(setCanRedo(false));
+      dispatch(setCanUndo(false));
+      return;
+    }
+
     const handleHistoryChange = () => {
-      setCanRedo(graph.canRedo());
-      setCanUndo(graph.canUndo());
+      dispatch(setCanRedo(graph.canRedo()));
+      dispatch(setCanUndo(graph.canUndo()));
     };
 
     graph.on('history:change', handleHistoryChange);

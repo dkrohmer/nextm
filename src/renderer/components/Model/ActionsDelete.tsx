@@ -1,30 +1,49 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { Button, Icon, Popup } from 'semantic-ui-react';
-import { AppDispatch } from '../../store';
-import { handleDelete } from '../../utils/modelHandlers';
 import { IModel } from '../../interfaces/IModel';
-import '../../styles/products.css'; // Ensure this path is correct based on your project structure
+import { AppDispatch } from '../../store';
+import { setModelsConfirmOpen, setModelToDelete } from '../../store/models';
+import '../../styles/products.css';
 
 interface ActionsDeleteProps {
   model: IModel;
-  dispatch: AppDispatch;
 }
 
-const ActionsDelete: React.FC<ActionsDeleteProps> = ({ model, dispatch }) => (
-  <Popup
-    trigger={
-      <Button
-        basic
-        icon
-        size="tiny"
-        className="action-button"
-        onClick={(e) => handleDelete(e, model.id, dispatch)}
-      >
-        <Icon color="red" name="trash" />
-      </Button>
-    }
-    content={<span><strong>Delete model</strong> "{model.name}"</span>}
-  />
-);
+const ActionsDelete: React.FC<ActionsDeleteProps> = ({ model }) => {
+  /**
+   * hooks
+   */
+  const dispatch = useDispatch<AppDispatch>();
+
+  /**
+   * handlers
+   */
+  const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    dispatch(setModelToDelete(model.id));
+    dispatch(setModelsConfirmOpen(true));
+  };
+
+  /**
+   * tsx
+   */
+  return (
+    <Popup
+      trigger={
+        <Button
+          basic
+          icon
+          size="tiny"
+          className="action-button"
+          onClick={handleDelete}
+        >
+          <Icon color="red" name="trash" />
+        </Button>
+      }
+      content={<span><strong>Delete model</strong> "{model.name}"</span>}
+    />
+  )
+}
 
 export default ActionsDelete;

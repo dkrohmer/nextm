@@ -1,10 +1,8 @@
 import { AppDataSource } from '../database';
 import { Product } from '../models/Product';
-// import { Responsible } from '../models/Responsible';
 
 export class ProductRepository {
   private productRepository = AppDataSource.getRepository(Product);
-  // private responsibleRepository = AppDataSource.getRepository(Responsible);
 
   async createProduct(product: Product): Promise<Product> {
     const newProduct = await this.productRepository.save(product);

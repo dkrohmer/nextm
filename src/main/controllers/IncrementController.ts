@@ -26,7 +26,6 @@ export class IncrementController {
   constructor() {
     this.incrementService = new IncrementService();
     this.initializeIncrementHandlers();
-    console.log('Increment controllers initialized.');
   }
 
   destroy() {

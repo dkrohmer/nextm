@@ -1,22 +1,45 @@
 import React from 'react';
 import { Confirm as SemanticConfirm } from 'semantic-ui-react';
-import { useDispatch } from 'react-redux';
-import { cancelDelete, confirmDelete } from '../../utils/modelsHandlers';
-import { AppDispatch } from '../../store';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../store';
+import { deleteModel } from '../../services/api/models';
+import { setModelsConfirmOpen } from '../../store/models';
 
-interface ConfirmProps {
-  open: boolean;
-  modelToDelete: string | null;
-}
+const Confirm: React.FC = () => {
+  /**
+   * global states
+   */
+  const { 
+    modelsConfirmOpen, 
+    modelToDelete 
+  } = useSelector((state: RootState) => state.models);
 
-const Confirm: React.FC<ConfirmProps> = ({ open, modelToDelete }) => {
+  /**
+   * hooks
+   */
   const dispatch = useDispatch<AppDispatch>();
 
+  /**
+   * handlers
+   */
+  const handleConfirmDelete = () => {
+    if (modelToDelete) {
+      dispatch(deleteModel(modelToDelete));
+    }
+  };
+
+  const handleCancelDelete = () => {
+    dispatch(setModelsConfirmOpen(false));
+  };
+
+  /**
+   * tsx
+   */
   return (
     <SemanticConfirm
-      open={open}
-      onCancel={() => cancelDelete(dispatch)}
-      onConfirm={() => confirmDelete(modelToDelete, dispatch)}
+      open={modelsConfirmOpen}
+      onCancel={handleCancelDelete}
+      onConfirm={handleConfirmDelete}
       content="Do you want to delete this model permanently?"
     />
   );

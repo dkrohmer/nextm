@@ -1,13 +1,20 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { Form } from 'semantic-ui-react';
 
-interface ImportModalSubmitButtonProps {
-  isFileValid: boolean;
-}
+const ImportModalSubmitButton: React.FC = () => {
+  /**
+   * global states
+   */
+  const {
+    importIsFileValid
+  } = useSelector((state: any) => state.modelEditor);
 
-const ImportModalSubmitButton: React.FC<ImportModalSubmitButtonProps> = ({ isFileValid }) => {
+  /**
+   * tsx
+   */
   return (
-    <Form.Button primary type="submit" disabled={!isFileValid}>
+    <Form.Button primary type="submit" disabled={!importIsFileValid}>
       Import
     </Form.Button>
   );

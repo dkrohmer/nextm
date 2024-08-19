@@ -1,15 +1,27 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { Form } from 'semantic-ui-react';
 import { AppDispatch } from '../../store';
-import { handleClose } from '../../utils/model-editor/systemModalHandlers';
+import { setSystemModalOpen } from '../../store/modelEditor';
 
-interface SystemModalCancelButtonProps {
-  dispatch: AppDispatch;
-}
-
-const SystemModalCancelButton: React.FC<SystemModalCancelButtonProps> = ({ dispatch }) => {
+const SystemModalCancelButton: React.FC = () => {
+  /**
+   * hooks
+   */
+  const dispatch = useDispatch<AppDispatch>()
+  
+  /**
+   * handlers
+   */
+  const handleClose = () => {
+    dispatch(setSystemModalOpen(false));
+  };
+  
+  /**
+   * tsx
+   */
   return (
-    <Form.Button onClick={() => handleClose(dispatch)}>
+    <Form.Button onClick={() => handleClose}>
       Cancel
     </Form.Button>
   );

@@ -1,57 +1,88 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Form } from 'semantic-ui-react';
 import { Graph } from '@antv/x6';
 import { AppDispatch } from '../../store';
-import { setImportModalOpen } from '../../store/modelEditor';
-import { handleImport } from '../../utils/model-editor/importModalHandlers';
+import { setImportModalOpen, setImportError, setImportFileName, setImportJsonData, setImportIsFileValid } from '../../store/modelEditor';
 import useResetImportModalState from '../../hooks/model-editor/useResetImportModalState';
 import ImportModalDnd from './ImportModalDnd';
 import ImportModalSubmitButton from './ImportModalSubmitButton';
 import ImportModalCancelButton from './ImportModalCancelButton';
 import '../../styles/model-editor/import-modal.css';
+import { showToast } from '../../store/settings';
+import { importGraph } from '../../utils/importGraph';
 
 interface ImportModalProps {
   graph: Graph;
 }
 
 const ImportModal: React.FC<ImportModalProps> = ({ graph }) => {
+  /**
+   * global states
+   */
+  const { isImportModalOpen, importJsonData } = useSelector((state: any) => state.modelEditor);
+
+  /**
+   * hooks
+   */
   const dispatch = useDispatch<AppDispatch>();
-  const { isImportModalOpen } = useSelector((state: any) => state.modelEditor);
+  useResetImportModalState(isImportModalOpen);
 
-  const [isDragging, setIsDragging] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [fileName, setFileName] = useState<string | null>(null);
-  const [jsonData, setJsonData] = useState<Graph | null>(null);
-  const [isFileValid, setIsFileValid] = useState<boolean>(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  /**
+   * handlers
+   */
+  const handleSubmit = async () => {
+    if (graph && importJsonData) {
+      try {
+        const promise = dispatch(importGraph({ graph, jsonData: importJsonData })).unwrap();
+        dispatch(setImportModalOpen(false));
 
-  useResetImportModalState(isImportModalOpen, setFileName, setJsonData, setError, setIsFileValid);
+        dispatch(
+          showToast({
+            promise,
+            loadingMessage: 'Importing threat model...',
+            successMessage: 'Threat model imported successfully',
+            errorMessage: 'Failed to import threat model',
+          }),
+        );
 
-  if (!isImportModalOpen) return null;
+        await promise;
 
+        dispatch(setImportFileName(null));
+        dispatch(setImportJsonData(null));
+        dispatch(setImportError(null));
+        dispatch(setImportIsFileValid(false));
+      } catch (error) {
+        dispatch(setImportFileName(null));
+        dispatch(setImportJsonData(null));
+        dispatch(setImportError(null));
+        dispatch(setImportIsFileValid(false));
+      }
+    } else {
+      dispatch(setImportError('No file selected'));
+    }
+  };
+
+  const handleClose = () => {
+    dispatch(setImportModalOpen(false));
+    dispatch(setImportFileName(null));
+    dispatch(setImportJsonData(null));
+    dispatch(setImportError(null));
+    dispatch(setImportIsFileValid(false));
+  };
+
+  /**
+   * tsx
+   */
   return (
-    <Modal open={isImportModalOpen} onClose={() => dispatch(setImportModalOpen(false))} dimmer="blurring">
+    <Modal open={isImportModalOpen} onClose={handleClose} dimmer="blurring">
       <Modal.Header>Import existing model</Modal.Header>
       <Modal.Content>
-        <Form onSubmit={(e) => {
-          e.preventDefault();
-          handleImport(graph, jsonData, dispatch, setFileName, setJsonData, setError, setIsFileValid);
-        }}>
-          <ImportModalDnd
-            isDragging={isDragging}
-            setIsDragging={setIsDragging}
-            setError={setError}
-            setFileName={setFileName}
-            setIsFileValid={setIsFileValid}
-            setJsonData={setJsonData}
-            fileInputRef={fileInputRef}
-            error={error}
-            fileName={fileName}
-          />
+        <Form onSubmit={handleSubmit}>
+          <ImportModalDnd />
           <Form.Group className="form-button-group">
-            <ImportModalSubmitButton isFileValid={isFileValid} />
-            <ImportModalCancelButton dispatch={dispatch} />
+            <ImportModalSubmitButton />
+            <ImportModalCancelButton />
           </Form.Group>
         </Form>
       </Modal.Content>

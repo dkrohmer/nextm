@@ -10,7 +10,9 @@ interface FetchIncrementArgs {
   isEagerLoading: boolean;
 }
 
-// get all increments
+/**
+ * get all increments
+ */
 export const fetchIncrements = createAsyncThunk(
   'increments/fetchIncrements',
   async ({ productId }: FetchIncrementsArgs, { rejectWithValue }) => {
@@ -29,7 +31,9 @@ export const fetchIncrements = createAsyncThunk(
   },
 );
 
-// get one increment
+/**
+ * get one increment
+ */
 export const fetchIncrement = createAsyncThunk(
   'increments/fetchIncrement',
   async (
@@ -50,7 +54,9 @@ export const fetchIncrement = createAsyncThunk(
   },
 );
 
-// Add or update an increment
+/**
+ * add or update an increment
+ */
 export const addOrUpdateIncrement = createAsyncThunk<
   IIncrement,
   { increment: IIncrement; productId: string }
@@ -81,7 +87,9 @@ export const addOrUpdateIncrement = createAsyncThunk<
   },
 );
 
-// delete an increment
+/**
+ * delete an increment
+ */
 export const deleteIncrement = createAsyncThunk(
   'increments/deleteIncrement',
   async (incrementId: string, { rejectWithValue }) => {

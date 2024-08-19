@@ -1,14 +1,33 @@
 import React from 'react';
 import { Form } from 'semantic-ui-react';
 import { AppDispatch } from '../../store';
-import { handleClose } from '../../utils/incrementsHandlers';
+import { useDispatch } from 'react-redux';
+import { setCurrentIncrement, setIncrementsIsCloning, setIncrementsIsEditing, setIncrementsModalOpen } from '../../store/increments';
 
-interface ModalCancelButtonProps {
-  dispatch: AppDispatch;
+const ModalCancelButton: React.FC = () => {
+  /**
+   * hooks
+   */
+  const dispatch = useDispatch<AppDispatch>();
+
+  /**
+   * handlers
+   */
+  const handleClose = () => {
+    dispatch(setIncrementsModalOpen(false));
+    dispatch(setCurrentIncrement(null));
+    dispatch(setIncrementsIsCloning(false));
+    dispatch(setIncrementsIsEditing(false));
+  };
+
+  /**
+   * tsx
+   */
+  return (
+    <Form.Button onClick={() => handleClose}>
+      Cancel
+    </Form.Button>
+  )
 }
-
-const ModalCancelButton: React.FC<ModalCancelButtonProps> = ({ dispatch }) => (
-  <Form.Button onClick={() => handleClose(dispatch)}>Cancel</Form.Button>
-);
 
 export default ModalCancelButton;

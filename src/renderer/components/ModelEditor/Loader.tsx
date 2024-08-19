@@ -2,16 +2,18 @@ import React from 'react';
 import { Dimmer, Loader as SemanticLoader } from 'semantic-ui-react';
 
 interface LoaderProps {
-  loading: boolean;
+  isLoading: boolean;
 }
 
-const Loader: React.FC<LoaderProps> = ({ loading }) => {
-  if (!loading) return null;
+const Loader: React.FC<LoaderProps> = ({ isLoading }) => {
+  /**
+   * tsx
+   */
   return (
-    <Dimmer active inverted>
+    <Dimmer active={isLoading} inverted>
       <SemanticLoader>Loading Model...</SemanticLoader>
     </Dimmer>
-  );
+  )
 };
 
 export default Loader;

@@ -2,21 +2,29 @@ import React from 'react';
 import { Graph } from '@antv/x6';
 import { Toolbar } from '@antv/x6-react-components';
 import { SnippetsOutlined } from '@ant-design/icons';
-import { handlePaste } from '../../utils/model-editor/toolbarHandlers';
-
-const { Item } = Toolbar;
+import actions from '../../services/model-editor/actions';
 
 interface ToolbarPasteProps {
   graph: Graph;
 }
 
 const ToolbarPaste: React.FC<ToolbarPasteProps> = ({ graph }) => {
+  /**
+   * handlers
+   */
+  const handlePaste = () => {
+    actions.pasteAction(graph);
+  };
+
+  /**
+   * tsx
+   */
   return (
-    <Item
+    <Toolbar.Item
       name="paste"
       tooltip="Paste (ctrl/cmd + v)"
       icon={<SnippetsOutlined />}
-      onClick={() => handlePaste(graph)}
+      onClick={handlePaste}
     />
   );
 };

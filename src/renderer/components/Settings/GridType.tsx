@@ -6,6 +6,9 @@ import GridTypeDot from './GridTypeDot';
 import GridTypeMesh from './GridTypeMesh';
 
 const GridType: React.FC = () => {
+  /**
+   * tsx
+   */
   return (
     <Form inverted>
       <div>

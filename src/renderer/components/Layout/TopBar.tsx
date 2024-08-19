@@ -7,14 +7,27 @@ import logo from "../../../../assets/logo.svg"
 import "../../styles/layout/topbar.css";
 
 const TopBar: React.FC = () => {
-  const dispatch = useDispatch<AppDispatch>();
 
+  /**
+   * local states
+   */
   const { sidebarVisible } = useSelector((state: RootState) => state.settings);
 
-  const toggleSidebar = () => {
+  /**
+   * hooks
+   */
+  const dispatch = useDispatch<AppDispatch>();
+
+  /**
+   * handlers
+   */
+  const handleToggleSidebar = () => {
     dispatch(setSidebarVisible(!sidebarVisible));
   };
 
+  /**
+   * tsx
+   */
   return (
     <>
       <Menu inverted borderless className="topbar-menu">
@@ -25,7 +38,7 @@ const TopBar: React.FC = () => {
         
         {/* settings icon */}
         <Menu.Menu position="right">
-          <Menu.Item onClick={toggleSidebar} className="topbar-menu-item-settings">
+          <Menu.Item onClick={handleToggleSidebar} className="topbar-menu-item-settings">
             <Icon name="cog" size="large" />
           </Menu.Item>
         </Menu.Menu>

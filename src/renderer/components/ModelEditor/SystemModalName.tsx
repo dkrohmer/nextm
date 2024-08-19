@@ -1,14 +1,30 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Form } from 'semantic-ui-react';
-import { AppDispatch } from '../../store';
-import { handleNameChange } from '../../utils/model-editor/systemModalHandlers';
+import { AppDispatch, RootState } from '../../store';
+import { setSystemName } from '../../store/modelEditor';
 
-interface SystemModalNameProps {
-  systemName: string;
-  dispatch: AppDispatch;
-}
+const SystemModalName: React.FC = () => {
+  /**
+   * global states
+   */
+  const { systemName } = useSelector((state: RootState) => state.modelEditor);
+  
+  /**
+   * hooks
+   */
+  const dispatch = useDispatch<AppDispatch>()
 
-const SystemModalName: React.FC<SystemModalNameProps> = ({ systemName, dispatch }) => {
+  /**
+   * handlers
+   */
+  const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(setSystemName(event.target.value));
+  };
+  
+  /**
+   * tsx
+   */
   return (
     <Form.Input
       label="Name"
@@ -17,7 +33,7 @@ const SystemModalName: React.FC<SystemModalNameProps> = ({ systemName, dispatch 
       value={systemName}
       autoFocus
       required
-      onChange={(e) => handleNameChange(e, dispatch)}
+      onChange={handleNameChange}
     />
   );
 };

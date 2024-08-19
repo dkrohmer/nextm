@@ -1,28 +1,28 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import { Form, Icon, Popup } from 'semantic-ui-react';
-import { RootState, AppDispatch } from '../../store';
+import { RootState } from '../../store';
 import useInitializeDatabasePath from '../../hooks/useInitializeDatabasePath';
-import DatabaseTypeDefault from './DatabaseTypeDefault';
 import DatabaseTypeCustom from './DatabaseTypeCustom';
+import DatabaseTypeDefault from './DatabaseTypeDefault';
 import DatabaseTypeSubmitButton from './DatabaseTypeSubmitButton';
 import DatabaseTypePicker from './DatabaseTypePicker';
 import '../../styles/settings.css';
 
 const DatabaseType: React.FC = () => {
-  const { path } = useSelector((state: RootState) => state.settings);
-  const dispatch = useDispatch<AppDispatch>();
-  const navigate = useNavigate();
+  /**
+   * global states
+   */
+  const useDefaultDatabase = useSelector((state: RootState) => state.settings.useDefaultDatabase);
 
-  const [useDefaultDatabase, setUseDefaultDatabase] = useState<boolean>(true);
-  const [inputPath, setInputPath] = useState<string>('default');
-  const [buttonLabel, setButtonLabel] = useState<string>('Open');
+  /**
+   * hooks
+   */
+  useInitializeDatabasePath();
 
-  useInitializeDatabasePath(setUseDefaultDatabase, setInputPath);
-
-  const isSetDatabaseDisabled = !inputPath || inputPath === path;
-
+  /**
+   * tsx
+   */
   return (
     <Form inverted>
       <div>
@@ -34,35 +34,12 @@ const DatabaseType: React.FC = () => {
           content={`By default, the database is stored in the app's respective user data folder depending on your operating system. However, you may also specify a custom database directory of your choice.`}
         />
       </div>
-      <DatabaseTypeDefault
-        useDefaultDatabase={useDefaultDatabase}
-        setUseDefaultDatabase={setUseDefaultDatabase}
-        setButtonLabel={setButtonLabel}
-        setInputPath={setInputPath}
-      />
-      <DatabaseTypeCustom
-        useDefaultDatabase={useDefaultDatabase}
-        setUseDefaultDatabase={setUseDefaultDatabase}
-        setButtonLabel={setButtonLabel}
-        path={path}
-        inputPath={inputPath}
-        setInputPath={setInputPath}
-      />
+      <DatabaseTypeDefault />
+      <DatabaseTypeCustom />
       {!useDefaultDatabase && (
-        <DatabaseTypePicker
-          path={path}
-          inputPath={inputPath}
-          setInputPath={setInputPath}
-          setButtonLabel={setButtonLabel}
-        />
+        <DatabaseTypePicker />
       )}
-      <DatabaseTypeSubmitButton
-        isSetDatabaseDisabled={isSetDatabaseDisabled}
-        inputPath={inputPath}
-        buttonLabel={buttonLabel}
-        dispatch={dispatch}
-        navigate={navigate}
-      />
+      <DatabaseTypeSubmitButton />
     </Form>
   );
 };

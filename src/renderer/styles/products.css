@@ -26,22 +26,25 @@
 }
 
 .products-ellipsis {
+  display: block;
+  white-space: nowrap;
   overflow: hidden;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
+  text-overflow: ellipsis;
 }
 
 .products-table-name-cell {
-  max-width: 200px;
+  max-width: 250px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .products-table-description-cell {
-  max-width: 300px;
+  max-width: 200px;
 }
 
 .products-table-responsibles-cell {
-  max-width: 250px;
+  max-width: 200px;
 }
 
 .products-table-responsibles-cell-label {
@@ -61,7 +64,7 @@
 }
 
 .products-table-actions-cell {
-  min-width: 130px;
+  width: 150px;
 }
 
 .products-action-icons .button {

@@ -3,15 +3,39 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Form, Icon, Popup, Checkbox } from 'semantic-ui-react';
 import { RootState, AppDispatch } from '../../store';
-import { handleExplicitObjectSelectionChange } from '../../utils/settings/explicit-object-selection-handlers';
 import '../../styles/settings.css';
+import { setExplicitObjectSelection, showToast } from '../../store/settings';
 
 const ExplicitObjectSelection: React.FC = () => {
-  const { explicitObjectSelection } = useSelector(
-    (state: RootState) => state.settings
-  );
+  /**
+   * global states
+   */
+  const { explicitObjectSelection } = useSelector((state: RootState) => state.settings);
+  
+  /**
+   * hooks
+   */
   const dispatch = useDispatch<AppDispatch>();
 
+  /**
+   * handlers
+   */
+  const handleExplicitObjectSelectionChange = () => {
+    window.electron.setExplicitObjectSelection(!explicitObjectSelection);
+    dispatch(setExplicitObjectSelection(!explicitObjectSelection));
+    dispatch(
+      showToast({
+        promise: Promise.resolve(),
+        loadingMessage: '',
+        successMessage: `Explicit object selection ${!explicitObjectSelection ? 'active' : 'inactive'}`,
+        errorMessage: '',
+      })
+    );
+  };
+
+  /**
+   * tsx
+   */
   return (
     <Form inverted>
       <div>
@@ -33,7 +57,7 @@ const ExplicitObjectSelection: React.FC = () => {
         <Checkbox
           label={explicitObjectSelection ? 'Active' : 'Inactive'}
           checked={explicitObjectSelection}
-          onChange={() => handleExplicitObjectSelectionChange(explicitObjectSelection, dispatch)}
+          onChange={handleExplicitObjectSelectionChange}
         />
       </Form.Field>
     </Form>

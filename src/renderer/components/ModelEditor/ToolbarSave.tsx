@@ -1,28 +1,44 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { Graph } from '@antv/x6';
 import { Toolbar } from '@antv/x6-react-components';
 import { SaveOutlined } from '@ant-design/icons';
-import { AppDispatch } from '../../store';
-import { saveModel } from '../../utils/model-editor/saveModel';
+import { AppDispatch, RootState } from '../../store';
+import { saveModel } from '../../utils/saveModel';
 
-const { Item } = Toolbar;
-
-interface ToolbarSaveProps {
+interface CustomToolbarProps {
   graph: Graph;
-  modelId: string | undefined;
-  latestVersion: any;
 }
 
-const ToolbarSave: React.FC<ToolbarSaveProps> = ({ graph, modelId, latestVersion }) => {
+const ToolbarSave: React.FC<CustomToolbarProps> = ({ graph }) => {
+  /**
+   * global states
+   */
+  const { latestVersion } = useSelector((state: RootState) => state.versions);
+
+  /**
+   * hooks
+   */
+  const { modelId } = useParams();
   const dispatch = useDispatch<AppDispatch>();
 
+  /**
+   * handlers
+   */
+  const handleSave = () => {
+    saveModel(modelId, graph, latestVersion, dispatch)
+  }
+
+  /**
+   * tsx
+   */
   return (
-    <Item
+    <Toolbar.Item
       name="save"
       tooltip="Save model (cmd + s)"
       icon={<SaveOutlined />}
-      onClick={() => saveModel(modelId, graph, latestVersion, dispatch)}
+      onClick={handleSave}
     />
   );
 };

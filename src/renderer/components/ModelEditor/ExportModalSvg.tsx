@@ -6,16 +6,21 @@ interface ExportModalSvgProps {
   setFormat: (format: string) => void;
 }
 
-const ExportModalSvg: React.FC<ExportModalSvgProps> = ({ format, setFormat }) => (
-  <Form.Field>
-    <Radio
-      label="SVG"
-      name="format"
-      value="svg"
-      checked={format === 'svg'}
-      onChange={() => setFormat('svg')}
-    />
-  </Form.Field>
-);
+const ExportModalSvg: React.FC<ExportModalSvgProps> = ({ format, setFormat }) => {
+  /**
+   * tsx
+   */
+  return (
+    <Form.Field>
+      <Radio
+        label="SVG"
+        name="format"
+        value="svg"
+        checked={format === 'svg'}
+        onChange={() => setFormat('svg')}
+      />
+    </Form.Field>
+  )
+}
 
 export default ExportModalSvg;

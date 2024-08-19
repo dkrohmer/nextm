@@ -1,22 +1,47 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Button, Icon, Popup } from 'semantic-ui-react';
-import { handleDelete } from '../../utils/incrementHandlers';
 import { AppDispatch } from '../../store';
 import { IIncrement } from '../../interfaces/IIncrement';
-import '../../styles/products.css'; // Ensure this path is correct based on your project structure
+import '../../styles/products.css';
+import { setIncrementsConfirmOpen, setIncrementToDelete } from '../../store/increments';
 
 interface ActionsDeleteProps {
   increment: IIncrement;
   number: number;
 }
 
-const ActionsDelete: React.FC<ActionsDeleteProps> = ({
-  increment
-}) => {
-  const dispatch = useDispatch<AppDispatch>();
+const ActionsDelete: React.FC<ActionsDeleteProps> = ({ increment }) => {
+  /**
+   * local states
+   */
   const [popupOpen, setPopupOpen] = useState(false);
 
+  /**
+   * hooks
+   */
+  const dispatch = useDispatch<AppDispatch>();
+
+  /**
+   * handlers
+   */
+  const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    dispatch(setIncrementToDelete(increment.id));
+    dispatch(setIncrementsConfirmOpen(true));
+  };
+
+  const handleMouseEnter = () => {
+    setPopupOpen(true)
+  }
+
+  const handleMouseLeave = () => {
+    setPopupOpen(false)
+  }
+
+  /**
+   * tsx
+   */
   return (
     <Popup
       trigger={
@@ -25,12 +50,9 @@ const ActionsDelete: React.FC<ActionsDeleteProps> = ({
           basic
           size="tiny"
           icon
-          onClick={(e) => {
-            e.stopPropagation();
-            handleDelete(increment.id, dispatch);
-          }}
-          onMouseEnter={() => setPopupOpen(true)}
-          onMouseLeave={() => setPopupOpen(false)}
+          onClick={handleDelete}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
         >
           <Icon color="red" name="trash" />
         </Button>

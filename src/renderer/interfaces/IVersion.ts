@@ -1,7 +1,7 @@
 interface IVersion {
   id: string;
   createdAt: string;
-  payload: Record<string, any>; // todo change this
+  payload: any;
   thumbnail: string;
   x: number;
   y: number;

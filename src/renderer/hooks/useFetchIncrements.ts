@@ -4,8 +4,10 @@ import { AppDispatch } from '../store';
 import { fetchProduct } from '../services/api/products';
 import { fetchIncrements } from '../services/api/increments';
 import { setIncrementsActiveIndex } from '../store/increments';
+import { useParams } from 'react-router-dom';
 
-const useFetchProductAndIncrements = (productId: string | undefined) => {
+const useFetchProductAndIncrements = () => {
+  const { productId } = useParams<{ productId: string }>();
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {

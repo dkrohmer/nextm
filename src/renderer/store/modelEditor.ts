@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { exportGraph } from '../utils/model-editor/exportGraph';
-import { importGraph } from '../utils/model-editor/importGraph';
+import { exportGraph } from '../utils/exportGraph';
+import { importGraph } from '../utils/importGraph';
 
 interface DataflowStride {
   spoofing: boolean;
@@ -56,6 +56,15 @@ interface ModelEditorState {
   isTextMode: boolean; // deprecated
   textModeInputValue: string; // deprecated
   textModeSelectedCell: string; // deprecated
+
+  importIsDragging: boolean;
+  importError: string | null;
+  importFileName: string | null;
+  importJsonData: string | null;
+  importIsFileValid: boolean;
+
+  canUndo: boolean;
+  canRedo: boolean;
 }
 
 const initialState: ModelEditorState = {
@@ -105,6 +114,15 @@ const initialState: ModelEditorState = {
   isTextMode: false,
   textModeInputValue: '',
   textModeSelectedCell: '',
+
+  importIsDragging: false,
+  importError: null,
+  importFileName: null,
+  importJsonData: null,
+  importIsFileValid: false,
+
+  canUndo: false,
+  canRedo: false
 };
 
 const modelEditorSlice = createSlice({
@@ -228,6 +246,27 @@ const modelEditorSlice = createSlice({
     setTextModeSelectedCell(state, action: PayloadAction<string>) {
       state.textModeSelectedCell = action.payload;
     },
+    setImportIsDragging(state, action: PayloadAction<boolean>) {
+      state.importIsDragging = action.payload;
+    },
+    setImportError(state, action: PayloadAction<string | null>) {
+      state.importError = action.payload;
+    },
+    setImportFileName(state, action: PayloadAction<string | null>) {
+      state.importFileName = action.payload;
+    },
+    setImportJsonData(state, action: PayloadAction<string | null>) {
+      state.importJsonData = action.payload;
+    },
+    setImportIsFileValid(state, action: PayloadAction<boolean>) {
+      state.importIsFileValid = action.payload;
+    },
+    setCanUndo(state, action: PayloadAction<boolean>) {
+      state.canUndo = action.payload;
+    },
+    setCanRedo(state, action: PayloadAction<boolean>) {
+      state.canRedo = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -293,9 +332,15 @@ export const {
   setDataflowStride,
   setTextMode,
   setTextModeInputValue,
-  setTextModeSelectedCell,
+  setTextModeSelectedCell,  
+  setImportIsDragging,
+  setImportError,
+  setImportFileName,
+  setImportJsonData,
+  setImportIsFileValid,
+  setCanRedo,
+  setCanUndo
 } = modelEditorSlice.actions;
 
 export type { DataflowStride };
-
 export default modelEditorSlice.reducer;

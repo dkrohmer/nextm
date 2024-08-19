@@ -1,11 +1,9 @@
-import React, { useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import { Graph } from '@antv/x6';
 import { Toolbar } from '@antv/x6-react-components';
 import { RootState } from '../../store';
 import useToolbarStateReset from '../../hooks/model-editor/useToolbarStateReset';
-import useGraphHistoryChange from '../../hooks/model-editor/useGraphHistoryChange';
 import ToolbarSave from './ToolbarSave';
 import ToolbarExport from './ToolbarExport';
 import ToolbarImport from './ToolbarImport';
@@ -30,10 +28,10 @@ interface CustomToolbarProps {
   graph: Graph;
 }
 
-const CustomToolbar: React.FC<CustomToolbarProps> = ({ graph }) => {
-  const navigate = useNavigate();
-  const { productId, incrementId, modelId } = useParams();
-
+const CustomToolbar: React.FC<CustomToolbarProps> = ({ graph }) => {  
+  /**
+   * global states
+   */
   const {
     isSavePressed,
     isExportPressed,
@@ -50,11 +48,9 @@ const CustomToolbar: React.FC<CustomToolbarProps> = ({ graph }) => {
     isDeletePressed,
   } = useSelector((state: RootState) => state.modelEditor);
 
-  const { latestVersion } = useSelector((state: RootState) => state.versions);
-
-  const [canRedo, setCanRedo] = useState<boolean>(false);
-  const [canUndo, setCanUndo] = useState<boolean>(false);
-
+  /**
+   * hooks
+   */
   useToolbarStateReset({
     isSavePressed,
     isExportPressed,
@@ -71,14 +67,15 @@ const CustomToolbar: React.FC<CustomToolbarProps> = ({ graph }) => {
     isDeletePressed,
   });
 
-  useGraphHistoryChange(graph, setCanRedo, setCanUndo);
-
+  /**
+   * tsx
+   */
   return (
     <div id="toolbar" className="toolbar">
       <Toolbar hoverEffect size="big">
         {/* Save group */}
         <Toolbar.Group>
-          <ToolbarSave graph={graph} modelId={modelId} latestVersion={latestVersion} />
+          <ToolbarSave graph={graph} />
           <ToolbarExport />
           <ToolbarImport />
         </Toolbar.Group>
@@ -92,8 +89,8 @@ const CustomToolbar: React.FC<CustomToolbarProps> = ({ graph }) => {
 
         {/* History group */}
         <Toolbar.Group>
-          <ToolbarUndo graph={graph} canUndo={canUndo} />
-          <ToolbarRedo graph={graph} canRedo={canRedo} />
+          <ToolbarUndo graph={graph} />
+          <ToolbarRedo graph={graph} />
         </Toolbar.Group>
 
         {/* Interaction group */}
@@ -106,14 +103,7 @@ const CustomToolbar: React.FC<CustomToolbarProps> = ({ graph }) => {
         </Toolbar.Group>
 
         {/* Save and close */}
-        <ToolbarSaveAndClose
-          graph={graph}
-          modelId={modelId}
-          latestVersion={latestVersion}
-          navigate={navigate}
-          productId={productId}
-          incrementId={incrementId}
-        />
+        <ToolbarSaveAndClose graph={graph} />
       </Toolbar>
     </div>
   );

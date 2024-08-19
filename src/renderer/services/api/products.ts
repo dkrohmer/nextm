@@ -25,7 +25,9 @@ interface DeleteProductArgs {
   sortby: string;
 }
 
-// get all products
+/**
+ * get all products
+ */
 export const fetchProducts = createAsyncThunk(
   'products/fetchProducts',
   async (
@@ -56,7 +58,9 @@ export const fetchProducts = createAsyncThunk(
   },
 );
 
-// get one product
+/**
+ * get one product
+ */
 export const fetchProduct = createAsyncThunk(
   'products/fetchProduct',
   async (
@@ -77,7 +81,9 @@ export const fetchProduct = createAsyncThunk(
   },
 );
 
-// Add or update a product
+/**
+ * add or update a product
+ */
 export const addOrUpdateProduct = createAsyncThunk(
   'products/addOrUpdateProduct',
   async ({ product }: AddOrUpdateProductArgs, { rejectWithValue }) => {
@@ -102,7 +108,9 @@ export const addOrUpdateProduct = createAsyncThunk(
   },
 );
 
-// delete a product
+/**
+ * detele a product
+ */
 export const deleteProduct = createAsyncThunk(
   'products/deleteProduct',
   async (

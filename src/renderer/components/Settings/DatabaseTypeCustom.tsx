@@ -1,35 +1,43 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Form, Radio } from 'semantic-ui-react';
-import { handleDatabaseTypeChange } from '../../utils/settings/database-type-handlers';
+import { AppDispatch, RootState } from '../../store';
+import { setUseDefaultDatabase, setButtonLabel, setInputPath, setCustomDatabasePath } from '../../store/settings';
 
-interface DatabaseTypeCustomProps {
-  useDefaultDatabase: boolean;
-  setUseDefaultDatabase: React.Dispatch<React.SetStateAction<boolean>>;
-  setButtonLabel: React.Dispatch<React.SetStateAction<string>>;
-  path: string;
-  inputPath: string;
-  setInputPath: React.Dispatch<React.SetStateAction<string>>;
-}
+const DatabaseTypeCustom: React.FC = () => {
+  /**
+   * global states
+   */
+  const { useDefaultDatabase, customDatabasePath } = useSelector((state: RootState) => state.settings);
 
-const DatabaseTypeCustom: React.FC<DatabaseTypeCustomProps> = ({
-  useDefaultDatabase,
-  setUseDefaultDatabase,
-  setButtonLabel,
-  path,
-  inputPath,
-  setInputPath,
-}) => (
-  <Form.Field>
-    <Radio
-      label="Custom database"
-      name="databaseType"
-      value="custom"
-      checked={!useDefaultDatabase}
-      onChange={(event, data) =>
-        handleDatabaseTypeChange(event, data, setUseDefaultDatabase, setButtonLabel, setInputPath)
-      }
-    />
-  </Form.Field>
-);
+  /**
+   * hooks
+   */
+  const dispatch = useDispatch<AppDispatch>();
+
+  /**
+   * handlers
+   */
+  const handleDatabaseTypeChange = () => {
+    dispatch(setUseDefaultDatabase(false));
+    dispatch(setButtonLabel('Open'));
+    dispatch(setInputPath(customDatabasePath || ''));
+  };
+
+  /**
+   * tsx
+   */
+  return (
+    <Form.Field>
+      <Radio
+        label="Custom database"
+        name="databaseType"
+        value="custom"
+        checked={!useDefaultDatabase}
+        onChange={handleDatabaseTypeChange}
+      />
+    </Form.Field>
+  );
+};
 
 export default DatabaseTypeCustom;

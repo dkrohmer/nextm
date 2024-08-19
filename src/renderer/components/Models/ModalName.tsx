@@ -1,17 +1,36 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Form } from 'semantic-ui-react';
-import { AppDispatch } from '../../store';
-import { IModel } from '../../interfaces/IModel';
-import { handleInputChange } from '../../utils/modelsHandlers';
+import { AppDispatch, RootState } from '../../store';
+import { setModelsCurrentModel } from '../../store/models';
 
-interface ModalNameProps {
-  modelsCurrentModel: IModel | null;
-}
+const ModalName: React.FC = () => {
+  /**
+   * global states
+   */
+  const {
+    modelsCurrentModel
+  } = useSelector((state: RootState) => state.models);
 
-const ModalName: React.FC<ModalNameProps> = ({ modelsCurrentModel }) => {
+  /**
+   * hooks
+   */
   const dispatch = useDispatch<AppDispatch>();
 
+  /**
+   * handlers
+   */
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, key: string) => {
+    if (modelsCurrentModel) {
+      dispatch(
+        setModelsCurrentModel({ ...modelsCurrentModel, [key]: e.target.value })
+      );
+    }
+  };
+
+  /**
+   * tsx
+   */
   return (
     <Form.Input
       label="Name"
@@ -19,7 +38,7 @@ const ModalName: React.FC<ModalNameProps> = ({ modelsCurrentModel }) => {
       value={modelsCurrentModel?.name || ''}
       autoFocus
       required
-      onChange={(e) => handleInputChange(e, 'name', modelsCurrentModel, dispatch)}
+      onChange={(e) => handleInputChange(e, 'name')}
     />
   );
 };

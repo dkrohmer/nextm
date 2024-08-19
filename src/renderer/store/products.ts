@@ -18,6 +18,8 @@ interface ProductsState {
   productsSortby: string;
   productsSort: string;
   productsItemsPerPage: number;
+  openConfirm: boolean;
+  productToDelete: string | null;
   // states related to product
   product: IProduct | null;
   productIsLoading: boolean;
@@ -40,6 +42,8 @@ const initialProductsState: ProductsState = {
   productsSortby: 'createdAt',
   productsSort: 'desc',
   productsItemsPerPage: 5,
+  openConfirm: false,
+  productToDelete: null,
   // product
   product: null,
   productIsLoading: false,
@@ -87,6 +91,12 @@ const productsSlice = createSlice({
     setProductsItemsPerPage: (state, action: PayloadAction<number>) => {
       state.productsItemsPerPage = action.payload;
     },
+    setProductToDelete: (state, action: PayloadAction<string | null>) => {
+      state.productToDelete = action.payload;
+    },
+    setOpenConfirm: (state, action: PayloadAction<boolean>) => {
+      state.openConfirm = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -133,6 +143,8 @@ export const {
   setProductsSortby,
   toggleProductsSort,
   setProductsItemsPerPage,
+  setProductToDelete,
+  setOpenConfirm,
 } = productsSlice.actions;
 
 export default productsSlice.reducer;

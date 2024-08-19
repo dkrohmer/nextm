@@ -1,15 +1,31 @@
 import React from 'react';
 import { Form } from 'semantic-ui-react';
 import { AppDispatch } from '../../store';
-import { setImportModalOpen } from '../../store/modelEditor';
+import { setImportError, setImportFileName, setImportIsFileValid, setImportJsonData, setImportModalOpen } from '../../store/modelEditor';
+import { useDispatch } from 'react-redux';
 
-interface ImportModalCancelButtonProps {
-  dispatch: AppDispatch;
-}
+const ImportModalCancelButton: React.FC = () => {
+  /**
+   * hooks
+   */
+  const dispatch = useDispatch<AppDispatch>()
 
-const ImportModalCancelButton: React.FC<ImportModalCancelButtonProps> = ({ dispatch }) => {
+  /**
+   * handlers
+   */
+  const handleClose = () => {
+    dispatch(setImportModalOpen(false));
+    dispatch(setImportFileName(null));
+    dispatch(setImportJsonData(null));
+    dispatch(setImportError(null));
+    dispatch(setImportIsFileValid(false));
+  };
+
+  /**
+   * tsx
+   */
   return (
-    <Form.Button className="cancel-button" onClick={() => dispatch(setImportModalOpen(false))}>
+    <Form.Button className="cancel-button" onClick={handleClose}>
       Cancel
     </Form.Button>
   );

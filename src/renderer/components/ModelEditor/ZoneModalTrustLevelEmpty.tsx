@@ -1,15 +1,30 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Form, Radio } from 'semantic-ui-react';
-import { handleTrustLevelChange } from '../../utils/model-editor/zoneModalHandlers';
+import { setZoneTrustLevel } from '../../store/modelEditor';
+import { RootState } from '../../store';
 
-interface ZoneModalTrustLevelEmptyProps {
-  zoneTrustLevel: string;
-}
+const ZoneModalTrustLevelEmpty: React.FC = () => {
+  /**
+   * global states
+   */
+  const { zoneTrustLevel } = useSelector((state: RootState) => state.modelEditor);
 
-const ZoneModalTrustLevelEmpty: React.FC<ZoneModalTrustLevelEmptyProps> = ({ zoneTrustLevel }) => {
+  /**
+   * hooks
+   */
   const dispatch = useDispatch();
 
+  /**
+   * handlers
+   */
+  const handleTrustLevelChange = (value: string) => {
+    dispatch(setZoneTrustLevel(value));
+  };
+
+  /**
+   * tsx
+   */
   return (
     <Form.Field>
       <Radio
@@ -17,7 +32,7 @@ const ZoneModalTrustLevelEmpty: React.FC<ZoneModalTrustLevelEmptyProps> = ({ zon
         name="radioGroup"
         value=""
         checked={zoneTrustLevel === ''}
-        onChange={() => handleTrustLevelChange('', dispatch)}
+        onChange={() => handleTrustLevelChange('')}
       />
     </Form.Field>
   );

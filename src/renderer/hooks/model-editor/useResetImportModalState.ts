@@ -1,20 +1,24 @@
 import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../store';
+import {
+  setImportFileName,
+  setImportJsonData,
+  setImportError,
+  setImportIsFileValid,
+} from '../../store/modelEditor';
 
-const useResetImportModalState = (
-  isImportModalOpen: boolean,
-  setFileName: React.Dispatch<React.SetStateAction<string | null>>,
-  setJsonData: React.Dispatch<React.SetStateAction<any>>,
-  setError: React.Dispatch<React.SetStateAction<string | null>>,
-  setIsFileValid: React.Dispatch<React.SetStateAction<boolean>>
-) => {
+const useResetImportModalState = (isImportModalOpen: boolean) => {
+  const dispatch = useDispatch<AppDispatch>();
+
   useEffect(() => {
     if (!isImportModalOpen) {
-      setFileName(null);
-      setJsonData(null);
-      setError(null);
-      setIsFileValid(false);
+      dispatch(setImportFileName(null));
+      dispatch(setImportJsonData(null));
+      dispatch(setImportError(null));
+      dispatch(setImportIsFileValid(false));
     }
-  }, [isImportModalOpen, setFileName, setJsonData, setError, setIsFileValid]);
+  }, [isImportModalOpen, dispatch]);
 };
 
 export default useResetImportModalState;

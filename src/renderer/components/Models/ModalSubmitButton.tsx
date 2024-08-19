@@ -1,34 +1,34 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Form } from 'semantic-ui-react';
-import { AppDispatch } from '../../store';
-import { IModel } from '../../interfaces/IModel';
-import { handleSubmit } from '../../utils/modelsHandlers';
+import { RootState } from '../../store';
 
-interface ModalSubmitButtonProps {
-  modelsCurrentModel: IModel | null;
-  modelsIsCloning: boolean;
-  modelsIsEditing: boolean;
-  incrementId: string | undefined;
-}
+const ModalSubmitButton: React.FC = () => {
+  /**
+   * global states
+   */
+  const {
+    modelsIsEditing,
+    modelsIsCloning,
+  } = useSelector((state: RootState) => state.models);
 
-const ModalSubmitButton: React.FC<ModalSubmitButtonProps> = ({
-  modelsCurrentModel,
-  modelsIsCloning,
-  modelsIsEditing,
-  incrementId,
-}) => {
-  const dispatch = useDispatch<AppDispatch>();
+  /**
+   * handlers
+   */
+  const handleSubmitButtonText = () => (
+    modelsIsCloning
+    ? 'Clone'
+    : modelsIsEditing
+      ? 'Edit'
+      : 'Add'
+  );
 
+  /**
+   * tsx
+   */
   return (
-    <Form.Button
-      primary
-      type="submit"
-      onClick={() =>
-        handleSubmit(modelsCurrentModel, modelsIsCloning, incrementId, dispatch)
-      }
-    >
-      {modelsIsCloning ? 'Clone' : modelsIsEditing ? 'Edit' : 'Add'}
+    <Form.Button primary type="submit">
+      {handleSubmitButtonText()}
     </Form.Button>
   );
 };

@@ -3,13 +3,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Form } from 'semantic-ui-react';
 import { Graph } from '@antv/x6';
 import { AppDispatch } from '../../store';
-import { handleExportModalCancel } from '../../utils/model-editor/exportModalHandlers';
 import ExportModalJson from './ExportModalJson';
 import ExportModalPng from './ExportModalPng';
 import ExportModalJpeg from './ExportModalJpeg';
 import ExportModalSvg from './ExportModalSvg';
 import ExportModalSubmit from './ExportModalSubmitButton';
 import ExportModalCancel from './ExportModalCancelButton';
+import { exportGraph } from '../../utils/exportGraph';
+import { setExportModalOpen } from '../../store/modelEditor';
 
 interface ExportModalProps {
   graph: Graph;
@@ -17,18 +18,45 @@ interface ExportModalProps {
 }
 
 const ExportModal: React.FC<ExportModalProps> = ({ graph, filename }) => {
-  const dispatch = useDispatch<AppDispatch>();
-  const { isExportModalOpen } = useSelector((state: any) => state.modelEditor);
-
+  /**
+   * local states
+   */
   const [format, setFormat] = useState('json');
 
-  if (!isExportModalOpen) return null;
+  /**
+   * global states
+   */
+  const { isExportModalOpen } = useSelector((state: any) => state.modelEditor);
 
+  /**
+   * hooks
+   */
+  const dispatch = useDispatch<AppDispatch>();
+
+  /**
+   * handlers
+   */
+  const handleSubmit = () => {
+    try {
+      dispatch(exportGraph({ format, filename, graph }));
+      dispatch(setExportModalOpen(false));
+    } catch (error) {
+      console.error('Export failed:', error);
+    }
+  }
+
+  const handleClose = () => {
+    dispatch(setExportModalOpen(false));
+  }  
+
+  /**
+   * tsx
+   */
   return (
-    <Modal open={isExportModalOpen} onClose={() => handleExportModalCancel(dispatch)} dimmer="blurring">
+    <Modal open={isExportModalOpen} onClose={handleClose} dimmer="blurring">
       <Modal.Header>Export current model</Modal.Header>
       <Modal.Content>
-        <Form>
+        <Form onSubmit={handleSubmit}>
           <Form.Field>
             <label>Format</label>
             <Form.Group>
@@ -39,7 +67,7 @@ const ExportModal: React.FC<ExportModalProps> = ({ graph, filename }) => {
             </Form.Group>
           </Form.Field>
           <Form.Group className="form-button-group">
-            <ExportModalSubmit format={format} filename={filename} graph={graph} />
+            <ExportModalSubmit />
             <ExportModalCancel />
           </Form.Group>
         </Form>

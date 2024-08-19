@@ -1,19 +1,33 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { Form } from 'semantic-ui-react';
-import { handleSubmitButtonText } from '../../utils/productsHandlers';
+import { RootState } from '../../store';
 
-interface ModalSubmitButtonProps {
-  productsIsCloning: boolean;
-  productsIsEditing: boolean;
+const ModalSubmitButton: React.FC = () => {
+  /**
+   * global states
+   */
+  const { productsIsCloning, productsIsEditing } = useSelector((state: RootState) => state.products);
+
+  /**
+   * handlers
+   */
+  const handleSubmitButtonText = () => {
+    return productsIsCloning
+      ? 'Clone'
+      : productsIsEditing
+        ? 'Edit'
+        : 'Add';
+  };
+
+  /**
+   * tsx
+   */
+  return (
+    <Form.Button primary type="submit">
+      {handleSubmitButtonText()}
+    </Form.Button>
+  )
 }
-
-const ModalSubmitButton: React.FC<ModalSubmitButtonProps> = ({
-  productsIsCloning,
-  productsIsEditing,
-}) => (
-  <Form.Button primary type="submit">
-    {handleSubmitButtonText(productsIsCloning, productsIsEditing)}
-  </Form.Button>
-);
 
 export default ModalSubmitButton;

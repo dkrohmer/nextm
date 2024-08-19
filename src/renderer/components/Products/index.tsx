@@ -1,7 +1,5 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import React from 'react';
 import { Container, Segment } from 'semantic-ui-react';
-import { RootState } from '../../store';
 import useFetchProducts from '../../hooks/useFetchProducts';
 import Breadcrumbs from './Breadcrumbs';
 import Modal from './Modal';
@@ -14,60 +12,29 @@ import ConfirmDelete from './ConfirmDelete';
 import '../../styles/products.css';
 
 const Products: React.FC = () => {
-  const {
-    productsCurrentPage,
-    productsCount,
-    productsItemsPerPage,
-    productsSort,
-    productsSortby,
-    products,
-  } = useSelector((state: RootState) => state.products);
-
-  const [openConfirm, setOpenConfirm] = useState<boolean>(false);
-  const [productToDelete, setProductToDelete] = useState<string | null>(null);
-
+  /**
+   * hooks
+   */
   useFetchProducts();
 
+  /**
+   * tsx
+   */
   return (
     <Container className="products-container">
       <Breadcrumbs />
-      
       <div className="products-filters">
-        <Filters productsSortby={productsSortby} productsSort={productsSort} />
+        <Filters />
         <Add />
       </div>
-
       <Segment basic>
-        <Table setProductToDelete={setProductToDelete} setOpenConfirm={setOpenConfirm} />
+        <Table />
       </Segment>
-
       <div className="products-pagination-items-container">
-        <Pagination
-          productsCurrentPage={productsCurrentPage}
-          productsCount={productsCount}
-          productsItemsPerPage={productsItemsPerPage}
-          productsSort={productsSort}
-          productsSortby={productsSortby}
-        />
-        <ItemsPerPage
-          productsItemsPerPage={productsItemsPerPage}
-          productsSort={productsSort}
-          productsSortby={productsSortby}
-        />
+        <Pagination />
+        <ItemsPerPage />
       </div>
-      
-      <ConfirmDelete
-        openConfirm={openConfirm}
-        productToDelete={productToDelete}
-        productsCurrentPage={productsCurrentPage}
-        productsItemsPerPage={productsItemsPerPage}
-        productsSort={productsSort}
-        productsSortby={productsSortby}
-        setOpenConfirm={setOpenConfirm}
-        setProductToDelete={setProductToDelete}
-        products={products}
-      />
-
+      <ConfirmDelete />
       <Modal />
     </Container>
   );

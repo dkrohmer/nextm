@@ -5,18 +5,17 @@ import TableRow from './TableRow';
 import Loader from './Loader';
 import Error from './Error';
 import Empty from './Empty';
-import { IProduct } from '../../interfaces/IProduct';
 import { RootState } from '../../store';
 
-interface TableBodyProps {
-  products: IProduct[];
-  setProductToDelete: React.Dispatch<React.SetStateAction<string | null>>;
-  setOpenConfirm: React.Dispatch<React.SetStateAction<boolean>>;
-}
+const TableBody: React.FC = () => {
+  /**
+   * global states
+   */
+  const { products, productsError, productsIsLoading } = useSelector((state: RootState) => state.products);
 
-const TableBody: React.FC<TableBodyProps> = ({ products, setProductToDelete, setOpenConfirm }) => {
-  const { productsError, productsIsLoading } = useSelector((state: RootState) => state.products);
-
+  /**
+   * tsx
+   */
   return (
     <Table.Body>
       <Loader isLoading={productsIsLoading} />
@@ -24,12 +23,7 @@ const TableBody: React.FC<TableBodyProps> = ({ products, setProductToDelete, set
       {!productsError && !productsIsLoading && products.length === 0 && <Empty />}
 
       {products.map((product) => (
-        <TableRow
-          key={product.id}
-          product={product}
-          setProductToDelete={setProductToDelete}
-          setOpenConfirm={setOpenConfirm}
-        />
+        <TableRow product={ product }/>
       ))}
     </Table.Body>
   );

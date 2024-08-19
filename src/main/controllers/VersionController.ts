@@ -21,6 +21,7 @@ export class VersionController {
     ipcMain.removeHandler('get-all-versions');
     ipcMain.removeHandler('get-version-by-id');
     ipcMain.removeHandler('get-latest-version');
+    ipcMain.removeHandler('get-latest-version-thumbnail');
     ipcMain.removeHandler('delete-version');
   }
 
@@ -127,6 +128,28 @@ export class VersionController {
         return error;
       }
     });
+
+    /**
+     * get-latest-version-thumbnail
+     */
+    ipcMain.handle('get-latest-version-thumbnail', async (_event, data) => {
+    try {
+      const modelId = data.modelId as string;
+
+      if (!modelId) {
+        throw new Error('No modelId provided');
+      }
+
+      const latestVersionThumbnail =
+        await this.versionService.getLatestVersionThumbnailByModelId(modelId);
+      if (latestVersionThumbnail) {
+        return latestVersionThumbnail;
+      }
+      return null;
+    } catch (error) {
+      return error;
+    }
+  });
 
     /**
      * delete-version

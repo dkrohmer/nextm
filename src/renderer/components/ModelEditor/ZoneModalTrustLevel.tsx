@@ -4,18 +4,17 @@ import ZoneModalTrustLevelEmpty from './ZoneModalTrustLevelEmpty';
 import ZoneModalTrustLevelUntrusted from './ZoneModalTrustLevelUntrusted';
 import ZoneModalTrustLevelTrusted from './ZoneModalTrustLevelTrusted';
 
-interface ZoneModalTrustLevelProps {
-  zoneTrustLevel: string;
-}
-
-const ZoneModalTrustLevel: React.FC<ZoneModalTrustLevelProps> = ({ zoneTrustLevel }) => {
+const ZoneModalTrustLevel: React.FC = () => {
+  /**
+   * tsx
+   */
   return (
     <div className="field">
       <label>Trust level</label>
       <Form.Group inline>
-        <ZoneModalTrustLevelEmpty zoneTrustLevel={zoneTrustLevel} />
-        <ZoneModalTrustLevelUntrusted zoneTrustLevel={zoneTrustLevel} />
-        <ZoneModalTrustLevelTrusted zoneTrustLevel={zoneTrustLevel} />
+        <ZoneModalTrustLevelEmpty />
+        <ZoneModalTrustLevelUntrusted />
+        <ZoneModalTrustLevelTrusted />
       </Form.Group>
     </div>
   );

@@ -15,27 +15,36 @@ import Increments from "../Increments"
 import '../../styles/product.css';
 
 const Product: React.FC = () => {
+  /**
+   * global states
+   */
   const { product, productIsLoading, productError } = useSelector(
     (state: RootState) => state.products,
   );
 
+  /**
+   * hooks
+   */
   useFetchProduct();
 
+  /**
+   * tsx
+   */
   return (
     <Container className="product-container">
-      <Breadcrumbs product={product} />
+      <Breadcrumbs />
       <Segment basic>
         <Segment className="product-segment">
-          <Loader productIsLoading={productIsLoading} />
-          <Error productError={productError} />
+          <Loader isLoading={productIsLoading}/>
+          {productError && <Error error={productError} />}
 
           {!productError && !productIsLoading && product && (
             <Grid columns={2}>
-              <Description description={product.description ?? null} />
-              <Responsibles responsibles={product.responsibles} />
-              <StartsAt startsAt={product.startsAt ?? null} />
-              <EndsAt endsAt={product.endsAt ?? null} />
-              <CreatedAt createdAt={product.createdAt ?? null} />
+              <Description />
+              <Responsibles />
+              <StartsAt />
+              <EndsAt />
+              <CreatedAt />
             </Grid>
           )}
         </Segment>

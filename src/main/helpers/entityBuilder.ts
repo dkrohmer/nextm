@@ -15,8 +15,6 @@ export function buildProductEntity(productData: Product): Product {
   product.startsAt = startsAt ? new Date(startsAt) : null;
   product.endsAt = endsAt ? new Date(endsAt) : null;
 
-  console.log(product);
-
   if (endsAt && startsAt && new Date(endsAt) < new Date(startsAt)) {
     throw new Error('The end date cannot be earlier than the start date.');
   }
@@ -89,7 +87,7 @@ export function buildModelEntity(modelData: Model): Model {
     );
   } else {
     const versionData = {
-      payload: '{}',
+      payload: '{"cells": []}',
       thumbnail: '',
     };
     model.versions = [];

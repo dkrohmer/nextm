@@ -10,27 +10,24 @@ import TableCellActions from './TableCellActions';
 
 interface TableRowProps {
   product: IProduct;
-  setProductToDelete: React.Dispatch<React.SetStateAction<string | null>>;
-  setOpenConfirm: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const ProductsTableRow: React.FC<TableRowProps> = ({
-  product,
-  setProductToDelete,
-  setOpenConfirm,
-}) => (
-  <Table.Row className="clickable-row">
-    <TableCellName name={product.name} productId={product.id} />
-    <TableCellDescription description={product.description} />
-    <TableCellResponsible responsibles={product.responsibles} />
-    <TableCellDeadline endsAt={product.endsAt} />
-    <TableCellCreated createdAt={product.createdAt} />
-    <TableCellActions
-      product={product}
-      setProductToDelete={setProductToDelete}
-      setOpenConfirm={setOpenConfirm}
-    />
-  </Table.Row>
-);
+const ProductsTableRow: React.FC<TableRowProps> = ({ product }) => {
+  /**
+   * tsx
+   */
+  return (
+    <Table.Row className="clickable-row">
+      <TableCellName name={product.name} productId={product.id} />
+      <TableCellDescription description={product.description} />
+      <TableCellResponsible responsibles={product.responsibles} />
+      <TableCellDeadline endsAt={product.endsAt} />
+      <TableCellCreated createdAt={product.createdAt} />
+      <TableCellActions
+        product={product}
+      />
+    </Table.Row>
+  )
+}
 
 export default ProductsTableRow;

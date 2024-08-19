@@ -57,6 +57,8 @@ const electronHandler = {
     ipcRenderer.invoke('get-version-by-id', payload),
   getLatestVersion: (payload: any) =>
     ipcRenderer.invoke('get-latest-version', payload),
+  getLatestVersionThumbnail: (payload: any) =>
+    ipcRenderer.invoke('get-latest-version-thumbnail', payload),
   createVersion: (payload: any) =>
     ipcRenderer.invoke('create-version', payload),
   deleteVersion: (payload: any) =>
