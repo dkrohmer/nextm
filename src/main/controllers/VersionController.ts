@@ -1,4 +1,4 @@
-// src/controllers/ProductController.ts
+// src/controllers/VersionController.ts
 
 import { ipcMain } from 'electron';
 import { VersionService } from '../services/VersionService';

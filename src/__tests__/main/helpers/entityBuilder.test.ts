@@ -141,7 +141,7 @@ describe('buildProductEntity', () => {
     const product = buildProductEntity(productData);
 
     expect(product.increments[0].models[0].versions).toHaveLength(1);
-    expect(product.increments[0].models[0].versions[0].payload).toBe('{}');
+    expect(product.increments[0].models[0].versions[0].payload).toBe('{\"cells\": []}');
     expect(product.increments[0].models[0].versions[0].thumbnail).toBe('');
   });
 

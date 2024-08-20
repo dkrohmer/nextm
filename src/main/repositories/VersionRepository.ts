@@ -47,9 +47,9 @@ export class VersionRepository {
       order: {
         versionIndex: 'DESC',
       },
-      select: ['thumbnail'],  // Select only the thumbnail field
+      select: ['thumbnail'],
     });
-    return version ? version.thumbnail : null;  // Return only the thumbnail
+    return version ? version.thumbnail : null;
   }
   
 

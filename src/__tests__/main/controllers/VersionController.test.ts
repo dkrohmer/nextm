@@ -299,4 +299,41 @@ describe('VersionController', () => {
 
     expect(response).toEqual(error);
   });
+
+  it('should handle get-latest-version-thumbnail correctly', async () => {
+    const mockModelId = 'testModelId';
+    const mockThumbnail = 'data:image/png;base64,iVBORw...';
+  
+    versionService.getLatestVersionThumbnailByModelId.mockResolvedValue(mockThumbnail);
+  
+    const result = await ipcRenderer.invoke('get-latest-version-thumbnail', {
+      modelId: mockModelId,
+    });
+  
+    expect(versionService.getLatestVersionThumbnailByModelId).toHaveBeenCalledWith(mockModelId);
+    expect(result).toEqual(mockThumbnail);
+  });
+  
+  it('should return null when get-latest-version-thumbnail has no thumbnail', async () => {
+    const mockModelId = 'testModelId';
+  
+    versionService.getLatestVersionThumbnailByModelId.mockResolvedValue(null);
+  
+    const result = await ipcRenderer.invoke('get-latest-version-thumbnail', {
+      modelId: mockModelId,
+    });
+  
+    expect(versionService.getLatestVersionThumbnailByModelId).toHaveBeenCalledWith(mockModelId);
+    expect(result).toBeNull();
+  });
+  
+  it('should handle get-latest-version-thumbnail with no modelId error', async () => {
+    const error = new Error('No modelId provided');
+  
+    const result = await ipcRenderer.invoke('get-latest-version-thumbnail', {
+      modelId: null,
+    });
+  
+    expect(result).toEqual(error);
+  });
 });

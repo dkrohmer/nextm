@@ -162,4 +162,23 @@ describe('VersionService', () => {
       expect(versionRepository.deleteVersion).toHaveBeenCalledWith('version-uuid');
     });
   });
+
+  describe('getLatestVersionThumbnailByModelId', () => {
+    it('should return the latest version thumbnail for a model', async () => {
+      const modelId = 'model-uuid';
+      const mockThumbnail = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA...';
+      versionRepository.getLatestVersionThumbnailByModelId.mockResolvedValue(mockThumbnail);
+      const result = await versionService.getLatestVersionThumbnailByModelId(modelId);
+      expect(versionRepository.getLatestVersionThumbnailByModelId).toHaveBeenCalledWith(modelId);
+      expect(result).toEqual(mockThumbnail);
+    });
+  
+    it('should return null if no thumbnail is found for the model', async () => {
+      const modelId = 'model-uuid';
+      versionRepository.getLatestVersionThumbnailByModelId.mockResolvedValue(null);
+      const result = await versionService.getLatestVersionThumbnailByModelId(modelId);
+      expect(versionRepository.getLatestVersionThumbnailByModelId).toHaveBeenCalledWith(modelId);
+      expect(result).toBeNull();
+    });
+  });
 });

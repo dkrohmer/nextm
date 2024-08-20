@@ -148,4 +148,28 @@ describe('VersionRepository', () => {
   it('should not throw an error when deleting a non-existent version', async () => {
     await expect(versionRepository.deleteVersion('non-existent-id')).resolves.not.toThrow();
   });
+
+  describe('getLatestVersionThumbnailByModelId', () => {
+    it('should return the latest version thumbnail for a model', async () => {
+      const version = {
+        payload: 'Thumbnail Test Payload',
+        modelId: modelId,
+        versionIndex: 5,
+        thumbnail: 'latest-thumbnail.png',
+        x: 1.0,
+        y: 2.0,
+        height: 10.0,
+        width: 20.0,
+      };
+      await versionRepository.createVersion(version);
+      const thumbnail = await versionRepository.getLatestVersionThumbnailByModelId(modelId);
+      expect(thumbnail).toBe('latest-thumbnail.png');
+    });
+
+    it('should return null if no version is found for the modelId', async () => {
+      const nonExistentModelId = 'non-existent-model-id';
+      const thumbnail = await versionRepository.getLatestVersionThumbnailByModelId(nonExistentModelId);
+      expect(thumbnail).toBeNull();
+    });
+  });
 });
