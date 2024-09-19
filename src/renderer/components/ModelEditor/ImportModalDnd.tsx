@@ -45,6 +45,7 @@ const ImportModalDnd: React.FC = () => {
     dispatch(setImportIsDragging(false));
   
     const { files } = e.dataTransfer;
+
     if (files.length <= 0) {
       dispatch(setImportError('No files selected.'));
       dispatch(setImportFileName(null));
@@ -52,9 +53,9 @@ const ImportModalDnd: React.FC = () => {
       return;
     }
     if (files.length > 1) {
-      setImportError('Only one file allowed.');
-      setImportFileName(null);
-      setImportIsFileValid(false);
+      dispatch(setImportError('Only one file allowed.'));
+      dispatch(setImportFileName(null));
+      dispatch(setImportIsFileValid(false));
       return;
     }
   
@@ -81,10 +82,6 @@ const ImportModalDnd: React.FC = () => {
         dispatch(setImportFileName(null));
         dispatch(setImportIsFileValid(false));
       }
-    } else {
-      dispatch(setImportError('No file selected. Please select a valid JSON file.'));
-      dispatch(setImportFileName(null));
-      dispatch(setImportIsFileValid(false));
     }
   }
   
@@ -138,6 +135,7 @@ const ImportModalDnd: React.FC = () => {
         onDrop={handleDrop}
         onClick={handleClick}
         className={`drag-and-drop-area ${importIsDragging ? 'dragging' : ''}`}
+        data-testid="drop-area"
       >
         <ImportOutlined className="import-icon" />
         {!importFileName && <p className="file-message">Drag and drop a JSON file here, or click to select a file.</p>}
@@ -149,6 +147,7 @@ const ImportModalDnd: React.FC = () => {
           className="hidden-input"
           ref={fileInputRef}
           onChange={handleFileChange}
+          data-testid="file-input"
         />
       </div>
     </Form.Field>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Button, Icon, Popup } from 'semantic-ui-react';
 import { IProduct } from '../../interfaces/IProduct';
@@ -11,6 +11,11 @@ interface TableCellActionsEditProps {
 }
 
 const TableCellActionsEdit: React.FC<TableCellActionsEditProps> = ({ product }) => {
+  /**
+   * local states
+   */
+  const [popupOpen, setPopupOpen] = useState(false);
+
   /**
    * hooks
    */
@@ -26,6 +31,14 @@ const TableCellActionsEdit: React.FC<TableCellActionsEditProps> = ({ product }) 
     dispatch(setProductsIsEditing(true));  
   };
 
+  const handleMouseEnter = () => {
+    setPopupOpen(true)
+  }
+
+  const handleMouseLeave = () => {
+    setPopupOpen(false)
+  }
+
   /**
    * tsx
    */
@@ -38,11 +51,15 @@ const TableCellActionsEdit: React.FC<TableCellActionsEditProps> = ({ product }) 
           icon
           className="products-button"
           onClick={handleEdit}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
         >
           <Icon name="pencil" />
         </Button>
       }
       content={<span><strong>Edit product</strong> "{product.name}"</span>}
+      open={popupOpen}
+      onClose={handleMouseLeave}
     />
   );
 };

@@ -10,9 +10,13 @@ const Loader: React.FC<LoaderProps> = ({ isLoading }) => {
    * tsx
    */
   return (
-    <Dimmer active={isLoading} inverted>
-      <SemanticLoader>Loading Model...</SemanticLoader>
-    </Dimmer>
+    <>
+      {isLoading && (
+        <Dimmer active inverted>
+          <SemanticLoader>Loading Model...</SemanticLoader>
+        </Dimmer>
+      )}
+    </>
   )
 };
 

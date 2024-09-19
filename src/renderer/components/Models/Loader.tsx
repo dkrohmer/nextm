@@ -1,16 +1,19 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { Dimmer, Loader as SemanticLoader } from 'semantic-ui-react';
+import { RootState } from '../../store';
 
-interface LoaderProps {
-  isLoading: boolean;
-}
+const Loader: React.FC = () => {
+  /**
+   * global states
+   */
+  const { modelsIsLoading } = useSelector((state: RootState) => state.models);
 
-const Loader: React.FC<LoaderProps> = ({ isLoading }) => {
   /**
    * tsx
    */
   return (
-    <Dimmer active={isLoading} inverted>
+    <Dimmer active={modelsIsLoading} inverted data-testid='models-loader'>
       <SemanticLoader>Loading models...</SemanticLoader>
     </Dimmer>
   )

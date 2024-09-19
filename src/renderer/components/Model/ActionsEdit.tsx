@@ -38,6 +38,7 @@ const ModelActionsEdit: React.FC<ModelActionsEditProps> = ({ model }) => {
           size="tiny"
           className="action-button"
           onClick={handleEdit}
+          data-testid="edit-button"
         >
           <Icon name="pencil" />
         </Button>

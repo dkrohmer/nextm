@@ -58,10 +58,18 @@ const DataflowModal: React.FC<DataflowModalProps> = ({ graph }) => {
    * tsx
    */
   return (
-    <Modal open={dataflowModalOpen} onClose={handleCancel} dimmer="blurring">
+    <Modal 
+      open={dataflowModalOpen} 
+      onClose={handleCancel} 
+      dimmer="blurring"
+      data-testid="dataflow-modal"
+    >
       <Modal.Header>Edit Dataflow</Modal.Header>
       <Modal.Content>
-        <Form onSubmit={handleSubmit}>
+        <Form 
+          onSubmit={handleSubmit} 
+          data-testid="dataflow-modal-form"
+        >
           <DataflowModalName />
           <DataflowModalProtocol />
           <DataflowModalStride />

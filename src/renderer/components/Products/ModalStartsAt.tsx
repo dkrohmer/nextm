@@ -46,6 +46,7 @@ const ModalStartsAt: React.FC = () => {
       value={formatDate(productsCurrentProduct?.startsAt || '')}
       onChange={(e) => handleInputChange(e, 'startsAt')}
       max={formatDate(productsCurrentProduct?.endsAt || '')}
+      data-testid="product-starts-at-input"
     />
   );
 };

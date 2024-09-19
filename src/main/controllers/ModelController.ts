@@ -64,7 +64,7 @@ export class ModelController {
           sort,
           incrementId,
         );
-        return { models, modelsCount };
+        return models;
       } catch (error) {
         console.error(error);
       }

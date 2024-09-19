@@ -18,8 +18,8 @@ const SystemModalDescription: React.FC = () => {
   /**
    * handlers
    */
-  const handleDescriptionChange = (data: TextAreaProps) => {
-    dispatch(setSystemDescription(data.value as string));
+  const handleDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    dispatch(setSystemDescription(e.target.value));
   };
 
   /**
@@ -31,6 +31,7 @@ const SystemModalDescription: React.FC = () => {
       placeholder="Description"
       value={systemDescription}
       onChange={handleDescriptionChange}
+      data-testid="system-description"
     />
   );
 };

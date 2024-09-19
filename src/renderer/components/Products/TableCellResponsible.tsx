@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Table, Label, Icon, Popup } from 'semantic-ui-react';
 import { IResponsible } from '../../interfaces/IResponsible';
 
@@ -8,13 +8,31 @@ interface TableCellResponsibleProps {
 
 const TableCellResponsible: React.FC<TableCellResponsibleProps> = ({ responsibles = [] }) => {
   /**
-   * Format responsibles into a string for the popup content
+   * local states
    */
-  const formatResponsibles = (responsibles: IResponsible[]): string => {
-    return responsibles.map(responsible => 
-      `${responsible.firstName} ${responsible.lastName}${responsible.role ? ` (${responsible.role})` : ''}`
-    ).join(', ');
+  const [popupOpen, setPopupOpen] = useState(false);
+
+  /**
+   * handlers
+   */
+  const handleResponsiblesFormat = (responsibles: IResponsible[]): string => {
+    console.log(responsibles)
+    if (responsibles.length == 0) {
+      return 'n/a';
+    } else {
+      return responsibles.map(responsible => 
+        `${responsible.firstName} ${responsible.lastName}${responsible.role ? ` (${responsible.role})` : ''}`
+      ).join(', ');
+    }
   };
+
+  const handleMouseEnter = () => {
+    setPopupOpen(true)
+  }
+
+  const handleMouseLeave = () => {
+    setPopupOpen(false)
+  }
 
   /**
    * tsx
@@ -36,9 +54,12 @@ const TableCellResponsible: React.FC<TableCellResponsibleProps> = ({ responsible
           </div>
         </Table.Cell>
       }
-      content={formatResponsibles(responsibles)}
+      content={() => handleResponsiblesFormat(responsibles)}
       position="top center"
       hoverable
+      open={popupOpen}
+      onOpen={handleMouseEnter}
+      onClose={handleMouseLeave}
     />
   );
 }

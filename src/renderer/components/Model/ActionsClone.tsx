@@ -38,6 +38,7 @@ const ActionsClone: React.FC<ActionsCloneProps> = ({ model }) => {
           size="tiny"
           className="action-button"
           onClick={handleClone}
+          data-testid="clone-button"
         >
           <Icon name="clone" />
         </Button>

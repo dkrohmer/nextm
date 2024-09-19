@@ -12,22 +12,29 @@ const GridType: React.FC = () => {
   return (
     <Form inverted>
       <div>
-        <h3 className="settings-label">
+        <h3 className="settings-label" data-testid="settings-label">
           <label>Set grid type</label>
         </h3>
         <Popup
-          trigger={<Icon name="info circle" inverted className="settings-info" />}
+          trigger={
+            <Icon
+              name="info circle"
+              inverted
+              className="settings-info"
+              data-testid="info-icon"
+            />
+          }
           content="Choose the type of grid for the model editor."
         />
       </div>
       <Form.Field>
-        <GridTypeNone />
+        <GridTypeNone data-testid="grid-type-none" />
       </Form.Field>
       <Form.Field>
-        <GridTypeDot />
+        <GridTypeDot data-testid="grid-type-dot" />
       </Form.Field>
       <Form.Field>
-        <GridTypeMesh />
+        <GridTypeMesh data-testid="grid-type-mesh" />
       </Form.Field>
     </Form>
   );

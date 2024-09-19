@@ -26,13 +26,14 @@ const ZoneModalTrustLevelUntrusted: React.FC = () => {
    * tsx
    */
   return (
-    <Form.Field>
+    <Form.Field data-testid="zone-trust-level-untrusted">
       <Radio
         label="Untrusted"
         name="radioGroup"
         value="untrusted"
         checked={zoneTrustLevel === 'untrusted'}
         onChange={() => handleTrustLevelChange('untrusted')}
+        data-testid="zone-trust-level-untrusted-radio"
       />
     </Form.Field>
   );

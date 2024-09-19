@@ -9,12 +9,12 @@ const ZoneModalTrustLevel: React.FC = () => {
    * tsx
    */
   return (
-    <div className="field">
-      <label>Trust level</label>
-      <Form.Group inline>
-        <ZoneModalTrustLevelEmpty />
-        <ZoneModalTrustLevelUntrusted />
-        <ZoneModalTrustLevelTrusted />
+    <div className="field" data-testid="zone-trust-level">
+      <label data-testid="zone-trust-level-label">Trust level</label>
+      <Form.Group inline data-testid="zone-trust-level-options">
+        <ZoneModalTrustLevelEmpty data-testid="trust-level-empty" />
+        <ZoneModalTrustLevelUntrusted data-testid="trust-level-untrusted" />
+        <ZoneModalTrustLevelTrusted data-testid="trust-level-trusted" />
       </Form.Group>
     </div>
   );

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Icon, Popup } from 'semantic-ui-react';
 import { IProduct } from '../../interfaces/IProduct';
 import '../../styles/products.css';
@@ -12,7 +12,12 @@ interface TableCellActionsDeleteProps {
 
 const TableCellActionsDelete: React.FC<TableCellActionsDeleteProps> = ({ product }) => {
   /**
-   * hooks
+   * local states
+   */
+  const [popupOpen, setPopupOpen] = useState(false);
+
+  /**
+   * hooksv
    */
   const dispatch = useDispatch<AppDispatch>();
 
@@ -24,6 +29,14 @@ const TableCellActionsDelete: React.FC<TableCellActionsDeleteProps> = ({ product
     dispatch(setProductToDelete(product.id));
     dispatch(setOpenConfirm(true));
   };
+
+  const handleMouseEnter = () => {
+    setPopupOpen(true)
+  }
+
+  const handleMouseLeave = () => {
+    setPopupOpen(false)
+  }
 
   /**
    * tsx
@@ -37,11 +50,15 @@ const TableCellActionsDelete: React.FC<TableCellActionsDeleteProps> = ({ product
           icon
           className="products-button"
           onClick={handleDelete}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
         >
           <Icon color="red" name="trash" />
         </Button>
       }
       content={<span><strong>Delete product</strong> "{product.name}"</span>}
+      open={popupOpen}
+      onClose={handleMouseLeave}
     />
   );
 };

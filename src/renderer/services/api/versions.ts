@@ -57,27 +57,17 @@ export const fetchLatestVersionThumbnail = createAsyncThunk<
 /**
  * add latest version
  */
-export const addLatestVersion = createAsyncThunk<
-  IVersion,
-  {
-    graph: Graph;
-    modelId: string;
-    x: number;
-    y: number;
-    height: number;
-    width: number;
-  },
-  { state: RootState }
->(
+export const addLatestVersion = createAsyncThunk(
   'versions/addLatestVersion',
   async (
-    { modelId, graph, x, y, height, width }: AddLatestVersionArgs,
-    { rejectWithValue },
+    { graph, modelId, x, y, height, width }: { graph: Graph, modelId: string, x: number, y: number, height: number, width: number },
+    { rejectWithValue }
   ) => {
     try {
       const dataUri = await graphToPng(graph);
 
-      const response = window.electron.createVersion({
+      // Create a new version using the electron API
+      const response = await window.electron.createVersion({
         modelId,
         payload: { graph: graph.toJSON() },
         thumbnail: dataUri,
@@ -89,7 +79,7 @@ export const addLatestVersion = createAsyncThunk<
 
       return response;
     } catch (error) {
-      return rejectWithValue(error);
+      return rejectWithValue('Failed to create version.');
     }
-  },
+  }
 );

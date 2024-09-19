@@ -5,7 +5,6 @@ import { Snapline } from '@antv/x6-plugin-snapline';
 import { Keyboard } from '@antv/x6-plugin-keyboard';
 import { Clipboard } from '@antv/x6-plugin-clipboard';
 import { History } from '@antv/x6-plugin-history';
-// import { MiniMap } from '@antv/x6-plugin-minimap'
 import { Export } from '@antv/x6-plugin-export';
 
 const topbar = document.getElementById('topbar');
@@ -108,44 +107,47 @@ const create = (
       new History({
         beforeAddCommand: (event: string, args: any) => {
           let keepItemInHistory: boolean = true;
-
+        
           // do not keep vertices in history
           if (args && args.current && args.current.items) {
             const { items } = args.current;
             for (const item of items) {
               if (
                 item === 'edge-vertices' ||
-                'edge-source-handle' ||
-                'edge-target-handle'
+                item === 'edge-source-handle' ||
+                item === 'edge-target-handle'
               ) {
                 keepItemInHistory = false;
               }
             }
           }
-
+        
           // do not keep vertices in history
           if (args && args.previous && args.previous.items) {
             const { items } = args.previous;
             for (const item of items) {
               if (
                 item === 'edge-vertices' ||
-                'edge-source-handle' ||
-                'edge-target-handle'
+                item === 'edge-source-handle' ||
+                item === 'edge-target-handle'
               ) {
                 keepItemInHistory = false;
               }
             }
           }
-
+        
           // do not keep mouse hover highlighting in history
           if (args && args.options && args.options.propertyPath) {
-            if (args.options.propertyPath === 'attrs/line/strokeWidth' || args.options.propertyPath === 'attrs/body/strokeWidth') {
+            if (
+              args.options.propertyPath === 'attrs/line/strokeWidth' ||
+              args.options.propertyPath === 'attrs/body/strokeWidth'
+            ) {
               keepItemInHistory = false;
             }
           }
-
+        
           return keepItemInHistory;
-        },
+        }
       }),
     )
     // .use(
@@ -157,7 +159,6 @@ const create = (
     //   })
     // )
     .use(new Export());
-
 export default {
   create,
 };

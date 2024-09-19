@@ -49,10 +49,10 @@ const ZoneModal: React.FC<ZoneModalProps> = ({ graph }) => {
    * tsx
    */
   return (
-    <Modal open={zoneModalOpen} onClose={handleClose} dimmer="blurring">
+    <Modal open={zoneModalOpen} onClose={handleClose} dimmer="blurring" data-testid="zone-modal">
       <Modal.Header>Edit Zone</Modal.Header>
       <Modal.Content>
-        <Form onSubmit={handleSubmit}>
+        <Form onSubmit={handleSubmit} data-testid="zone-modal-form">
           <ZoneModalName />
           <ZoneModalTrustLevel />
           <ZoneModalDescription />

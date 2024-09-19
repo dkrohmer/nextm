@@ -53,10 +53,13 @@ const ActorModal: React.FC<ActorModalProps> = ({ graph }) => {
    * tsx
    */
   return (
-    <Modal open={actorModalOpen} onClose={handleClose} dimmer="blurring">
+    <Modal open={actorModalOpen} onClose={handleClose} dimmer="blurring" data-testid="actor-modal">
       <Modal.Header>Edit Actor</Modal.Header>
       <Modal.Content>
-        <Form onSubmit={handleSubmit}>
+        <Form
+          onSubmit={handleSubmit}
+          data-testid="actor-modal-form"
+        >
           <ActorModalName />
           <ActorModalDescription />
           <Form.Group className="form-button-group">

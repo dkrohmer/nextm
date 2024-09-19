@@ -84,7 +84,7 @@ describe('IncrementController', () => {
       productId: 'test-product',
     });
 
-    expect(response).toEqual({ increments: [mockIncrement], incrementsCount: 1 });
+    expect(response).toEqual([mockIncrement]);
     expect(incrementService.getAllIncrements).toHaveBeenCalledWith(
       'createdAt',
       'asc',
@@ -113,7 +113,7 @@ describe('IncrementController', () => {
       productId: 'test-product',
     });
 
-    expect(response).toEqual({ increments: [mockIncrement], incrementsCount: 1 });
+    expect(response).toEqual([mockIncrement]);
     expect(incrementService.getAllIncrements).toHaveBeenCalledWith(
       'createdAt',
       'desc',
@@ -142,7 +142,7 @@ describe('IncrementController', () => {
       productId: 'test-product',
     });
 
-    expect(response).toEqual({ increments: [mockIncrement], incrementsCount: 1 });
+    expect(response).toEqual([mockIncrement]);
     expect(incrementService.getAllIncrements).toHaveBeenCalledWith(
       'createdAt',
       'asc',
@@ -170,7 +170,7 @@ describe('IncrementController', () => {
       productId: 'test-product',
     });
 
-    expect(response).toEqual({ increments: [mockIncrement], incrementsCount: 1 });
+    expect(response).toEqual([mockIncrement]);
     expect(incrementService.getAllIncrements).toHaveBeenCalledWith(
       'createdAt',
       'asc',
@@ -212,7 +212,7 @@ describe('IncrementController', () => {
       productId: 'test-product',
     });
 
-    expect(response).toEqual({ increments: [mockIncrement], incrementsCount: 1 });
+    expect(response).toEqual([mockIncrement]);
     expect(incrementService.getAllIncrements).toHaveBeenCalledWith(
       'createdAt',
       'asc',

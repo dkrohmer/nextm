@@ -29,6 +29,8 @@ const useInitializeGraph = (
       setGraph(graphInstance);
       isGraphInitialized.current = true;
       containerRef.current.focus();
+      
+      console.log(graphInstance)
     };
 
     initializeGraph();

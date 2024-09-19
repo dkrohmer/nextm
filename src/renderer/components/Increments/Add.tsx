@@ -8,7 +8,7 @@ const Add: React.FC = () => {
   /**
    * global states
    */
-  const isModalOpen = useSelector((state: RootState) => state.increments.incrementsModalOpen);
+  const { incrementsModalOpen } = useSelector((state: RootState) => state.increments);
 
   /**
    * hooks
@@ -19,7 +19,7 @@ const Add: React.FC = () => {
    * handlers
    */
   const handleAddModal = () => {
-    if (!isModalOpen) {
+    if (!incrementsModalOpen) {
       dispatch(setIncrementsIsEditing(false));
       dispatch(setIncrementsModalOpen(true));
       dispatch(
@@ -30,8 +30,7 @@ const Add: React.FC = () => {
           end: '',
           deadline: '',
           state: '',
-          productId: '',
-          models: [],
+          productId: ''
         }),
       );
     }

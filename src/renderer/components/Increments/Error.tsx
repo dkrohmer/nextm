@@ -1,19 +1,22 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { Message } from 'semantic-ui-react';
+import { RootState } from '../../store';
 
-interface IncrementsErrorProps {
-  error: string | null;
-}
-
-const Error: React.FC<IncrementsErrorProps> = ({ error }) => {
+const Error: React.FC = () => {
+  /**
+   * global states
+   */
+  const { incrementsError } = useSelector((state: RootState) => state.increments);
+  
   /**
    * tsx
    */
   return (
-    error ? (
-      <Message negative className="increments-message">
+    incrementsError ? (
+      <Message negative className="increments-message" data-testid="increments-error">
         <Message.Header>Error❗️</Message.Header>
-        <p>{error}</p>
+        <p>{incrementsError}</p>
       </Message>
     ) : null
   )

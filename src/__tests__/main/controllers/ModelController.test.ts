@@ -83,7 +83,7 @@ describe('ModelController', () => {
       incrementId: 'test-increment',
     });
 
-    expect(response).toEqual({ models: [mockModel], modelsCount: 1 });
+    expect(response).toEqual([mockModel]);
     expect(modelService.getAllModels).toHaveBeenCalledWith(
       'createdAt',
       'asc',
@@ -112,7 +112,7 @@ describe('ModelController', () => {
       incrementId: 'test-increment',
     });
 
-    expect(response).toEqual({ models: [mockModel], modelsCount: 1 });
+    expect(response).toEqual([mockModel]);
     expect(modelService.getAllModels).toHaveBeenCalledWith(
       'createdAt',
       'desc',
@@ -141,7 +141,7 @@ describe('ModelController', () => {
       incrementId: 'test-increment',
     });
 
-    expect(response).toEqual({ models: [mockModel], modelsCount: 1 });
+    expect(response).toEqual([mockModel]);
     expect(modelService.getAllModels).toHaveBeenCalledWith(
       'createdAt',
       'asc',
@@ -169,7 +169,7 @@ describe('ModelController', () => {
       incrementId: 'test-increment',
     });
 
-    expect(response).toEqual({ models: [mockModel], modelsCount: 1 });
+    expect(response).toEqual([mockModel]);
     expect(modelService.getAllModels).toHaveBeenCalledWith(
       'createdAt',
       'asc',

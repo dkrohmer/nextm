@@ -31,7 +31,7 @@ const Filters: React.FC = () => {
   /**
    * handlers
    */
-  const handleSortDirection = (dispatch: AppDispatch) => {
+  const handleSortDirection = () => {
     dispatch(toggleProductsSort());
   };
 
@@ -56,18 +56,17 @@ const Filters: React.FC = () => {
         options={sortFields}
         value={productsSortby}
         onChange={handleSortFieldChange}
+        data-testid="sort-dropdown"
       />
       <Button
         icon
-        onClick={() => handleSortDirection(dispatch)}
+        onClick={handleSortDirection}
         className="products-sort-button"
+        data-testid="sort-direction-button"
       >
         <Icon
-          name={
-            productsSort === 'asc'
-              ? 'long arrow alternate up'
-              : 'long arrow alternate down'
-          }
+          name={productsSort === 'asc' ? 'long arrow alternate up' : 'long arrow alternate down'}
+          data-testid="sort-icon"
         />
       </Button>
     </div>

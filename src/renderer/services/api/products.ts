@@ -103,7 +103,7 @@ export const addOrUpdateProduct = createAsyncThunk(
       const response = await window.electron.createProduct(product);
       return response;
     } catch (error) {
-      return rejectWithValue('Failed to save product.');
+      return rejectWithValue('Failed to add or update product.');
     }
   },
 );
@@ -115,11 +115,15 @@ export const deleteProduct = createAsyncThunk(
   'products/deleteProduct',
   async (
     { productId, limit, offset, sort, sortby }: DeleteProductArgs,
-    { dispatch },
+    { dispatch, rejectWithValue},
   ) => {
-    // await axios.delete(`/api/products/${productId}`);
-    await window.electron.deleteProduct({ productId });
-    dispatch(fetchProducts({ limit, offset, sort, sortby }));
-    return productId;
+    try {
+      // await axios.delete(`/api/products/${productId}`);
+      await window.electron.deleteProduct({ productId });
+      dispatch(fetchProducts({ limit, offset, sort, sortby }));
+      return productId;
+    } catch (error) {
+      return rejectWithValue('Failed to delete product.');
+    }
   },
 );

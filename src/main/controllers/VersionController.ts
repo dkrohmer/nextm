@@ -75,7 +75,7 @@ export class VersionController {
         const { versions, versionsCount } =
           await this.versionService.getAllVersions(sortby, sort, modelId);
 
-        return { versions, versionsCount };
+        return versions;
       } catch (error) {
         return error;
       }

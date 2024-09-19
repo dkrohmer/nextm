@@ -53,7 +53,9 @@ const useEdgeEvents = (graph?: Graph) => {
   const { explicitObjectSelection } = useSelector((state: RootState) => state.settings);
 
   useEffect(() => {
-    if (!graph) return;
+    if (!graph) {
+      return;
+    }
 
     const edgeSelected = ({ cell }: { cell: Cell }) => {
       if (cell.isEdge()) {

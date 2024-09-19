@@ -24,8 +24,7 @@ const Modal: React.FC = () => {
     productsIsEditing,
     productsItemsPerPage,
     productsSort,
-    productsSortby,
-    productsCurrentPage
+    productsSortby
   } = useSelector((state: RootState) => state.products);
 
   /**

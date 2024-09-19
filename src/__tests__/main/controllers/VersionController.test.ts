@@ -105,7 +105,7 @@ describe('VersionController', () => {
       modelId: 'test-model',
     });
 
-    expect(response).toEqual({ versions: [mockVersion], versionsCount: 1 });
+    expect(response).toEqual([mockVersion]);
     expect(versionService.getAllVersions).toHaveBeenCalledWith(
       'createdAt',
       'asc',
@@ -134,7 +134,7 @@ describe('VersionController', () => {
       modelId: 'test-model',
     });
 
-    expect(response).toEqual({ versions: [mockVersion], versionsCount: 1 });
+    expect(response).toEqual([mockVersion]);
     expect(versionService.getAllVersions).toHaveBeenCalledWith(
       'createdAt',
       'desc',
@@ -162,7 +162,7 @@ describe('VersionController', () => {
       modelId: 'test-model',
     });
   
-    expect(response).toEqual({ versions: [mockVersion], versionsCount: 1 });
+    expect(response).toEqual([mockVersion]);
     expect(versionService.getAllVersions).toHaveBeenCalledWith(
       'createdAt',
       'asc',

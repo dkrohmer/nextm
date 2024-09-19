@@ -18,8 +18,8 @@ const ZoneModalDescription: React.FC = () => {
   /**
    * handlers
    */
-  const handleDescriptionChange = (_e: React.ChangeEvent<HTMLTextAreaElement>, data: TextAreaProps) => {
-    dispatch(setZoneDescription(data.value as string));
+  const handleDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    dispatch(setZoneDescription(e.target.value));
   };
 
   /**
@@ -31,6 +31,7 @@ const ZoneModalDescription: React.FC = () => {
       placeholder="Description"
       value={zoneDescription}
       onChange={handleDescriptionChange}
+      data-testid="zone-description"
     />
   );
 };

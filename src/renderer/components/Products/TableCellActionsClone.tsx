@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Button, Icon, Popup } from 'semantic-ui-react';
 import { IProduct } from '../../interfaces/IProduct';
@@ -11,6 +11,11 @@ interface TableCellActionsCloneProps {
 }
 
 const TableCellActionsClone: React.FC<TableCellActionsCloneProps> = ({ product }) => {
+  /**
+   * local states
+   */
+  const [popupOpen, setPopupOpen] = useState(false);
+
   /**
    * hooks
    */
@@ -28,6 +33,14 @@ const TableCellActionsClone: React.FC<TableCellActionsCloneProps> = ({ product }
     dispatch(setProductsModalOpen(true));
   };
 
+  const handleMouseEnter = () => {
+    setPopupOpen(true)
+  }
+
+  const handleMouseLeave = () => {
+    setPopupOpen(false)
+  }
+
   /**
    * tsx
    */
@@ -40,11 +53,15 @@ const TableCellActionsClone: React.FC<TableCellActionsCloneProps> = ({ product }
           icon
           className="products-button"
           onClick={handleClone}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
         >
           <Icon name="clone" />
         </Button>
       }
       content={<span><strong>Clone product</strong> "{product.name}"</span>}
+      open={popupOpen}
+      onClose={handleMouseLeave}
     />
   );
 };

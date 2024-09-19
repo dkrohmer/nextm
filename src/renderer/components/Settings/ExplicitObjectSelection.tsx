@@ -48,6 +48,7 @@ const ExplicitObjectSelection: React.FC = () => {
               name="info circle"
               inverted
               className="settings-info"
+              data-testid="info-icon" 
             />
           }
           content="If explicit object selection is active, you cannot context-click an object unless it has previously been selected with a left mouse click."
@@ -55,6 +56,7 @@ const ExplicitObjectSelection: React.FC = () => {
       </div>
       <Form.Field>
         <Checkbox
+          data-testid="checkbox"
           label={explicitObjectSelection ? 'Active' : 'Inactive'}
           checked={explicitObjectSelection}
           onChange={handleExplicitObjectSelectionChange}

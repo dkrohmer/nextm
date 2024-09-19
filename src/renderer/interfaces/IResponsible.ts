@@ -1,8 +1,8 @@
 interface IResponsible {
   id: string;
   firstName: string;
-  lastName: string;
-  role: string;
+  lastName?: string;
+  role?: string;
 }
 
 interface IResponsibles {

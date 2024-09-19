@@ -30,6 +30,7 @@ const DatabaseTypeCustom: React.FC = () => {
   return (
     <Form.Field>
       <Radio
+        data-testid="custom-db-radio"
         label="Custom database"
         name="databaseType"
         value="custom"

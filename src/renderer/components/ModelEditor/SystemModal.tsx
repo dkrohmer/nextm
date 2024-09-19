@@ -57,10 +57,10 @@ const SystemModal: React.FC<SystemModalProps> = ({ graph }) => {
    * tsx
    */
   return (
-    <Modal open={systemModalOpen} onClose={handleClose} dimmer="blurring">
+    <Modal open={systemModalOpen} onClose={handleClose} dimmer="blurring" data-testid="system-modal">
       <Modal.Header>Edit System</Modal.Header>
       <Modal.Content>
-        <Form onSubmit={handleSubmit}>
+        <Form onSubmit={handleSubmit} data-testid="system-modal-form">
           <SystemModalName />
           <SystemModalStack />
           <SystemModalDescription />

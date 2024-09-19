@@ -21,21 +21,21 @@ const Products: React.FC = () => {
    * tsx
    */
   return (
-    <Container className="products-container">
-      <Breadcrumbs />
-      <div className="products-filters">
-        <Filters />
-        <Add />
+    <Container className="products-container" data-testid="products-container">
+      <Breadcrumbs data-testid="breadcrumbs" />
+      <div className="products-filters" data-testid="products-filters">
+        <Filters data-testid="filters" />
+        <Add data-testid="add" />
       </div>
-      <Segment basic>
-        <Table />
+      <Segment basic data-testid="table-segment">
+        <Table data-testid="table" />
       </Segment>
-      <div className="products-pagination-items-container">
-        <Pagination />
-        <ItemsPerPage />
+      <div className="products-pagination-items-container" data-testid="pagination-items-container">
+        <Pagination data-testid="pagination" />
+        <ItemsPerPage data-testid="items-per-page" />
       </div>
-      <ConfirmDelete />
-      <Modal />
+      <ConfirmDelete data-testid="confirm-delete" />
+      <Modal data-testid="modal" />
     </Container>
   );
 };

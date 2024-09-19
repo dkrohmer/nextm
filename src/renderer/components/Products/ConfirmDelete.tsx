@@ -30,7 +30,7 @@ const ConfirmDelete: React.FC = () => {
   const handleConfirmDelete = () => {
     if (productToDelete) {
       let offset = (productsCurrentPage - 1) * productsItemsPerPage;
-      if (products.length === 1 && offset !== 0) {
+      if (products.products.length === 1 && offset !== 0) {
         offset -= productsItemsPerPage;
         dispatch(setProductsCurrentPage(productsCurrentPage - 1));
       }
@@ -50,7 +50,7 @@ const ConfirmDelete: React.FC = () => {
   };
   
   const handleCancelDelete = () => {
-    setOpenConfirm(false);
+    dispatch(setOpenConfirm(false));
   };
 
   /**
@@ -59,8 +59,8 @@ const ConfirmDelete: React.FC = () => {
   return (
     <Confirm
       open={openConfirm}
-      onCancel={() => handleCancelDelete()}
-      onConfirm={() => handleConfirmDelete()}
+      onCancel={handleCancelDelete}
+      onConfirm={handleConfirmDelete}
       content="Deleting a product will permanently delete all increments and models associated with it. Do you want to delete this product?"
     />
   );

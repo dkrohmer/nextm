@@ -18,8 +18,8 @@ const ActorModalDescription: React.FC = () => {
   /**
    * handlers
    */
-  const handleDescriptionChange = (data: TextAreaProps) => {
-    dispatch(setActorDescription(data.value as string));
+  const handleDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    dispatch(setActorDescription(e.target.value));
   };
 
   /**
@@ -27,6 +27,7 @@ const ActorModalDescription: React.FC = () => {
    */
   return (
     <Form.TextArea
+      data-testid="actor-description"
       label="Description"
       placeholder="Description"
       value={actorDescription}

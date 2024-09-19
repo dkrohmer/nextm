@@ -5,8 +5,8 @@ interface IProduct {
   name: string;
   createdAt: string;
   description?: string;
-  startsAt?: string;
-  endsAt?: string;
+  startsAt?: string | null;
+  endsAt?: string | null;
   responsibles?: IResponsible[];
   latestIncrementId?: string;
 }

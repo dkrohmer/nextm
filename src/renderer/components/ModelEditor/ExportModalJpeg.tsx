@@ -1,26 +1,42 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Form, Radio } from 'semantic-ui-react';
+import { RootState } from '../../store';
+import { setExportFormat } from '../../store/modelEditor';
 
-interface ExportModalJpegProps {
-  format: string;
-  setFormat: (format: string) => void;
-}
+const ExportModalJpeg: React.FC = () => {
+  /**
+   * global states
+   */
+  const { exportFormat } = useSelector((state: RootState) => state.modelEditor);
 
-const ExportModalJpeg: React.FC<ExportModalJpegProps> = ({ format, setFormat }) => {
+  /**
+   * hooks
+   */
+  const dispatch = useDispatch();
+
+  /**
+   * handlers
+   */
+  const handleChange = () => {
+    dispatch(setExportFormat('jpeg'));
+  }
+  
   /**
    * tsx
    */
   return (
-    <Form.Field>
+    <Form.Field data-testid="jpeg-form">
       <Radio
+        data-testid="jpeg-radio"
         label="JPEG"
         name="format"
         value="jpeg"
-        checked={format === 'jpeg'}
-        onChange={() => setFormat('jpeg')}
+        checked={exportFormat === 'jpeg'}
+        onChange={handleChange}
       />
     </Form.Field>
-  )
+  );
 }
 
 export default ExportModalJpeg;

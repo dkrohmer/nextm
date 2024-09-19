@@ -73,7 +73,7 @@ export class IncrementController {
 
         const { increments, incrementsCount } =
           await this.incrementService.getAllIncrements(sortby, sort, productId);
-        return { increments, incrementsCount };
+        return increments;
       } catch (error) {
         console.error(error);
       }

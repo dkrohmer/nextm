@@ -1,8 +1,8 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { IIncrement } from '../interfaces/IIncrement';
 import { fetchIncrements, fetchIncrement, addOrUpdateIncrement, deleteIncrement } from '../services/api/increments';
 
-interface IncrementsState {
+export interface IncrementsState {
   increments: IIncrement[];
   incrementsIsLoading: boolean;
   incrementsIsLoaded: boolean;
@@ -21,7 +21,7 @@ interface IncrementsState {
   incrementError: string | null;
 }
 
-const initialState: IncrementsState = {
+export const initialIncrementsState: IncrementsState = {
   increments: [],
   incrementsIsLoading: false,
   incrementsIsLoaded: false,
@@ -42,52 +42,49 @@ const initialState: IncrementsState = {
 
 const incrementsSlice = createSlice({
   name: 'increments',
-  initialState,
+  initialState: initialIncrementsState,
   reducers: {
-    setIncrementsActiveIndex(state, action) {
+    setIncrementsActiveIndex(state, action: PayloadAction<number | undefined>) {
       state.incrementsActiveIndex = action.payload;
     },
-    setIncrementsActiveIncrementId(state, action) {
+    setIncrementsActiveIncrementId(state, action: PayloadAction<string | null>) {
       state.incrementsActiveIncrementId = action.payload;
     },
-    setIncrementsModalOpen(state, action) {
+    setIncrementsModalOpen(state, action: PayloadAction<boolean>) {
       state.incrementsModalOpen = action.payload;
     },
-    setIncrementsIsEditing(state, action) {
+    setIncrementsIsEditing(state, action: PayloadAction<boolean>) {
       state.incrementsIsEditing = action.payload;
     },
-    setIncrementsIsCloning(state, action) {
+    setIncrementsIsCloning(state, action: PayloadAction<boolean>) {
       state.incrementsIsCloning = action.payload;
     },
-    setIncrementsConfirmOpen(state, action) {
+    setIncrementsConfirmOpen(state, action: PayloadAction<boolean>) {
       state.incrementsConfirmOpen = action.payload;
     },
-    setCurrentIncrement(state, action) {
+    setCurrentIncrement(state, action: PayloadAction<IIncrement | null>) {
       state.currentIncrement = action.payload;
     },
-    setIncrementToDelete(state, action) {
+    setIncrementToDelete(state, action: PayloadAction<string | null>) {
       state.incrementToDelete = action.payload;
     },
   },
   extraReducers: (builder) => {
     builder
-      // cases for fetching all increments
       .addCase(fetchIncrements.pending, (state) => {
         state.incrementsIsLoading = true;
         state.incrementsIsLoaded = false;
       })
       .addCase(fetchIncrements.fulfilled, (state, action) => {
-        state.increments = action.payload.increments;
+        state.increments = action.payload;
         state.incrementsIsLoading = false;
         state.incrementsIsLoaded = true;
       })
       .addCase(fetchIncrements.rejected, (state, action) => {
         state.incrementsIsLoading = false;
         state.incrementsIsLoaded = false;
-        state.incrementsError =
-          action.error.message || 'Failed to load increments';
+        state.incrementsError = action.payload as string;
       })
-      // cases for fetching one increment
       .addCase(fetchIncrement.pending, (state) => {
         state.incrementIsLoading = true;
         state.incrementError = null;
@@ -103,23 +100,24 @@ const incrementsSlice = createSlice({
         state.incrementIsLoaded = false;
         state.incrementError = action.payload as string;
       })
-      // cases for adding or updating one increment
       .addCase(addOrUpdateIncrement.fulfilled, (state, action) => {
-        const index = state.increments.findIndex(
-          (inc) => inc.id === action.payload.id,
-        );
-        if (index !== -1) {
-          state.increments[index] = action.payload;
-        } else {
-          state.increments.unshift(action.payload);
+        if (state.increments && Array.isArray(state.increments)) {
+          const index = state.increments.findIndex((inc) => inc.id === action.payload.id);
+          if (index !== -1) {
+            state.increments[index] = action.payload;
+          } else {
+            state.increments.unshift(action.payload);
+          }
         }
-        state.incrementsModalOpen = false; // Close modal on success
+        state.incrementsModalOpen = false;
       })
-      // cases for deleting one increment
+      .addCase(addOrUpdateIncrement.rejected, (state, action) => {
+        state.incrementsError = action.payload as string;
+      })
       .addCase(deleteIncrement.fulfilled, (state, action) => {
-        state.increments = state.increments.filter(
-          (increment) => increment.id !== action.payload,
-        );
+        if (state.increments && Array.isArray(state.increments)) {
+          state.increments = state.increments.filter((increment) => increment.id !== action.payload);
+        }
         state.incrementsConfirmOpen = false;
       })
       .addCase(deleteIncrement.rejected, (state, action) => {
@@ -128,6 +126,7 @@ const incrementsSlice = createSlice({
       });
   },
 });
+
 
 export const {
   setIncrementsActiveIndex,

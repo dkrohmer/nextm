@@ -27,7 +27,7 @@ export const fetchModels = createAsyncThunk(
       const response = await window.electron.getAllModels({ incrementId });
       return response;
     } catch (error) {
-      return rejectWithValue(error);
+      return rejectWithValue('Failed to load models.');
     }
   },
 );
@@ -47,7 +47,7 @@ export const fetchModel = createAsyncThunk(
       });
       return response;
     } catch (error) {
-      return rejectWithValue(error);
+      return rejectWithValue('Failed to load model.');
     }
   },
 );
@@ -76,7 +76,7 @@ export const addOrUpdateModel = createAsyncThunk(
       });
       return response;
     } catch (error) {
-      return rejectWithValue('Failed to save model.');
+      return rejectWithValue('Failed to add or update model.');
     }
   },
 );
@@ -93,7 +93,7 @@ export const deleteModel = createAsyncThunk(
       await window.electron.deleteModel({ modelId });
       return modelId;
     } catch (error) {
-      return rejectWithValue(error);
+      return rejectWithValue('Failed to delete model.');
     }
   },
 );

@@ -1,0 +1,69 @@
+import { render, screen, fireEvent } from '@testing-library/react';
+import '@testing-library/jest-dom';
+import ZoneModalDescription from '../../../../renderer/components/ModelEditor/ZoneModalDescription';
+import { setZoneDescription } from '../../../../renderer/store/modelEditor';
+import { jest } from '@jest/globals';
+
+// Mock useDispatch and useSelector hooks
+const mockDispatch = jest.fn();
+const mockUseSelector = jest.fn();
+
+jest.mock('react-redux', () => ({
+  useDispatch: () => mockDispatch,
+  useSelector: (selector: any) => mockUseSelector(selector),
+}));
+
+describe('ZoneModalDescription Component', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('renders the text area with the current zone description', () => {
+    // Set up the mock to return a description
+    mockUseSelector.mockImplementation((selector: any) => selector({
+      modelEditor: {
+        zoneDescription: 'Existing Zone Description',
+      }
+    }));
+
+    render(<ZoneModalDescription />);
+
+    // Check if text area renders with the correct value
+    const textAreaElement = screen.getByTestId('zone-description');
+    expect(textAreaElement).toHaveValue('Existing Zone Description');
+  });
+
+  it('renders the text area with an empty value when zoneDescription is empty', () => {
+    // Set up the mock to return an empty description
+    mockUseSelector.mockImplementation((selector: any) => selector({
+      modelEditor: {
+        zoneDescription: '',
+      }
+    }));
+
+    render(<ZoneModalDescription />);
+
+    // Check if text area renders with an empty value
+    const textAreaElement = screen.getByTestId('zone-description');
+    expect(textAreaElement).toHaveValue('');
+  });
+
+  it('dispatches setZoneDescription action on input change', () => {
+    // Set up the mock to return a description
+    mockUseSelector.mockImplementation((selector: any) => selector({
+      modelEditor: {
+        zoneDescription: 'Existing Zone Description',
+      }
+    }));
+
+    render(<ZoneModalDescription />);
+
+    // Simulate text area change
+    fireEvent.change(screen.getByTestId('zone-description'), {
+      target: { value: 'New Zone Description' },
+    });
+
+    // Check if dispatch is called with correct action
+    expect(mockDispatch).toHaveBeenCalledWith(setZoneDescription('New Zone Description'));
+  });
+});

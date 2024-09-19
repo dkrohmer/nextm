@@ -19,10 +19,10 @@ const DataflowModalStride: React.FC = () => {
   /**
    * handlers
    */
-  const handleStrideChange = (key: keyof DataflowStride, dataflowStride: DataflowStride) => {
+  const handleStrideChange = (key: keyof DataflowStride) => {
     const updatedDataflowStride = {
-        ...dataflowStride,
-        [key]: !dataflowStride[key],
+      ...dataflowStride,
+      [key]: !dataflowStride[key],
     };
     dispatch(setDataflowStride(updatedDataflowStride));
   };
@@ -43,11 +43,13 @@ const DataflowModalStride: React.FC = () => {
       <Form.Group className="checkbox-group">
         {Object.keys(dataflowStride).map((key) => (
           <Form.Field key={key}>
-            <Checkbox
-              label={<label><strong>{key.charAt(0).toUpperCase()}</strong>{formatLabel(key.slice(1))}</label>}
-              checked={dataflowStride[key as keyof DataflowStride]}
-              onChange={() => handleStrideChange(key as keyof DataflowStride, dataflowStride)}
-            />
+            <div data-testid={`checkbox-${key}`}>
+              <Checkbox
+                label={<label><strong>{key.charAt(0).toUpperCase()}</strong>{formatLabel(key.slice(1))}</label>}
+                checked={dataflowStride[key as keyof DataflowStride]}
+                onChange={() => handleStrideChange(key as keyof DataflowStride)}
+              />
+            </div>
           </Form.Field>
         ))}
       </Form.Group>

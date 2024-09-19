@@ -21,7 +21,7 @@ const ActorModalCancelButton: React.FC = () => {
    * tsx
    */
   return (
-    <Form.Button onClose={handleClose}>
+    <Form.Button onClick={handleClose}>
       Cancel
     </Form.Button>
   );

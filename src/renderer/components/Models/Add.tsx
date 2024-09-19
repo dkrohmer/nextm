@@ -1,10 +1,15 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Button } from 'semantic-ui-react';
-import { AppDispatch } from '../../store';
+import { AppDispatch, RootState } from '../../store';
 import { setModelsCurrentModel, setModelsIsEditing, setModelsModalOpen } from '../../store/models';
 
 const Add: React.FC = () => {
+  /**
+   * global states
+   */
+  const { modelsModalOpen } = useSelector((state: RootState) => state.models);
+
   /**
    * hooks
    */
@@ -14,16 +19,18 @@ const Add: React.FC = () => {
    * handlers
    */
   const handleAddModal = () => {
-    dispatch(
-      setModelsCurrentModel({
-        id: '',
-        name: '',
-        createdAt: '',
-        incrementId: '',
-      }),
-    );
-    dispatch(setModelsModalOpen(true));
-    dispatch(setModelsIsEditing(false));
+    if (!modelsModalOpen) {
+      dispatch(
+        setModelsCurrentModel({
+          id: '',
+          name: '',
+          createdAt: '',
+          incrementId: '',
+        }),
+      );
+      dispatch(setModelsModalOpen(true));
+      dispatch(setModelsIsEditing(false));
+    }
   };
 
   /**

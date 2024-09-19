@@ -31,6 +31,7 @@ const DatabaseTypeDefault: React.FC = () => {
   return (
     <Form.Field>
       <Radio
+        data-testid="default-db-radio"
         label="Default database"
         name="databaseType"
         value="default"

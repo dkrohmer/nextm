@@ -43,6 +43,7 @@ const ModalEndsAt: React.FC = () => {
     <Form.Input
       type="date"
       label="Product end"
+      data-testid="product-ends-at-input"
       value={formatDate(productsCurrentProduct?.endsAt || '')}
       onChange={(e) => handleInputChange(e, 'endsAt')}
       min={formatDate(productsCurrentProduct?.startsAt || '')}

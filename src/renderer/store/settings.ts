@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-interface SettingsState {
+export interface SettingsState {
   // General settings
   sidebarVisible: boolean;
   toastVisible: boolean;
@@ -22,7 +22,7 @@ interface SettingsState {
   customDatabasePath: string;
 }
 
-const initialSettingsState: SettingsState = {
+export const initialSettingsState: SettingsState = {
   // General settings
   sidebarVisible: false,
   toastVisible: false,

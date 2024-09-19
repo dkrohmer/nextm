@@ -1,23 +1,39 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Form, Radio } from 'semantic-ui-react';
+import { RootState } from '../../store';
+import { setExportFormat } from '../../store/modelEditor';
 
-interface ExportModalJsonProps {
-  format: string;
-  setFormat: (format: string) => void;
-}
+const ExportModalJson: React.FC = () => {
+  /**
+   * global states
+   */
+  const { exportFormat } = useSelector((state: RootState) => state.modelEditor);
 
-const ExportModalJson: React.FC<ExportModalJsonProps> = ({ format, setFormat }) => {
+  /**
+   * hooks
+   */
+  const dispatch = useDispatch();
+
+  /**
+   * handlers
+   */
+  const handleChange = () => {
+    dispatch(setExportFormat('json'));
+  }
+
   /**
    * tsx
    */
   return (
-    <Form.Field>
+    <Form.Field data-testid="json-form">
       <Radio
+        data-testid="json-radio"
         label="JSON"
         name="format"
         value="json"
-        checked={format === 'json'}
-        onChange={() => setFormat('json')}
+        checked={exportFormat === 'json'}
+        onChange={handleChange}
       />
     </Form.Field>
   )

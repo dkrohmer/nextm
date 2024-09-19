@@ -10,10 +10,10 @@ const ModelLoader: React.FC<ModelLoaderProps> = ({ isLoading }) => {
    * tsx
    */
   return (
-    <Dimmer active={isLoading} inverted>
+    <Dimmer active={isLoading} inverted data-testid="model-loader-dimmer">
       <Loader>Loading model...</Loader>
     </Dimmer>
-  )
+  );
 }
 
 export default ModelLoader;

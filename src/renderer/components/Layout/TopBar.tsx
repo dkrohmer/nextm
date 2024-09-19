@@ -30,16 +30,14 @@ const TopBar: React.FC = () => {
    */
   return (
     <>
-      <Menu inverted borderless className="topbar-menu">
-        {/* nexTM logo */}
-        <Menu.Header as="div" className="topbar-menu-header">
-          <img src={logo} alt="Logo" className="topbar-menu-header-img"/>
+      <Menu inverted borderless className="topbar-menu"  data-testid="topbar-menu">
+        <Menu.Header as="div" className="topbar-menu-header" data-testid="menu-header">
+          <img src={logo} alt="Logo" className="topbar-menu-header-img" data-testid="menu-header-logo"/>
         </Menu.Header>
         
-        {/* settings icon */}
-        <Menu.Menu position="right">
-          <Menu.Item onClick={handleToggleSidebar} className="topbar-menu-item-settings">
-            <Icon name="cog" size="large" />
+        <Menu.Menu position="right" data-testid="topbar-menu-item">
+          <Menu.Item onClick={handleToggleSidebar} className="topbar-menu-item-settings" data-testid="menu-settings">
+            <Icon name="cog" size="large" data-testid="menu-settings-icon"/>
           </Menu.Item>
         </Menu.Menu>
       </Menu>

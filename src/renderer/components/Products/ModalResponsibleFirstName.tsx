@@ -2,8 +2,8 @@ import React from 'react';
 import { Form } from 'semantic-ui-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch } from '../../store';
-import { IResponsible } from '../../interfaces/IResponsible';
-import { setProductsCurrentProduct } from '../../store/products';
+import { IResponsible, IResponsibles } from '../../interfaces/IResponsible';
+import products, { setProductsCurrentProduct } from '../../store/products';
 
 interface ModalResponsibleFirstNameProps {
   index: number;
@@ -26,10 +26,13 @@ const ModalResponsibleFirstName: React.FC<ModalResponsibleFirstNameProps> = ({ i
    */
   const handleResponsibleChange = (field: keyof IResponsible, value: string) => {
     if (productsCurrentProduct) {
-      const updatedResponsibles =
-        productsCurrentProduct.responsibles?.map((resp, i) =>
+      let updatedResponsibles: IResponsible[] = [];
+      if (productsCurrentProduct.responsibles) {
+        updatedResponsibles = productsCurrentProduct.responsibles.map((resp, i) =>
           i === index ? { ...resp, [field]: value } : resp
-        ) || [];
+        )
+      } 
+
       dispatch(
         setProductsCurrentProduct({
           ...productsCurrentProduct,
@@ -38,6 +41,8 @@ const ModalResponsibleFirstName: React.FC<ModalResponsibleFirstNameProps> = ({ i
       );
     }
   };
+  
+  
 
   /**
    * tsx
@@ -47,6 +52,7 @@ const ModalResponsibleFirstName: React.FC<ModalResponsibleFirstNameProps> = ({ i
       required
       placeholder="First Name"
       value={responsible.firstName}
+      data-testid={`responsible-first-name-${index}`} 
       onChange={(e) => handleResponsibleChange('firstName', e.target.value)}
     />
   );

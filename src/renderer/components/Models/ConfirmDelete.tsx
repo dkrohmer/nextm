@@ -5,7 +5,7 @@ import { AppDispatch, RootState } from '../../store';
 import { deleteModel } from '../../services/api/models';
 import { setModelsConfirmOpen } from '../../store/models';
 
-const Confirm: React.FC = () => {
+const ConfirmDelete: React.FC = () => {
   /**
    * global states
    */
@@ -45,4 +45,4 @@ const Confirm: React.FC = () => {
   );
 };
 
-export default Confirm;
+export default ConfirmDelete;

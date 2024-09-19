@@ -10,15 +10,15 @@ const Error: React.FC<ProductsErrorProps> = ({ error }) => {
    * tsx
    */
   return (
-    <Table.Row>
-      <Table.Cell colSpan="8" textAlign="center">
-        <Message negative>
-          <Message.Header>Error❗️</Message.Header>
-          <p>{error}</p>
+    <Table.Row data-testid="error-row">
+      <Table.Cell colSpan="8" textAlign="center" data-testid="error-cell">
+        <Message negative data-testid="error-message">
+          <Message.Header data-testid="error-header">Error❗️</Message.Header>
+          <p data-testid="error-text">{error}</p>
         </Message>
       </Table.Cell>
     </Table.Row>
-  )
+  );
 }
 
 export default Error;

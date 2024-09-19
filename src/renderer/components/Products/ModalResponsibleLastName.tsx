@@ -26,10 +26,13 @@ const ModalResponsibleLastName: React.FC<ModalResponsibleLastNameProps> = ({ ind
    */
   const handleResponsibleChange = (field: keyof IResponsible, value: string) => {
     if (productsCurrentProduct) {
-      const updatedResponsibles =
-        productsCurrentProduct.responsibles?.map((resp, i) =>
+      let updatedResponsibles: IResponsible[] = [];
+      if (productsCurrentProduct.responsibles) {
+        updatedResponsibles = productsCurrentProduct.responsibles.map((resp, i) =>
           i === index ? { ...resp, [field]: value } : resp
-        ) || [];
+        )
+      } 
+
       dispatch(
         setProductsCurrentProduct({
           ...productsCurrentProduct,

@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { IVersion } from '../interfaces/IVersion';
 import { fetchLatestVersion, addLatestVersion, fetchLatestVersionThumbnail } from '../services/api/versions';
 
-interface VersionsState {
+export interface VersionsState {
   latestVersion: IVersion | null;
   latestVersionIsLoading: boolean;
   latestVersionIsLoaded: boolean;
@@ -13,7 +13,7 @@ interface VersionsState {
   latestVersionThumbnailsError: { [modelId: string]: string | null };
 }
 
-const initialState: VersionsState = {
+export const initialState: VersionsState = {
   latestVersion: null,
   latestVersionIsLoading: false,
   latestVersionIsLoaded: false,

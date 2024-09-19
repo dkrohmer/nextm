@@ -1,11 +1,7 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import { Segment } from 'semantic-ui-react';
-import { RootState } from '../../store';
 import IncrementsModal from './Modal';
 import useFetchProductAndIncrements from '../../hooks/useFetchIncrements';
-import useSetActiveIncrement from '../../hooks/useSetActiveIncrement';
 import Loader from './Loader';
 import Error from './Error';
 import Empty from './Empty';
@@ -17,22 +13,9 @@ import Add from './Add';
 
 const Increments: React.FC = () => {
   /**
-   * global states
-   */
-  const {
-    increments,
-    incrementsError,
-    incrementsIsLoading,
-    incrementsIsLoaded,
-  } = useSelector((state: RootState) => state.increments);
-
-  const { product } = useSelector((state: RootState) => state.products);
-
-  /**
    * hooks
    */
-  const { productId, incrementId } = useParams<{ productId: string; incrementId?: string }>();
-  useSetActiveIncrement(incrementsIsLoaded, increments, incrementId, productId);
+
   useFetchProductAndIncrements();
 
   /**
@@ -45,12 +28,10 @@ const Increments: React.FC = () => {
         <Add />
       </div>
       <Segment basic className="increments-segment">
-        <Loader isLoading={incrementsIsLoading} />
-        <Error error={incrementsError} />
-        {!incrementsError && !incrementsIsLoading && increments.length === 0 && <Empty />}
-        {!incrementsError && !incrementsIsLoading && increments.length > 0 && product && (
-          <Accordion product={product}/>
-        )}
+        <Loader/>
+        <Error />
+        <Empty />
+        <Accordion />
       </Segment>
       <IncrementsModal />
       <ConfirmDelete />

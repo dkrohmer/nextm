@@ -19,14 +19,9 @@ interface ExportModalProps {
 
 const ExportModal: React.FC<ExportModalProps> = ({ graph, filename }) => {
   /**
-   * local states
-   */
-  const [format, setFormat] = useState('json');
-
-  /**
    * global states
    */
-  const { isExportModalOpen } = useSelector((state: any) => state.modelEditor);
+  const { isExportModalOpen, exportFormat } = useSelector((state: any) => state.modelEditor);
 
   /**
    * hooks
@@ -38,7 +33,7 @@ const ExportModal: React.FC<ExportModalProps> = ({ graph, filename }) => {
    */
   const handleSubmit = () => {
     try {
-      dispatch(exportGraph({ format, filename, graph }));
+      dispatch(exportGraph({ exportFormat, filename, graph }));
       dispatch(setExportModalOpen(false));
     } catch (error) {
       console.error('Export failed:', error);
@@ -60,10 +55,10 @@ const ExportModal: React.FC<ExportModalProps> = ({ graph, filename }) => {
           <Form.Field>
             <label>Format</label>
             <Form.Group>
-              <ExportModalJson format={format} setFormat={setFormat} />
-              <ExportModalPng format={format} setFormat={setFormat} />
-              <ExportModalJpeg format={format} setFormat={setFormat} />
-              <ExportModalSvg format={format} setFormat={setFormat} />
+              <ExportModalJson />
+              <ExportModalPng />
+              <ExportModalJpeg />
+              <ExportModalSvg />
             </Form.Group>
           </Form.Field>
           <Form.Group className="form-button-group">

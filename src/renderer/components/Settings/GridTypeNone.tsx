@@ -36,6 +36,7 @@ const GridTypeNone: React.FC = () => {
    */
   return (
     <Radio
+      data-testid="grid-type-none-radio"
       label="None"
       name="gridVisible"
       value="none"

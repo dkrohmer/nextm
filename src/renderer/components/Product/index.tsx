@@ -35,8 +35,8 @@ const Product: React.FC = () => {
       <Breadcrumbs />
       <Segment basic>
         <Segment className="product-segment">
-          <Loader isLoading={productIsLoading}/>
-          {productError && <Error error={productError} />}
+          <Loader />
+          <Error />
 
           {!productError && !productIsLoading && product && (
             <Grid columns={2}>

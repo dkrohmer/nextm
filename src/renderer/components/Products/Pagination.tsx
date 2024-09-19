@@ -11,8 +11,8 @@ const Pagination: React.FC = () => {
    * global states
    */
   const {
+    products,
     productsCurrentPage,
-    productsCount,
     productsItemsPerPage,
     productsSort,
     productsSortby,
@@ -45,9 +45,10 @@ const Pagination: React.FC = () => {
   return (
     <div className="products-pagination-container">
       <SemanticPagination
+        data-testid="pagination"
         activePage={productsCurrentPage}
         onPageChange={handlePaginationChange}
-        totalPages={Math.ceil(productsCount / productsItemsPerPage)}
+        totalPages={Math.ceil(products.productsCount / productsItemsPerPage)}
         boundaryRange={1}
         ellipsisItem={undefined}
         firstItem={undefined}

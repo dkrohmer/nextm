@@ -62,7 +62,7 @@ const ActionsClone: React.FC<ActionsCloneProps> = ({ increment }) => {
       }
       content={<span><strong>Clone increment</strong> "{increment.name}"</span>}
       open={popupOpen}
-      onClose={() => setPopupOpen(false)}
+      onClose={handleMouseLeave}
     />
   );
 };

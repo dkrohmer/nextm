@@ -1,23 +1,39 @@
 import React from 'react';
 import { Form, Radio } from 'semantic-ui-react';
+import { setExportFormat } from '../../store/modelEditor';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../store';
 
-interface ExportModalPngProps {
-  format: string;
-  setFormat: (format: string) => void;
-}
+const ExportModalPng: React.FC = () => {
+  /**
+   * global states
+   */
+  const { exportFormat } = useSelector((state: RootState) => state.modelEditor);
 
-const ExportModalPng: React.FC<ExportModalPngProps> = ({ format, setFormat }) => {
+  /**
+   * hooks
+   */
+  const dispatch = useDispatch();
+
+  /**
+   * handlers
+   */
+  const handleChange = () => {
+    dispatch(setExportFormat('png'));
+  }
+
   /**
    * tsx
    */
   return (
-    <Form.Field>
+    <Form.Field data-testid="png-form">
       <Radio
+        data-testid="png-radio"
         label="PNG"
         name="format"
         value="png"
-        checked={format === 'png'}
-        onChange={() => setFormat('png')}
+        checked={exportFormat === 'png'}
+        onChange={handleChange}
       />
     </Form.Field>
   )

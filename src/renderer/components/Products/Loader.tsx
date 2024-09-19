@@ -10,7 +10,7 @@ const Loader: React.FC<LoaderProps> = ({ isLoading }) => {
    * tsx
    */
   return (
-    <Dimmer active={isLoading} inverted>
+    <Dimmer active={isLoading} inverted data-testid='models-loader'>
       <SemanticLoader>Loading Products...</SemanticLoader>
     </Dimmer>
   )

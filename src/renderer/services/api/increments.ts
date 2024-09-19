@@ -24,7 +24,7 @@ export const fetchIncrements = createAsyncThunk(
         sortby: 'incrementIndex',
         sort: 'desc',
       });
-      return response;
+      return response ;
     } catch (error) {
       return rejectWithValue('Failed to load increments.');
     }
@@ -41,8 +41,6 @@ export const fetchIncrement = createAsyncThunk(
     { rejectWithValue },
   ) => {
     try {
-      // const response = await axios.get<IIncrement>(`/api/increments/${incrementId}?eager=${isEagerLoading ? 'true' : 'false'}`);
-      // return response.data;
       const response = await window.electron.getIncrementById({
         incrementId,
         isEagerLoading,
@@ -82,7 +80,7 @@ export const addOrUpdateIncrement = createAsyncThunk<
       });
       return response;
     } catch (error) {
-      return rejectWithValue(error);
+      return rejectWithValue('Failed to add or update increment.');
     }
   },
 );
@@ -97,7 +95,7 @@ export const deleteIncrement = createAsyncThunk(
       await window.electron.deleteIncrement({ incrementId });
       return incrementId;
     } catch (error) {
-      return rejectWithValue(error);
+      return rejectWithValue('Failed to delete increment.');
     }
   },
 );

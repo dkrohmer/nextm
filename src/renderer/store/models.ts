@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IModel } from '../interfaces/IModel';
 import { fetchModels, fetchModel, addOrUpdateModel, deleteModel } from '../services/api/models';
 
-interface ModelsState {
+export interface ModelsState {
   models: IModel[];
   modelsCount: number;
   modelsIsLoading: boolean;
@@ -19,7 +19,7 @@ interface ModelsState {
   modelError: string | null;
 }
 
-const initialState: ModelsState = {
+export const initialModelsState: ModelsState = {
   models: [],
   modelsCount: 0,
   modelsIsLoading: false,
@@ -38,7 +38,7 @@ const initialState: ModelsState = {
 
 const modelsSlice = createSlice({
   name: 'models',
-  initialState,
+  initialState: initialModelsState,
   reducers: {
     setModelsIsEditing(state, action: PayloadAction<boolean>) {
       state.modelsIsEditing = action.payload;
@@ -66,8 +66,7 @@ const modelsSlice = createSlice({
         state.modelsIsLoading = true;
       })
       .addCase(fetchModels.fulfilled, (state, action) => {
-        state.models = action.payload.models;
-        state.modelsCount = action.payload.modelsCount;
+        state.models = action.payload;
         state.modelsIsLoading = false;
       })
       .addCase(fetchModels.rejected, (state, action) => {
@@ -90,11 +89,21 @@ const modelsSlice = createSlice({
         state.modelIsLoaded = false;
         state.modelError = action.payload as string;
       })
+      .addCase(addOrUpdateModel.fulfilled, (state, action) => {
+        const index = state.models.findIndex((model) => model.id === action.payload.id);
+        if (index !== -1) {
+          state.models[index] = action.payload;
+        } else {
+          state.models.unshift(action.payload);
+        }
+        state.modelsModalOpen = false;
+      })
+      .addCase(addOrUpdateModel.rejected, (state, action) => {
+        state.modelsError = action.payload as string;
+      })
       // cases for deleting a model
       .addCase(deleteModel.fulfilled, (state, action) => {
-        state.models = state.models.filter(
-          (model) => model.id !== action.payload,
-        );
+        state.models = state.models.filter((model) => model.id !== action.payload);
         state.modelsConfirmOpen = false;
       })
       .addCase(deleteModel.rejected, (state, action) => {

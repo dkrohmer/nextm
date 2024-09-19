@@ -24,7 +24,7 @@ const ModalCancelButton: React.FC = () => {
    * tsx
    */
   return (
-    <Form.Button onClick={() => handleClose}>
+    <Form.Button onClick={handleClose}>
       Cancel
     </Form.Button>
   )

@@ -20,9 +20,9 @@ const TableBody: React.FC = () => {
     <Table.Body>
       <Loader isLoading={productsIsLoading} />
       {productsError && <Error error={productsError} />}
-      {!productsError && !productsIsLoading && products.length === 0 && <Empty />}
+      {!productsError && !productsIsLoading && products.products.length === 0 && <Empty />}
 
-      {products.map((product) => (
+      {products.products.map((product) => (
         <TableRow product={ product }/>
       ))}
     </Table.Body>

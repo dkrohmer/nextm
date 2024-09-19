@@ -26,11 +26,11 @@ const DatabaseType: React.FC = () => {
   return (
     <Form inverted>
       <div>
-        <h3 className="settings-label">
+        <h3 className="settings-label" data-testid="settings-label">
           <label>Database Type</label>
         </h3>
         <Popup
-          trigger={<Icon name="info circle" inverted className="settings-info" />}
+          trigger={<Icon name="info circle" inverted className="settings-info" data-testid="info-icon" />}
           content={`By default, the database is stored in the app's respective user data folder depending on your operating system. However, you may also specify a custom database directory of your choice.`}
         />
       </div>

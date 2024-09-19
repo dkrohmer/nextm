@@ -71,39 +71,39 @@ const CustomToolbar: React.FC<CustomToolbarProps> = ({ graph }) => {
    * tsx
    */
   return (
-    <div id="toolbar" className="toolbar">
+    <div id="toolbar" className="toolbar" data-testid="toolbar">
       <Toolbar hoverEffect size="big">
         {/* Save group */}
-        <Toolbar.Group>
-          <ToolbarSave graph={graph} />
-          <ToolbarExport />
-          <ToolbarImport />
+        <Toolbar.Group data-testid="toolbar-group-save">
+          <ToolbarSave graph={graph} data-testid="toolbar-save" />
+          <ToolbarExport data-testid="toolbar-export" />
+          <ToolbarImport data-testid="toolbar-import" />
         </Toolbar.Group>
 
         {/* Zoom group */}
-        <Toolbar.Group>
-          <ToolbarFitView graph={graph} />
-          <ToolbarZoomIn graph={graph} />
-          <ToolbarZoomOut graph={graph} />
+        <Toolbar.Group data-testid="toolbar-group-zoom">
+          <ToolbarFitView graph={graph} data-testid="toolbar-fitview" />
+          <ToolbarZoomIn graph={graph} data-testid="toolbar-zoomin" />
+          <ToolbarZoomOut graph={graph} data-testid="toolbar-zoomout" />
         </Toolbar.Group>
 
         {/* History group */}
-        <Toolbar.Group>
-          <ToolbarUndo graph={graph} />
-          <ToolbarRedo graph={graph} />
+        <Toolbar.Group data-testid="toolbar-group-history">
+          <ToolbarUndo graph={graph} data-testid="toolbar-undo" />
+          <ToolbarRedo graph={graph} data-testid="toolbar-redo" />
         </Toolbar.Group>
 
         {/* Interaction group */}
-        <Toolbar.Group>
-          <ToolbarSelectAll graph={graph} />
-          <ToolbarCut graph={graph} />
-          <ToolbarCopy graph={graph} />
-          <ToolbarPaste graph={graph} />
-          <ToolbarDelete graph={graph} />
+        <Toolbar.Group data-testid="toolbar-group-interaction">
+          <ToolbarSelectAll graph={graph} data-testid="toolbar-selectall" />
+          <ToolbarCut graph={graph} data-testid="toolbar-cut" />
+          <ToolbarCopy graph={graph} data-testid="toolbar-copy" />
+          <ToolbarPaste graph={graph} data-testid="toolbar-paste" />
+          <ToolbarDelete graph={graph} data-testid="toolbar-delete" />
         </Toolbar.Group>
 
         {/* Save and close */}
-        <ToolbarSaveAndClose graph={graph} />
+        <ToolbarSaveAndClose graph={graph} data-testid="toolbar-saveandclose" />
       </Toolbar>
     </div>
   );

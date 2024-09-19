@@ -1,23 +1,39 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Form, Radio } from 'semantic-ui-react';
+import { RootState } from '../../store';
+import { setExportFormat } from '../../store/modelEditor';
 
-interface ExportModalSvgProps {
-  format: string;
-  setFormat: (format: string) => void;
-}
+const ExportModalSvg: React.FC = () => {
+  /**
+   * global states
+   */
+  const { exportFormat } = useSelector((state: RootState) => state.modelEditor);
 
-const ExportModalSvg: React.FC<ExportModalSvgProps> = ({ format, setFormat }) => {
+  /**
+   * hooks
+   */
+  const dispatch = useDispatch();
+
+  /**
+   * handlers
+   */
+  const handleChange = () => {
+    dispatch(setExportFormat('svg'));
+  }
+
   /**
    * tsx
    */
   return (
-    <Form.Field>
+    <Form.Field data-testid="svg-form">
       <Radio
+        data-testid="svg-radio"
         label="SVG"
         name="format"
         value="svg"
-        checked={format === 'svg'}
-        onChange={() => setFormat('svg')}
+        checked={exportFormat === 'svg'}
+        onChange={handleChange}
       />
     </Form.Field>
   )

@@ -55,6 +55,7 @@ const ItemsPerPage: React.FC = () => {
    */
   return (
     <Dropdown
+      data-testid="items-per-page-dropdown"
       selection
       options={itemsPerPageOptions}
       value={productsItemsPerPage}

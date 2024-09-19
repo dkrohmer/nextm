@@ -11,7 +11,7 @@ interface DataflowStride {
   elevatePrivilege: boolean;
 }
 
-interface ModelEditorState {
+export interface ModelEditorState {
   isSavePressed: boolean;
   isExportPressed: boolean;
   isImportPressed: boolean;
@@ -63,11 +63,13 @@ interface ModelEditorState {
   importJsonData: string | null;
   importIsFileValid: boolean;
 
+  exportFormat: 'json' | 'png' | 'jpeg' | 'svg';
+
   canUndo: boolean;
   canRedo: boolean;
 }
 
-const initialState: ModelEditorState = {
+export const initialState: ModelEditorState = {
   isSavePressed: false,
   isExportPressed: false,
   isImportPressed: false,
@@ -121,11 +123,13 @@ const initialState: ModelEditorState = {
   importJsonData: null,
   importIsFileValid: false,
 
+  exportFormat: 'json',
+
   canUndo: false,
   canRedo: false
 };
 
-const modelEditorSlice = createSlice({
+export const modelEditorSlice = createSlice({
   name: 'modelEditor',
   initialState,
   reducers: {
@@ -267,6 +271,9 @@ const modelEditorSlice = createSlice({
     setCanRedo(state, action: PayloadAction<boolean>) {
       state.canRedo = action.payload;
     },
+    setExportFormat(state, action: PayloadAction<'json' | 'png' | 'jpeg' | 'svg'>) {
+      state.exportFormat = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -308,6 +315,7 @@ export const {
   setPastePressed,
   setDeletePressed,
   setExportModalOpen,
+  setExportFormat,
   setImportModalOpen,
   setSelectedNodeId,
   setSelectedEdgeId,
@@ -339,7 +347,7 @@ export const {
   setImportJsonData,
   setImportIsFileValid,
   setCanRedo,
-  setCanUndo
+  setCanUndo,
 } = modelEditorSlice.actions;
 
 export type { DataflowStride };

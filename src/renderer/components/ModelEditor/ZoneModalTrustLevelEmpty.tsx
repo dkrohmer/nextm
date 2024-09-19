@@ -26,13 +26,14 @@ const ZoneModalTrustLevelEmpty: React.FC = () => {
    * tsx
    */
   return (
-    <Form.Field>
+    <Form.Field data-testid="zone-trust-level-empty">
       <Radio
         label="n/a"
         name="radioGroup"
         value=""
         checked={zoneTrustLevel === ''}
         onChange={() => handleTrustLevelChange('')}
+        data-testid="zone-trust-level-empty-radio"
       />
     </Form.Field>
   );

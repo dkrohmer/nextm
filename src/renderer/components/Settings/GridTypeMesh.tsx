@@ -36,6 +36,7 @@ const GridTypeMesh: React.FC = () => {
    */
   return (
     <Radio
+      data-testid="grid-type-mesh-radio"
       label="Mesh"
       name="gridVisible"
       value="mesh"

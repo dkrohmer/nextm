@@ -37,6 +37,7 @@ const ActionsDelete: React.FC<ActionsDeleteProps> = ({ model }) => {
           size="tiny"
           className="action-button"
           onClick={handleDelete}
+          data-testid="delete-button"
         >
           <Icon color="red" name="trash" />
         </Button>

@@ -7,13 +7,14 @@ interface ExportJsonArgs {
 }
 
 interface ExportGraphArgs {
-  format: string;
+  exportFormat: string;
   filename: string;
   graph: Graph;
 }
 
+// Helper function to export the graph as JSON
 const exportJSON = ({ filename, graph }: ExportJsonArgs) => {
-  const jsonString = JSON.stringify(graph, null, 2);
+  const jsonString = JSON.stringify(graph.toJSON(), null, 2); // Ensure using graph.toJSON()
   const blob = new Blob([jsonString], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
@@ -24,24 +25,29 @@ const exportJSON = ({ filename, graph }: ExportJsonArgs) => {
   document.body.removeChild(link);
 };
 
+// Thunk to export the graph
 export const exportGraph = createAsyncThunk(
   'modelEditor/exportGraph',
-  async ({ format, filename, graph }: ExportGraphArgs, { rejectWithValue }) => {
-    switch (format) {
-      case 'json':
-        exportJSON({ filename, graph });
-        return true;
-      case 'png':
-        graph.exportPNG(filename, { padding: 50, quality: 1.0 });
-        return true;
-      case 'jpeg':
-        graph.exportJPEG(filename, { padding: 50, quality: 1.0 });
-        return true;
-      case 'svg':
-        graph.exportSVG(filename);
-        return true;
-      default:
-        return rejectWithValue('Invalid graph format.');
+  async ({ exportFormat, filename, graph }: ExportGraphArgs, { rejectWithValue }) => {
+    try {
+      switch (exportFormat) {
+        case 'json':
+          exportJSON({ filename, graph });
+          return true;
+        case 'png':
+          graph.exportPNG(filename, { padding: 50, quality: 1.0 });
+          return true;
+        case 'jpeg':
+          graph.exportJPEG(filename, { padding: 50, quality: 1.0 });
+          return true;
+        case 'svg':
+          graph.exportSVG(filename);
+          return true;
+        default:
+          return rejectWithValue('Invalid graph format.');
+      }
+    } catch (error) {
+      return rejectWithValue('An error occurred during export.');
     }
-  },
+  }
 );

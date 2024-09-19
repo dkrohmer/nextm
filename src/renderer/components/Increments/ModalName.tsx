@@ -39,7 +39,7 @@ const ModalName: React.FC = () => {
       required
       onChange={(_e, data) => handleInputChange(data)}
     />
-  )
+  );
 }
 
 export default ModalName;

@@ -17,37 +17,33 @@ interface IncrementProps {
   index: number;
 }
 
-const Increment: React.FC<IncrementProps> = ( { product, increment, index } ) => {  
-  /*
+const Increment: React.FC<IncrementProps> = ({ product, increment, index }) => {  
+  /**
    * local states
-   */  
+   */
   const [isHovering, setIsHovering] = useState(false);
 
-  /*
+  /**
    * global states
-   */  
-  const {
-    increments,
-    incrementsActiveIndex,
-  } = useSelector((state: RootState) => state.increments);
-
-  /*
+   */
+  const { increments, incrementsActiveIndex } = useSelector((state: RootState) => state.increments);
+  
+  /**
    * hooks
    */
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
 
-  /*
+  /**
    * handlers
    */
   const handleAccordionClick = () => {
-    const increment = increments[index];
     if (index === incrementsActiveIndex) {
       dispatch(setIncrementsActiveIndex(-1));
-      navigate(`/products/${product?.id}`);
+      navigate(`/products/${product.id}`);
     } else {
-      navigate(`/products/${product?.id}/increments/${increment.id}`);
       dispatch(setIncrementsActiveIndex(index));
+      navigate(`/products/${product.id}/increments/${increment.id}`);
     }
   };
 
@@ -59,11 +55,11 @@ const Increment: React.FC<IncrementProps> = ( { product, increment, index } ) =>
     setIsHovering(false);
   }
 
-  const handleNumbering = () => {
-    return increments.length - index - 1
+  const handleNumbering = () =>  {
+    return increments.length - index - 1;
   }
 
-  /*
+  /**
    * tsx
    */
   return (
@@ -71,17 +67,23 @@ const Increment: React.FC<IncrementProps> = ( { product, increment, index } ) =>
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       className="increment-wrapper"
+      data-testid={`increment-wrapper-${index}`}
     >
       <Accordion.Title
         active={incrementsActiveIndex === index}
         index={index}
         onClick={handleAccordionClick}
         className="increment-container"
+        data-testid={`accordion-title-${index}`}
       >
         <Title number={handleNumbering()} name={increment.name} />
         <Actions increment={increment} number={handleNumbering()} isHovering={isHovering} />
       </Accordion.Title>
-      <Accordion.Content active={incrementsActiveIndex === index} className="increment-content">
+      <Accordion.Content
+        active={incrementsActiveIndex === index}
+        className="increment-content"
+        data-testid={`accordion-content-${index}`}
+      >
         <Models product={product} increment={increment} />
       </Accordion.Content>
     </div>

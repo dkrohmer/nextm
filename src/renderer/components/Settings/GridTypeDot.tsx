@@ -36,6 +36,7 @@ const GridTypeDot: React.FC = () => {
    */
   return (
     <Radio
+      data-testid="grid-type-dot-radio"
       label="Dot"
       name="gridVisible"
       value="dot"

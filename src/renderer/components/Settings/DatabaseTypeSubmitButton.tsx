@@ -26,40 +26,33 @@ const DatabaseTypeSubmitButton: React.FC = () => {
         throw new Error('Please enter a valid path.');
       }
   
-      new Promise(async (resolve, reject) => {
-        let result;
-        try {
-          if (buttonLabel === 'Create') {
-            result = await window.electron.createDatabase(inputPath);
-          } else if (buttonLabel === 'Open') {
-            result = await window.electron.openDatabase(inputPath);
-          }
+      let result;
+      if (buttonLabel === 'Create') {
+        result = await window.electron.createDatabase(inputPath);
+      } else if (buttonLabel === 'Open') {
+        result = await window.electron.openDatabase(inputPath);
+      }
   
-          if (result.success) {
-            window.electron.getCurrentDbPath().then((currentPath: string) => {
-              dispatch(setDatabasePath(currentPath));
-              dispatch(
-                showToast({
-                  promise: Promise.resolve(),
-                  loadingMessage: '',
-                  successMessage: `Current database: ${currentPath}`,
-                  errorMessage: '',
-                }),
-              );
-              navigate('/');
-              resolve(`Database set successfully:`);
-            });
-          } else {
-            reject('Operation failed on backend.');
-          }
-        } catch (error) {
-          reject('Error processing form submission.');
-        }
-      });
+      if (result.success) {
+        const currentPath = await window.electron.getCurrentDbPath();
+        dispatch(setDatabasePath(currentPath));
+        dispatch(
+          showToast({
+            promise: Promise.resolve(),
+            loadingMessage: '',
+            successMessage: `Current database: ${currentPath}`,
+            errorMessage: '',
+          })
+        );
+        navigate('/');
+      } else {
+        throw new Error('Operation failed on backend.');
+      }
     } catch (error) {
       console.error('Error processing form submission:', error);
     }
-  };  
+  };
+  
 
   const handleDisabled = () => {
     if (path) {
@@ -72,7 +65,8 @@ const DatabaseTypeSubmitButton: React.FC = () => {
    */
   return (
     <Button
-      primary
+    data-testid="submit-button"
+    primary
       disabled={handleDisabled()}
       onClick={handleFormSubmit}
     >

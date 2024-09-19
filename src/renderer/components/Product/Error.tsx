@@ -3,19 +3,20 @@ import { useSelector } from 'react-redux';
 import { Message } from 'semantic-ui-react';
 import { RootState } from '../../store';
 
-interface ProductErrorProps {
-  error: string;
-}
+const Error: React.FC = () => {
+  /**
+   * global states
+   */
+  const { productError } = useSelector((state: RootState) => state.products);
 
-const Error: React.FC<ProductErrorProps> = ({ error }) => {
   /**
    * tsx
    */
   return (
-    error ? (
-      <Message negative className="product-error-message">
+    productError ? (
+      <Message negative className="product-error-message" data-testid='product-error'>
         <Message.Header>Error❗️</Message.Header>
-        <p>{error}</p>
+        <p>{productError}</p>
       </Message>
     ) : null
   );

@@ -1,12 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import type { IProduct } from '../interfaces/IProduct';
+import type { IProducts, IProduct } from '../interfaces/IProduct';
 import { IResponsible } from '../interfaces/IResponsible';
-import { fetchProducts, fetchProduct } from '../services/api/products';
+import { fetchProducts, fetchProduct, addOrUpdateProduct, deleteProduct} from '../services/api/products';
 
-interface ProductsState {
+export interface ProductsState {
   // states related to products
-  products: IProduct[];
-  productsCount: number;
+  products: IProducts;
   productsIsLoading: boolean;
   productsError: string | null;
   productsIsCloning: boolean;
@@ -27,10 +26,12 @@ interface ProductsState {
   productError: string | null;
 }
 
-const initialProductsState: ProductsState = {
+export const initialProductsState: ProductsState = {
   // products
-  products: [],
-  productsCount: 0,
+  products: {
+    products: [],
+    productsCount: 0 
+  },
   productsIsLoading: false,
   productsError: null,
   productsIsCloning: false,
@@ -105,8 +106,7 @@ const productsSlice = createSlice({
         state.productsIsLoading = true;
       })
       .addCase(fetchProducts.fulfilled, (state, action) => {
-        state.products = action.payload.products;
-        state.productsCount = action.payload.productsCount;
+        state.products = action.payload;
         state.productsIsLoading = false;
       })
       .addCase(fetchProducts.rejected, (state, action) => {
@@ -128,6 +128,28 @@ const productsSlice = createSlice({
         state.productIsLoaded = false;
         state.productIsLoading = false;
         state.productError = action.payload as string;
+      })
+      .addCase(addOrUpdateProduct.fulfilled, (state, action) => {
+        const index = state.products.products.findIndex((product) => product.id === action.payload.id);
+        if (index !== -1) {
+          state.products.products[index] = action.payload;
+        } else {
+          state.products.products.unshift(action.payload);
+        }
+        state.productsModalOpen = false;
+      })
+      .addCase(addOrUpdateProduct.rejected, (state, action) => {
+        state.productsError = action.payload as string;
+      })
+      // cases for deleting a model
+      .addCase(deleteProduct.fulfilled, (state, action) => {
+
+        state.products.products = state.products.products.filter((product) => product.id !== action.payload);
+        state.openConfirm = false;
+      })
+      .addCase(deleteProduct.rejected, (state, action) => {
+        state.productsError = action.payload as string;
+        state.openConfirm = false;
       });
   },
 });
@@ -145,6 +167,7 @@ export const {
   setProductsItemsPerPage,
   setProductToDelete,
   setOpenConfirm,
+  setProductsCurrentResponsibles
 } = productsSlice.actions;
 
 export default productsSlice.reducer;
