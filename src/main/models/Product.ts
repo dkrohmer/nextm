@@ -6,8 +6,14 @@ import {
   PrimaryGeneratedColumn,
   Relation,
 } from 'typeorm';
+import {
+  IsUUID,
+  IsDate,
+  IsString,
+  MaxLength,
+  IsOptional,
+} from 'class-validator';
 import { v4 as uuidv4 } from 'uuid';
-
 import { Responsible } from './Responsible';
 import { Increment } from './Increment';
 
@@ -20,21 +26,33 @@ export interface ResponsibleInput {
 @Entity('Product')
 export class Product {
   @PrimaryGeneratedColumn('uuid')
+  @IsString()
+  @IsUUID()
   id: string = uuidv4();
 
   @CreateDateColumn()
+  @IsDate()
   createdAt!: Date;
 
   @Column()
+  @IsString()
+  @MaxLength(250)
   name!: string;
 
   @Column({ type: 'text', nullable: true })
+  @IsOptional()
+  @IsString()
+  @MaxLength(5000)
   description!: string | null;
 
   @Column({ type: 'datetime', nullable: true })
+  @IsOptional()
+  @IsDate()
   startsAt!: Date | null;
 
   @Column({ type: 'datetime', nullable: true })
+  @IsOptional()
+  @IsDate()
   endsAt!: Date | null;
 
   @OneToMany(() => Responsible, (responsible) => responsible.product, {
@@ -47,9 +65,11 @@ export class Product {
   })
   increments!: Relation<Increment[]>;
 
+  @IsOptional()
+  @IsString()
+  @IsUUID()
   latestIncrementId?: string | null;
 
-  // Method to convert dates to strings
   toJSON() {
     return {
       ...this,

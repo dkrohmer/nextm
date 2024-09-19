@@ -8,20 +8,31 @@ import {
   JoinColumn,
   Relation,
 } from 'typeorm';
-import { v4 as uuidv4 } from 'uuid';
+import { 
+  IsUUID,
+  IsDate,
+  IsString,
+  MaxLength
+} from 'class-validator';
 
+import { v4 as uuidv4 } from 'uuid';
 import { Increment } from './Increment';
 import { Version } from './Version';
 
 @Entity('Model')
 export class Model {
   @PrimaryGeneratedColumn('uuid')
+  @IsString()
+  @IsUUID()
   id: string = uuidv4();
 
   @CreateDateColumn()
+  @IsDate()
   createdAt!: Date;
 
   @Column()
+  @IsString()
+  @MaxLength(250)
   name!: string;
 
   @OneToMany(() => Version, (version) => version.model, { cascade: true })
@@ -34,9 +45,10 @@ export class Model {
   increment!: Relation<Increment>;
 
   @Column()
+  @IsString()
+  @IsUUID()
   incrementId!: string;
 
-  // Method to convert dates to strings
   toJSON() {
     return {
       ...this,
