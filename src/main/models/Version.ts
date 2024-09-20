@@ -10,6 +10,8 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 import { Model } from './Model';
 import { IsDate, IsInt, IsNumber, IsString, IsUUID, Max, MaxLength, Min } from 'class-validator';
+import { IsDataUriPng } from '../helpers/isDataUriPng';
+import { IsJsonString } from '../helpers/isJsonString';
 
 @Entity('Version')
 export class Version {
@@ -25,6 +27,7 @@ export class Version {
   @Column()
   @IsString()
   @MaxLength(Number.MAX_SAFE_INTEGER)
+  @IsJsonString()
   payload!: string;
 
   @ManyToOne(() => Model, (model) => model.versions, { onDelete: 'CASCADE' })
@@ -45,6 +48,7 @@ export class Version {
   @Column()
   @IsString()
   @MaxLength(Number.MAX_SAFE_INTEGER)
+  @IsDataUriPng()
   thumbnail!: string;
 
   @Column({ type: 'float', nullable: true })
