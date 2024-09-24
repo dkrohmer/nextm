@@ -1,4 +1,5 @@
 import { DataSource } from 'typeorm';
+import { v4 as uuidv4 } from 'uuid'; // Import the UUID generator
 import { Version } from '../../../main/models/Version';
 import { Model } from '../../../main/models/Model';
 import { initializeDataSource, getDataSource } from '../../../main/database';
@@ -42,10 +43,10 @@ afterAll(async () => {
 describe('VersionRepository', () => {
   it('should create a new version', async () => {
     const version = {
-      payload: 'Test Payload',
-      modelId: modelId,
+      payload: JSON.stringify({ key: 'value' }), // Valid stringified JSON
+      modelId: modelId,       // Valid UUID
       versionIndex: 1,
-      thumbnail: 'thumbnail.png',
+      thumbnail: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA', // Valid PNG Data URI
       x: 1.0,
       y: 2.0,
       height: 10.0,
@@ -55,8 +56,9 @@ describe('VersionRepository', () => {
     const savedVersion = await versionRepository.createVersion(version);
 
     expect(savedVersion).toHaveProperty('id');
-    expect(savedVersion.payload).toBe('Test Payload');
-    expect(savedVersion.modelId).toBe(modelId);
+    expect(savedVersion.payload).toBe(JSON.stringify({ key: 'value' }));
+    expect(savedVersion.modelId).toBe(modelId); // Match the correct modelId
+    expect(savedVersion.thumbnail).toContain('data:image/png;base64,');
   });
 
   it('should get all versions sorted by payload', async () => {
@@ -64,6 +66,7 @@ describe('VersionRepository', () => {
 
     expect(Array.isArray(versions)).toBe(true);
     expect(typeof count).toBe('number');
+    expect(count).toBeGreaterThan(0); // There should be at least one version
   });
 
   it('should get all versions for a modelId', async () => {
@@ -76,10 +79,10 @@ describe('VersionRepository', () => {
 
   it('should get a version by id', async () => {
     const version = {
-      payload: 'Find By ID Payload',
+      payload: JSON.stringify({ key: 'FindByID' }), // Valid stringified JSON
       modelId: modelId,
       versionIndex: 2,
-      thumbnail: 'thumbnail2.png',
+      thumbnail: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA', // Valid PNG Data URI
       x: 1.0,
       y: 2.0,
       height: 10.0,
@@ -99,10 +102,10 @@ describe('VersionRepository', () => {
 
   it('should get the latest version by modelId', async () => {
     const version = {
-      payload: 'Latest Version Payload',
+      payload: JSON.stringify({ key: 'Latest Version' }), // Valid stringified JSON
       modelId: modelId,
       versionIndex: 3,
-      thumbnail: 'thumbnail3.png',
+      thumbnail: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA', // Valid PNG Data URI
       x: 1.0,
       y: 2.0,
       height: 10.0,
@@ -112,7 +115,7 @@ describe('VersionRepository', () => {
 
     const latestVersion = await versionRepository.getLatestVersionByModelId(modelId);
     expect(latestVersion).toBeDefined();
-    expect(latestVersion!.payload).toBe('Latest Version Payload');
+    expect(latestVersion!.payload).toBe(JSON.stringify({ key: 'Latest Version' }));
   });
 
   it('should count the number of versions by modelId', async () => {
@@ -128,10 +131,10 @@ describe('VersionRepository', () => {
 
   it('should delete a version', async () => {
     const version = {
-      payload: 'Delete Version Payload',
+      payload: JSON.stringify({ key: 'Delete Version' }), // Valid stringified JSON
       modelId: modelId,
       versionIndex: 4,
-      thumbnail: 'thumbnail4.png',
+      thumbnail: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA', // Valid PNG Data URI
       x: 1.0,
       y: 2.0,
       height: 10.0,
@@ -152,10 +155,10 @@ describe('VersionRepository', () => {
   describe('getLatestVersionThumbnailByModelId', () => {
     it('should return the latest version thumbnail for a model', async () => {
       const version = {
-        payload: 'Thumbnail Test Payload',
+        payload: JSON.stringify({ key: 'Thumbnail Test' }), // Valid stringified JSON
         modelId: modelId,
         versionIndex: 5,
-        thumbnail: 'latest-thumbnail.png',
+        thumbnail: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA', // Valid PNG Data URI
         x: 1.0,
         y: 2.0,
         height: 10.0,
@@ -163,13 +166,31 @@ describe('VersionRepository', () => {
       };
       await versionRepository.createVersion(version);
       const thumbnail = await versionRepository.getLatestVersionThumbnailByModelId(modelId);
-      expect(thumbnail).toBe('latest-thumbnail.png');
+      expect(thumbnail).toBe('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA');
     });
 
     it('should return null if no version is found for the modelId', async () => {
-      const nonExistentModelId = 'non-existent-model-id';
+      const nonExistentModelId = uuidv4(); // Generate a valid UUID
       const thumbnail = await versionRepository.getLatestVersionThumbnailByModelId(nonExistentModelId);
       expect(thumbnail).toBeNull();
+    });
+
+    it('should throw an error when validation fails', async () => {
+      const invalidVersion = {
+        payload: 'Invalid Payload', // Invalid payload (not a valid JSON string)
+        modelId: modelId, // Valid UUID
+        versionIndex: 1,
+        thumbnail: 'invalid-thumbnail', // Invalid thumbnail (not a valid PNG Data URI)
+        x: 1.0,
+        y: 2.0,
+        height: 10.0,
+        width: 20.0,
+      };
+  
+      // Expect the createVersion method to throw an error due to validation failure
+      await expect(versionRepository.createVersion(invalidVersion))
+        .rejects
+        .toThrow('Validation failed');
     });
   });
 });

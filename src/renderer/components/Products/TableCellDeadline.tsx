@@ -25,7 +25,6 @@ const TableCellDeadline: React.FC<TableCellDeadlineProps> = ({ endsAt }) => {
       }
       content={handleDateFormat}
       position="top center"
-      hoverable
     />
   );
 }

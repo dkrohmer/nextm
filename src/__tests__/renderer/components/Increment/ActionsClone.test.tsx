@@ -81,4 +81,31 @@ describe('ActionsClone Component', () => {
 
     expect(screen.queryByText(/clone increment/i)).not.toBeInTheDocument();
   });
+
+  it('truncates the increment name if it exceeds 250 characters', () => {
+    const longName = 'A'.repeat(251); // Create a string with 251 characters
+    const mockIncrementWithLongName: IIncrement = {
+      id: '1',
+      name: longName,
+      productId: 'product-123',
+      start: '2024-08-01T00:00:00Z',
+      end: '2024-08-31T23:59:59Z',
+      deadline: '2024-08-15T00:00:00Z',
+      state: 'active',
+    };
+  
+    renderWithRedux(<ActionsClone increment={mockIncrementWithLongName} number={1} />);
+  
+    const cloneButton = screen.getByRole('button');
+    fireEvent.click(cloneButton);
+  
+    const actions = store.getState().increments;
+  
+    // Check that the name has been truncated correctly
+    const truncatedName = `...${longName.slice(-240)} (Copy)`; // 240 because the final name length is 250
+    expect(actions.currentIncrement?.name).toBe(truncatedName);
+    expect(actions.incrementsIsCloning).toBe(true);
+    expect(actions.incrementsModalOpen).toBe(true);
+  });
+  
 });

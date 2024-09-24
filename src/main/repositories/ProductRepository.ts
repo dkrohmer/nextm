@@ -1,10 +1,20 @@
+import { validate } from 'class-validator';
 import { AppDataSource } from '../database';
 import { Product } from '../models/Product';
+import { IProduct } from '../../renderer/interfaces/IProduct';
 
 export class ProductRepository {
   private productRepository = AppDataSource.getRepository(Product);
 
   async createProduct(product: Product): Promise<Product> {
+    const validationErrors = await validate(product);
+
+    if (validationErrors.length > 0) {
+      // Handle validation errors
+      console.error(validationErrors);
+      throw new Error('Validation failed');
+    }
+
     const newProduct = await this.productRepository.save(product);
     return newProduct;
   }
@@ -49,13 +59,21 @@ export class ProductRepository {
     });
   }
 
-  async updateProduct(id: string, data: any): Promise<Product | null> {
+  async updateProduct(id: string, data: Partial<Product>): Promise<Product | null> {
     const product = await this.productRepository.findOneBy({ id });
-
     if (!product) {
       return null;
     }
-    return await this.productRepository.save(data);
+  
+    const updatedProduct = this.productRepository.merge(product, data);
+  
+    const validationErrors = await validate(updatedProduct);
+    if (validationErrors.length > 0) {
+      console.error('Validation failed:', validationErrors);
+      throw new Error('Validation failed');
+    }
+  
+    return await this.productRepository.save(updatedProduct);
   }
 
   async deleteProduct(id: string): Promise<void> {

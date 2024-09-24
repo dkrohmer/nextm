@@ -1,16 +1,18 @@
+import { validate } from 'class-validator';
 import { AppDataSource } from '../database';
 import { Model } from '../models/Model';
 
 export class ModelRepository {
   private modelRepository = AppDataSource.getRepository(Model);
 
-  // async createModel(data: Partial<Model>): Promise<Model> {
-  //   const model = this.modelRepository.create(data);
-  //   return await this.modelRepository.save(model);
-  // }
-
   async createModel(model: Model): Promise<Model> {
-    // const model = this.modelRepository.create(data);
+    const validationErrors = await validate(model);
+
+    if (validationErrors.length > 0) {
+      console.error('Validation failed:', validationErrors);
+      throw new Error('Validation failed');
+    }
+
     return await this.modelRepository.save(model);
   }
 
@@ -49,8 +51,15 @@ export class ModelRepository {
       return null;
     }
 
-    Object.assign(model, data);
-    return await this.modelRepository.save(model);
+    const updatedModel = this.modelRepository.merge(model, data);
+
+    const validationErrors = await validate(updatedModel);
+    if (validationErrors.length > 0) {
+      console.error('Validation failed:', validationErrors);
+      throw new Error('Validation failed');
+    }
+
+    return await this.modelRepository.save(updatedModel);
   }
 
   async deleteModel(id: string): Promise<void> {

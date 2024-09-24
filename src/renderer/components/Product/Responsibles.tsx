@@ -21,7 +21,7 @@ const Responsibles: React.FC = () => {
       <Grid.Column width={12}>
         {product?.responsibles && product?.responsibles.length > 0
           ? product.responsibles.map((resp) => (
-              <Label key={resp.id} size="tiny" className="product-label">
+              <Label key={resp.id} size="tiny" className="product-label product-description">
                 <Icon name="user" />
                 {`${resp.firstName} ${resp.lastName}${resp.role ? ` (${resp.role})` : ''}`}
               </Label>
@@ -29,7 +29,7 @@ const Responsibles: React.FC = () => {
           : 'n/a'}
       </Grid.Column>
     </Grid.Row>
-  )
+  );
 }
 
 export default Responsibles;

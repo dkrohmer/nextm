@@ -1,145 +1,161 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import TableCellResponsible from '../../../../renderer/components/Products/TableCellResponsible'; // Adjust the import path if necessary
+import { Provider } from 'react-redux';
+import { configureStore } from '@reduxjs/toolkit';
+import productsReducer from '../../../../renderer/store/products';
+import TableCellResponsible from '../../../../renderer/components/Products/TableCellResponsible';
 import { IResponsible } from '../../../../renderer/interfaces/IResponsible';
 
+// Mock store
+const store = configureStore({
+  reducer: {
+    products: productsReducer,
+  },
+});
+
+// Mock responsible data
+const singleResponsible: IResponsible[] = [
+  {
+    id: '1',
+    firstName: 'John',
+    lastName: 'Doe',
+    role: 'Manager',
+  },
+];
+
+const responsiblesWithRole: IResponsible[] = [
+  {
+    id: '1',
+    firstName: 'John',
+    lastName: 'Doe',
+    role: 'Manager',
+  },
+  {
+    id: '2',
+    firstName: 'Jane',
+    lastName: 'Smith',
+    role: 'Engineer',
+  },
+];
+
+const longResponsibles: IResponsible[] = Array.from({ length: 16 }, (_, i) => ({
+  id: `${i + 1}`,
+  firstName: `LongFirstName${i + 1}`,
+  lastName: `LongLastName${i + 1}`,
+  role: `LongRole${i + 1}`,
+}));
+
+const renderWithRedux = (component: React.ReactElement) => {
+  return render(<Provider store={store}>{component}</Provider>);
+};
+
 describe('TableCellResponsible Component', () => {
-  const responsiblesWithRole: IResponsible[] = [
-    {
-      id: '1',
-      firstName: 'John',
-      lastName: 'Doe',
-      role: 'Manager',
-    },
-    {
-      id: '2',
-      firstName: 'Jane',
-      lastName: 'Smith',
-      role: 'Engineer',
-    },
-  ];
+  // Line 17-18: Single responsible
+  it('renders a single responsible with a role', () => {
+    renderWithRedux(<TableCellResponsible responsibles={singleResponsible} />);
 
-  const responsiblesWithoutRole: IResponsible[] = [
-    {
-      id: '3',
-      firstName: 'Alice',
-      lastName: 'Johnson',
-      role: '', // No role provided
-    },
-    {
-      id: '4',
-      firstName: 'Bob',
-      lastName: 'Williams',
-      role: undefined
-    },
-  ];
-
-  const formattedResponsiblesWithRole = 'John Doe (Manager), Jane Smith (Engineer)';
-  const formattedResponsiblesWithoutRole = 'Alice Johnson, Bob Williams';
-
-  const renderTableCellResponsible = (responsibles: IResponsible[] | undefined) => {
-    return render(<TableCellResponsible responsibles={responsibles} />);
-  };
-
-  it('renders the responsibles with roles as labels inside the table cell', () => {
-    renderTableCellResponsible(responsiblesWithRole);
-
-    // Check if the responsibles with roles are rendered inside the table cell as labels
-    responsiblesWithRole.forEach(responsible => {
-      expect(screen.getByText(`${responsible.firstName} ${responsible.lastName} (${responsible.role})`)).toBeInTheDocument();
-    });
+    // Check if the single responsible is rendered
+    const responsibleLabel = screen.getByTestId('responsible-label-1');
+    expect(responsibleLabel).toBeInTheDocument();
+    expect(responsibleLabel).toHaveTextContent('John Doe (Manager)');
   });
 
-  it('renders the responsibles without roles as labels inside the table cell', () => {
-    renderTableCellResponsible(responsiblesWithoutRole);
-
-    // Check if the responsibles without roles are rendered inside the table cell
-    responsiblesWithoutRole.forEach(responsible => {
-      expect(screen.getByText(`${responsible.firstName} ${responsible.lastName}`)).toBeInTheDocument();
-    });
-  });
-
-  it('renders "n/a" when responsibles array is empty or undefined', () => {
-    renderTableCellResponsible(undefined);
-
-    // Check if "n/a" is rendered inside the cell
+  // Line 54: No responsibles (check popup content for "n/a")
+  it('renders "n/a" when responsibles array is empty', async () => {
+    renderWithRedux(<TableCellResponsible responsibles={[]} />);
+  
+    // Check if "n/a" is rendered in the table cell
     const tableCell = screen.getByText('n/a');
     expect(tableCell).toBeInTheDocument();
-  });
-
-  it('shows the popup with the formatted responsibles on hover when responsibles with roles are provided', async () => {
-    renderTableCellResponsible(responsiblesWithRole);
-
-    const tableCell = screen.getByText('John Doe (Manager)');
-
-    // Simulate mouse hover to trigger the popup
+  
+    // Simulate mouse hover to show the popup
     fireEvent.mouseEnter(tableCell);
-
-    // Wait for the popup to appear
+  
+    // Wait for the popup to appear with "n/a"
     await waitFor(() => {
-      const popup = document.querySelector('.ui.popup.visible');
-      expect(popup).toBeInTheDocument();
-
-      // Ensure the formatted responsibles with roles are present in the popup content
-      const popupContent = screen.getByText(formattedResponsiblesWithRole, { selector: '.ui.popup.visible' });
+      const popupContent = screen.getByText('n/a');
       expect(popupContent).toBeInTheDocument();
     });
   });
 
-  it('shows the popup with the formatted responsibles on hover when responsibles without roles are provided', async () => {
-    renderTableCellResponsible(responsiblesWithoutRole);
+  it('renders "n/a" when responsibles is undefined', async () => {
+    renderWithRedux(<TableCellResponsible responsibles={undefined} />);
 
-    const tableCell = screen.getByText('Alice Johnson');
-
-    // Simulate mouse hover to trigger the popup
-    fireEvent.mouseEnter(tableCell);
-
-    // Wait for the popup to appear
-    await waitFor(() => {
-      const popup = document.querySelector('.ui.popup.visible');
-      expect(popup).toBeInTheDocument();
-
-      // Ensure the formatted responsibles without roles are present in the popup content
-      const popupContent = screen.getByText(formattedResponsiblesWithoutRole, { selector: '.ui.popup.visible' });
-      expect(popupContent).toBeInTheDocument();
-    });
-  });
-
-  it('shows "n/a" in the popup on hover when responsibles are undefined', async () => {
-    renderTableCellResponsible(undefined);
-
-    const tableCell = screen.getByText('n/a', { selector: '.products-table-responsibles-cell' });
+    // Check if "n/a" is rendered in the table cell
+    const tableCell = screen.getByText('n/a');
     expect(tableCell).toBeInTheDocument();
-
-    // Simulate mouse hover to trigger the popup
-    fireEvent.mouseEnter(tableCell);
-
-    // Wait for the popup to appear and check for "n/a" content
-    await waitFor(() => {
-      const popup = document.querySelector('.ui.popup.visible');
-      expect(popup).toBeInTheDocument();
-
-      // Ensure "n/a" is present in the popup content
-      const popupContent = screen.getByText('n/a', { selector: '.ui.popup.visible' });
-      expect(popupContent).toBeInTheDocument();
-    });
-  });
-
-  it('hides the popup when mouse leaves the cell', async () => {
-    renderTableCellResponsible(responsiblesWithRole);
-
-    const tableCell = screen.getByText('John Doe (Manager)');
 
     // Simulate mouse hover to show the popup
     fireEvent.mouseEnter(tableCell);
+
+    // Wait for the popup to appear with "n/a"
+    await waitFor(() => {
+      const popupContent = screen.getByText('n/a');
+      expect(popupContent).toBeInTheDocument();
+    });
+  });
+
+  it('stops displaying responsibles when total name length exceeds 300 characters or 15 responsibles', async () => {
+    renderWithRedux(<TableCellResponsible responsibles={longResponsibles} />);
+
+    const cellElement = screen.getByTestId('table-cell');
+    fireEvent.mouseEnter(cellElement);
+
+    // Wait for the popup to appear
+    await waitFor(() => {
+      const popup = screen.getByTestId('responsibles-popup');
+      expect(popup).toBeInTheDocument();
+
+      // Check that the popup shows only the first 7 responsibles
+      longResponsibles.slice(0, 7).forEach((responsible) => {
+        const popupContent = screen.getByTestId(`popup-responsible-${responsible.id}`);
+        expect(popupContent).toBeInTheDocument();
+      });
+
+      // Ensure the popup contains the "and more" text
+      const moreResponsibles = screen.getByTestId('popup-more-responsibles');
+      expect(moreResponsibles).toBeInTheDocument();
+      expect(moreResponsibles).toHaveTextContent('... and 9 more');
+    });
+  });
+
+  it('hides the popup when the mouse leaves the cell', async () => {
+    renderWithRedux(<TableCellResponsible responsibles={responsiblesWithRole} />);
+
+    const responsibleElement = screen.getByTestId('responsible-label-1');
+    fireEvent.mouseEnter(responsibleElement);
+
+    // Check if the popup is shown
     await waitFor(() => {
       const popup = document.querySelector('.ui.popup.visible');
       expect(popup).toBeInTheDocument();
     });
 
     // Simulate mouse leave to hide the popup
-    fireEvent.mouseLeave(tableCell);
+    fireEvent.mouseLeave(responsibleElement);
+
+    // Wait for the popup to disappear
+    await waitFor(() => {
+      const popup = document.querySelector('.ui.popup.visible');
+      expect(popup).not.toBeInTheDocument();
+    });
+  });
+
+  it('closes the popup when clicking outside the component', async () => {
+    renderWithRedux(<TableCellResponsible responsibles={responsiblesWithRole} />);
+
+    const responsibleElement = screen.getByTestId('responsible-label-1');
+    fireEvent.mouseEnter(responsibleElement);
+
+    // Wait for the popup to appear
+    await waitFor(() => {
+      const popup = document.querySelector('.ui.popup.visible');
+      expect(popup).toBeInTheDocument();
+    });
+
+    // Simulate clicking outside the component
+    fireEvent.click(document.body);
 
     // Wait for the popup to disappear
     await waitFor(() => {

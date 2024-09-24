@@ -1,3 +1,4 @@
+import { validate } from 'class-validator';
 import { AppDataSource } from '../database';
 import { Version } from '../models/Version';
 
@@ -6,9 +7,14 @@ export class VersionRepository {
 
   async createVersion(data: Partial<Version>): Promise<Version> {
     const version = this.versionRepository.create(data);
-    const response = await this.versionRepository.save(version);
 
-    return response;
+    const validationErrors = await validate(version);
+    if (validationErrors.length > 0) {
+      console.error('Validation failed:', validationErrors);
+      throw new Error('Validation failed');
+    }
+
+    return await this.versionRepository.save(version);
   }
 
   async getAllVersions(

@@ -114,4 +114,35 @@ describe('ModalResponsibleRole Component', () => {
       })
     );
   });
+
+  it('truncates the role to 249 characters if it exceeds 250', () => {
+    mockUseSelector.mockImplementation((selector: any) => selector({
+      products: {
+        productsCurrentProduct: {
+          id: '1',
+          name: 'Test Product',
+          createdAt: '1',
+          responsibles: [{ id: '1', firstName: 'John', lastName: 'Doe', role: 'Manager' }],
+        },
+      },
+    }));
+  
+    render(<ModalResponsibleRole index={0} responsible={{ id: '1', firstName: 'John', lastName: 'Doe', role: 'Manager' }} />);
+  
+    const longInputValue = 'A'.repeat(260);
+    const inputElement = screen.getByPlaceholderText('Role');
+  
+    fireEvent.change(inputElement, { target: { value: longInputValue } });
+  
+    expect(mockDispatch).toHaveBeenCalledWith(
+      setProductsCurrentProduct({
+        id: '1',
+        name: 'Test Product',
+        createdAt: '1',
+        responsibles: [
+          { id: '1', firstName: 'John', lastName: 'Doe', role: 'A'.repeat(249) },
+        ],
+      })
+    );
+  });
 });

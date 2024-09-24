@@ -19,8 +19,14 @@ const DataflowModalProtocol: React.FC = () => {
    * handlers
    */
   const handleProtocolChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(setDataflowProtocol(event.target.value));
-  }
+    let value = event.target.value;
+
+    if (value.length > 250) {
+      value = value.slice(0, 249);
+    }
+
+    dispatch(setDataflowProtocol(value));
+  };
 
   /**
    * tsx

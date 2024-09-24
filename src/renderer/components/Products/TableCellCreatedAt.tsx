@@ -25,7 +25,6 @@ const TableCellCreated: React.FC<TableCellCreatedProps> = ({ createdAt }) => {
       }
       content={handleDataFormat}
       position="top center"
-      hoverable
     />
   );
 }

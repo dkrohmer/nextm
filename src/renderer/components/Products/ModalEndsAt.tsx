@@ -26,6 +26,7 @@ const ModalEndsAt: React.FC = () => {
     } else {
       value = e.target.value;
     }
+
     if (productsCurrentProduct) {
       dispatch(
         setProductsCurrentProduct({
@@ -44,7 +45,7 @@ const ModalEndsAt: React.FC = () => {
       type="date"
       label="Product end"
       data-testid="product-ends-at-input"
-      value={formatDate(productsCurrentProduct?.endsAt || '')}
+      value={productsCurrentProduct?.endsAt ? formatDate(productsCurrentProduct.endsAt) : ''}
       onChange={(e) => handleInputChange(e, 'endsAt')}
       min={formatDate(productsCurrentProduct?.startsAt || '')}
     />

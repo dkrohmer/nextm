@@ -87,4 +87,33 @@ describe('ModalDescription Component', () => {
       })
     );
   });
+
+  it('should truncate the description to 4999 characters if it exceeds 5000 characters', () => {
+    mockUseSelector.mockImplementation((selector: any) => selector({
+      products: {
+        productsCurrentProduct: {
+          id: '1',
+          name: 'Test Product',
+          description: 'Existing Product Description',
+          createdAt: '1'
+        },
+      },
+    }));
+  
+    render(<ModalDescription />);
+  
+    const longDescription = 'A'.repeat(5100);
+    fireEvent.change(screen.getByPlaceholderText('Description'), {
+      target: { value: longDescription },
+    });
+  
+    expect(mockDispatch).toHaveBeenCalledWith(
+      setProductsCurrentProduct({
+        id: '1',
+        name: 'Test Product',
+        description: 'A'.repeat(4999),
+        createdAt: '1'
+      })
+    );
+  });
 });

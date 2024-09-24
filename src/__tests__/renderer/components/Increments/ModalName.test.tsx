@@ -70,4 +70,27 @@ describe('ModalName Component', () => {
       setCurrentIncrement({ id: '1', name: 'New Increment Name', productId: '123' })
     );
   });
+
+  it('should truncate the input value to 249 characters if it exceeds 250 characters', () => {
+    // Set up the mock to return a non-null currentIncrement
+    mockUseSelector.mockImplementation((selector: any) => selector({
+      increments: {
+        currentIncrement: { id: '1', name: 'Old Increment Name', productId: '123' },
+      }
+    }));
+  
+    render(<ModalName />);
+  
+    // Simulate input change with a string longer than 250 characters
+    const longName = 'A'.repeat(260); // 260 characters
+    fireEvent.change(screen.getByPlaceholderText('Increment Name'), {
+      target: { name: 'name', value: longName }
+    });
+  
+    // Check if dispatch is called with the truncated value
+    expect(mockDispatch).toHaveBeenCalledWith(
+      setCurrentIncrement({ id: '1', name: 'A'.repeat(249), productId: '123' }) // Truncated to 249 characters
+    );
+  });
+  
 });

@@ -25,8 +25,17 @@ export function buildProductEntity(productData: Product): Product {
         buildIncrementEntity(incrementData, index),
     );
   } else {
+    // " - Baseline" has 11 characters, so product.name should be trimmed accordingly
+    const baselineSuffix = " - Baseline";
+    const maxLength = 250;
+
+    let truncatedName = product.name;
+    if ((product.name.length + baselineSuffix.length) > maxLength) {
+      truncatedName = product.name.slice(0, maxLength - baselineSuffix.length);
+    }
+
     const incrementData = {
-      name: `${product.name} - Baseline`,
+      name: `${truncatedName}${baselineSuffix}`,
     };
     product.increments = [];
     product.increments.push(buildIncrementEntity(incrementData, 0));

@@ -66,4 +66,21 @@ describe('DataflowModalProtocol Component', () => {
     // Check if dispatch is called with the correct action
     expect(mockDispatch).toHaveBeenCalledWith(setDataflowProtocol('New Protocol'));
   });
+
+  it('should truncate the input value to 249 characters if it exceeds 250 characters', () => {
+    mockUseSelector.mockImplementation((selector: any) => selector({
+      modelEditor: {
+        dataflowProtocol: 'Existing Protocol',
+      }
+    }));
+  
+    render(<DataflowModalProtocol />);
+  
+    const longProtocol = 'P'.repeat(260); // 260 characters
+    fireEvent.change(screen.getByPlaceholderText('Add protocol...'), {
+      target: { value: longProtocol },
+    });
+  
+    expect(mockDispatch).toHaveBeenCalledWith(setDataflowProtocol('P'.repeat(249))); // Truncated to 249 characters
+  });
 });

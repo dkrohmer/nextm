@@ -19,6 +19,10 @@ const ModalDescription: React.FC = () => {
    * handlers
    */
   const handleDescriptionChange = (value: string) => {
+    if (value.length > 5000) {
+      value = value.slice(0, 4999);
+    }
+
     if (productsCurrentProduct) {
       dispatch(
         setProductsCurrentProduct({

@@ -34,6 +34,16 @@
 .model-actions {
   display: flex;
   align-items: center;
+  visibility: hidden;
+}
+
+.model-actions.visible {
+  visibility: visible;
+}
+
+.model-title {
+  word-break: normal;
+  overflow-wrap: anywhere;
 }
 
 .model-actions .action-button {

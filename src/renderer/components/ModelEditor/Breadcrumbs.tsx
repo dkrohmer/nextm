@@ -5,6 +5,7 @@ import { AppDispatch, RootState } from '../../store';
 import { saveModel } from '../../utils/saveModel';
 import { useNavigate } from 'react-router-dom';
 import { Graph } from '@antv/x6';
+import '../../styles/model-editor/breadcrumbs.css'
 
 interface BreadcrumbsProps {
   graph: Graph | null
@@ -43,20 +44,22 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ graph }) => {
    * tsx
    */
   return (
-    <Breadcrumb style={{ position: 'absolute', left: 200, top: 130, zIndex: 2 }}>
+    <Breadcrumb className='breadcrumbs'>
       <Breadcrumb.Section link onClick={() => handleNavigate(`/products`)}>
         Products
       </Breadcrumb.Section>
       <Breadcrumb.Divider icon="right chevron" />
-      <Breadcrumb.Section link onClick={() => handleNavigate(`/products/${product!.id}`)}>
+      <Breadcrumb.Section link onClick={() => handleNavigate(`/products/${product!.id}`)} className="breadcrumb-product-name">
         {product?.name}
       </Breadcrumb.Section>
       <Breadcrumb.Divider icon="right chevron" />
-      <Breadcrumb.Section link onClick={() => handleNavigate(`/products/${product!.id}/increments/${increment!.id}`)}>
+      <Breadcrumb.Section link onClick={() => handleNavigate(`/products/${product!.id}/increments/${increment!.id}`)} className="breadcrumb-increment-name">
         {increment?.name}
       </Breadcrumb.Section>
       <Breadcrumb.Divider icon="right chevron" />
-      <Breadcrumb.Section active>{model?.name}</Breadcrumb.Section>
+      <Breadcrumb.Section active className="breadcrumb-model-name">
+        {model?.name}
+      </Breadcrumb.Section>
     </Breadcrumb>
   );
 };

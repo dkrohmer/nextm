@@ -70,4 +70,23 @@ describe('ModalName Component', () => {
       setModelsCurrentModel({ id: '1', name: 'New Model Name', createdAt: '1', incrementId: '123' })
     );
   });
+
+  it('should truncate the input value to 249 characters if it exceeds 250 characters', () => {
+    mockUseSelector.mockImplementation((selector: any) => selector({
+      models: {
+        modelsCurrentModel: { id: '1', name: 'Old Model Name', createdAt: '1', incrementId: '123' },
+      }
+    }));
+  
+    render(<ModalName />);
+  
+    const longName = 'A'.repeat(260); // 260 characters
+    fireEvent.change(screen.getByPlaceholderText('Threat Model Name'), {
+      target: { value: longName },
+    });
+  
+    expect(mockDispatch).toHaveBeenCalledWith(
+      setModelsCurrentModel({ id: '1', name: 'A'.repeat(249), createdAt: '1', incrementId: '123' })
+    );
+  });
 });

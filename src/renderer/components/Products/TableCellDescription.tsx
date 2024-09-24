@@ -8,6 +8,14 @@ interface ProductsTableCellDescriptionProps {
 
 const TableCellDescription: React.FC<ProductsTableCellDescriptionProps> = ({ description }) => {
   /**
+   * handlers
+   */
+  const handleDescriptionTruncate = (desc: string | null | undefined) => {
+    if (!desc) return 'n/a';
+    return desc.length > 500 ? `${desc.slice(0, 499)}...` : desc;
+  };
+  
+  /**
    * tsx
    */
   return (
@@ -19,7 +27,7 @@ const TableCellDescription: React.FC<ProductsTableCellDescriptionProps> = ({ des
           </div>
         </Table.Cell>
       }
-      content={description || 'n/a'}
+      content={handleDescriptionTruncate(description)}
     />
   )
 } 

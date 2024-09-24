@@ -66,4 +66,22 @@ describe('SystemModalDescription Component', () => {
     // Check if dispatch is called with correct action
     expect(mockDispatch).toHaveBeenCalledWith(setSystemDescription('New System Description'));
   });
+
+  it('should truncate the input value to 4999 characters if it exceeds 5000 characters', () => {
+    mockUseSelector.mockImplementation((selector: any) => selector({
+      modelEditor: {
+        systemDescription: 'Existing System Description',
+      }
+    }));
+  
+    render(<SystemModalDescription />);
+  
+    const longDescription = 'A'.repeat(5100);
+    fireEvent.change(screen.getByTestId('system-description'), {
+      target: { value: longDescription },
+    });
+  
+    expect(mockDispatch).toHaveBeenCalledWith(setSystemDescription('A'.repeat(4999)));
+  });
+  
 });

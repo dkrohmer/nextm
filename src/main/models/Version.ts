@@ -21,7 +21,6 @@ export class Version {
   id: string = uuidv4();
 
   @CreateDateColumn()
-  @IsDate()
   createdAt!: Date;
 
   @Column()

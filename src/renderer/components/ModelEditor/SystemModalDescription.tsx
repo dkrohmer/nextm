@@ -19,7 +19,13 @@ const SystemModalDescription: React.FC = () => {
    * handlers
    */
   const handleDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    dispatch(setSystemDescription(e.target.value));
+    let value = e.target.value;
+
+    if (value.length > 5000) {
+      value = value.slice(0, 4999);
+    }
+
+    dispatch(setSystemDescription(value));
   };
 
   /**

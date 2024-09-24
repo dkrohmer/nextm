@@ -17,7 +17,7 @@ const Description: React.FC = () => {
       <Grid.Column width={4} textAlign="right">
         <strong>Description:</strong>
       </Grid.Column>
-      <Grid.Column width={12}>
+      <Grid.Column width={12} className="product-description">
         {product?.description || 'n/a'}
       </Grid.Column>
     </Grid.Row>

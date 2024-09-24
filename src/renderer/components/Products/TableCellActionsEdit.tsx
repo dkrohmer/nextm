@@ -12,11 +12,6 @@ interface TableCellActionsEditProps {
 
 const TableCellActionsEdit: React.FC<TableCellActionsEditProps> = ({ product }) => {
   /**
-   * local states
-   */
-  const [popupOpen, setPopupOpen] = useState(false);
-
-  /**
    * hooks
    */
   const dispatch = useDispatch<AppDispatch>();
@@ -31,14 +26,6 @@ const TableCellActionsEdit: React.FC<TableCellActionsEditProps> = ({ product }) 
     dispatch(setProductsIsEditing(true));  
   };
 
-  const handleMouseEnter = () => {
-    setPopupOpen(true)
-  }
-
-  const handleMouseLeave = () => {
-    setPopupOpen(false)
-  }
-
   /**
    * tsx
    */
@@ -51,15 +38,12 @@ const TableCellActionsEdit: React.FC<TableCellActionsEditProps> = ({ product }) 
           icon
           className="products-button"
           onClick={handleEdit}
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
+          data-testid="edit-button"
         >
           <Icon name="pencil" />
         </Button>
       }
-      content={<span><strong>Edit product</strong> "{product.name}"</span>}
-      open={popupOpen}
-      onClose={handleMouseLeave}
+      content={<span data-testid="edit-popup-content"><strong>Edit product</strong> "{product.name}"</span>}
     />
   );
 };

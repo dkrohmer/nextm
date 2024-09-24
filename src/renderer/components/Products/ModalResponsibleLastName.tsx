@@ -25,6 +25,10 @@ const ModalResponsibleLastName: React.FC<ModalResponsibleLastNameProps> = ({ ind
    * handlers
    */
   const handleResponsibleChange = (field: keyof IResponsible, value: string) => {
+    if (value.length > 250) {
+      value = value.slice(0, 249);
+    }
+    
     if (productsCurrentProduct) {
       let updatedResponsibles: IResponsible[] = [];
       if (productsCurrentProduct.responsibles) {

@@ -1,6 +1,7 @@
 import setup from '../../../../renderer/services/model-editor/setup';
-import { Graph } from '@antv/x6';
+import { Cell, Graph, Node, NodeView } from '@antv/x6';
 import { History } from '@antv/x6-plugin-history';
+import { Transform } from '@antv/x6-plugin-transform';
 
 jest.mock('@antv/x6', () => ({
   Graph: jest.fn().mockImplementation(() => ({
@@ -8,12 +9,12 @@ jest.mock('@antv/x6', () => ({
     options: {
       embedding: {
         enabled: true,
+        findParent: jest.fn(),
       },
     },
     getNodes: jest.fn(),
   })),
 }));
-
 
 jest.mock('@antv/x6-plugin-transform', () => ({
   Transform: jest.fn(),
@@ -188,5 +189,25 @@ describe('Graph setup', () => {
 
     const resultTarget = beforeAddCommand('someEvent', argsWithEdgeTargetHandle);
     expect(resultTarget).toBe(false);
+  });
+
+  it('should test resizing logic with aspect ratio for system shape', () => {
+    const mockCellSystem = {
+      shape: 'system',
+    } as Cell;
+
+    const mockCellOther = {
+      shape: 'other',
+    } as Cell;
+
+    const transformOptions = (Transform as unknown as jest.Mock).mock.calls[0][0].resizing;
+
+    // Check minHeight logic
+    expect(transformOptions.minHeight(mockCellSystem)).toBe(80);
+    expect(transformOptions.minHeight(mockCellOther)).toBe(40);
+
+    // Check preserveAspectRatio logic
+    expect(transformOptions.preserveAspectRatio(mockCellSystem)).toBe(true);
+    expect(transformOptions.preserveAspectRatio(mockCellOther)).toBe(false);
   });
 });

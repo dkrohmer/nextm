@@ -21,10 +21,21 @@ const ActionsClone: React.FC<ActionsCloneProps> = ({ model }) => {
    */
   const handleClone = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
+    const cloneName = `${model.name} (Copy)`;
+  
+    const maxLength = 250;
+    let finalName = cloneName;
+  
+    if (finalName.length > maxLength) {
+      const remainingLength = maxLength - 10; // 10 for the "..." and " (Copy)"
+      finalName = `...${model.name.slice(-remainingLength)} (Copy)`;
+    }
+  
     dispatch(setModelsIsCloning(true));
-    dispatch(setModelsCurrentModel({ ...model, name: `${model.name} (Copy)` }));
+    dispatch(setModelsCurrentModel({ ...model, name: finalName }));
     dispatch(setModelsModalOpen(true));
   };
+  
 
   /**
    * tsx

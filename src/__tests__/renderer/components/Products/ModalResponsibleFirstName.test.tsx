@@ -119,4 +119,37 @@ describe('ModalResponsibleFirstName Component', () => {
       })
     );
   });
+
+  it('truncates the first name to 249 characters if it exceeds 250', () => {
+    // Mock the global state with productsCurrentProduct
+    mockUseSelector.mockImplementation((selector: any) => selector({
+      products: {
+        productsCurrentProduct: {
+          id: '1',
+          name: 'Test Product',
+          createdAt: '1',
+          responsibles: [{ id: '1', firstName: 'John', lastName: 'Doe', role: 'Manager' }],
+        },
+      },
+    }));
+  
+    render(<ModalResponsibleFirstName index={0} responsible={{ id: '1', firstName: 'John', lastName: 'Doe', role: 'Manager' }} />);
+  
+    const longInputValue = 'A'.repeat(260);
+    const inputElement = screen.getByPlaceholderText('First Name');
+    
+    fireEvent.change(inputElement, { target: { value: longInputValue } });
+  
+    expect(mockDispatch).toHaveBeenCalledWith(
+      setProductsCurrentProduct({
+        id: '1',
+        name: 'Test Product',
+        createdAt: '1',
+        responsibles: [
+          { id: '1', firstName: 'A'.repeat(249), lastName: 'Doe', role: 'Manager' },
+        ],
+      })
+    );
+  });
+  
 });

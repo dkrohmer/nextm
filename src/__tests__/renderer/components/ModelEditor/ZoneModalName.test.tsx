@@ -66,4 +66,22 @@ describe('ZoneModalName Component', () => {
     // Check if dispatch is called with the correct action
     expect(mockDispatch).toHaveBeenCalledWith(setZoneName('New Zone Name'));
   });
+
+  it('should truncate the input value to 249 characters if it exceeds 250 characters', () => {
+    mockUseSelector.mockImplementation((selector: any) => selector({
+      modelEditor: {
+        zoneName: 'Existing Zone Name',
+      }
+    }));
+  
+    render(<ZoneModalName />);
+  
+    const longName = 'A'.repeat(260); // 260 characters
+    fireEvent.change(screen.getByPlaceholderText('Add zone name...'), {
+      target: { value: longName },
+    });
+  
+    expect(mockDispatch).toHaveBeenCalledWith(setZoneName('A'.repeat(249))); // Truncated to 249 characters
+  });
+
 });

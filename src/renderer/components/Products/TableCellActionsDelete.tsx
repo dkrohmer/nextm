@@ -12,11 +12,6 @@ interface TableCellActionsDeleteProps {
 
 const TableCellActionsDelete: React.FC<TableCellActionsDeleteProps> = ({ product }) => {
   /**
-   * local states
-   */
-  const [popupOpen, setPopupOpen] = useState(false);
-
-  /**
    * hooksv
    */
   const dispatch = useDispatch<AppDispatch>();
@@ -30,14 +25,6 @@ const TableCellActionsDelete: React.FC<TableCellActionsDeleteProps> = ({ product
     dispatch(setOpenConfirm(true));
   };
 
-  const handleMouseEnter = () => {
-    setPopupOpen(true)
-  }
-
-  const handleMouseLeave = () => {
-    setPopupOpen(false)
-  }
-
   /**
    * tsx
    */
@@ -50,15 +37,12 @@ const TableCellActionsDelete: React.FC<TableCellActionsDeleteProps> = ({ product
           icon
           className="products-button"
           onClick={handleDelete}
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
+          data-testid="delete-button"
         >
           <Icon color="red" name="trash" />
         </Button>
       }
-      content={<span><strong>Delete product</strong> "{product.name}"</span>}
-      open={popupOpen}
-      onClose={handleMouseLeave}
+      content={<span data-testid="delete-popup-content"><strong>Delete product</strong> "{product.name}"</span>}
     />
   );
 };

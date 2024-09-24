@@ -64,4 +64,29 @@ describe('TableCellDescription Component', () => {
       expect(popup).not.toBeInTheDocument();
     });
   });
+
+  it('truncates the description in the popup if it is longer than 500 characters', async () => {
+    // Create a description with more than 500 characters
+    const longDescription = 'A'.repeat(501); // 501 characters long
+  
+    renderTableCellDescription(longDescription);
+  
+    // The cell should render the full description
+    const cellDiv = screen.getByText(longDescription, { selector: '.products-table-description-cell' });
+    expect(cellDiv).toBeInTheDocument();
+  
+    // Simulate mouse hover to show the popup
+    fireEvent.mouseEnter(cellDiv);
+  
+    // Wait for the popup to appear and check for the truncated description
+    await waitFor(() => {
+      const popup = document.querySelector('.ui.popup.visible');
+      expect(popup).toBeInTheDocument();
+  
+      // The popup should contain the truncated description
+      const truncatedDescription = `${longDescription.slice(0, 499)}...`;
+      const popupContent = screen.getByText(truncatedDescription, { selector: '.content' });
+      expect(popupContent).toBeInTheDocument();
+    });
+  });  
 });

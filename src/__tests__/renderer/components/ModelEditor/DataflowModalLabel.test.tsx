@@ -66,4 +66,21 @@ describe('DataflowModalLabel Component', () => {
     // Check if dispatch is called with the correct action
     expect(mockDispatch).toHaveBeenCalledWith(setDataflowLabel('New Label'));
   });
+
+  it('should truncate the input value to 249 characters if it exceeds 250 characters', () => {
+    mockUseSelector.mockImplementation((selector: any) => selector({
+      modelEditor: {
+        dataflowLabel: 'Existing Label',
+      }
+    }));
+  
+    render(<DataflowModalLabel />);
+  
+    const longLabel = 'A'.repeat(260); // 260 characters
+    fireEvent.change(screen.getByPlaceholderText('Add label...'), {
+      target: { value: longLabel },
+    });
+  
+    expect(mockDispatch).toHaveBeenCalledWith(setDataflowLabel('A'.repeat(249))); // Truncated to 249 characters
+  });
 });

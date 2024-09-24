@@ -52,7 +52,7 @@ const Model: React.FC<ModelProps> = ({ model, increment, product }) => {
    * tsx
    */
   return (
-    <div>
+    <div className="model-wrapper" data-testid="model-wrapper">
       {product && (
         <List.Item
           onMouseEnter={handleMouseEnter}
@@ -60,17 +60,16 @@ const Model: React.FC<ModelProps> = ({ model, increment, product }) => {
           className="model-clickable-row"
           onClick={handleNavigate}
           key={model.id}
+          data-testid="model-item"
         >
-          <Thumbnail modelId={model.id}/>
-          <List.Content className="model-content">
-            <Header model={model} increment={increment} product={product} />
-            <CreatedAt createdAt={model.createdAt} />
+          <Thumbnail modelId={model.id} data-testid="model-thumbnail"/>
+          <List.Content className="model-content" data-testid="model-content">
+            <Header model={model} increment={increment} product={product} data-testid="model-header"/>
+            <CreatedAt createdAt={model.createdAt} data-testid="model-created-at"/>
           </List.Content>
 
-          {isHovering && (
-            <Actions model={model} />
-          )}
-        </List.Item>
+          {isHovering && <Actions model={model} isVisible={isHovering} data-testid="model-actions-container" />}
+          </List.Item>
       )}
     </div>
   );

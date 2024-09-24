@@ -162,4 +162,35 @@ describe('IncrementRepository', () => {
     const latestIncrementId = await incrementRepository.getLatestIncrementId('non-existent-product-id');
     expect(latestIncrementId).toBeNull();
   });
+
+  it('should throw an error when creating an increment with invalid data', async () => {
+    const invalidIncrement = new Increment();
+    invalidIncrement.name = ''; // Invalid: name is empty
+    invalidIncrement.productId = 'invalid-uuid'; // Invalid: productId is not a valid UUID
+    invalidIncrement.incrementIndex = -1; // Invalid: incrementIndex is out of range
+
+    await expect(incrementRepository.createIncrement(invalidIncrement))
+      .rejects
+      .toThrow('Validation failed');
+  });
+
+  it('should throw an error when updating an increment with invalid data', async () => {
+    const increment = new Increment();
+    increment.name = 'Valid Increment';
+    increment.productId = productId; // Valid productId
+    increment.incrementIndex = 1;
+    const savedIncrement = await incrementRepository.createIncrement(increment);
+
+    // Try updating with invalid data
+    const updatedIncrement = {
+      ...savedIncrement,
+      name: '', // Invalid: name is empty
+      productId: 'invalid-uuid', // Invalid: not a valid UUID
+      incrementIndex: -1, // Invalid: incrementIndex is out of range
+    };
+
+    await expect(incrementRepository.updateIncrement(savedIncrement.id, updatedIncrement))
+      .rejects
+      .toThrow('Validation failed');
+  });
 });

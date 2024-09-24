@@ -58,15 +58,15 @@ describe('Actor Module', () => {
     const nodeMock = {
       setAttrs: jest.fn(),
     } as Partial<Node>; // Ensure we use a partial Node
-
+  
     graphMock.createNode.mockReturnValue(nodeMock as Node); // Cast the return value to Node
-
+  
     const node = actor.create(graphMock);
-
+  
     expect(graphMock.createNode).toHaveBeenCalledWith({
       shape: 'actor',
     });
-
+  
     expect(nodeMock.setAttrs).toHaveBeenCalledWith({
       body: {
         strokeWidth: 1,
@@ -81,15 +81,20 @@ describe('Actor Module', () => {
         refX: 0.5,
         textAnchor: 'middle',
         fontSize: 12,
+        textWrap: {
+          text: 'Actor',
+          ellipsis: true,
+          breakWord: true,
+        },
       },
     });
-
+  
     expect(node).toBe(nodeMock);
   });
 
   it('should set actor attributes correctly', () => {
     const attrs = actor.setActorAttrs('Test Name');
-
+  
     expect(attrs).toEqual({
       body: {
         strokeWidth: 1,
@@ -104,7 +109,12 @@ describe('Actor Module', () => {
         refX: 0.5,
         textAnchor: 'middle',
         fontSize: 12,
+        textWrap: {
+          text: 'Test Name',
+          ellipsis: true,
+          breakWord: true,
+        },
       },
     });
-  });
+  });  
 });

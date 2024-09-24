@@ -1,4 +1,4 @@
-import { Graph } from '@antv/x6';
+import { Node, Graph, Cell } from '@antv/x6';
 import { Transform } from '@antv/x6-plugin-transform';
 import { Selection } from '@antv/x6-plugin-selection';
 import { Snapline } from '@antv/x6-plugin-snapline';
@@ -85,7 +85,25 @@ const create = (
   })
     .use(
       new Transform({
-        resizing: true,
+        resizing: {
+          enabled: true,
+          allowReverse: false,
+          minWidth: 80,
+          minHeight(cell: Cell) {
+            if (cell.shape === 'system') {
+              return 80;
+            } else {
+              return 40;
+            }
+          },
+          preserveAspectRatio(cell: Cell) {
+            if (cell.shape === 'system') {
+              return true;
+            } else {
+              return false;
+            }
+          },
+        },
       }),
     )
     .use(new Snapline())

@@ -1,0 +1,22 @@
+.breadcrumbs {
+  position: absolute;
+  left: 200px; 
+  top: 130px; 
+  z-index: 3; 
+  word-break: normal;
+  overflow-wrap: anywhere;
+}
+
+.breadcrumb-product-name {
+  max-width: 300px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.breadcrumb-increment-name {
+  max-width: 300px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

@@ -66,4 +66,22 @@ describe('SystemModalStack Component', () => {
     // Check if dispatch is called with the correct action
     expect(mockDispatch).toHaveBeenCalledWith(setSystemStack('New System Stack'));
   });
+
+  it('should truncate the input value to 249 characters if it exceeds 250 characters', () => {
+    mockUseSelector.mockImplementation((selector: any) => selector({
+      modelEditor: {
+        systemStack: 'Existing System Stack',
+      }
+    }));
+  
+    render(<SystemModalStack />);
+  
+    const longStack = 'A'.repeat(260);
+    fireEvent.change(screen.getByPlaceholderText('Add system stack...'), {
+      target: { value: longStack },
+    });
+  
+    expect(mockDispatch).toHaveBeenCalledWith(setSystemStack('A'.repeat(249)));
+  });
+  
 });

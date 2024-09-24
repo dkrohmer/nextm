@@ -12,6 +12,7 @@ import {
   IsString,
   MaxLength,
   IsOptional,
+  IsNotEmpty,
 } from 'class-validator';
 import { v4 as uuidv4 } from 'uuid';
 import { Responsible } from './Responsible';
@@ -31,12 +32,12 @@ export class Product {
   id: string = uuidv4();
 
   @CreateDateColumn()
-  @IsDate()
   createdAt!: Date;
 
   @Column()
   @IsString()
   @MaxLength(250)
+  @IsNotEmpty({ message: 'Product name must not be empty' })
   name!: string;
 
   @Column({ type: 'text', nullable: true })

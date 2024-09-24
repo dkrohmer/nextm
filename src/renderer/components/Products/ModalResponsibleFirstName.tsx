@@ -25,13 +25,17 @@ const ModalResponsibleFirstName: React.FC<ModalResponsibleFirstNameProps> = ({ i
    * handlers
    */
   const handleResponsibleChange = (field: keyof IResponsible, value: string) => {
+    if (value.length > 250) {
+      value = value.slice(0, 249);
+    }
+
     if (productsCurrentProduct) {
       let updatedResponsibles: IResponsible[] = [];
       if (productsCurrentProduct.responsibles) {
         updatedResponsibles = productsCurrentProduct.responsibles.map((resp, i) =>
           i === index ? { ...resp, [field]: value } : resp
-        )
-      } 
+        );
+      }
 
       dispatch(
         setProductsCurrentProduct({
@@ -41,8 +45,6 @@ const ModalResponsibleFirstName: React.FC<ModalResponsibleFirstNameProps> = ({ i
       );
     }
   };
-  
-  
 
   /**
    * tsx

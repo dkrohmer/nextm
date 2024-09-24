@@ -18,11 +18,11 @@ const ProductsTableRow: React.FC<TableRowProps> = ({ product }) => {
    */
   return (
     <Table.Row className="clickable-row">
-      <TableCellName name={product.name} productId={product.id} />
-      <TableCellDescription description={product.description} />
-      <TableCellResponsible responsibles={product.responsibles} />
-      <TableCellDeadline endsAt={product.endsAt} />
-      <TableCellCreated createdAt={product.createdAt} />
+      <TableCellName name={product.name} productId={product.id} data-testid="name"/>
+      <TableCellDescription description={product.description} data-testid="description" />
+      <TableCellResponsible responsibles={product.responsibles} data-testid="responsibles"/>
+      <TableCellDeadline endsAt={product.endsAt} data-testid="deadline"/>
+      <TableCellCreated createdAt={product.createdAt} data-testid="createdAt"/>
       <TableCellActions
         product={product}
       />

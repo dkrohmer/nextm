@@ -19,7 +19,13 @@ const SystemModalStack: React.FC = () => {
    * handlers
    */
   const handleStackChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(setSystemStack(event.target.value));
+    let value = event.target.value;
+
+    if (value.length > 250) {
+      value = value.slice(0, 249);
+    }
+
+    dispatch(setSystemStack(value));
   };
 
   /**

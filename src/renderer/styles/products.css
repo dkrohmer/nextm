@@ -33,7 +33,7 @@
 }
 
 .products-table-name-cell {
-  max-width: 250px;
+  max-width: 180px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -47,8 +47,20 @@
   max-width: 200px;
 }
 
+.responsibles-container {
+  display: flex;
+  align-items: center;
+}
+
 .products-table-responsibles-cell-label {
-  margin: 2px !important;
+  max-width: 150px; /* Set your desired max width */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.more-responsibles {
+  margin-left: 5px; /* Optional: Add some spacing */
 }
 
 .products-table-responsibles-cell-label .icon {
@@ -56,7 +68,7 @@
 }
 
 .products-table-created-at-cell {
-  max-width: 150px;
+  min-width: 150px;
 }
 
 .products-table-deadline-cell {
@@ -64,7 +76,7 @@
 }
 
 .products-table-actions-cell {
-  width: 150px;
+  min-width: 150px;
 }
 
 .products-action-icons .button {
@@ -167,6 +179,12 @@
   overflow-x: auto;
   padding: 0;
   margin: 0;
+}
+
+/* semantic ui overrides */
+.ui.popup {
+  word-break: normal;
+  overflow-wrap: anywhere;
 }
 
 @media (max-width: 768px) {

@@ -1,3 +1,4 @@
+import { validate } from 'class-validator';
 import { AppDataSource } from '../database';
 import { Increment } from '../models/Increment';
 
@@ -5,7 +6,15 @@ export class IncrementRepository {
   private incrementRepository = AppDataSource.getRepository(Increment);
 
   async createIncrement(increment: Increment): Promise<Increment> {
-    return await this.incrementRepository.save(increment);
+    const validationErrors = await validate(increment);
+
+    if (validationErrors.length > 0) {
+      console.error(validationErrors);
+      throw new Error('Validation failed');
+    }
+
+    const newIncrement = await this.incrementRepository.save(increment);
+    return newIncrement;
   }
 
   async getAllIncrements(
@@ -64,16 +73,21 @@ export class IncrementRepository {
     return latestIncrement?.id || null;
   }
 
-  async updateIncrement(
-    id: string,
-    data: Partial<Increment>,
-  ): Promise<Increment | null> {
+  async updateIncrement(id: string, data: Partial<Increment>): Promise<Increment | null> {
     const increment = await this.incrementRepository.findOneBy({ id });
     if (!increment) {
       return null;
     }
-    Object.assign(increment, data);
-    return await this.incrementRepository.save(increment);
+
+    const updatedIncrement = this.incrementRepository.merge(increment, data);
+
+    const validationErrors = await validate(updatedIncrement);
+    if (validationErrors.length > 0) {
+      console.error('Validation failed:', validationErrors);
+      throw new Error('Validation failed');
+    }
+
+    return await this.incrementRepository.save(updatedIncrement);
   }
 
   async deleteIncrement(id: string): Promise<void> {

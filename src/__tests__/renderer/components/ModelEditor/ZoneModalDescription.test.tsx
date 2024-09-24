@@ -66,4 +66,22 @@ describe('ZoneModalDescription Component', () => {
     // Check if dispatch is called with correct action
     expect(mockDispatch).toHaveBeenCalledWith(setZoneDescription('New Zone Description'));
   });
+
+  it('should truncate the input value to 4999 characters if it exceeds 5000 characters', () => {
+    mockUseSelector.mockImplementation((selector: any) => selector({
+      modelEditor: {
+        zoneDescription: 'Existing Zone Description',
+      }
+    }));
+  
+    render(<ZoneModalDescription />);
+  
+    const longDescription = 'A'.repeat(5100);
+    fireEvent.change(screen.getByTestId('zone-description'), {
+      target: { value: longDescription },
+    });
+  
+    expect(mockDispatch).toHaveBeenCalledWith(setZoneDescription('A'.repeat(4999)));
+  });
+  
 });

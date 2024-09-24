@@ -19,9 +19,15 @@ const ModalName: React.FC = () => {
    * handlers
    */
   const handleInputChange = (data: InputOnChangeData) => {
+    let value = data.value;
+
+    if (value.length > 250) {
+      value = value.slice(0, 249);
+    }
+
     if (currentIncrement) {
       dispatch(
-        setCurrentIncrement({ ...currentIncrement, [data.name]: data.value }),
+        setCurrentIncrement({ ...currentIncrement, [data.name]: value }),
       );
     }
   };

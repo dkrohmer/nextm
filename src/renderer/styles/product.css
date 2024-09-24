@@ -17,3 +17,18 @@
 .product-label {
   margin: 2px !important;
 }
+
+.product-breadcrumb-name {
+  word-break: normal;
+  overflow-wrap: anywhere;
+}
+
+.product-description {
+  word-break: normal;
+  overflow-wrap: anywhere;
+}
+
+.product-responsible {
+  word-break: normal;
+  overflow-wrap: anywhere;
+}

@@ -26,6 +26,7 @@ const ModalStartsAt: React.FC = () => {
     } else {
       value = e.target.value;
     }
+    
     if (productsCurrentProduct) {
       dispatch(
         setProductsCurrentProduct({
@@ -43,7 +44,7 @@ const ModalStartsAt: React.FC = () => {
     <Form.Input
       type="date"
       label="Product start"
-      value={formatDate(productsCurrentProduct?.startsAt || '')}
+      value={productsCurrentProduct?.startsAt ? formatDate(productsCurrentProduct.startsAt) : ''}
       onChange={(e) => handleInputChange(e, 'startsAt')}
       max={formatDate(productsCurrentProduct?.endsAt || '')}
       data-testid="product-starts-at-input"

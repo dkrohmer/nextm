@@ -74,4 +74,28 @@ describe('ModalName Component', () => {
       })
     );
   });
+
+  it('truncates the input value to 249 characters if it exceeds 250', () => {
+    mockUseSelector.mockImplementation((selector: any) => selector({
+      products: {
+        productsCurrentProduct: { id: '1', name: 'Old Product Name', createdAt: '1' },
+      }
+    }));
+  
+    render(<ModalName />);
+  
+    const longInputValue = 'A'.repeat(260); // Create a string of 260 characters
+    fireEvent.change(screen.getByPlaceholderText('Product Name'), {
+      target: { value: longInputValue }
+    });
+  
+    expect(mockDispatch).toHaveBeenCalledWith(
+      setProductsCurrentProduct({
+        id: '1',
+        name: 'A'.repeat(249),
+        createdAt: '1'
+      })
+    );
+  });
+  
 });

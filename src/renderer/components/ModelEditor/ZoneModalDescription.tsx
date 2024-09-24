@@ -19,7 +19,13 @@ const ZoneModalDescription: React.FC = () => {
    * handlers
    */
   const handleDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    dispatch(setZoneDescription(e.target.value));
+    let value = e.target.value;
+
+    if (value.length > 5000) {
+      value = value.slice(0, 4999);
+    }
+
+    dispatch(setZoneDescription(value));
   };
 
   /**

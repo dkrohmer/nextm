@@ -126,4 +126,33 @@ describe('ModelRepository', () => {
   it('should not throw an error when deleting a non-existent model', async () => {
     await expect(modelRepository.deleteModel('non-existent-id')).resolves.not.toThrow();
   });
+
+  it('should throw an error when creating a model with invalid data', async () => {
+    const invalidModel = new Model();
+    invalidModel.name = ''; // Invalid: name is empty
+    invalidModel.incrementId = 'invalid-uuid'; // Invalid: incrementId is not a valid UUID
+
+    await expect(modelRepository.createModel(invalidModel))
+      .rejects
+      .toThrow('Validation failed');
+  });
+
+  // Test failed validation during update
+  it('should throw an error when updating a model with invalid data', async () => {
+    const model = new Model();
+    model.name = 'Valid Name';
+    model.incrementId = incrementId; // Valid incrementId
+    const savedModel = await modelRepository.createModel(model);
+
+    // Try updating with invalid data
+    const updatedModel = {
+      ...savedModel,
+      name: '', // Invalid: name is empty
+      incrementId: 'invalid-uuid', // Invalid: not a valid UUID
+    };
+
+    await expect(modelRepository.updateModel(savedModel.id, updatedModel))
+      .rejects
+      .toThrow('Validation failed');
+  });
 });

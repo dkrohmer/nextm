@@ -99,4 +99,39 @@ describe('ProductRepository', () => {
   it('should not throw an error when deleting a non-existent product', async () => {
     await expect(productRepository.deleteProduct('non-existent-id')).resolves.not.toThrow();
   });
+
+  // Test failed validation during creation
+  it('should throw an error when creating a product with invalid data', async () => {
+    const invalidProduct = new Product();
+    invalidProduct.name = ''; // Invalid: name is empty
+    invalidProduct.description = 'Valid description'; // Valid description
+    invalidProduct.startsAt = new Date();
+    invalidProduct.endsAt = new Date();
+    invalidProduct.latestIncrementId = 'invalid-uuid'; // Invalid: latestIncrementId is not a valid UUID
+
+    await expect(productRepository.createProduct(invalidProduct))
+      .rejects
+      .toThrow('Validation failed');
+  });
+
+  it('should throw an error when updating a product with invalid data', async () => {
+    const product = new Product();
+    product.name = 'Valid Name';
+    product.description = 'Valid description';
+    product.startsAt = new Date();
+    product.endsAt = new Date();
+    const savedProduct = await productRepository.createProduct(product);
+
+    // Try updating with invalid data
+    const updatedProduct = {
+      ...savedProduct,
+      name: '', // Invalid: name is empty
+      latestIncrementId: 'invalid-uuid', // Invalid: not a valid UUID
+    };
+
+    // Expect the update operation to fail due to validation
+    await expect(productRepository.updateProduct(savedProduct.id, updatedProduct))
+      .rejects
+      .toThrow('Validation failed');
+  });
 });

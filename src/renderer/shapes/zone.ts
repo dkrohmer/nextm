@@ -15,6 +15,11 @@ const setZoneAttrs = (name: string, trustLevel: string) => {
       textAnchor: 'middle',
       textVerticalAnchor: 'bottom',
       textSize: 12,
+      textWrap: {
+        text: name,
+        ellipsis: true,
+        height: 20,
+      },
     },
     trustLevel: {
       ref: 'name',
@@ -25,6 +30,12 @@ const setZoneAttrs = (name: string, trustLevel: string) => {
       textVerticalAnchor: 'middle',
       pointerEvents: 'none',
       refY: 20,
+      textWrap: {
+        text: trustLevel,
+        ellipsis: true,
+        width: 60,
+        height: 20,
+      },
     },
   };
 };

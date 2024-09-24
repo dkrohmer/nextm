@@ -22,21 +22,29 @@ const ActionsClone: React.FC<ActionsCloneProps> = ({ increment }) => {
    */
   const handleClone = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
+    const cloneName = `${increment.name} (Copy)`;
+
+    // Check if the resulting name exceeds 250 characters
+    const maxLength = 250;
+    let finalName = cloneName;
+
+    if (finalName.length > maxLength) {
+      const remainingLength = maxLength - 10; // 10 for the "..." and " (Copy)"
+      finalName = `...${increment.name.slice(-remainingLength)} (Copy)`;
+    }
+
     dispatch(setIncrementsIsCloning(true));
-    dispatch(
-      setCurrentIncrement({ ...increment, name: `${increment.name} (Copy)` })
-    );
+    dispatch(setCurrentIncrement({ ...increment, name: finalName }));
     dispatch(setIncrementsModalOpen(true));
   };
 
   const handleMouseEnter = () => {
-    setPopupOpen(true)
-  }
+    setPopupOpen(true);
+  };
 
   const handleMouseLeave = () => {
-    setPopupOpen(false)
-  }
-
+    setPopupOpen(false);
+  };
   /*
    * hooks
    */

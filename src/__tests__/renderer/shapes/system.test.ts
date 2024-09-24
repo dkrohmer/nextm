@@ -65,15 +65,15 @@ describe('System Module', () => {
     const nodeMock = {
       setAttrs: jest.fn(),
     } as Partial<Node>; // Mock a partial Node
-
+  
     graphMock.createNode.mockReturnValue(nodeMock as Node);
-
+  
     const node = system.create(graphMock);
-
+  
     expect(graphMock.createNode).toHaveBeenCalledWith({
       shape: 'system',
     });
-
+  
     expect(nodeMock.setAttrs).toHaveBeenCalledWith({
       body: {
         strokeWidth: 1,
@@ -84,18 +84,24 @@ describe('System Module', () => {
         refX: 0.5,
         textAnchor: 'middle',
         fontSize: 12,
+        textWrap: {
+          text: 'System',
+          ellipsis: true,
+          breakWord: true,
+          height: 60,
+        },
       },
       stackBody: {
         ref: 'stack',
         fill: 'black',
-        stroke: 'white',
-        strokeWidth: 2,
+        stroke: 'black',
+        strokeWidth: 6,
         rx: 4,
         ry: 4,
-        refWidth: '140%',
-        refHeight: '140%',
-        refX: '-20%',
-        refY: '-20%',
+        refWidth: '100%',
+        refHeight: '100%',
+        refX: '0%',
+        refY: '0%',
       },
       stack: {
         ref: 'name',
@@ -105,10 +111,15 @@ describe('System Module', () => {
         textAnchor: 'middle',
         textVerticalAnchor: 'middle',
         pointerEvents: 'none',
-        refY: -7,
+        refY: -10,
+        textWrap: {
+          text: '',
+          ellipsis: true,
+          height: 20,
+        },
       },
     });
-
+  
     expect(node).toBe(nodeMock);
   });
 
@@ -125,18 +136,24 @@ describe('System Module', () => {
         refX: 0.5,
         textAnchor: 'middle',
         fontSize: 12,
+        textWrap: {
+          text: 'System Name',
+          ellipsis: true,
+          breakWord: true,
+          height: 60,
+        },
       },
       stackBody: {
         ref: 'stack',
         fill: 'black',
-        stroke: 'white',
-        strokeWidth: 2,
+        stroke: 'black',
+        strokeWidth: 6,
         rx: 4,
         ry: 4,
-        refWidth: '140%',
-        refHeight: '140%',
-        refX: '-20%',
-        refY: '-20%',
+        refWidth: '100%',
+        refHeight: '100%',
+        refX: '0%',
+        refY: '0%',
       },
       stack: {
         ref: 'name',
@@ -146,7 +163,12 @@ describe('System Module', () => {
         textAnchor: 'middle',
         textVerticalAnchor: 'middle',
         pointerEvents: 'none',
-        refY: -7,
+        refY: -10,
+        textWrap: {
+          text: 'Tech Stack',
+          ellipsis: true,
+          height: 20,
+        },
       },
     });
   });

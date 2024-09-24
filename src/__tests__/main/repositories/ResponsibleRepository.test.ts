@@ -111,4 +111,37 @@ describe('ResponsibleRepository', () => {
   it('should not throw an error when deleting a non-existent responsible', async () => {
     await expect(responsibleRepository.deleteResponsible('non-existent-id')).resolves.not.toThrow();
   });
+
+  // Test failed validation during creation
+  it('should throw an error when creating a responsible with invalid data', async () => {
+    const invalidResponsible = new Responsible();
+    invalidResponsible.firstName = ''; // Invalid: firstName is empty
+    invalidResponsible.lastName = 'Doe'; // Valid: lastName is optional
+    invalidResponsible.role = 'Manager'; // Valid: role is optional
+    invalidResponsible.productId = 'invalid-uuid'; // Invalid: productId is not a valid UUID
+
+    await expect(responsibleRepository.createResponsible(invalidResponsible))
+      .rejects
+      .toThrow('Validation failed');
+  });
+
+  it('should throw an error when updating a responsible with invalid data', async () => {
+    const responsible = new Responsible();
+    responsible.firstName = 'Valid Name';
+    responsible.lastName = 'Doe';
+    responsible.role = 'Manager';
+    responsible.productId = productId; // A valid productId from the test setup
+
+    const savedResponsible = await responsibleRepository.createResponsible(responsible);
+
+    const updatedResponsible = {
+      ...savedResponsible,
+      firstName: '', // Invalid: firstName is empty
+      productId: 'invalid-uuid', // Invalid: not a valid UUID
+    };
+
+    await expect(responsibleRepository.updateResponsible(savedResponsible.id, updatedResponsible))
+      .rejects
+      .toThrow('Validation failed');
+  });
 });

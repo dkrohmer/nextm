@@ -1,10 +1,9 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Breadcrumb } from 'semantic-ui-react';
-import { IProduct } from '../../interfaces/IProduct';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
-
+import '../../styles/product.css'
 
 const Breadcrumbs: React.FC = () => {
   /**
@@ -26,7 +25,7 @@ const Breadcrumbs: React.FC = () => {
         Products
       </Breadcrumb.Section>
       <Breadcrumb.Divider icon="right chevron" />
-      <Breadcrumb.Section active>
+      <Breadcrumb.Section active className="product-breadcrumb-name">
         {product ? product.name : 'Loading...'}
       </Breadcrumb.Section>
     </Breadcrumb>

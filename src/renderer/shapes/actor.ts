@@ -15,6 +15,11 @@ const setActorAttrs = (name: string) => {
       refX: 0.5,
       textAnchor: 'middle',
       fontSize: 12,
+      textWrap: {
+        text: name,
+        ellipsis: true,
+        breakWord: true,
+      },
     },
   };
 };

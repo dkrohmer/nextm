@@ -66,4 +66,21 @@ describe('ActorModalDescription Component', () => {
     // Check if dispatch is called with correct action
     expect(mockDispatch).toHaveBeenCalledWith(setActorDescription('New Description'));
   });
+
+  it('should truncate the description to 4999 characters if it exceeds 5000 characters', () => {    mockUseSelector.mockImplementation((selector: any) => selector({
+      modelEditor: {
+        actorDescription: 'Existing Description',
+      }
+    }));
+  
+    render(<ActorModalDescription />);
+  
+    const longDescription = 'A'.repeat(6000);
+    fireEvent.change(screen.getByTestId('actor-description'), {
+      target: { value: longDescription },
+    });
+  
+    expect(mockDispatch).toHaveBeenCalledWith(setActorDescription('A'.repeat(4999)));
+  });
+  
 });

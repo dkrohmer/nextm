@@ -28,7 +28,7 @@ const mockModel: IModel = {
   id: 'model-1',
   name: 'Test Model',
   createdAt: '2024-08-01T00:00:00Z',
-  incrementId: '1'
+  incrementId: '1',
 };
 
 const mockIncrement: IIncrement = {
@@ -44,15 +44,14 @@ const mockIncrement: IIncrement = {
 const mockProduct: IProduct = {
   id: 'product-123',
   name: 'Test Product',
-  createdAt: '1'
+  createdAt: '1',
 };
 
 // Mock the Redux store with a versions slice
 const store = configureStore({
   reducer: {
     models: modelsReducer,
-    // Add a mock slice for versions if it is not in the actual store
-    versions: (state = { latestVersionThumbnails: {}, latestVersionThumbnailsIsLoading: {}, latestVersionThumbnailsError: {} }, action) => state
+    versions: (state = { latestVersionThumbnails: {}, latestVersionThumbnailsIsLoading: {}, latestVersionThumbnailsError: {} }, action) => state,
   },
 });
 
@@ -87,33 +86,6 @@ describe('Model Component', () => {
     expect(navigateMock).toHaveBeenCalledWith(`/products/${mockProduct.id}/increments/${mockIncrement.id}/models/${mockModel.id}`);
   });
 
-  it('shows actions on hover and hides them on mouse leave', () => {
-    renderWithProviders(
-      <Model model={mockModel} increment={mockIncrement} product={mockProduct} />
-    );
-
-    const listItem = screen.getByText(mockModel.name).closest('div');
-
-    // Ensure listItem is not null
-    expect(listItem).not.toBeNull();
-
-    if (listItem) {
-      // Simulate mouse enter to show actions
-      fireEvent.mouseEnter(listItem);
-
-      // Check if the actions are displayed correctly
-      expect(screen.getByTestId('edit-button')).toBeInTheDocument();
-      expect(screen.getByTestId('clone-button')).toBeInTheDocument();
-      expect(screen.getByTestId('delete-button')).toBeInTheDocument();
-
-      // Simulate mouse leave to hide actions
-      fireEvent.mouseLeave(listItem);
-      expect(screen.queryByTestId('edit-button')).not.toBeInTheDocument();
-      expect(screen.queryByTestId('clone-button')).not.toBeInTheDocument();
-      expect(screen.queryByTestId('delete-button')).not.toBeInTheDocument();
-    }
-  });
-
   it('calls useFetchVersionThumbnail with the correct model id', () => {
     renderWithProviders(
       <Model model={mockModel} increment={mockIncrement} product={mockProduct} />
@@ -121,5 +93,26 @@ describe('Model Component', () => {
 
     // Verify that useFetchVersionThumbnail was called with the correct model id
     expect(useFetchVersionThumbnail).toHaveBeenCalledWith(mockModel.id);
+  });
+
+  it('should trigger handleMouseEnter and handleMouseLeave', () => {
+    renderWithProviders(
+      <Model model={mockModel} increment={mockIncrement} product={mockProduct} />
+    );
+  
+    const modelItem = screen.getByTestId('model-item');
+  
+    // Simulate mouse enter to trigger handleMouseEnter
+    fireEvent.mouseEnter(modelItem);
+    
+    // The Actions component should now be visible due to hovering
+    const actions = screen.getByTestId('model-actions-container');
+    expect(actions).toBeVisible();
+  
+    // Simulate mouse leave to trigger handleMouseLeave
+    fireEvent.mouseLeave(modelItem);
+  
+    // The Actions component should no longer be visible
+    expect(actions).not.toBeVisible();
   });
 });

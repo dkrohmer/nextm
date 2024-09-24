@@ -64,15 +64,15 @@ describe('Zone Module', () => {
     const nodeMock = {
       setAttrs: jest.fn(),
     } as Partial<Node>; // Mock a partial Node
-
+  
     graphMock.createNode.mockReturnValue(nodeMock as Node);
-
+  
     const node = zone.create(graphMock);
-
+  
     expect(graphMock.createNode).toHaveBeenCalledWith({
       shape: 'zone',
     });
-
+  
     expect(nodeMock.setAttrs).toHaveBeenCalledWith({
       body: {
         strokeWidth: 1,
@@ -87,6 +87,11 @@ describe('Zone Module', () => {
         textAnchor: 'middle',
         textVerticalAnchor: 'bottom',
         textSize: 12,
+        textWrap: {
+          text: 'Zone',
+          ellipsis: true,
+          height: 20,
+        },
       },
       trustLevel: {
         ref: 'name',
@@ -97,15 +102,21 @@ describe('Zone Module', () => {
         textVerticalAnchor: 'middle',
         pointerEvents: 'none',
         refY: 20,
+        textWrap: {
+          text: '',
+          ellipsis: true,
+          width: 60,
+          height: 20,
+        },
       },
     });
-
+  
     expect(node).toBe(nodeMock);
-  });
+  });  
 
   it('should set zone attributes correctly', () => {
     const attrs = zone.setZoneAttrs('Test Zone', 'High Trust');
-
+  
     expect(attrs).toEqual({
       body: {
         strokeWidth: 1,
@@ -120,6 +131,11 @@ describe('Zone Module', () => {
         textAnchor: 'middle',
         textVerticalAnchor: 'bottom',
         textSize: 12,
+        textWrap: {
+          text: 'Test Zone',
+          ellipsis: true,
+          height: 20,
+        },
       },
       trustLevel: {
         ref: 'name',
@@ -130,7 +146,13 @@ describe('Zone Module', () => {
         textVerticalAnchor: 'middle',
         pointerEvents: 'none',
         refY: 20,
+        textWrap: {
+          text: 'High Trust',
+          ellipsis: true,
+          width: 60,
+          height: 20,
+        },
       },
     });
-  });
+  });  
 });

@@ -93,4 +93,33 @@ describe('ActionsClone Component', () => {
       expect(screen.queryByText(/Clone model/i)).not.toBeInTheDocument();
     });
   });
+
+  it('truncates the model name if it exceeds 250 characters', () => {
+    // Create a mock model with a name longer than 250 characters
+    const longName = 'A'.repeat(251); // 251 characters long
+    const mockModelWithLongName: IModel = {
+      id: '1',
+      name: longName,
+      createdAt: '1',
+      incrementId: '1',
+    };
+  
+    // Render the component with the long-name model
+    renderWithRedux(<ActionsClone model={mockModelWithLongName} />);
+  
+    // Simulate clicking the clone button
+    const cloneButton = screen.getByTestId('clone-button');
+    fireEvent.click(cloneButton);
+  
+    const state = store.getState().models;
+  
+    // The final name should be truncated to fit within 250 characters
+    const truncatedName = `...${longName.slice(-240)} (Copy)`; // 240 + 10 (for "..." and " (Copy)")
+  
+    // Validate the state has the truncated name
+    expect(state.modelsCurrentModel?.name).toBe(truncatedName);
+    expect(state.modelsIsCloning).toBe(true);
+    expect(state.modelsModalOpen).toBe(true);
+  });
+  
 });

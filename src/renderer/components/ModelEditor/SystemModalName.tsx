@@ -19,7 +19,13 @@ const SystemModalName: React.FC = () => {
    * handlers
    */
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(setSystemName(event.target.value));
+    let value = event.target.value;
+
+    if (value.length > 250) {
+      value = value.slice(0, 249);
+    }
+
+    dispatch(setSystemName(value));
   };
   
   /**

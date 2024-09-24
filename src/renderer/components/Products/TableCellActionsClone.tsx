@@ -12,11 +12,6 @@ interface TableCellActionsCloneProps {
 
 const TableCellActionsClone: React.FC<TableCellActionsCloneProps> = ({ product }) => {
   /**
-   * local states
-   */
-  const [popupOpen, setPopupOpen] = useState(false);
-
-  /**
    * hooks
    */
   const dispatch = useDispatch<AppDispatch>();
@@ -26,20 +21,20 @@ const TableCellActionsClone: React.FC<TableCellActionsCloneProps> = ({ product }
    */
   const handleClone = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
+    const cloneName = `${product.name} (Copy)`;
+
+    const maxLength = 250;
+    let finalName = cloneName;
+
+    if (finalName.length > maxLength) {
+      const remainingLength = maxLength - 10; // 10 for the "..." and " (Copy)"
+      finalName = `...${product.name.slice(-remainingLength)} (Copy)`;
+    }
+
     dispatch(setProductsIsCloning(true));
-    dispatch(
-      setProductsCurrentProduct({ ...product, name: `${product.name} (Copy)` })
-    );
+    dispatch(setProductsCurrentProduct({ ...product, name: finalName }));
     dispatch(setProductsModalOpen(true));
   };
-
-  const handleMouseEnter = () => {
-    setPopupOpen(true)
-  }
-
-  const handleMouseLeave = () => {
-    setPopupOpen(false)
-  }
 
   /**
    * tsx
@@ -53,15 +48,12 @@ const TableCellActionsClone: React.FC<TableCellActionsCloneProps> = ({ product }
           icon
           className="products-button"
           onClick={handleClone}
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
+          data-testid="clone-button"
         >
           <Icon name="clone" />
         </Button>
       }
-      content={<span><strong>Clone product</strong> "{product.name}"</span>}
-      open={popupOpen}
-      onClose={handleMouseLeave}
+      content={<span data-testid="clone-popup-content"><strong>Clone product</strong> "{product.name}"</span>}
     />
   );
 };

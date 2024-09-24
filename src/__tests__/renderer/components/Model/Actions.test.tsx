@@ -19,14 +19,39 @@ const mockModel: IModel = {
   incrementId: 'increment-123',
 };
 
+const mockIsVisible = true
+
 describe('Actions Component', () => {
   it('renders the Action components with the correct props', () => {
     // Render the Actions component
-    render(<Actions model={mockModel} />);
+    render(<Actions model={mockModel} isVisible={mockIsVisible}/>);
 
     // Verify that the child components are rendered
     expect(screen.getByText('ModelActionsEdit')).toBeInTheDocument();
     expect(screen.getByText('ModelActionsClone')).toBeInTheDocument();
     expect(screen.getByText('ModelActionsDelete')).toBeInTheDocument();
+  });
+
+  it('renders the Action components with the correct props', () => {
+    // Render the Actions component with isVisible as true
+    render(<Actions model={mockModel} isVisible={true} />);
+
+    // Verify that the child components are rendered
+    expect(screen.getByText('ModelActionsEdit')).toBeInTheDocument();
+    expect(screen.getByText('ModelActionsClone')).toBeInTheDocument();
+    expect(screen.getByText('ModelActionsDelete')).toBeInTheDocument();
+
+    // Verify that the 'visible' class is applied when isVisible is true
+    const actionsContainer = screen.getByTestId('model-actions-container');
+    expect(actionsContainer).toHaveClass('visible');
+  });
+
+  it('does not apply the visible class when isVisible is false', () => {
+    // Render the Actions component with isVisible as false
+    render(<Actions model={mockModel} isVisible={false} />);
+
+    // Verify that the 'visible' class is not applied when isVisible is false
+    const actionsContainer = screen.getByTestId('model-actions-container');
+    expect(actionsContainer).not.toHaveClass('visible');
   });
 });

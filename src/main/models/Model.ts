@@ -27,7 +27,6 @@ export class Model {
   id: string = uuidv4();
 
   @CreateDateColumn()
-  @IsDate()
   createdAt!: Date;
 
   @Column()

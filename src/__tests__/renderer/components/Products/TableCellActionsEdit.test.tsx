@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
@@ -36,23 +36,27 @@ describe('TableCellActionsEdit Component', () => {
     jest.clearAllMocks();
   });
 
-  it('renders the edit button and popup content', () => {
+  it('renders the edit button and popup content', async () => {
     renderWithRedux(<TableCellActionsEdit product={mockProduct} />);
 
-    const editButton = screen.getByRole('button');
+    const editButton = screen.getByTestId('edit-button');
     expect(editButton).toBeInTheDocument();
     expect(editButton.querySelector('.pencil.icon')).toBeInTheDocument(); // Check for the pencil icon
 
     fireEvent.mouseEnter(editButton);
 
-    expect(screen.getByText(/edit product/i)).toBeInTheDocument();
+    // Wait for the popup content to appear
+    await waitFor(() => {
+      expect(screen.getByTestId('edit-popup-content')).toBeInTheDocument();
+    });
+
     expect(screen.getByText(/"Test Product"/)).toBeInTheDocument();
   });
 
   it('dispatches the correct actions when the edit button is clicked', () => {
     renderWithRedux(<TableCellActionsEdit product={mockProduct} />);
 
-    const editButton = screen.getByRole('button');
+    const editButton = screen.getByTestId('edit-button');
     fireEvent.click(editButton);
 
     const actions = store.getState().products;
@@ -62,28 +66,41 @@ describe('TableCellActionsEdit Component', () => {
     expect(actions.productsModalOpen).toBe(true);
   });
 
-  it('hides the popup when the mouse leaves the button', () => {
+  it('hides the popup when the mouse leaves the button', async () => {
     renderWithRedux(<TableCellActionsEdit product={mockProduct} />);
 
-    const editButton = screen.getByRole('button');
+    const editButton = screen.getByTestId('edit-button');
     fireEvent.mouseEnter(editButton);
 
-    expect(screen.getByText(/edit product/i)).toBeInTheDocument();
+    // Wait for the popup content to appear
+    await waitFor(() => {
+      expect(screen.getByTestId('edit-popup-content')).toBeInTheDocument();
+    });
 
     fireEvent.mouseLeave(editButton);
-    expect(screen.queryByText(/edit product/i)).not.toBeInTheDocument();
+
+    // Ensure the popup content disappears
+    await waitFor(() => {
+      expect(screen.queryByTestId('edit-popup-content')).not.toBeInTheDocument();
+    });
   });
 
-  it('closes the popup when onClose is triggered', () => {
+  it('closes the popup when onClose is triggered', async () => {
     renderWithRedux(<TableCellActionsEdit product={mockProduct} />);
 
-    const editButton = screen.getByRole('button');
-    
+    const editButton = screen.getByTestId('edit-button');
     fireEvent.mouseEnter(editButton);
-    expect(screen.getByText(/edit product/i)).toBeInTheDocument();
+
+    // Wait for the popup content to appear
+    await waitFor(() => {
+      expect(screen.getByTestId('edit-popup-content')).toBeInTheDocument();
+    });
 
     fireEvent.click(document.body);
 
-    expect(screen.queryByText(/edit product/i)).not.toBeInTheDocument();
+    // Ensure the popup content disappears after clicking outside
+    await waitFor(() => {
+      expect(screen.queryByTestId('edit-popup-content')).not.toBeInTheDocument();
+    });
   });
 });

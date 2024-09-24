@@ -19,11 +19,17 @@ const ModalName: React.FC = () => {
    * handlers
    */
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, key: string) => {
+    let value = e.target.value;
+
+    if (value.length > 250) {
+      value = value.slice(0, 249);
+    }
+
     if (productsCurrentProduct) {
       dispatch(
         setProductsCurrentProduct({
           ...productsCurrentProduct,
-          [key]: e.target.value,
+          [key]: value,
         })
       );
     }

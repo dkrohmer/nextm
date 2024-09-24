@@ -4,7 +4,6 @@ import ActorModalName from '../../../../renderer/components/ModelEditor/ActorMod
 import { setActorName } from '../../../../renderer/store/modelEditor';
 import { jest } from '@jest/globals';
 
-// Mock useDispatch and useSelector hooks
 const mockDispatch = jest.fn();
 const mockUseSelector = jest.fn();
 
@@ -19,7 +18,6 @@ describe('ActorModalName Component', () => {
   });
 
   it('renders the input with the current actor name', () => {
-    // Set up the mock to return a non-null actorName
     mockUseSelector.mockImplementation((selector: any) => selector({
       modelEditor: {
         actorName: 'Existing Actor Name',
@@ -28,13 +26,11 @@ describe('ActorModalName Component', () => {
 
     render(<ActorModalName />);
 
-    // Check if input field renders with the correct value using placeholder
     const inputElement = screen.getByPlaceholderText('Add actor name...');
     expect(inputElement).toHaveValue('Existing Actor Name');
   });
 
   it('renders the input with an empty value when actorName is empty', () => {
-    // Set up the mock to return an empty actorName
     mockUseSelector.mockImplementation((selector: any) => selector({
       modelEditor: {
         actorName: '',
@@ -43,13 +39,11 @@ describe('ActorModalName Component', () => {
 
     render(<ActorModalName />);
 
-    // Check if input field renders with an empty value using placeholder
     const inputElement = screen.getByPlaceholderText('Add actor name...');
     expect(inputElement).toHaveValue('');
   });
 
   it('dispatches setActorName action on input change', () => {
-    // Set up the mock to return a non-null actorName
     mockUseSelector.mockImplementation((selector: any) => selector({
       modelEditor: {
         actorName: 'Existing Actor Name',
@@ -58,12 +52,27 @@ describe('ActorModalName Component', () => {
 
     render(<ActorModalName />);
 
-    // Simulate input change
     fireEvent.change(screen.getByPlaceholderText('Add actor name...'), {
       target: { value: 'New Actor Name' },
     });
 
-    // Check if dispatch is called with the correct action
     expect(mockDispatch).toHaveBeenCalledWith(setActorName('New Actor Name'));
+  });
+
+  it('should truncate the input value to 249 characters if it exceeds 250 characters', () => {
+    mockUseSelector.mockImplementation((selector: any) => selector({
+      modelEditor: {
+        actorName: 'Existing Actor Name',
+      }
+    }));
+  
+    render(<ActorModalName />);
+  
+    const longName = 'A'.repeat(260);
+    fireEvent.change(screen.getByPlaceholderText('Add actor name...'), {
+      target: { value: longName },
+    });
+  
+    expect(mockDispatch).toHaveBeenCalledWith(setActorName('A'.repeat(249))); // Truncated to 249 characters
   });
 });
