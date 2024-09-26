@@ -3,11 +3,13 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
-import ExportModal from '../../../../renderer/components/ModelEditor/ExportModal';
-import modelEditorReducer, { setExportModalOpen } from '../../../../renderer/store/modelEditor';
-import { exportGraph } from '../../../../renderer/utils/exportGraph';
 import { Graph } from '@antv/x6';
 import { jest } from '@jest/globals';
+import ExportModal from '../../../../renderer/components/ModelEditor/ExportModal';
+import modelEditorReducer, {
+  setExportModalOpen,
+} from '../../../../renderer/store/modelEditor';
+import { exportGraph } from '../../../../renderer/utils/exportGraph';
 
 // Mock the Graph class
 jest.mock('@antv/x6', () => {
@@ -45,7 +47,7 @@ describe('ExportModal Component', () => {
 
     // Verify that the modal is in the document
     expect(screen.getByText('Export current model')).toBeInTheDocument();
-    
+
     // Check format options
     expect(screen.getByText('JSON')).toBeInTheDocument();
     expect(screen.getByText('PNG')).toBeInTheDocument();
@@ -76,6 +78,5 @@ describe('ExportModal Component', () => {
     //   graph: mockGraph,
     // }));
     expect(dispatch).toHaveBeenCalledWith(setExportModalOpen(false));
-
   });
 });

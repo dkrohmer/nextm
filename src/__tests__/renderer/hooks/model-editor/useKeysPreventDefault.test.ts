@@ -1,5 +1,4 @@
 import { renderHook } from '@testing-library/react-hooks';
-import { useSelector } from 'react-redux';
 import useKeysPreventDefault from '../../../../renderer/hooks/model-editor/useKeysPreventDefault';
 
 // Mock useSelector hook
@@ -22,7 +21,7 @@ describe('useKeysPreventDefault hook', () => {
           zoneModalOpen: false,
           dataflowModalOpen: false,
         },
-      })
+      }),
     );
   });
 
@@ -69,7 +68,7 @@ describe('useKeysPreventDefault hook', () => {
           zoneModalOpen: false,
           dataflowModalOpen: false,
         },
-      })
+      }),
     );
 
     renderHook(() => useKeysPreventDefault());
@@ -93,6 +92,9 @@ describe('useKeysPreventDefault hook', () => {
 
     unmount();
 
-    expect(removeEventListenerSpy).toHaveBeenCalledWith('keydown', expect.any(Function));
+    expect(removeEventListenerSpy).toHaveBeenCalledWith(
+      'keydown',
+      expect.any(Function),
+    );
   });
 });

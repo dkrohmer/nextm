@@ -1,8 +1,13 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import ModalCancelButton from '../../../../renderer/components/Increments/ModalCancelButton';
-import { setCurrentIncrement, setIncrementsIsCloning, setIncrementsIsEditing, setIncrementsModalOpen } from '../../../../renderer/store/increments';
 import { jest } from '@jest/globals';
+import ModalCancelButton from '../../../../renderer/components/Increments/ModalCancelButton';
+import {
+  setCurrentIncrement,
+  setIncrementsIsCloning,
+  setIncrementsIsEditing,
+  setIncrementsModalOpen,
+} from '../../../../renderer/store/increments';
 
 // Mock the useDispatch hook
 const mockDispatch = jest.fn();

@@ -6,10 +6,12 @@ import Loader from '../../../../renderer/components/ModelEditor/Loader';
 describe('Loader Component', () => {
   it('renders the Loader component when isLoading is true', () => {
     // Render the Loader component with isLoading set to true
-    render(<Loader isLoading={true} />);
+    render(<Loader isLoading />);
 
     // Check that the Dimmer is active by looking for its class
-    const dimmerElement = screen.getByText('Loading Model...').closest('.ui.dimmer');
+    const dimmerElement = screen
+      .getByText('Loading Model...')
+      .closest('.ui.dimmer');
     expect(dimmerElement).toBeInTheDocument();
     expect(dimmerElement).toHaveClass('ui');
     expect(dimmerElement).toHaveClass('dimmer');
@@ -26,7 +28,7 @@ describe('Loader Component', () => {
 
     // Check that the Dimmer is not present
     expect(screen.queryByText('Loading Model...')).toBeNull();
-    
+
     // Check that no Dimmer with class 'ui dimmer' exists
     const dimmerElement = screen.queryByRole('presentation');
     expect(dimmerElement).toBeNull();

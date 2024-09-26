@@ -1,9 +1,6 @@
-// src/__tests__/renderer/hooks/useToastNotifications.test.tsx
-
 import { renderHook, act } from '@testing-library/react';
-import useToastNotifications from '../../../renderer/hooks/useToastNotifications';
-import { useDispatch, useSelector } from 'react-redux';
 import toast from 'react-hot-toast';
+import useToastNotifications from '../../../renderer/hooks/useToastNotifications';
 import { hideToast } from '../../../renderer/store/settings';
 
 // Mock useDispatch and useSelector
@@ -38,7 +35,7 @@ describe('useToastNotifications', () => {
           toastSuccessMessage: 'Success!',
           toastErrorMessage: 'Error!',
         },
-      })
+      }),
     );
 
     // Mock toast.promise to return a resolved promise
@@ -60,7 +57,7 @@ describe('useToastNotifications', () => {
       },
       {
         className: 'toast-container',
-      }
+      },
     );
 
     // Simulate the promise resolving and ensure hideToast is dispatched
@@ -82,7 +79,7 @@ describe('useToastNotifications', () => {
           toastSuccessMessage: '',
           toastErrorMessage: '',
         },
-      })
+      }),
     );
 
     // Render the hook
@@ -103,7 +100,7 @@ describe('useToastNotifications', () => {
           toastSuccessMessage: 'Success!',
           toastErrorMessage: 'Error!',
         },
-      })
+      }),
     );
 
     // Render the hook

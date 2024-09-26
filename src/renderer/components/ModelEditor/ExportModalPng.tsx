@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form, Radio } from 'semantic-ui-react';
-import { setExportFormat } from '../../store/modelEditor';
 import { useDispatch, useSelector } from 'react-redux';
+import { setExportFormat } from '../../store/modelEditor';
 import { RootState } from '../../store';
 
 const ExportModalPng: React.FC = () => {
@@ -20,7 +20,7 @@ const ExportModalPng: React.FC = () => {
    */
   const handleChange = () => {
     dispatch(setExportFormat('png'));
-  }
+  };
 
   /**
    * tsx
@@ -36,7 +36,7 @@ const ExportModalPng: React.FC = () => {
         onChange={handleChange}
       />
     </Form.Field>
-  )
-}
+  );
+};
 
 export default ExportModalPng;

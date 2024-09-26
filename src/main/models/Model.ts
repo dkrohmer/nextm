@@ -8,12 +8,7 @@ import {
   JoinColumn,
   Relation,
 } from 'typeorm';
-import { 
-  IsUUID,
-  IsDate,
-  IsString,
-  MaxLength
-} from 'class-validator';
+import { IsUUID, IsDate, IsString, MaxLength } from 'class-validator';
 
 import { v4 as uuidv4 } from 'uuid';
 import { Increment } from './Increment';

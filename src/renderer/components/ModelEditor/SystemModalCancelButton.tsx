@@ -8,23 +8,19 @@ const SystemModalCancelButton: React.FC = () => {
   /**
    * hooks
    */
-  const dispatch = useDispatch<AppDispatch>()
-  
+  const dispatch = useDispatch<AppDispatch>();
+
   /**
    * handlers
    */
   const handleClose = () => {
     dispatch(setSystemModalOpen(false));
   };
-  
+
   /**
    * tsx
    */
-  return (
-    <Form.Button onClick={handleClose}>
-      Cancel
-    </Form.Button>
-  );
+  return <Form.Button onClick={handleClose}>Cancel</Form.Button>;
 };
 
 export default SystemModalCancelButton;

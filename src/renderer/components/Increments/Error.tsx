@@ -7,19 +7,23 @@ const Error: React.FC = () => {
   /**
    * global states
    */
-  const { incrementsError } = useSelector((state: RootState) => state.increments);
-  
+  const { incrementsError } = useSelector(
+    (state: RootState) => state.increments,
+  );
+
   /**
    * tsx
    */
-  return (
-    incrementsError ? (
-      <Message negative className="increments-message" data-testid="increments-error">
-        <Message.Header>Error❗️</Message.Header>
-        <p>{incrementsError}</p>
-      </Message>
-    ) : null
-  )
-}
+  return incrementsError ? (
+    <Message
+      negative
+      className="increments-message"
+      data-testid="increments-error"
+    >
+      <Message.Header>Error❗️</Message.Header>
+      <p>{incrementsError}</p>
+    </Message>
+  ) : null;
+};
 
 export default Error;

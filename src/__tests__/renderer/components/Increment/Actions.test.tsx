@@ -29,12 +29,16 @@ describe('Actions Component', () => {
   };
 
   it('renders the Actions component with all child components when hovering', () => {
-    renderWithRedux(<Actions increment={mockIncrement} number={1} isHovering={true} />);
+    renderWithRedux(
+      <Actions increment={mockIncrement} number={1} isHovering />,
+    );
     expect(screen.getByTestId('actions-container')).toHaveClass('visible');
   });
 
   it('renders the Actions component without visible class when not hovering', () => {
-    renderWithRedux(<Actions increment={mockIncrement} number={1} isHovering={false} />);
+    renderWithRedux(
+      <Actions increment={mockIncrement} number={1} isHovering={false} />,
+    );
     expect(screen.getByTestId('actions-container')).not.toHaveClass('visible');
   });
 });

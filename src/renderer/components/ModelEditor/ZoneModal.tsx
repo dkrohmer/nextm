@@ -24,7 +24,13 @@ const ZoneModal: React.FC<ZoneModalProps> = ({ graph }) => {
   /**
    * global states
    */
-  const { zoneModalOpen, zoneModalSelectedCell, zoneName, zoneTrustLevel, zoneDescription } = useSelector((state: RootState) => state.modelEditor);
+  const {
+    zoneModalOpen,
+    zoneModalSelectedCell,
+    zoneName,
+    zoneTrustLevel,
+    zoneDescription,
+  } = useSelector((state: RootState) => state.modelEditor);
 
   /**
    * handlers
@@ -49,7 +55,12 @@ const ZoneModal: React.FC<ZoneModalProps> = ({ graph }) => {
    * tsx
    */
   return (
-    <Modal open={zoneModalOpen} onClose={handleClose} dimmer="blurring" data-testid="zone-modal">
+    <Modal
+      open={zoneModalOpen}
+      onClose={handleClose}
+      dimmer="blurring"
+      data-testid="zone-modal"
+    >
       <Modal.Header>Edit Zone</Modal.Header>
       <Modal.Content>
         <Form onSubmit={handleSubmit} data-testid="zone-modal-form">

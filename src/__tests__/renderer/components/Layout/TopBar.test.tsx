@@ -24,22 +24,32 @@ describe('TopBar Component', () => {
 
   it('renders the TopBar component with the logo and settings icon', () => {
     // Mock useSelector to return the sidebarVisible state as false
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      settings: { sidebarVisible: false },
-    }));
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        settings: { sidebarVisible: false },
+      }),
+    );
 
     render(<TopBar />);
 
     expect(screen.getByTestId('menu-header')).toHaveClass('topbar-menu-header');
-    expect(screen.getByTestId('menu-header-logo')).toHaveClass('topbar-menu-header-img');
-    expect(screen.getByTestId('menu-settings')).toHaveClass('topbar-menu-item-settings');
-    expect(screen.getByTestId('menu-settings-icon')).toHaveClass('cog large icon');
+    expect(screen.getByTestId('menu-header-logo')).toHaveClass(
+      'topbar-menu-header-img',
+    );
+    expect(screen.getByTestId('menu-settings')).toHaveClass(
+      'topbar-menu-item-settings',
+    );
+    expect(screen.getByTestId('menu-settings-icon')).toHaveClass(
+      'cog large icon',
+    );
   });
 
   it('dispatches setSidebarVisible with true when sidebar is not visible', () => {
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      settings: { sidebarVisible: false },
-    }));
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        settings: { sidebarVisible: false },
+      }),
+    );
 
     render(<TopBar />);
 
@@ -48,9 +58,11 @@ describe('TopBar Component', () => {
   });
 
   it('dispatches setSidebarVisible with false when sidebar is visible', () => {
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      settings: { sidebarVisible: true },
-    }));
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        settings: { sidebarVisible: true },
+      }),
+    );
 
     render(<TopBar />);
 
@@ -60,9 +72,11 @@ describe('TopBar Component', () => {
 
   it('handles cases where settings state is missing or undefined', () => {
     // Mock useSelector to simulate missing state
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      settings: { sidebarVisible: false },
-    }));
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        settings: { sidebarVisible: false },
+      }),
+    );
 
     render(<TopBar />);
 
@@ -73,9 +87,11 @@ describe('TopBar Component', () => {
   });
 
   it('does not render any unexpected components', () => {
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      settings: { sidebarVisible: false },
-    }));
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        settings: { sidebarVisible: false },
+      }),
+    );
 
     render(<TopBar />);
 

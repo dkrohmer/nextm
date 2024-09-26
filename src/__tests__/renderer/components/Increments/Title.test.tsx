@@ -15,7 +15,9 @@ describe('Title Component', () => {
     render(<Title />);
 
     // Check if the header container has the correct class
-    const container = screen.getByRole('heading', { name: /Product Increments/i }).parentElement;
+    const container = screen.getByRole('heading', {
+      name: /Product Increments/i,
+    }).parentElement;
     expect(container).toHaveClass('increments-header-title');
 
     // Check if the header has the correct class

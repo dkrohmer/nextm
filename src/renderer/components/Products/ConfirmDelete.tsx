@@ -2,7 +2,11 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Confirm } from 'semantic-ui-react';
 import { AppDispatch, RootState } from '../../store';
-import { setOpenConfirm, setProductsCurrentPage, setProductToDelete } from '../../store/products';
+import {
+  setOpenConfirm,
+  setProductsCurrentPage,
+  setProductToDelete,
+} from '../../store/products';
 import { deleteProduct } from '../../services/api/products';
 
 const ConfirmDelete: React.FC = () => {
@@ -16,7 +20,7 @@ const ConfirmDelete: React.FC = () => {
     productsSortby,
     products,
     openConfirm,
-    productToDelete
+    productToDelete,
   } = useSelector((state: RootState) => state.products);
 
   /**
@@ -34,7 +38,7 @@ const ConfirmDelete: React.FC = () => {
         offset -= productsItemsPerPage;
         dispatch(setProductsCurrentPage(productsCurrentPage - 1));
       }
-  
+
       dispatch(
         deleteProduct({
           productId: productToDelete,
@@ -42,13 +46,13 @@ const ConfirmDelete: React.FC = () => {
           offset,
           sort: productsSort,
           sortby: productsSortby,
-        })
+        }),
       );
       dispatch(setProductToDelete(null));
     }
     dispatch(setOpenConfirm(false));
   };
-  
+
   const handleCancelDelete = () => {
     dispatch(setOpenConfirm(false));
   };

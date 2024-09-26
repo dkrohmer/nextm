@@ -1,10 +1,10 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import ModalName from '../../../../renderer/components/Increments/ModalName'; // Adjust the import path if necessary
-import { setCurrentIncrement } from '../../../../renderer/store/increments';
 import { useDispatch, useSelector } from 'react-redux';
 import { jest } from '@jest/globals';
+import ModalName from '../../../../renderer/components/Increments/ModalName'; // Adjust the import path if necessary
+import { setCurrentIncrement } from '../../../../renderer/store/increments';
 
 // Mock useDispatch and useSelector hooks
 const mockDispatch = jest.fn();
@@ -22,11 +22,17 @@ describe('ModalName Component', () => {
 
   it('renders the input with the current increment name', () => {
     // Set up the mock to return a non-null currentIncrement
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      increments: {
-        currentIncrement: { id: '1', name: 'Old Increment Name', productId: '123' },
-      }
-    }));
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        increments: {
+          currentIncrement: {
+            id: '1',
+            name: 'Old Increment Name',
+            productId: '123',
+          },
+        },
+      }),
+    );
 
     render(<ModalName />);
 
@@ -37,11 +43,13 @@ describe('ModalName Component', () => {
 
   it('renders the input with an empty value when currentIncrement is null', () => {
     // Set up the mock to return a null currentIncrement
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      increments: {
-        currentIncrement: null,
-      }
-    }));
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        increments: {
+          currentIncrement: null,
+        },
+      }),
+    );
 
     render(<ModalName />);
 
@@ -52,45 +60,60 @@ describe('ModalName Component', () => {
 
   it('dispatches setCurrentIncrement action on input change', () => {
     // Set up the mock to return a non-null currentIncrement
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      increments: {
-        currentIncrement: { id: '1', name: 'Old Increment Name', productId: '123' },
-      }
-    }));
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        increments: {
+          currentIncrement: {
+            id: '1',
+            name: 'Old Increment Name',
+            productId: '123',
+          },
+        },
+      }),
+    );
 
     render(<ModalName />);
 
     // Simulate input change
     fireEvent.change(screen.getByPlaceholderText('Increment Name'), {
-      target: { name: 'name', value: 'New Increment Name' }
+      target: { name: 'name', value: 'New Increment Name' },
     });
 
     // Check if dispatch is called with the correct action
     expect(mockDispatch).toHaveBeenCalledWith(
-      setCurrentIncrement({ id: '1', name: 'New Increment Name', productId: '123' })
+      setCurrentIncrement({
+        id: '1',
+        name: 'New Increment Name',
+        productId: '123',
+      }),
     );
   });
 
   it('should truncate the input value to 249 characters if it exceeds 250 characters', () => {
     // Set up the mock to return a non-null currentIncrement
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      increments: {
-        currentIncrement: { id: '1', name: 'Old Increment Name', productId: '123' },
-      }
-    }));
-  
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        increments: {
+          currentIncrement: {
+            id: '1',
+            name: 'Old Increment Name',
+            productId: '123',
+          },
+        },
+      }),
+    );
+
     render(<ModalName />);
-  
+
     // Simulate input change with a string longer than 250 characters
     const longName = 'A'.repeat(260); // 260 characters
     fireEvent.change(screen.getByPlaceholderText('Increment Name'), {
-      target: { name: 'name', value: longName }
+      target: { name: 'name', value: longName },
     });
-  
+
     // Check if dispatch is called with the truncated value
     expect(mockDispatch).toHaveBeenCalledWith(
-      setCurrentIncrement({ id: '1', name: 'A'.repeat(249), productId: '123' }) // Truncated to 249 characters
+      setCurrentIncrement({ id: '1', name: 'A'.repeat(249), productId: '123' }), // Truncated to 249 characters
     );
   });
-  
 });

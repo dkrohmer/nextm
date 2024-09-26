@@ -24,7 +24,9 @@ beforeAll(async () => {
   increment.name = 'Test Increment';
   increment.incrementIndex = 1;
   increment.product = savedProduct; // Associate the increment with the product
-  const savedIncrement = await dataSource.getRepository(Increment).save(increment);
+  const savedIncrement = await dataSource
+    .getRepository(Increment)
+    .save(increment);
   incrementId = savedIncrement.id;
 });
 
@@ -53,7 +55,11 @@ describe('ModelRepository', () => {
   });
 
   it('should get all models for an incrementId', async () => {
-    const [models, count] = await modelRepository.getAllModels('name', 'asc', incrementId);
+    const [models, count] = await modelRepository.getAllModels(
+      'name',
+      'asc',
+      incrementId,
+    );
 
     expect(Array.isArray(models)).toBe(true);
     expect(count).toBeGreaterThan(0);
@@ -72,7 +78,10 @@ describe('ModelRepository', () => {
   });
 
   it('should return null when getting a non-existent model by id', async () => {
-    const foundModel = await modelRepository.getModelById('non-existent-id', false);
+    const foundModel = await modelRepository.getModelById(
+      'non-existent-id',
+      false,
+    );
     expect(foundModel).toBeNull();
   });
 
@@ -100,14 +109,19 @@ describe('ModelRepository', () => {
     const savedModel = await modelRepository.createModel(model);
 
     savedModel.name = 'Updated Model';
-    const updatedModel = await modelRepository.updateModel(savedModel.id, savedModel);
+    const updatedModel = await modelRepository.updateModel(
+      savedModel.id,
+      savedModel,
+    );
 
     expect(updatedModel).toBeDefined();
     expect(updatedModel!.name).toBe('Updated Model');
   });
 
   it('should return null when updating a non-existent model', async () => {
-    const updatedModel = await modelRepository.updateModel('non-existent-id', { name: 'Updated Model' });
+    const updatedModel = await modelRepository.updateModel('non-existent-id', {
+      name: 'Updated Model',
+    });
     expect(updatedModel).toBeNull();
   });
 
@@ -118,13 +132,18 @@ describe('ModelRepository', () => {
     const savedModel = await modelRepository.createModel(model);
 
     await modelRepository.deleteModel(savedModel.id);
-    const deletedModel = await modelRepository.getModelById(savedModel.id, false);
+    const deletedModel = await modelRepository.getModelById(
+      savedModel.id,
+      false,
+    );
 
     expect(deletedModel).toBeNull();
   });
 
   it('should not throw an error when deleting a non-existent model', async () => {
-    await expect(modelRepository.deleteModel('non-existent-id')).resolves.not.toThrow();
+    await expect(
+      modelRepository.deleteModel('non-existent-id'),
+    ).resolves.not.toThrow();
   });
 
   it('should throw an error when creating a model with invalid data', async () => {
@@ -132,9 +151,9 @@ describe('ModelRepository', () => {
     invalidModel.name = ''; // Invalid: name is empty
     invalidModel.incrementId = 'invalid-uuid'; // Invalid: incrementId is not a valid UUID
 
-    await expect(modelRepository.createModel(invalidModel))
-      .rejects
-      .toThrow('Validation failed');
+    await expect(modelRepository.createModel(invalidModel)).rejects.toThrow(
+      'Validation failed',
+    );
   });
 
   // Test failed validation during update
@@ -151,8 +170,8 @@ describe('ModelRepository', () => {
       incrementId: 'invalid-uuid', // Invalid: not a valid UUID
     };
 
-    await expect(modelRepository.updateModel(savedModel.id, updatedModel))
-      .rejects
-      .toThrow('Validation failed');
+    await expect(
+      modelRepository.updateModel(savedModel.id, updatedModel),
+    ).rejects.toThrow('Validation failed');
   });
 });

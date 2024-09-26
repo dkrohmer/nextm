@@ -126,7 +126,7 @@ export const initialState: ModelEditorState = {
   exportFormat: 'json',
 
   canUndo: false,
-  canRedo: false
+  canRedo: false,
 };
 
 export const modelEditorSlice = createSlice({
@@ -271,7 +271,10 @@ export const modelEditorSlice = createSlice({
     setCanRedo(state, action: PayloadAction<boolean>) {
       state.canRedo = action.payload;
     },
-    setExportFormat(state, action: PayloadAction<'json' | 'png' | 'jpeg' | 'svg'>) {
+    setExportFormat(
+      state,
+      action: PayloadAction<'json' | 'png' | 'jpeg' | 'svg'>,
+    ) {
       state.exportFormat = action.payload;
     },
   },
@@ -340,7 +343,7 @@ export const {
   setDataflowStride,
   setTextMode,
   setTextModeInputValue,
-  setTextModeSelectedCell,  
+  setTextModeSelectedCell,
   setImportIsDragging,
   setImportError,
   setImportFileName,

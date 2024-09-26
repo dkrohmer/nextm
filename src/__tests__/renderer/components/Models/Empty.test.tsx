@@ -1,8 +1,8 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import Empty from '../../../../renderer/components/Models/Empty'; // Adjust the path as needed
 import { jest } from '@jest/globals';
+import Empty from '../../../../renderer/components/Models/Empty'; // Adjust the path as needed
 
 // Mock useSelector hook
 const mockUseSelector = jest.fn();
@@ -25,14 +25,16 @@ describe('Models Empty Component', () => {
           modelsError: null,
           modelsIsLoading: false,
         },
-      })
+      }),
     );
 
     // Render the Empty component
     render(<Empty />);
 
     // Check for the presence of the header text
-    expect(screen.getByText('No threat models here yet 😔')).toBeInTheDocument();
+    expect(
+      screen.getByText('No threat models here yet 😔'),
+    ).toBeInTheDocument();
 
     // Check for the presence of the body text
     expect(screen.getByText('Add one by clicking')).toBeInTheDocument();
@@ -50,14 +52,16 @@ describe('Models Empty Component', () => {
           modelsError: null,
           modelsIsLoading: true,
         },
-      })
+      }),
     );
 
     // Render the Empty component
     render(<Empty />);
 
     // Ensure the Empty component is not rendered when loading
-    expect(screen.queryByText('No threat models here yet 😔')).not.toBeInTheDocument();
+    expect(
+      screen.queryByText('No threat models here yet 😔'),
+    ).not.toBeInTheDocument();
   });
 
   it('does not render when there is a models error', () => {
@@ -69,14 +73,16 @@ describe('Models Empty Component', () => {
           modelsError: 'Some error',
           modelsIsLoading: false,
         },
-      })
+      }),
     );
 
     // Render the Empty component
     render(<Empty />);
 
     // Ensure the Empty component is not rendered when there's an error
-    expect(screen.queryByText('No threat models here yet 😔')).not.toBeInTheDocument();
+    expect(
+      screen.queryByText('No threat models here yet 😔'),
+    ).not.toBeInTheDocument();
   });
 
   it('does not render when models list is not empty', () => {
@@ -88,13 +94,15 @@ describe('Models Empty Component', () => {
           modelsError: null,
           modelsIsLoading: false,
         },
-      })
+      }),
     );
 
     // Render the Empty component
     render(<Empty />);
 
     // Ensure the Empty component is not rendered when models are available
-    expect(screen.queryByText('No threat models here yet 😔')).not.toBeInTheDocument();
+    expect(
+      screen.queryByText('No threat models here yet 😔'),
+    ).not.toBeInTheDocument();
   });
 });

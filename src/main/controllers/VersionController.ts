@@ -133,23 +133,23 @@ export class VersionController {
      * get-latest-version-thumbnail
      */
     ipcMain.handle('get-latest-version-thumbnail', async (_event, data) => {
-    try {
-      const modelId = data.modelId as string;
+      try {
+        const modelId = data.modelId as string;
 
-      if (!modelId) {
-        throw new Error('No modelId provided');
-      }
+        if (!modelId) {
+          throw new Error('No modelId provided');
+        }
 
-      const latestVersionThumbnail =
-        await this.versionService.getLatestVersionThumbnailByModelId(modelId);
-      if (latestVersionThumbnail) {
-        return latestVersionThumbnail;
+        const latestVersionThumbnail =
+          await this.versionService.getLatestVersionThumbnailByModelId(modelId);
+        if (latestVersionThumbnail) {
+          return latestVersionThumbnail;
+        }
+        return null;
+      } catch (error) {
+        return error;
       }
-      return null;
-    } catch (error) {
-      return error;
-    }
-  });
+    });
 
     /**
      * delete-version

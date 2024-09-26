@@ -22,7 +22,9 @@ describe('FooterToolInfo Component', () => {
     render(<FooterToolInfo />);
 
     // Check that the correct text is rendered
-    expect(screen.getByText(`${mockAppName} ${mockAppVersion}`)).toBeInTheDocument();
+    expect(
+      screen.getByText(`${mockAppName} ${mockAppVersion}`),
+    ).toBeInTheDocument();
   });
 
   it('does not render any unexpected elements', () => {

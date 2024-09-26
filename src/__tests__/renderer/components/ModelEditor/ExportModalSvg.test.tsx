@@ -1,9 +1,9 @@
 import React from 'react';
 import { render, screen, fireEvent, within } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import { jest } from '@jest/globals';
 import ExportModalSvg from '../../../../renderer/components/ModelEditor/ExportModalSvg'; // Adjust the path as needed
 import { setExportFormat } from '../../../../renderer/store/modelEditor';
-import { jest } from '@jest/globals';
 
 // Mock useDispatch and useSelector hooks
 const mockDispatch = jest.fn();
@@ -21,11 +21,13 @@ describe('ExportModalSvg Component', () => {
 
   it('renders the radio button with the correct state when exportFormat is "svg"', () => {
     // Set up the mock to return exportFormat as "svg"
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      modelEditor: {
-        exportFormat: 'svg',
-      }
-    }));
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        modelEditor: {
+          exportFormat: 'svg',
+        },
+      }),
+    );
 
     render(<ExportModalSvg />);
 
@@ -39,11 +41,13 @@ describe('ExportModalSvg Component', () => {
 
   it('renders the radio button with the correct state when exportFormat is not "svg"', () => {
     // Set up the mock to return exportFormat as something other than "svg"
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      modelEditor: {
-        exportFormat: 'jpeg',
-      }
-    }));
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        modelEditor: {
+          exportFormat: 'jpeg',
+        },
+      }),
+    );
 
     render(<ExportModalSvg />);
 
@@ -57,11 +61,13 @@ describe('ExportModalSvg Component', () => {
 
   it('dispatches setExportFormat with "svg" when the radio button is clicked', () => {
     // Set up the mock to return any initial exportFormat
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      modelEditor: {
-        exportFormat: 'jpeg', // or any format other than "svg"
-      }
-    }));
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        modelEditor: {
+          exportFormat: 'jpeg', // or any format other than "svg"
+        },
+      }),
+    );
 
     render(<ExportModalSvg />);
 

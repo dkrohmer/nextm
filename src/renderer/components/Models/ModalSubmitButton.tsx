@@ -7,21 +7,15 @@ const ModalSubmitButton: React.FC = () => {
   /**
    * global states
    */
-  const {
-    modelsIsEditing,
-    modelsIsCloning,
-  } = useSelector((state: RootState) => state.models);
+  const { modelsIsEditing, modelsIsCloning } = useSelector(
+    (state: RootState) => state.models,
+  );
 
   /**
    * handlers
    */
-  const handleSubmitButtonText = () => (
-    modelsIsCloning
-    ? 'Clone'
-    : modelsIsEditing
-      ? 'Edit'
-      : 'Add'
-  );
+  const handleSubmitButtonText = () =>
+    modelsIsCloning ? 'Clone' : modelsIsEditing ? 'Edit' : 'Add';
 
   /**
    * tsx

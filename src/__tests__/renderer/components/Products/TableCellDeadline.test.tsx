@@ -23,7 +23,9 @@ describe('TableCellDeadline Component', () => {
     renderTableCellDeadline(null);
 
     // Check if the cell contains "n/a"
-    const tableCell = screen.getByText('n/a', { selector: '.products-table-deadline-cell' });
+    const tableCell = screen.getByText('n/a', {
+      selector: '.products-table-deadline-cell',
+    });
     expect(tableCell).toBeInTheDocument();
   });
 
@@ -42,7 +44,9 @@ describe('TableCellDeadline Component', () => {
       expect(popup).toBeInTheDocument();
 
       // Ensure the formatted date is present in the popup content
-      const popupContent = screen.getByText(formattedDate, { selector: '.ui.popup.visible' });
+      const popupContent = screen.getByText(formattedDate, {
+        selector: '.ui.popup.visible',
+      });
       expect(popupContent).toBeInTheDocument();
     });
   });
@@ -50,7 +54,9 @@ describe('TableCellDeadline Component', () => {
   it('shows "n/a" in the popup on hover when endsAt is null', async () => {
     renderTableCellDeadline(null);
 
-    const tableCell = screen.getByText('n/a', { selector: '.products-table-deadline-cell' });
+    const tableCell = screen.getByText('n/a', {
+      selector: '.products-table-deadline-cell',
+    });
     expect(tableCell).toBeInTheDocument();
 
     // Simulate mouse hover to trigger the popup
@@ -62,7 +68,9 @@ describe('TableCellDeadline Component', () => {
       expect(popup).toBeInTheDocument();
 
       // Ensure "n/a" is present in the popup content
-      const popupContent = screen.getByText('n/a', { selector: '.ui.popup.visible' });
+      const popupContent = screen.getByText('n/a', {
+        selector: '.ui.popup.visible',
+      });
       expect(popupContent).toBeInTheDocument();
     });
   });

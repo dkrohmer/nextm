@@ -3,11 +3,11 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
+import { Graph as x6Graph } from '@antv/x6';
 import StencilContainer from '../../../../renderer/components/ModelEditor/Stencil';
 import productsReducer from '../../../../renderer/store/products';
 import incrementsReducer from '../../../../renderer/store/increments';
 import modelsReducer from '../../../../renderer/store/models';
-import { Graph as x6Graph } from '@antv/x6';
 import useSetupStencil from '../../../../renderer/hooks/model-editor/useSetupStencil';
 
 // Mock the useSetupStencil hook
@@ -42,7 +42,9 @@ describe('StencilContainer Component', () => {
   });
 
   it('renders the StencilContainer component with the correct class', () => {
-    const { container } = renderWithRedux(<StencilContainer graph={mockGraph} />);
+    const { container } = renderWithRedux(
+      <StencilContainer graph={mockGraph} />,
+    );
 
     // Check that the stencil container is rendered with the correct class
     const stencilElement = container.querySelector('.stencil-container');

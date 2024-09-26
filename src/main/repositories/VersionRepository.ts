@@ -47,7 +47,9 @@ export class VersionRepository {
     });
   }
 
-  async getLatestVersionThumbnailByModelId(modelId: string): Promise<string | null> {
+  async getLatestVersionThumbnailByModelId(
+    modelId: string,
+  ): Promise<string | null> {
     const version = await this.versionRepository.findOne({
       where: { modelId },
       order: {
@@ -57,7 +59,6 @@ export class VersionRepository {
     });
     return version ? version.thumbnail : null;
   }
-  
 
   async countVersionsByModelId(modelId: string): Promise<number> {
     return await this.versionRepository.count({ where: { modelId } });

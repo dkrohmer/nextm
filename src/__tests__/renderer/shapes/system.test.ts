@@ -58,22 +58,22 @@ describe('System Module', () => {
       throw new Error('Test error');
     });
 
-    expect(() => system.register()).toThrowError('Registering system failed');
+    expect(() => system.register()).toThrow('Registering system failed');
   });
 
   it('should create a system node with correct attributes', () => {
     const nodeMock = {
       setAttrs: jest.fn(),
     } as Partial<Node>; // Mock a partial Node
-  
+
     graphMock.createNode.mockReturnValue(nodeMock as Node);
-  
+
     const node = system.create(graphMock);
-  
+
     expect(graphMock.createNode).toHaveBeenCalledWith({
       shape: 'system',
     });
-  
+
     expect(nodeMock.setAttrs).toHaveBeenCalledWith({
       body: {
         strokeWidth: 1,
@@ -119,7 +119,7 @@ describe('System Module', () => {
         },
       },
     });
-  
+
     expect(node).toBe(nodeMock);
   });
 

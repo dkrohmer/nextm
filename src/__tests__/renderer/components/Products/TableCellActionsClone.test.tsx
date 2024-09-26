@@ -78,10 +78,12 @@ describe('TableCellActionsClone Component', () => {
     });
 
     fireEvent.mouseLeave(cloneButton);
-    
+
     // Wait for the popup content to be hidden
     await waitFor(() => {
-      expect(screen.queryByTestId('clone-popup-content')).not.toBeInTheDocument();
+      expect(
+        screen.queryByTestId('clone-popup-content'),
+      ).not.toBeInTheDocument();
     });
   });
 
@@ -100,7 +102,9 @@ describe('TableCellActionsClone Component', () => {
 
     // Ensure the popup content is hidden
     await waitFor(() => {
-      expect(screen.queryByTestId('clone-popup-content')).not.toBeInTheDocument();
+      expect(
+        screen.queryByTestId('clone-popup-content'),
+      ).not.toBeInTheDocument();
     });
   });
 
@@ -114,20 +118,22 @@ describe('TableCellActionsClone Component', () => {
       endsAt: '2024-08-31T23:59:59Z',
       startsAt: '2024-08-01T00:00:00Z',
     };
-  
+
     // Render the component with the long-name product
-    renderWithRedux(<TableCellActionsClone product={mockProductWithLongName} />);
-  
+    renderWithRedux(
+      <TableCellActionsClone product={mockProductWithLongName} />,
+    );
+
     // Simulate clicking the clone button
     const cloneButton = screen.getByRole('button');
     fireEvent.click(cloneButton);
-  
+
     // Access the state to check for the truncated product name
     const state = store.getState().products;
-  
+
     // Expected truncated name should be the last part of the long name, fitting within 250 characters
     const truncatedName = `...${longName.slice(-240)} (Copy)`; // 240 + 10 (for "..." and " (Copy)")
-  
+
     // Assert that the name was truncated correctly
     expect(state.productsCurrentProduct?.name).toBe(truncatedName);
     expect(state.productsIsCloning).toBe(true);

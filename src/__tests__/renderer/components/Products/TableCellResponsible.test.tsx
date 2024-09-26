@@ -64,14 +64,14 @@ describe('TableCellResponsible Component', () => {
   // Line 54: No responsibles (check popup content for "n/a")
   it('renders "n/a" when responsibles array is empty', async () => {
     renderWithRedux(<TableCellResponsible responsibles={[]} />);
-  
+
     // Check if "n/a" is rendered in the table cell
     const tableCell = screen.getByText('n/a');
     expect(tableCell).toBeInTheDocument();
-  
+
     // Simulate mouse hover to show the popup
     fireEvent.mouseEnter(tableCell);
-  
+
     // Wait for the popup to appear with "n/a"
     await waitFor(() => {
       const popupContent = screen.getByText('n/a');
@@ -109,7 +109,9 @@ describe('TableCellResponsible Component', () => {
 
       // Check that the popup shows only the first 7 responsibles
       longResponsibles.slice(0, 7).forEach((responsible) => {
-        const popupContent = screen.getByTestId(`popup-responsible-${responsible.id}`);
+        const popupContent = screen.getByTestId(
+          `popup-responsible-${responsible.id}`,
+        );
         expect(popupContent).toBeInTheDocument();
       });
 
@@ -121,7 +123,9 @@ describe('TableCellResponsible Component', () => {
   });
 
   it('hides the popup when the mouse leaves the cell', async () => {
-    renderWithRedux(<TableCellResponsible responsibles={responsiblesWithRole} />);
+    renderWithRedux(
+      <TableCellResponsible responsibles={responsiblesWithRole} />,
+    );
 
     const responsibleElement = screen.getByTestId('responsible-label-1');
     fireEvent.mouseEnter(responsibleElement);
@@ -143,7 +147,9 @@ describe('TableCellResponsible Component', () => {
   });
 
   it('closes the popup when clicking outside the component', async () => {
-    renderWithRedux(<TableCellResponsible responsibles={responsiblesWithRole} />);
+    renderWithRedux(
+      <TableCellResponsible responsibles={responsiblesWithRole} />,
+    );
 
     const responsibleElement = screen.getByTestId('responsible-label-1');
     fireEvent.mouseEnter(responsibleElement);

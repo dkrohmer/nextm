@@ -1,5 +1,11 @@
 import React from 'react';
-import { render, screen, fireEvent, within, waitFor } from '@testing-library/react';
+import {
+  render,
+  screen,
+  fireEvent,
+  within,
+  waitFor,
+} from '@testing-library/react';
 import '@testing-library/jest-dom';
 import DatabaseTypeDefault from '../../../../renderer/components/Settings/DatabaseTypeDefault';
 import windowElectron from '../../../../../mocks/window-electron';
@@ -27,7 +33,7 @@ describe('DatabaseTypeDefault Component', () => {
         settings: {
           useDefaultDatabase: true,
         },
-      })
+      }),
     );
 
     // Render the component
@@ -48,7 +54,7 @@ describe('DatabaseTypeDefault Component', () => {
         settings: {
           useDefaultDatabase: false,
         },
-      })
+      }),
     );
 
     // Render the component
@@ -69,7 +75,7 @@ describe('DatabaseTypeDefault Component', () => {
         settings: {
           useDefaultDatabase: false,
         },
-      })
+      }),
     );
 
     // Mock the electron API to return a mock path
@@ -85,10 +91,16 @@ describe('DatabaseTypeDefault Component', () => {
     fireEvent.click(within(defaultDatabaseRadioButton).getByRole('radio'));
 
     // Check if the setUseDefaultDatabase action was dispatched with true
-    expect(mockDispatch).toHaveBeenCalledWith({ type: 'settings/setUseDefaultDatabase', payload: true });
+    expect(mockDispatch).toHaveBeenCalledWith({
+      type: 'settings/setUseDefaultDatabase',
+      payload: true,
+    });
 
     // Check if the setButtonLabel action was dispatched with 'Open'
-    expect(mockDispatch).toHaveBeenCalledWith({ type: 'settings/setButtonLabel', payload: 'Open' });
+    expect(mockDispatch).toHaveBeenCalledWith({
+      type: 'settings/setButtonLabel',
+      payload: 'Open',
+    });
 
     // Wait for the async action to be dispatched
     await waitFor(() => {

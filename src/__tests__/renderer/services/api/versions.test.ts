@@ -1,4 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
+import { Graph as x6Graph } from '@antv/x6';
 import versionsReducer from '../../../../renderer/store/versions';
 import {
   fetchLatestVersion,
@@ -7,7 +8,6 @@ import {
 } from '../../../../renderer/services/api/versions';
 import windowElectron from '../../../../../mocks/window-electron';
 import { graphToPng } from '../../../../renderer/utils/graphToPng';
-import { Graph as x6Graph } from '@antv/x6';
 
 // Mock graphToPng utility
 jest.mock('../../../../renderer/utils/graphToPng', () => ({
@@ -53,7 +53,9 @@ describe('Versions Thunks with Redux Store', () => {
   });
 
   it('handles fetchLatestVersion failure correctly', async () => {
-    window.electron.getLatestVersion = jest.fn().mockRejectedValue(new Error('Failed to load increment.'));
+    window.electron.getLatestVersion = jest
+      .fn()
+      .mockRejectedValue(new Error('Failed to load increment.'));
 
     // Dispatch the fetchLatestVersion thunk
     await store.dispatch(fetchLatestVersion({ modelId: 'model-123' }));
@@ -81,13 +83,17 @@ describe('Versions Thunks with Redux Store', () => {
   });
 
   it('handles fetchLatestVersionThumbnail failure correctly', async () => {
-    window.electron.getLatestVersionThumbnail = jest.fn().mockRejectedValue(new Error('Failed to load version thumbnail.'));
+    window.electron.getLatestVersionThumbnail = jest
+      .fn()
+      .mockRejectedValue(new Error('Failed to load version thumbnail.'));
 
     // Dispatch the fetchLatestVersionThumbnail thunk
     await store.dispatch(fetchLatestVersionThumbnail({ modelId: 'model-123' }));
 
     const state = store.getState().versions;
-    expect(state.latestVersionThumbnailsError['model-123']).toBe('Failed to load version thumbnail.');
+    expect(state.latestVersionThumbnailsError['model-123']).toBe(
+      'Failed to load version thumbnail.',
+    );
   });
 
   it('dispatches addLatestVersion and updates the store on success', async () => {
@@ -135,7 +141,9 @@ describe('Versions Thunks with Redux Store', () => {
       container: document.createElement('div'),
     });
 
-    window.electron.createVersion = jest.fn().mockRejectedValue(new Error('Failed to create version.'));
+    window.electron.createVersion = jest
+      .fn()
+      .mockRejectedValue(new Error('Failed to create version.'));
 
     // Dispatch the addLatestVersion thunk
     await store.dispatch(

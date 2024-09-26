@@ -1,6 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IModel } from '../interfaces/IModel';
-import { fetchModels, fetchModel, addOrUpdateModel, deleteModel } from '../services/api/models';
+import {
+  fetchModels,
+  fetchModel,
+  addOrUpdateModel,
+  deleteModel,
+} from '../services/api/models';
 
 export interface ModelsState {
   models: IModel[];
@@ -90,7 +95,9 @@ const modelsSlice = createSlice({
         state.modelError = action.payload as string;
       })
       .addCase(addOrUpdateModel.fulfilled, (state, action) => {
-        const index = state.models.findIndex((model) => model.id === action.payload.id);
+        const index = state.models.findIndex(
+          (model) => model.id === action.payload.id,
+        );
         if (index !== -1) {
           state.models[index] = action.payload;
         } else {
@@ -103,7 +110,9 @@ const modelsSlice = createSlice({
       })
       // cases for deleting a model
       .addCase(deleteModel.fulfilled, (state, action) => {
-        state.models = state.models.filter((model) => model.id !== action.payload);
+        state.models = state.models.filter(
+          (model) => model.id !== action.payload,
+        );
         state.modelsConfirmOpen = false;
       })
       .addCase(deleteModel.rejected, (state, action) => {

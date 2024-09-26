@@ -6,9 +6,7 @@ const ImportModalSubmitButton: React.FC = () => {
   /**
    * global states
    */
-  const {
-    importIsFileValid
-  } = useSelector((state: any) => state.modelEditor);
+  const { importIsFileValid } = useSelector((state: any) => state.modelEditor);
 
   /**
    * tsx

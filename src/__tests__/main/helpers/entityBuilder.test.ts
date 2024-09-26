@@ -31,9 +31,7 @@ describe('buildProductEntity', () => {
         models: [
           {
             name: 'Model 1',
-            versions: [
-              { payload: '{}', thumbnail: '', versionIndex: 0 },
-            ],
+            versions: [{ payload: '{}', thumbnail: '', versionIndex: 0 }],
           },
         ],
       } as Increment,
@@ -59,7 +57,7 @@ describe('buildProductEntity', () => {
     productData.endsAt = new Date('2023-12-31T23:59:59.999Z');
 
     expect(() => buildProductEntity(productData)).toThrow(
-      'The end date cannot be earlier than the start date.'
+      'The end date cannot be earlier than the start date.',
     );
   });
 
@@ -141,7 +139,9 @@ describe('buildProductEntity', () => {
     const product = buildProductEntity(productData);
 
     expect(product.increments[0].models[0].versions).toHaveLength(1);
-    expect(product.increments[0].models[0].versions[0].payload).toBe('{\"cells\": []}');
+    expect(product.increments[0].models[0].versions[0].payload).toBe(
+      '{"cells": []}',
+    );
     expect(product.increments[0].models[0].versions[0].thumbnail).toBe('');
   });
 
@@ -156,9 +156,7 @@ describe('buildProductEntity', () => {
         models: [
           {
             name: 'Model 1',
-            versions: [
-              { payload: '{}', thumbnail: '' },
-            ] as Version[],
+            versions: [{ payload: '{}', thumbnail: '' }] as Version[],
           } as Model,
         ],
       } as Increment,
@@ -187,11 +185,10 @@ describe('buildProductEntity', () => {
     // Create a name that is 240 characters long
     productData.name = 'A'.repeat(240); // 240 characters
     productData.startsAt = new Date('2024-01-01T00:00:00.000Z');
-    
+
     const product = buildProductEntity(productData);
-  
+
     // The name should be 240 characters + " - Baseline" (11 characters) = 251 characters total
-    expect(product.increments[0].name).toBe('A'.repeat(239) + ' - Baseline'); // Truncated to fit 250 characters total
+    expect(product.increments[0].name).toBe(`${'A'.repeat(239)} - Baseline`); // Truncated to fit 250 characters total
   });
-  
 });

@@ -8,8 +8,10 @@ const ZoneModalTrustLevelTrusted: React.FC = () => {
   /**
    * global states
    */
-  const { zoneTrustLevel } = useSelector((state: RootState) => state.modelEditor);
-  
+  const { zoneTrustLevel } = useSelector(
+    (state: RootState) => state.modelEditor,
+  );
+
   /**
    * hooks
    */

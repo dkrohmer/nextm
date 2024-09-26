@@ -32,7 +32,7 @@ const useNodeEmbed = (graph?: Graph) => {
       if (cell.shape !== 'zone') {
         // Get the highest z-index in the graph
         const maxZIndex = Math.max(
-          ...graph.getCells().map((node) => node.getZIndex() || 0)
+          ...graph.getCells().map((node) => node.getZIndex() || 0),
         );
         // Bring the selected node to the front by setting its z-index higher than the max
         cell.setZIndex(maxZIndex + 1);

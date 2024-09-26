@@ -4,22 +4,22 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Graph } from '@antv/x6';
 import { AppDispatch, RootState } from '../../store';
 import { saveModel } from '../../utils/saveModel';
-import { 
-  setExportModalOpen, 
-  setImportModalOpen, 
-  setExportPressed, 
-  setImportPressed, 
-  setFitViewPressed, 
-  setZoomInPressed, 
-  setZoomOutPressed, 
-  setUndoPressed, 
-  setRedoPressed, 
-  setCutPressed, 
-  setCopyPressed, 
-  setPastePressed, 
-  setDeletePressed, 
-  setSavePressed, 
-  setSelectAllPressed 
+import {
+  setExportModalOpen,
+  setImportModalOpen,
+  setExportPressed,
+  setImportPressed,
+  setFitViewPressed,
+  setZoomInPressed,
+  setZoomOutPressed,
+  setUndoPressed,
+  setRedoPressed,
+  setCutPressed,
+  setCopyPressed,
+  setPastePressed,
+  setDeletePressed,
+  setSavePressed,
+  setSelectAllPressed,
 } from '../../store/modelEditor';
 import Actions from '../../services/model-editor/actions';
 

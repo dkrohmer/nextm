@@ -41,14 +41,15 @@ const createTestStore = (initialState: Partial<RootState>) => {
   });
 };
 
-const renderWithProviders = (component: React.ReactElement, initialState: Partial<RootState>) => {
+const renderWithProviders = (
+  component: React.ReactElement,
+  initialState: Partial<RootState>,
+) => {
   const store = createTestStore(initialState);
   return render(
     <Provider store={store}>
-      <Grid>
-        {component}
-      </Grid>
-    </Provider>
+      <Grid>{component}</Grid>
+    </Provider>,
   );
 };
 

@@ -3,7 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Form } from 'semantic-ui-react';
 import { ImportOutlined } from '@ant-design/icons';
 import { AppDispatch } from '../../store';
-import { setImportError, setImportFileName, setImportIsDragging, setImportIsFileValid, setImportJsonData } from '../../store/modelEditor';
+import {
+  setImportError,
+  setImportFileName,
+  setImportIsDragging,
+  setImportIsFileValid,
+  setImportJsonData,
+} from '../../store/modelEditor';
 
 const ImportModalDnd: React.FC = () => {
   /**
@@ -21,7 +27,7 @@ const ImportModalDnd: React.FC = () => {
   /**
    * hooks
    */
-  const dispatch = useDispatch<AppDispatch>()
+  const dispatch = useDispatch<AppDispatch>();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   /**
@@ -31,19 +37,19 @@ const ImportModalDnd: React.FC = () => {
     e.preventDefault();
     e.stopPropagation();
     dispatch(setImportIsDragging(true));
-  }
-  
+  };
+
   const handleDragLeave = (e: React.DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
     dispatch(setImportIsDragging(false));
-  }
-  
+  };
+
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
     dispatch(setImportIsDragging(false));
-  
+
     const { files } = e.dataTransfer;
 
     if (files.length <= 0) {
@@ -58,7 +64,7 @@ const ImportModalDnd: React.FC = () => {
       dispatch(setImportIsFileValid(false));
       return;
     }
-  
+
     const file = files[0];
     if (file) {
       if (file.type === 'application/json') {
@@ -83,8 +89,8 @@ const ImportModalDnd: React.FC = () => {
         dispatch(setImportIsFileValid(false));
       }
     }
-  }
-  
+  };
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -110,19 +116,21 @@ const ImportModalDnd: React.FC = () => {
         dispatch(setImportIsFileValid(false));
       }
     } else {
-      dispatch(setImportError('No file selected. Please select a valid JSON file.'));
+      dispatch(
+        setImportError('No file selected. Please select a valid JSON file.'),
+      );
       dispatch(setImportFileName(null));
       dispatch(setImportIsFileValid(false));
     }
-  }
-  
+  };
+
   const handleClick = () => {
     fileInputRef.current?.click();
-  }
-  
+  };
+
   const handleFileUpload = (fileContent: any) => {
     dispatch(setImportJsonData(fileContent));
-  }
+  };
 
   /**
    * tsx
@@ -138,8 +146,14 @@ const ImportModalDnd: React.FC = () => {
         data-testid="drop-area"
       >
         <ImportOutlined className="import-icon" />
-        {!importFileName && <p className="file-message">Drag and drop a JSON file here, or click to select a file.</p>}
-        {importFileName && <p className="file-message">Selected file: {importFileName}</p>}
+        {!importFileName && (
+          <p className="file-message">
+            Drag and drop a JSON file here, or click to select a file.
+          </p>
+        )}
+        {importFileName && (
+          <p className="file-message">Selected file: {importFileName}</p>
+        )}
         {importError && <p className="error-message">{importError}</p>}
         <input
           type="file"

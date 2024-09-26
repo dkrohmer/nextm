@@ -30,7 +30,7 @@ describe('useInitializeGraph hook', () => {
     mockSetGraph = jest.fn();
 
     // Mock the focus function on the container
-    mockContainerRef.current!.focus = jest.fn();  // Use non-null assertion operator here
+    mockContainerRef.current!.focus = jest.fn(); // Use non-null assertion operator here
 
     jest.clearAllMocks();
   });
@@ -40,7 +40,13 @@ describe('useInitializeGraph hook', () => {
     (setup.create as jest.Mock).mockReturnValue(mockGraphInstance);
 
     const { rerender } = renderHook(() =>
-      useInitializeGraph(mockContainerRef, mockMinimapRef, mockIsGraphInitialized, mockSetGraph, 'dot')
+      useInitializeGraph(
+        mockContainerRef,
+        mockMinimapRef,
+        mockIsGraphInitialized,
+        mockSetGraph,
+        'dot',
+      ),
     );
 
     // Verify that the services and shapes are registered
@@ -69,7 +75,13 @@ describe('useInitializeGraph hook', () => {
     mockContainerRef.current = null;
 
     renderHook(() =>
-      useInitializeGraph(mockContainerRef, mockMinimapRef, mockIsGraphInitialized, mockSetGraph, 'dot')
+      useInitializeGraph(
+        mockContainerRef,
+        mockMinimapRef,
+        mockIsGraphInitialized,
+        mockSetGraph,
+        'dot',
+      ),
     );
 
     expect(setup.create).not.toHaveBeenCalled();
@@ -79,7 +91,13 @@ describe('useInitializeGraph hook', () => {
     mockMinimapRef.current = null;
 
     renderHook(() =>
-      useInitializeGraph(mockContainerRef, mockMinimapRef, mockIsGraphInitialized, mockSetGraph, 'dot')
+      useInitializeGraph(
+        mockContainerRef,
+        mockMinimapRef,
+        mockIsGraphInitialized,
+        mockSetGraph,
+        'dot',
+      ),
     );
 
     expect(setup.create).not.toHaveBeenCalled();
@@ -89,7 +107,13 @@ describe('useInitializeGraph hook', () => {
     mockIsGraphInitialized.current = true;
 
     renderHook(() =>
-      useInitializeGraph(mockContainerRef, mockMinimapRef, mockIsGraphInitialized, mockSetGraph, 'dot')
+      useInitializeGraph(
+        mockContainerRef,
+        mockMinimapRef,
+        mockIsGraphInitialized,
+        mockSetGraph,
+        'dot',
+      ),
     );
 
     expect(setup.create).not.toHaveBeenCalled();

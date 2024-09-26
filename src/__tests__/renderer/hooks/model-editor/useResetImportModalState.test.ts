@@ -1,5 +1,4 @@
 import { renderHook } from '@testing-library/react-hooks';
-import { useDispatch } from 'react-redux';
 import useResetImportModalState from '../../../../renderer/hooks/model-editor/useResetImportModalState';
 import {
   setImportFileName,

@@ -42,9 +42,13 @@ const ActionsDelete: React.FC<ActionsDeleteProps> = ({ model }) => {
           <Icon color="red" name="trash" />
         </Button>
       }
-      content={<span><strong>Delete model</strong> "{model.name}"</span>}
+      content={
+        <span>
+          <strong>Delete model</strong> "{model.name}"
+        </span>
+      }
     />
-  )
-}
+  );
+};
 
 export default ActionsDelete;

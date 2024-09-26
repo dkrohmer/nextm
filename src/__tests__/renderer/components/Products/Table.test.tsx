@@ -3,8 +3,20 @@ import '@testing-library/jest-dom';
 import Table from '../../../../renderer/components/Products/Table'; // Adjust the import path if necessary
 
 // Mock the TableHeaders and TableBody components
-jest.mock('../../../../renderer/components/Products/TableHeaders', () => () => <thead data-testid="table-headers" />);
-jest.mock('../../../../renderer/components/Products/TableBody', () => () => <tbody data-testid="table-body" />);
+jest.mock(
+  '../../../../renderer/components/Products/TableHeaders',
+  () =>
+    function () {
+      return <thead data-testid="table-headers" />;
+    },
+);
+jest.mock(
+  '../../../../renderer/components/Products/TableBody',
+  () =>
+    function () {
+      return <tbody data-testid="table-body" />;
+    },
+);
 
 describe('Table Component', () => {
   it('renders the table with headers and body', () => {

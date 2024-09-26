@@ -39,9 +39,9 @@ export const initialSettingsState: SettingsState = {
   explicitObjectSelection: false,
   useDefaultDatabase: true,
   inputPath: 'default',
-  buttonLabel: 'Open',  
+  buttonLabel: 'Open',
   activeSettingsIndex: -1,
-  customDatabasePath: ''
+  customDatabasePath: '',
 };
 
 // products slices
@@ -100,7 +100,7 @@ const productsSlice = createSlice({
     },
     setCustomDatabasePath(state, action: PayloadAction<string>) {
       state.customDatabasePath = action.payload;
-    }
+    },
   },
 });
 
@@ -115,7 +115,7 @@ export const {
   setInputPath,
   setButtonLabel,
   setActiveSettingsIndex,
-  setCustomDatabasePath
+  setCustomDatabasePath,
 } = productsSlice.actions;
 
 export default productsSlice.reducer;

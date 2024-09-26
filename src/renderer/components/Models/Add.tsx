@@ -2,7 +2,11 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from 'semantic-ui-react';
 import { AppDispatch, RootState } from '../../store';
-import { setModelsCurrentModel, setModelsIsEditing, setModelsModalOpen } from '../../store/models';
+import {
+  setModelsCurrentModel,
+  setModelsIsEditing,
+  setModelsModalOpen,
+} from '../../store/models';
 
 const Add: React.FC = () => {
   /**

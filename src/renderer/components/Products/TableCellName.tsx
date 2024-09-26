@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Table, Popup } from 'semantic-ui-react';
-import '../../styles/products.css'
+import '../../styles/products.css';
 
 interface TableCellNameProps {
   name: string;

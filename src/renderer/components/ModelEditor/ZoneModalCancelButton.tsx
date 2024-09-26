@@ -19,11 +19,7 @@ const ZoneModalCancelButton: React.FC = () => {
   /**
    * tsx
    */
-  return (
-    <Form.Button onClick={handleClose}>
-      Cancel
-    </Form.Button>
-  );
+  return <Form.Button onClick={handleClose}>Cancel</Form.Button>;
 };
 
 export default ZoneModalCancelButton;

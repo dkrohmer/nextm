@@ -1,8 +1,8 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import { jest } from '@jest/globals';
 import ZoneModalName from '../../../../renderer/components/ModelEditor/ZoneModalName';
 import { setZoneName } from '../../../../renderer/store/modelEditor';
-import { jest } from '@jest/globals';
 
 // Mock useDispatch and useSelector hooks
 const mockDispatch = jest.fn();
@@ -20,11 +20,13 @@ describe('ZoneModalName Component', () => {
 
   it('renders the input with the current zone name', () => {
     // Set up the mock to return a non-null zoneName
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      modelEditor: {
-        zoneName: 'Existing Zone Name',
-      }
-    }));
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        modelEditor: {
+          zoneName: 'Existing Zone Name',
+        },
+      }),
+    );
 
     render(<ZoneModalName />);
 
@@ -35,11 +37,13 @@ describe('ZoneModalName Component', () => {
 
   it('renders the input with an empty value when zoneName is empty', () => {
     // Set up the mock to return an empty zoneName
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      modelEditor: {
-        zoneName: '',
-      }
-    }));
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        modelEditor: {
+          zoneName: '',
+        },
+      }),
+    );
 
     render(<ZoneModalName />);
 
@@ -50,11 +54,13 @@ describe('ZoneModalName Component', () => {
 
   it('dispatches setZoneName action on input change', () => {
     // Set up the mock to return a non-null zoneName
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      modelEditor: {
-        zoneName: 'Existing Zone Name',
-      }
-    }));
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        modelEditor: {
+          zoneName: 'Existing Zone Name',
+        },
+      }),
+    );
 
     render(<ZoneModalName />);
 
@@ -68,20 +74,21 @@ describe('ZoneModalName Component', () => {
   });
 
   it('should truncate the input value to 249 characters if it exceeds 250 characters', () => {
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      modelEditor: {
-        zoneName: 'Existing Zone Name',
-      }
-    }));
-  
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        modelEditor: {
+          zoneName: 'Existing Zone Name',
+        },
+      }),
+    );
+
     render(<ZoneModalName />);
-  
+
     const longName = 'A'.repeat(260); // 260 characters
     fireEvent.change(screen.getByPlaceholderText('Add zone name...'), {
       target: { value: longName },
     });
-  
+
     expect(mockDispatch).toHaveBeenCalledWith(setZoneName('A'.repeat(249))); // Truncated to 249 characters
   });
-
 });

@@ -6,7 +6,7 @@ import FooterDonate from './FooterDonate';
 import FooterToolInfo from './FooterToolInfo';
 import FooterCopyright from './FooterCopyright';
 import FooterLicensing from './FooterLicensing';
-import '../../styles/layout/footer.css'
+import '../../styles/layout/footer.css';
 
 const Footer: React.FC = () => {
   /**
@@ -34,7 +34,7 @@ const Footer: React.FC = () => {
         </List>
       </Container>
     </Segment>
-  )
-}
+  );
+};
 
 export default Footer;

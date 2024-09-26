@@ -8,11 +8,15 @@ interface ModalResponsibleRemoveButtonProps {
   index: number;
 }
 
-const ModalResponsibleRemoveButton: React.FC<ModalResponsibleRemoveButtonProps> = ({ index }) => {
+const ModalResponsibleRemoveButton: React.FC<
+  ModalResponsibleRemoveButtonProps
+> = ({ index }) => {
   /**
    * global states
    */
-  const { productsCurrentProduct } = useSelector((state: RootState) => state.products);
+  const { productsCurrentProduct } = useSelector(
+    (state: RootState) => state.products,
+  );
 
   /**
    * hooks
@@ -24,13 +28,15 @@ const ModalResponsibleRemoveButton: React.FC<ModalResponsibleRemoveButtonProps> 
    */
   const handleRemoveResponsible = () => {
     if (productsCurrentProduct) {
-      const updatedResponsibles = productsCurrentProduct.responsibles?.filter((_, i) => i !== index) || [];
-      
+      const updatedResponsibles =
+        productsCurrentProduct.responsibles?.filter((_, i) => i !== index) ||
+        [];
+
       dispatch(
         setProductsCurrentProduct({
           ...productsCurrentProduct,
           responsibles: updatedResponsibles.length ? updatedResponsibles : [],
-        })
+        }),
       );
     }
   };

@@ -88,7 +88,7 @@ describe('IncrementController', () => {
     expect(incrementService.getAllIncrements).toHaveBeenCalledWith(
       'createdAt',
       'asc',
-      'test-product'
+      'test-product',
     );
   });
 
@@ -117,7 +117,7 @@ describe('IncrementController', () => {
     expect(incrementService.getAllIncrements).toHaveBeenCalledWith(
       'createdAt',
       'desc',
-      'test-product'
+      'test-product',
     );
   });
 
@@ -146,7 +146,7 @@ describe('IncrementController', () => {
     expect(incrementService.getAllIncrements).toHaveBeenCalledWith(
       'createdAt',
       'asc',
-      'test-product'
+      'test-product',
     );
   });
 
@@ -174,7 +174,7 @@ describe('IncrementController', () => {
     expect(incrementService.getAllIncrements).toHaveBeenCalledWith(
       'createdAt',
       'asc',
-      'test-product'
+      'test-product',
     );
   });
 
@@ -216,7 +216,7 @@ describe('IncrementController', () => {
     expect(incrementService.getAllIncrements).toHaveBeenCalledWith(
       'createdAt',
       'asc',
-      'test-product'
+      'test-product',
     );
   });
 
@@ -284,7 +284,9 @@ describe('IncrementController', () => {
     });
 
     expect(response).toEqual(mockIncrement);
-    expect(incrementService.getLatestIncrement).toHaveBeenCalledWith('test-product');
+    expect(incrementService.getLatestIncrement).toHaveBeenCalledWith(
+      'test-product',
+    );
   });
 
   it('should handle get-latest-increment error', async () => {

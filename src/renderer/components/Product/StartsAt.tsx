@@ -18,10 +18,12 @@ const StartsAt: React.FC = () => {
         <strong>Starts At:</strong>
       </Grid.Column>
       <Grid.Column width={12}>
-        {product?.startsAt ? new Date(product?.startsAt).toLocaleDateString() : 'n/a'}
+        {product?.startsAt
+          ? new Date(product?.startsAt).toLocaleDateString()
+          : 'n/a'}
       </Grid.Column>
     </Grid.Row>
-  )
-}
+  );
+};
 
 export default StartsAt;

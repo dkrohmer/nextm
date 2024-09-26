@@ -1,8 +1,13 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import ModalCancelButton from '../../../../renderer/components/Models/ModalCancelButton';
-import { setModelsCurrentModel, setModelsIsCloning, setModelsIsEditing, setModelsModalOpen } from '../../../../renderer/store/models';
 import { jest } from '@jest/globals';
+import ModalCancelButton from '../../../../renderer/components/Models/ModalCancelButton';
+import {
+  setModelsCurrentModel,
+  setModelsIsCloning,
+  setModelsIsEditing,
+  setModelsModalOpen,
+} from '../../../../renderer/store/models';
 
 // Mock the useDispatch hook
 const mockDispatch = jest.fn();

@@ -2,13 +2,13 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Cell, Graph } from '@antv/x6';
 import { RootState, AppDispatch } from '../../store';
-import { 
+import {
   setSelectedEdgeId,
   setDataflowLabel,
   setDataflowProtocol,
   setDataflowStride,
   setDataflowModalSelectedCell,
-  setDataflowModalOpen
+  setDataflowModalOpen,
 } from '../../store/modelEditor';
 import type { DataflowStride } from '../../store/modelEditor';
 
@@ -49,8 +49,12 @@ const mapStringToDataflowStride = (input: string): DataflowStride => {
 
 const useEdgeEvents = (graph?: Graph) => {
   const dispatch = useDispatch<AppDispatch>();
-  const { selectedEdgeId } = useSelector((state: RootState) => state.modelEditor);
-  const { explicitObjectSelection } = useSelector((state: RootState) => state.settings);
+  const { selectedEdgeId } = useSelector(
+    (state: RootState) => state.modelEditor,
+  );
+  const { explicitObjectSelection } = useSelector(
+    (state: RootState) => state.settings,
+  );
 
   useEffect(() => {
     if (!graph) {
@@ -60,7 +64,11 @@ const useEdgeEvents = (graph?: Graph) => {
     const edgeSelected = ({ cell }: { cell: Cell }) => {
       if (cell.isEdge()) {
         dispatch(setSelectedEdgeId(cell.id));
-        cell.addTools(['edge-vertices', 'edge-source-handle', 'edge-target-handle']);
+        cell.addTools([
+          'edge-vertices',
+          'edge-source-handle',
+          'edge-target-handle',
+        ]);
       }
     };
 
@@ -73,12 +81,17 @@ const useEdgeEvents = (graph?: Graph) => {
 
     const edgeContextmenu = ({ cell, e }: { cell: Cell; e: MouseEvent }) => {
       if (graph.getSelectedCells().length <= 1 && cell.isEdge()) {
-        if (!explicitObjectSelection || (selectedEdgeId && cell.id === selectedEdgeId)) {
+        if (
+          !explicitObjectSelection ||
+          (selectedEdgeId && cell.id === selectedEdgeId)
+        ) {
           e.stopPropagation();
           e.preventDefault();
           const label = cell.getLabelAt(0)!.attrs!.label!.text! as string;
           const protocol = cell.getLabelAt(0)!.attrs!.protocol!.text! as string;
-          const stride = mapStringToDataflowStride(cell.getLabelAt(0)!.attrs!.stride!.text! as string);
+          const stride = mapStringToDataflowStride(
+            cell.getLabelAt(0)!.attrs!.stride!.text! as string,
+          );
           dispatch(setDataflowLabel(label));
           dispatch(setDataflowProtocol(protocol));
           dispatch(setDataflowStride(stride));

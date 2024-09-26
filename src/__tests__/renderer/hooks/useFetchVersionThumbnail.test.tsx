@@ -1,8 +1,8 @@
 // src/__tests__/renderer/hooks/useFetchVersionThumbnail.test.ts
 
 import { render } from '@testing-library/react';
-import useFetchVersionThumbnail from '../../../renderer/hooks/useFetchVersionThumbnail';
 import { useDispatch } from 'react-redux';
+import useFetchVersionThumbnail from '../../../renderer/hooks/useFetchVersionThumbnail';
 import { fetchLatestVersionThumbnail } from '../../../renderer/services/api/versions';
 
 // Mock dependencies
@@ -15,10 +15,10 @@ jest.mock('../../../renderer/services/api/versions', () => ({
 }));
 
 // Helper component to test the hook
-const TestComponent = ({ modelId }: { modelId: string }) => {
+function TestComponent({ modelId }: { modelId: string }) {
   useFetchVersionThumbnail(modelId);
   return null;
-};
+}
 
 describe('useFetchVersionThumbnail', () => {
   let dispatchMock: jest.Mock;
@@ -36,7 +36,9 @@ describe('useFetchVersionThumbnail', () => {
   it('should dispatch fetchLatestVersionThumbnail when modelId is defined', () => {
     render(<TestComponent modelId="model1" />);
 
-    expect(dispatchMock).toHaveBeenCalledWith(fetchLatestVersionThumbnail({ modelId: 'model1' }));
+    expect(dispatchMock).toHaveBeenCalledWith(
+      fetchLatestVersionThumbnail({ modelId: 'model1' }),
+    );
   });
 
   it('should not dispatch fetchLatestVersionThumbnail if modelId is undefined', () => {
@@ -54,11 +56,15 @@ describe('useFetchVersionThumbnail', () => {
   it('should dispatch fetchLatestVersionThumbnail again if modelId changes', () => {
     const { rerender } = render(<TestComponent modelId="model1" />);
 
-    expect(dispatchMock).toHaveBeenCalledWith(fetchLatestVersionThumbnail({ modelId: 'model1' }));
+    expect(dispatchMock).toHaveBeenCalledWith(
+      fetchLatestVersionThumbnail({ modelId: 'model1' }),
+    );
 
     // Re-render with a different modelId
     rerender(<TestComponent modelId="model2" />);
 
-    expect(dispatchMock).toHaveBeenCalledWith(fetchLatestVersionThumbnail({ modelId: 'model2' }));
+    expect(dispatchMock).toHaveBeenCalledWith(
+      fetchLatestVersionThumbnail({ modelId: 'model2' }),
+    );
   });
 });

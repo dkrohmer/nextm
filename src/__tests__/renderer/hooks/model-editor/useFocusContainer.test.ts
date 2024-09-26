@@ -1,5 +1,4 @@
 import { renderHook } from '@testing-library/react-hooks';
-import { useSelector } from 'react-redux';
 import useFocusContainer from '../../../../renderer/hooks/model-editor/useFocusContainer';
 import { RootState } from '../../../../renderer/store';
 
@@ -33,7 +32,7 @@ describe('useFocusContainer hook', () => {
           zoneModalOpen: false,
           dataflowModalOpen: false,
         },
-      } as RootState)
+      } as RootState),
     );
 
     // Render the hook
@@ -53,7 +52,7 @@ describe('useFocusContainer hook', () => {
           zoneModalOpen: false,
           dataflowModalOpen: false,
         },
-      } as RootState)
+      } as RootState),
     );
 
     // Render the hook
@@ -73,7 +72,7 @@ describe('useFocusContainer hook', () => {
           zoneModalOpen: false,
           dataflowModalOpen: false,
         },
-      } as RootState)
+      } as RootState),
     );
 
     // Pass null as the containerRef to simulate missing ref

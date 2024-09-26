@@ -1,12 +1,14 @@
 import React from 'react';
 import { Table, Popup } from 'semantic-ui-react';
-import '../../styles/products.css'
+import '../../styles/products.css';
 
 interface ProductsTableCellDescriptionProps {
   description: string | null | undefined;
 }
 
-const TableCellDescription: React.FC<ProductsTableCellDescriptionProps> = ({ description }) => {
+const TableCellDescription: React.FC<ProductsTableCellDescriptionProps> = ({
+  description,
+}) => {
   /**
    * handlers
    */
@@ -14,7 +16,7 @@ const TableCellDescription: React.FC<ProductsTableCellDescriptionProps> = ({ des
     if (!desc) return 'n/a';
     return desc.length > 500 ? `${desc.slice(0, 499)}...` : desc;
   };
-  
+
   /**
    * tsx
    */
@@ -29,7 +31,7 @@ const TableCellDescription: React.FC<ProductsTableCellDescriptionProps> = ({ des
       }
       content={handleDescriptionTruncate(description)}
     />
-  )
-} 
+  );
+};
 
 export default TableCellDescription;

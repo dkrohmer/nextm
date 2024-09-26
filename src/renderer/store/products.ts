@@ -1,7 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { IProducts, IProduct } from '../interfaces/IProduct';
 import { IResponsible } from '../interfaces/IResponsible';
-import { fetchProducts, fetchProduct, addOrUpdateProduct, deleteProduct} from '../services/api/products';
+import {
+  fetchProducts,
+  fetchProduct,
+  addOrUpdateProduct,
+  deleteProduct,
+} from '../services/api/products';
 
 export interface ProductsState {
   // states related to products
@@ -30,7 +35,7 @@ export const initialProductsState: ProductsState = {
   // products
   products: {
     products: [],
-    productsCount: 0 
+    productsCount: 0,
   },
   productsIsLoading: false,
   productsError: null,
@@ -130,7 +135,9 @@ const productsSlice = createSlice({
         state.productError = action.payload as string;
       })
       .addCase(addOrUpdateProduct.fulfilled, (state, action) => {
-        const index = state.products.products.findIndex((product) => product.id === action.payload.id);
+        const index = state.products.products.findIndex(
+          (product) => product.id === action.payload.id,
+        );
         if (index !== -1) {
           state.products.products[index] = action.payload;
         } else {
@@ -143,8 +150,9 @@ const productsSlice = createSlice({
       })
       // cases for deleting a model
       .addCase(deleteProduct.fulfilled, (state, action) => {
-
-        state.products.products = state.products.products.filter((product) => product.id !== action.payload);
+        state.products.products = state.products.products.filter(
+          (product) => product.id !== action.payload,
+        );
         state.openConfirm = false;
       })
       .addCase(deleteProduct.rejected, (state, action) => {
@@ -167,7 +175,7 @@ export const {
   setProductsItemsPerPage,
   setProductToDelete,
   setOpenConfirm,
-  setProductsCurrentResponsibles
+  setProductsCurrentResponsibles,
 } = productsSlice.actions;
 
 export default productsSlice.reducer;

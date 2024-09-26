@@ -4,8 +4,8 @@
 
 import webpack from 'webpack';
 import TsconfigPathsPlugins from 'tsconfig-paths-webpack-plugin';
-import webpackPaths from './webpack.paths';
 import { dependencies as externals } from '../../release/app/package.json';
+import webpackPaths from './webpack.paths';
 import packageJson from '../../package.json';
 
 const configuration: webpack.Configuration = {
@@ -66,7 +66,7 @@ const configuration: webpack.Configuration = {
       'process.env.APP_PATREON': JSON.stringify(packageJson.patreon),
       'process.env.APP_HOMEPAGE': JSON.stringify(packageJson.homepage),
       'process.env.APP_AUTHOR_NAME': JSON.stringify(packageJson.author.name),
-      'process.env.APP_AUTHOR_URL': JSON.stringify(packageJson.author.url)
+      'process.env.APP_AUTHOR_URL': JSON.stringify(packageJson.author.url),
     }),
   ],
 };

@@ -7,20 +7,22 @@ const Loader: React.FC = () => {
   /**
    * global states
    */
-  const { incrementsIsLoading } = useSelector((state: RootState) => state.increments);
-  
+  const { incrementsIsLoading } = useSelector(
+    (state: RootState) => state.increments,
+  );
+
   /**
    * tsx
    */
   return (
     <>
       {incrementsIsLoading && (
-        <Dimmer active inverted data-testid='increments-loader'>
+        <Dimmer active inverted data-testid="increments-loader">
           <SemanticLoader>Loading Increments...</SemanticLoader>
         </Dimmer>
       )}
     </>
   );
-}
+};
 
 export default Loader;

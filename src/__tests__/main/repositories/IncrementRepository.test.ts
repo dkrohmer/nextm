@@ -39,18 +39,27 @@ describe('IncrementRepository', () => {
   });
 
   it('should get all increments sorted by name', async () => {
-    const [increments, count] = await incrementRepository.getAllIncrements('name', 'asc');
+    const [increments, count] = await incrementRepository.getAllIncrements(
+      'name',
+      'asc',
+    );
 
     expect(Array.isArray(increments)).toBe(true);
     expect(typeof count).toBe('number');
   });
 
   it('should get all increments for a productId', async () => {
-    const [increments, count] = await incrementRepository.getAllIncrements('name', 'asc', productId);
+    const [increments, count] = await incrementRepository.getAllIncrements(
+      'name',
+      'asc',
+      productId,
+    );
 
     expect(Array.isArray(increments)).toBe(true);
     expect(count).toBeGreaterThan(0);
-    increments.forEach((increment) => expect(increment.productId).toBe(productId));
+    increments.forEach((increment) =>
+      expect(increment.productId).toBe(productId),
+    );
   });
 
   it('should get an increment by id', async () => {
@@ -60,18 +69,27 @@ describe('IncrementRepository', () => {
     increment.incrementIndex = 2;
     const savedIncrement = await incrementRepository.createIncrement(increment);
 
-    const foundIncrement = await incrementRepository.getIncrementById(savedIncrement.id, false);
+    const foundIncrement = await incrementRepository.getIncrementById(
+      savedIncrement.id,
+      false,
+    );
     expect(foundIncrement).toBeDefined();
     expect(foundIncrement!.id).toBe(savedIncrement.id);
   });
 
   it('should return null when getting a non-existent increment by id', async () => {
-    const foundIncrement = await incrementRepository.getIncrementById('non-existent-id', false);
+    const foundIncrement = await incrementRepository.getIncrementById(
+      'non-existent-id',
+      false,
+    );
     expect(foundIncrement).toBeNull();
   });
 
   it('should return null when getting an increment without submitting an id', async () => {
-    const foundIncrement = await incrementRepository.getIncrementById('', false);
+    const foundIncrement = await incrementRepository.getIncrementById(
+      '',
+      false,
+    );
     expect(foundIncrement).toBeNull();
   });
 
@@ -82,7 +100,10 @@ describe('IncrementRepository', () => {
     increment.incrementIndex = 3;
     const savedIncrement = await incrementRepository.createIncrement(increment);
 
-    const foundIncrement = await incrementRepository.getIncrementById(savedIncrement.id, true);
+    const foundIncrement = await incrementRepository.getIncrementById(
+      savedIncrement.id,
+      true,
+    );
     expect(foundIncrement).toBeDefined();
     expect(foundIncrement!.id).toBe(savedIncrement.id);
     expect(foundIncrement!.models).toBeDefined(); // Ensure eager relations are loaded
@@ -96,14 +117,20 @@ describe('IncrementRepository', () => {
     const savedIncrement = await incrementRepository.createIncrement(increment);
 
     savedIncrement.name = 'Updated Increment';
-    const updatedIncrement = await incrementRepository.updateIncrement(savedIncrement.id, savedIncrement);
+    const updatedIncrement = await incrementRepository.updateIncrement(
+      savedIncrement.id,
+      savedIncrement,
+    );
 
     expect(updatedIncrement).toBeDefined();
     expect(updatedIncrement!.name).toBe('Updated Increment');
   });
 
   it('should return null when updating a non-existent increment', async () => {
-    const updatedIncrement = await incrementRepository.updateIncrement('non-existent-id', { name: 'Updated Increment' });
+    const updatedIncrement = await incrementRepository.updateIncrement(
+      'non-existent-id',
+      { name: 'Updated Increment' },
+    );
     expect(updatedIncrement).toBeNull();
   });
 
@@ -115,13 +142,18 @@ describe('IncrementRepository', () => {
     const savedIncrement = await incrementRepository.createIncrement(increment);
 
     await incrementRepository.deleteIncrement(savedIncrement.id);
-    const deletedIncrement = await incrementRepository.getIncrementById(savedIncrement.id, false);
+    const deletedIncrement = await incrementRepository.getIncrementById(
+      savedIncrement.id,
+      false,
+    );
 
     expect(deletedIncrement).toBeNull();
   });
 
   it('should not throw an error when deleting a non-existent increment', async () => {
-    await expect(incrementRepository.deleteIncrement('non-existent-id')).resolves.not.toThrow();
+    await expect(
+      incrementRepository.deleteIncrement('non-existent-id'),
+    ).resolves.not.toThrow();
   });
 
   it('should get the latest increment for a product', async () => {
@@ -131,7 +163,8 @@ describe('IncrementRepository', () => {
     increment.incrementIndex = 6;
     await incrementRepository.createIncrement(increment);
 
-    const latestIncrement = await incrementRepository.getLatestIncrement(productId);
+    const latestIncrement =
+      await incrementRepository.getLatestIncrement(productId);
     expect(latestIncrement).toBeDefined();
     expect(latestIncrement!.name).toBe('Latest Increment');
   });
@@ -149,17 +182,22 @@ describe('IncrementRepository', () => {
   });
 
   it('should return null when getting the latest increment for a non-existent product', async () => {
-    const latestIncrement = await incrementRepository.getLatestIncrement('non-existent-product-id');
+    const latestIncrement = await incrementRepository.getLatestIncrement(
+      'non-existent-product-id',
+    );
     expect(latestIncrement).toBeNull();
   });
 
   it('should get the latest increment id for a product', async () => {
-    const latestIncrementId = await incrementRepository.getLatestIncrementId(productId);
+    const latestIncrementId =
+      await incrementRepository.getLatestIncrementId(productId);
     expect(latestIncrementId).toBeDefined();
   });
 
   it('should return null when getting the latest increment id for a non-existent product', async () => {
-    const latestIncrementId = await incrementRepository.getLatestIncrementId('non-existent-product-id');
+    const latestIncrementId = await incrementRepository.getLatestIncrementId(
+      'non-existent-product-id',
+    );
     expect(latestIncrementId).toBeNull();
   });
 
@@ -169,9 +207,9 @@ describe('IncrementRepository', () => {
     invalidIncrement.productId = 'invalid-uuid'; // Invalid: productId is not a valid UUID
     invalidIncrement.incrementIndex = -1; // Invalid: incrementIndex is out of range
 
-    await expect(incrementRepository.createIncrement(invalidIncrement))
-      .rejects
-      .toThrow('Validation failed');
+    await expect(
+      incrementRepository.createIncrement(invalidIncrement),
+    ).rejects.toThrow('Validation failed');
   });
 
   it('should throw an error when updating an increment with invalid data', async () => {
@@ -189,8 +227,8 @@ describe('IncrementRepository', () => {
       incrementIndex: -1, // Invalid: incrementIndex is out of range
     };
 
-    await expect(incrementRepository.updateIncrement(savedIncrement.id, updatedIncrement))
-      .rejects
-      .toThrow('Validation failed');
+    await expect(
+      incrementRepository.updateIncrement(savedIncrement.id, updatedIncrement),
+    ).rejects.toThrow('Validation failed');
   });
 });

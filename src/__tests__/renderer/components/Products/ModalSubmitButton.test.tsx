@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import ModalSubmitButton from '../../../../renderer/components/Products/ModalSubmitButton';
 import { jest } from '@jest/globals';
+import ModalSubmitButton from '../../../../renderer/components/Products/ModalSubmitButton';
 
 // Mock useSelector hook
 const mockUseSelector = jest.fn();
@@ -17,12 +17,14 @@ describe('ModalSubmitButton Component', () => {
 
   it('renders the submit button with text "Add" when not cloning or editing', () => {
     // Mock state where neither cloning nor editing is true
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      products: {
-        productsIsCloning: false,
-        productsIsEditing: false,
-      },
-    }));
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        products: {
+          productsIsCloning: false,
+          productsIsEditing: false,
+        },
+      }),
+    );
 
     render(<ModalSubmitButton />);
 
@@ -33,12 +35,14 @@ describe('ModalSubmitButton Component', () => {
 
   it('renders the submit button with text "Edit" when editing', () => {
     // Mock state where editing is true
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      products: {
-        productsIsCloning: false,
-        productsIsEditing: true,
-      },
-    }));
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        products: {
+          productsIsCloning: false,
+          productsIsEditing: true,
+        },
+      }),
+    );
 
     render(<ModalSubmitButton />);
 
@@ -49,12 +53,14 @@ describe('ModalSubmitButton Component', () => {
 
   it('renders the submit button with text "Clone" when cloning', () => {
     // Mock state where cloning is true
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      products: {
-        productsIsCloning: true,
-        productsIsEditing: false,
-      },
-    }));
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        products: {
+          productsIsCloning: true,
+          productsIsEditing: false,
+        },
+      }),
+    );
 
     render(<ModalSubmitButton />);
 
@@ -65,12 +71,14 @@ describe('ModalSubmitButton Component', () => {
 
   it('renders the correct button attributes', () => {
     // Mock state where neither cloning nor editing is true
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      products: {
-        productsIsCloning: false,
-        productsIsEditing: false,
-      },
-    }));
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        products: {
+          productsIsCloning: false,
+          productsIsEditing: false,
+        },
+      }),
+    );
 
     render(<ModalSubmitButton />);
 

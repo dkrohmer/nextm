@@ -1,6 +1,6 @@
-import React from "react";
-import { Toaster } from "react-hot-toast";
-import useToastNotifications from "../../hooks/useToastNotifications";
+import React from 'react';
+import { Toaster } from 'react-hot-toast';
+import useToastNotifications from '../../hooks/useToastNotifications';
 
 const ToastManager: React.FC = () => {
   /**
@@ -11,11 +11,7 @@ const ToastManager: React.FC = () => {
   /**
    * tsx
    */
-  return (
-    <Toaster
-      position="top-center"
-    />
-  );
+  return <Toaster position="top-center" />;
 };
 
 export default ToastManager;

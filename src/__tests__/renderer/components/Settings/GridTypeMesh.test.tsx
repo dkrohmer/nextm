@@ -12,7 +12,7 @@ jest.mock('react-redux', () => ({
   useDispatch: () => mockDispatch,
 }));
 
-window.electron = windowElectron
+window.electron = windowElectron;
 
 describe('GridTypeMesh Component', () => {
   beforeEach(() => {
@@ -26,7 +26,7 @@ describe('GridTypeMesh Component', () => {
         settings: {
           gridVisible: 'none',
         },
-      })
+      }),
     );
 
     // Render the component
@@ -37,7 +37,7 @@ describe('GridTypeMesh Component', () => {
     expect(meshRadioButton).toBeInTheDocument();
 
     // Check if it is not selected by default
-    expect(meshRadioButton).not.toHaveClass("checked");
+    expect(meshRadioButton).not.toHaveClass('checked');
   });
 
   it('renders the Mesh radio button and checks if it is selected when gridVisible is "mesh"', () => {
@@ -47,7 +47,7 @@ describe('GridTypeMesh Component', () => {
         settings: {
           gridVisible: 'mesh',
         },
-      })
+      }),
     );
 
     // Render the component
@@ -58,7 +58,7 @@ describe('GridTypeMesh Component', () => {
     expect(meshRadioButton).toBeInTheDocument();
 
     // Check if it is selected
-    expect(meshRadioButton).toHaveClass("checked");
+    expect(meshRadioButton).toHaveClass('checked');
   });
 
   it('dispatches actions when the Mesh radio button is selected', () => {
@@ -68,7 +68,7 @@ describe('GridTypeMesh Component', () => {
         settings: {
           gridVisible: 'none',
         },
-      })
+      }),
     );
 
     // Render the component
@@ -84,14 +84,19 @@ describe('GridTypeMesh Component', () => {
     expect(window.electron.setGridType).toHaveBeenCalledWith('mesh');
 
     // Check if the setGridVisible action was dispatched with 'mesh'
-    expect(mockDispatch).toHaveBeenCalledWith({ type: 'settings/setGridVisible', payload: 'mesh' });
+    expect(mockDispatch).toHaveBeenCalledWith({
+      type: 'settings/setGridVisible',
+      payload: 'mesh',
+    });
 
     // Check if showToast action was dispatched with the correct success message
-    expect(mockDispatch).toHaveBeenCalledWith(expect.objectContaining({
-      type: 'settings/showToast',
-      payload: expect.objectContaining({
-        successMessage: 'Grid type changed to: mesh',
+    expect(mockDispatch).toHaveBeenCalledWith(
+      expect.objectContaining({
+        type: 'settings/showToast',
+        payload: expect.objectContaining({
+          successMessage: 'Grid type changed to: mesh',
+        }),
       }),
-    }));
+    );
   });
 });

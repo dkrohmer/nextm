@@ -1,5 +1,9 @@
 import { DataSource } from 'typeorm';
-import { initializeDataSource, getDataSource, AppDataSource } from '../../main/database';
+import {
+  initializeDataSource,
+  getDataSource,
+  AppDataSource,
+} from '../../main/database';
 
 describe('Database Initialization', () => {
   const databasePath = ':memory:';
@@ -27,7 +31,9 @@ describe('Database Initialization', () => {
   });
 
   it('should throw an error if getDataSource is called before initialization', () => {
-    expect(() => getDataSource()).toThrow('Database connection is not established');
+    expect(() => getDataSource()).toThrow(
+      'Database connection is not established',
+    );
   });
 
   it('should return the initialized data source', async () => {
@@ -38,7 +44,11 @@ describe('Database Initialization', () => {
   });
 
   it('should return false if the data source initialization fails', async () => {
-    jest.spyOn(DataSource.prototype, 'initialize').mockImplementationOnce(async () => { throw new Error('Initialization failed'); });
+    jest
+      .spyOn(DataSource.prototype, 'initialize')
+      .mockImplementationOnce(async () => {
+        throw new Error('Initialization failed');
+      });
 
     const result = await initializeDataSource(databasePath);
     expect(result).toBe(false);

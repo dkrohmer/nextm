@@ -12,7 +12,7 @@ jest.mock('react-redux', () => ({
   useDispatch: () => mockDispatch,
 }));
 
-window.electron = windowElectron
+window.electron = windowElectron;
 
 describe('GridTypeDot Component', () => {
   beforeEach(() => {
@@ -26,7 +26,7 @@ describe('GridTypeDot Component', () => {
         settings: {
           gridVisible: 'none',
         },
-      })
+      }),
     );
 
     // Render the component
@@ -37,7 +37,7 @@ describe('GridTypeDot Component', () => {
     expect(dotRadioButton).toBeInTheDocument();
 
     // Check if it is not selected by default
-    expect(dotRadioButton).not.toHaveClass("checked");
+    expect(dotRadioButton).not.toHaveClass('checked');
   });
 
   it('renders the Dot radio button and checks if it is selected when gridVisible is "dot"', () => {
@@ -47,7 +47,7 @@ describe('GridTypeDot Component', () => {
         settings: {
           gridVisible: 'dot',
         },
-      })
+      }),
     );
 
     // Render the component
@@ -58,7 +58,7 @@ describe('GridTypeDot Component', () => {
     expect(dotRadioButton).toBeInTheDocument();
 
     // Check if it is selected
-    expect(dotRadioButton).toHaveClass("checked"); // Updated from .toBeChecked()
+    expect(dotRadioButton).toHaveClass('checked'); // Updated from .toBeChecked()
   });
 
   it('dispatches actions when the Dot radio button is selected', () => {
@@ -68,7 +68,7 @@ describe('GridTypeDot Component', () => {
         settings: {
           gridVisible: 'none',
         },
-      })
+      }),
     );
 
     // Render the component
@@ -84,14 +84,19 @@ describe('GridTypeDot Component', () => {
     expect(window.electron.setGridType).toHaveBeenCalledWith('dot');
 
     // Check if the setGridVisible action was dispatched with 'dot'
-    expect(mockDispatch).toHaveBeenCalledWith({ type: 'settings/setGridVisible', payload: 'dot' });
+    expect(mockDispatch).toHaveBeenCalledWith({
+      type: 'settings/setGridVisible',
+      payload: 'dot',
+    });
 
     // Check if showToast action was dispatched with the correct success message
-    expect(mockDispatch).toHaveBeenCalledWith(expect.objectContaining({
-      type: 'settings/showToast',
-      payload: expect.objectContaining({
-        successMessage: 'Grid type changed to: dot',
+    expect(mockDispatch).toHaveBeenCalledWith(
+      expect.objectContaining({
+        type: 'settings/showToast',
+        payload: expect.objectContaining({
+          successMessage: 'Grid type changed to: dot',
+        }),
       }),
-    }));
+    );
   });
 });

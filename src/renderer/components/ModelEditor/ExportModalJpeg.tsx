@@ -20,8 +20,8 @@ const ExportModalJpeg: React.FC = () => {
    */
   const handleChange = () => {
     dispatch(setExportFormat('jpeg'));
-  }
-  
+  };
+
   /**
    * tsx
    */
@@ -37,6 +37,6 @@ const ExportModalJpeg: React.FC = () => {
       />
     </Form.Field>
   );
-}
+};
 
 export default ExportModalJpeg;

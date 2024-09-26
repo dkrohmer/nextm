@@ -3,10 +3,34 @@ import '@testing-library/jest-dom';
 import TableBody from '../../../../renderer/components/Products/TableBody';
 
 // Mock child components
-jest.mock('../../../../renderer/components/Products/TableRow', () => () => <tr data-testid="table-row"></tr>);
-jest.mock('../../../../renderer/components/Products/Loader', () => ({ isLoading }: { isLoading: boolean }) => isLoading ? <div data-testid="loader"></div> : null);
-jest.mock('../../../../renderer/components/Products/Error', () => ({ error }: { error: string }) => error ? <div data-testid="error-message">{error}</div> : null);
-jest.mock('../../../../renderer/components/Products/Empty', () => () => <div data-testid="empty-message">No Products Available</div>);
+jest.mock(
+  '../../../../renderer/components/Products/TableRow',
+  () =>
+    function () {
+      return <tr data-testid="table-row" />;
+    },
+);
+jest.mock(
+  '../../../../renderer/components/Products/Loader',
+  () =>
+    function ({ isLoading }: { isLoading: boolean }) {
+      return isLoading ? <div data-testid="loader" /> : null;
+    },
+);
+jest.mock(
+  '../../../../renderer/components/Products/Error',
+  () =>
+    function ({ error }: { error: string }) {
+      return error ? <div data-testid="error-message">{error}</div> : null;
+    },
+);
+jest.mock(
+  '../../../../renderer/components/Products/Empty',
+  () =>
+    function () {
+      return <div data-testid="empty-message">No Products Available</div>;
+    },
+);
 
 // Mock useSelector
 const mockUseSelector = jest.fn();
@@ -23,11 +47,11 @@ describe('TableBody Component', () => {
     mockUseSelector.mockImplementation((selector: any) =>
       selector({
         products: {
-          products: {products: [], productsCount: 0},
+          products: { products: [], productsCount: 0 },
           productsError: null,
           productsIsLoading: true,
         },
-      })
+      }),
     );
 
     render(<TableBody />);
@@ -42,16 +66,18 @@ describe('TableBody Component', () => {
     mockUseSelector.mockImplementation((selector: any) =>
       selector({
         products: {
-          products: {products: [], productsCount: 0},
+          products: { products: [], productsCount: 0 },
           productsError: 'Error fetching products',
           productsIsLoading: false,
         },
-      })
+      }),
     );
 
     render(<TableBody />);
 
-    expect(screen.getByTestId('error-message')).toHaveTextContent('Error fetching products');
+    expect(screen.getByTestId('error-message')).toHaveTextContent(
+      'Error fetching products',
+    );
     expect(screen.queryByTestId('loader')).not.toBeInTheDocument();
     expect(screen.queryByTestId('empty-message')).not.toBeInTheDocument();
     expect(screen.queryByTestId('table-row')).not.toBeInTheDocument();
@@ -61,16 +87,18 @@ describe('TableBody Component', () => {
     mockUseSelector.mockImplementation((selector: any) =>
       selector({
         products: {
-          products: {products: [], productsCount: 0},
+          products: { products: [], productsCount: 0 },
           productsError: null,
           productsIsLoading: false,
         },
-      })
+      }),
     );
 
     render(<TableBody />);
 
-    expect(screen.getByTestId('empty-message')).toHaveTextContent('No Products Available');
+    expect(screen.getByTestId('empty-message')).toHaveTextContent(
+      'No Products Available',
+    );
     expect(screen.queryByTestId('loader')).not.toBeInTheDocument();
     expect(screen.queryByTestId('error-message')).not.toBeInTheDocument();
     expect(screen.queryByTestId('table-row')).not.toBeInTheDocument();
@@ -85,12 +113,12 @@ describe('TableBody Component', () => {
               { id: '1', name: 'Product 1', createdAt: '1' },
               { id: '2', name: 'Product 2', createdAt: '2' },
             ],
-            productsCount: 2
+            productsCount: 2,
           },
           productsError: null,
           productsIsLoading: false,
         },
-      })
+      }),
     );
 
     render(<TableBody />);

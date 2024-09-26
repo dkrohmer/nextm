@@ -8,8 +8,17 @@ import {
   Relation,
 } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
+import {
+  IsDate,
+  IsInt,
+  IsNumber,
+  IsString,
+  IsUUID,
+  Max,
+  MaxLength,
+  Min,
+} from 'class-validator';
 import { Model } from './Model';
-import { IsDate, IsInt, IsNumber, IsString, IsUUID, Max, MaxLength, Min } from 'class-validator';
 import { IsDataUriPng } from '../helpers/isDataUriPng';
 import { IsJsonString } from '../helpers/isJsonString';
 

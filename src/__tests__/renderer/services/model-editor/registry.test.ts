@@ -9,11 +9,11 @@ describe('Edge Tool Registration in Registry', () => {
     // Use Object.defineProperty to mock the registry data property
     Object.defineProperty(Registry.EdgeTool.registry, 'data', {
       value: {
-        'edge-source-handle': undefined,  // Simulating not registered
-        'edge-target-handle': undefined,  // Simulating not registered
-        'edge-vertices': undefined,       // Simulating not registered
+        'edge-source-handle': undefined, // Simulating not registered
+        'edge-target-handle': undefined, // Simulating not registered
+        'edge-vertices': undefined, // Simulating not registered
       },
-      writable: true,  // Allows us to modify it during tests
+      writable: true, // Allows us to modify it during tests
     });
 
     // Mock Graph.registerEdgeTool function
@@ -49,7 +49,10 @@ describe('Edge Tool Registration in Registry', () => {
     registry.register();
 
     // Ensure the edge-source-handle is not registered again
-    expect(Graph.registerEdgeTool).not.toHaveBeenCalledWith('edge-source-handle', expect.anything());
+    expect(Graph.registerEdgeTool).not.toHaveBeenCalledWith(
+      'edge-source-handle',
+      expect.anything(),
+    );
   });
 
   it('should register edge-target-handle if not registered', () => {
@@ -76,7 +79,10 @@ describe('Edge Tool Registration in Registry', () => {
     registry.register();
 
     // Ensure the edge-target-handle is not registered again
-    expect(Graph.registerEdgeTool).not.toHaveBeenCalledWith('edge-target-handle', expect.anything());
+    expect(Graph.registerEdgeTool).not.toHaveBeenCalledWith(
+      'edge-target-handle',
+      expect.anything(),
+    );
   });
 
   it('should register edge-vertices if not registered', () => {
@@ -102,6 +108,9 @@ describe('Edge Tool Registration in Registry', () => {
     registry.register();
 
     // Ensure the edge-vertices is not registered again
-    expect(Graph.registerEdgeTool).not.toHaveBeenCalledWith('edge-vertices', expect.anything());
+    expect(Graph.registerEdgeTool).not.toHaveBeenCalledWith(
+      'edge-vertices',
+      expect.anything(),
+    );
   });
 });

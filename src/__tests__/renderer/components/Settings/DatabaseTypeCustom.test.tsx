@@ -28,7 +28,7 @@ describe('DatabaseTypeCustom Component', () => {
           useDefaultDatabase: true,
           customDatabasePath: '',
         },
-      })
+      }),
     );
 
     // Render the component
@@ -50,7 +50,7 @@ describe('DatabaseTypeCustom Component', () => {
           useDefaultDatabase: false,
           customDatabasePath: '',
         },
-      })
+      }),
     );
 
     // Render the component
@@ -72,7 +72,7 @@ describe('DatabaseTypeCustom Component', () => {
           useDefaultDatabase: true,
           customDatabasePath: '/mock/path',
         },
-      })
+      }),
     );
 
     // Render the component
@@ -85,13 +85,22 @@ describe('DatabaseTypeCustom Component', () => {
     fireEvent.click(within(customDatabaseRadioButton).getByRole('radio'));
 
     // Check if the setUseDefaultDatabase action was dispatched with false
-    expect(mockDispatch).toHaveBeenCalledWith({ type: 'settings/setUseDefaultDatabase', payload: false });
+    expect(mockDispatch).toHaveBeenCalledWith({
+      type: 'settings/setUseDefaultDatabase',
+      payload: false,
+    });
 
     // Check if the setButtonLabel action was dispatched with 'Open'
-    expect(mockDispatch).toHaveBeenCalledWith({ type: 'settings/setButtonLabel', payload: 'Open' });
+    expect(mockDispatch).toHaveBeenCalledWith({
+      type: 'settings/setButtonLabel',
+      payload: 'Open',
+    });
 
     // Check if the setInputPath action was dispatched with the custom database path
-    expect(mockDispatch).toHaveBeenCalledWith({ type: 'settings/setInputPath', payload: '/mock/path' });
+    expect(mockDispatch).toHaveBeenCalledWith({
+      type: 'settings/setInputPath',
+      payload: '/mock/path',
+    });
   });
 
   it('dispatches actions when the Custom database radio button is selected and customDatabasePath is falsy', () => {
@@ -102,7 +111,7 @@ describe('DatabaseTypeCustom Component', () => {
           useDefaultDatabase: true,
           customDatabasePath: '',
         },
-      })
+      }),
     );
 
     // Render the component
@@ -115,12 +124,21 @@ describe('DatabaseTypeCustom Component', () => {
     fireEvent.click(within(customDatabaseRadioButton).getByRole('radio'));
 
     // Check if the setUseDefaultDatabase action was dispatched with false
-    expect(mockDispatch).toHaveBeenCalledWith({ type: 'settings/setUseDefaultDatabase', payload: false });
+    expect(mockDispatch).toHaveBeenCalledWith({
+      type: 'settings/setUseDefaultDatabase',
+      payload: false,
+    });
 
     // Check if the setButtonLabel action was dispatched with 'Open'
-    expect(mockDispatch).toHaveBeenCalledWith({ type: 'settings/setButtonLabel', payload: 'Open' });
+    expect(mockDispatch).toHaveBeenCalledWith({
+      type: 'settings/setButtonLabel',
+      payload: 'Open',
+    });
 
     // Check if the setInputPath action was dispatched with an empty string
-    expect(mockDispatch).toHaveBeenCalledWith({ type: 'settings/setInputPath', payload: '' });
+    expect(mockDispatch).toHaveBeenCalledWith({
+      type: 'settings/setInputPath',
+      payload: '',
+    });
   });
 });

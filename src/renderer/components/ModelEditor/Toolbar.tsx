@@ -28,7 +28,7 @@ interface CustomToolbarProps {
   graph: Graph;
 }
 
-const CustomToolbar: React.FC<CustomToolbarProps> = ({ graph }) => {  
+const CustomToolbar: React.FC<CustomToolbarProps> = ({ graph }) => {
   /**
    * global states
    */

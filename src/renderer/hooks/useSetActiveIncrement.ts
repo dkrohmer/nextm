@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setIncrementsActiveIndex } from '../store/increments';
 
@@ -7,7 +6,6 @@ const useSetActiveIncrement = (
   incrementsIsLoaded: boolean,
   increments: any[],
   incrementId: string | undefined,
-  productId: string | undefined
 ) => {
   const dispatch = useDispatch();
 

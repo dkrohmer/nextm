@@ -7,9 +7,27 @@ import ModelActionsDelete from '../../../../renderer/components/Model/ActionsDel
 import type { IModel } from '../../../../renderer/interfaces/IModel'; // Updated import path
 
 // Mock the child components
-jest.mock('../../../../renderer/components/Model/ActionsEdit', () => () => <div>ModelActionsEdit</div>);
-jest.mock('../../../../renderer/components/Model/ActionsClone', () => () => <div>ModelActionsClone</div>);
-jest.mock('../../../../renderer/components/Model/ActionsDelete', () => () => <div>ModelActionsDelete</div>);
+jest.mock(
+  '../../../../renderer/components/Model/ActionsEdit',
+  () =>
+    function () {
+      return <div>ModelActionsEdit</div>;
+    },
+);
+jest.mock(
+  '../../../../renderer/components/Model/ActionsClone',
+  () =>
+    function () {
+      return <div>ModelActionsClone</div>;
+    },
+);
+jest.mock(
+  '../../../../renderer/components/Model/ActionsDelete',
+  () =>
+    function () {
+      return <div>ModelActionsDelete</div>;
+    },
+);
 
 // Sample model data
 const mockModel: IModel = {
@@ -19,12 +37,12 @@ const mockModel: IModel = {
   incrementId: 'increment-123',
 };
 
-const mockIsVisible = true
+const mockIsVisible = true;
 
 describe('Actions Component', () => {
   it('renders the Action components with the correct props', () => {
     // Render the Actions component
-    render(<Actions model={mockModel} isVisible={mockIsVisible}/>);
+    render(<Actions model={mockModel} isVisible={mockIsVisible} />);
 
     // Verify that the child components are rendered
     expect(screen.getByText('ModelActionsEdit')).toBeInTheDocument();
@@ -34,7 +52,7 @@ describe('Actions Component', () => {
 
   it('renders the Action components with the correct props', () => {
     // Render the Actions component with isVisible as true
-    render(<Actions model={mockModel} isVisible={true} />);
+    render(<Actions model={mockModel} isVisible />);
 
     // Verify that the child components are rendered
     expect(screen.getByText('ModelActionsEdit')).toBeInTheDocument();

@@ -1,14 +1,16 @@
 import React from 'react';
 import { Form, TextAreaProps } from 'semantic-ui-react';
-import { AppDispatch, RootState } from '../../store';
 import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../store';
 import { setActorDescription } from '../../store/modelEditor';
 
 const ActorModalDescription: React.FC = () => {
   /**
    * global states
    */
-  const { actorDescription } = useSelector((state: RootState) => state.modelEditor);
+  const { actorDescription } = useSelector(
+    (state: RootState) => state.modelEditor,
+  );
 
   /**
    * hooks
@@ -18,8 +20,10 @@ const ActorModalDescription: React.FC = () => {
   /**
    * handlers
    */
-  const handleDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    let value = e.target.value;
+  const handleDescriptionChange = (
+    e: React.ChangeEvent<HTMLTextAreaElement>,
+  ) => {
+    let { value } = e.target;
 
     if (value.length > 5000) {
       value = value.slice(0, 4999);

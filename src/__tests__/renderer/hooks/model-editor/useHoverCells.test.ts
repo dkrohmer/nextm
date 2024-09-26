@@ -29,25 +29,39 @@ describe('useHoverCells hook', () => {
     } as unknown as Cell;
 
     // Mock the behavior of the on method to capture callbacks
-    (mockGraph.on as jest.Mock).mockImplementation((event: string, callback: Function) => {
-      if (event === 'cell:mouseenter') hoverCallback = callback;
-      if (event === 'cell:mouseleave') unhoverCallback = callback;
-    });
+    (mockGraph.on as jest.Mock).mockImplementation(
+      (event: string, callback: Function) => {
+        if (event === 'cell:mouseenter') hoverCallback = callback;
+        if (event === 'cell:mouseleave') unhoverCallback = callback;
+      },
+    );
   });
 
   it('should register hover and unhover events on mount and unregister them on unmount', () => {
     const { unmount } = renderHook(() => useHoverCells(mockGraph));
 
     // Verify that hover and unhover events are registered
-    expect(mockGraph.on).toHaveBeenCalledWith('cell:mouseenter', expect.any(Function));
-    expect(mockGraph.on).toHaveBeenCalledWith('cell:mouseleave', expect.any(Function));
+    expect(mockGraph.on).toHaveBeenCalledWith(
+      'cell:mouseenter',
+      expect.any(Function),
+    );
+    expect(mockGraph.on).toHaveBeenCalledWith(
+      'cell:mouseleave',
+      expect.any(Function),
+    );
 
     // Simulate unmount
     unmount();
 
     // Verify that hover and unhover events are unregistered
-    expect(mockGraph.off).toHaveBeenCalledWith('cell:mouseenter', expect.any(Function));
-    expect(mockGraph.off).toHaveBeenCalledWith('cell:mouseleave', expect.any(Function));
+    expect(mockGraph.off).toHaveBeenCalledWith(
+      'cell:mouseenter',
+      expect.any(Function),
+    );
+    expect(mockGraph.off).toHaveBeenCalledWith(
+      'cell:mouseleave',
+      expect.any(Function),
+    );
   });
 
   it('should set strokeWidth to 3 when hovering over a node', () => {

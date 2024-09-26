@@ -1,9 +1,9 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import ToolbarSave from '../../../../renderer/components/ModelEditor/ToolbarSave';
-import { saveModel } from '../../../../renderer/utils/saveModel';
 import { Graph as x6Graph } from '@antv/x6';
 import { useParams } from 'react-router-dom';
+import ToolbarSave from '../../../../renderer/components/ModelEditor/ToolbarSave';
+import { saveModel } from '../../../../renderer/utils/saveModel';
 
 // Mock the `saveModel` utility function
 jest.mock('../../../../renderer/utils/saveModel', () => ({
@@ -49,11 +49,13 @@ describe('ToolbarSave Component', () => {
 
   it('renders the save toolbar item and handles save action on click', () => {
     // Mock useSelector to return the latestVersion state
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      versions: {
-        latestVersion: { id: 'latestVersionId', payload: 'somePayload' },
-      },
-    }));
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        versions: {
+          latestVersion: { id: 'latestVersionId', payload: 'somePayload' },
+        },
+      }),
+    );
 
     render(<ToolbarSave graph={mockGraph} />);
 
@@ -69,7 +71,7 @@ describe('ToolbarSave Component', () => {
       'testModelId',
       mockGraph,
       { id: 'latestVersionId', payload: 'somePayload' },
-      mockDispatch
+      mockDispatch,
     );
   });
 });

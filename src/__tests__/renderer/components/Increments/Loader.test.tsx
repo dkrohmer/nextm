@@ -1,8 +1,8 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import Loader from '../../../../renderer/components/Increments/Loader';
 import { jest } from '@jest/globals';
+import Loader from '../../../../renderer/components/Increments/Loader';
 
 // Mock useSelector hook
 const mockUseSelector = jest.fn();
@@ -23,13 +23,13 @@ describe('Loader Component', () => {
         increments: {
           incrementsIsLoading: true,
         },
-      })
+      }),
     );
 
     // Render the Loader component
     render(<Loader />);
 
-    const loader = screen.getByTestId('increments-loader')
+    const loader = screen.getByTestId('increments-loader');
     // Check for the presence of the Loader with the correct text
     expect(loader).toHaveTextContent('Loading Increments...');
     expect(loader).toHaveClass('active');
@@ -42,7 +42,7 @@ describe('Loader Component', () => {
         increments: {
           incrementsIsLoading: false,
         },
-      })
+      }),
     );
 
     // Render the Loader component

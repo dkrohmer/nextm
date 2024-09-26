@@ -1,6 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { IIncrement } from '../interfaces/IIncrement';
-import { fetchIncrements, fetchIncrement, addOrUpdateIncrement, deleteIncrement } from '../services/api/increments';
+import {
+  fetchIncrements,
+  fetchIncrement,
+  addOrUpdateIncrement,
+  deleteIncrement,
+} from '../services/api/increments';
 
 export interface IncrementsState {
   increments: IIncrement[];
@@ -47,7 +52,10 @@ const incrementsSlice = createSlice({
     setIncrementsActiveIndex(state, action: PayloadAction<number | undefined>) {
       state.incrementsActiveIndex = action.payload;
     },
-    setIncrementsActiveIncrementId(state, action: PayloadAction<string | null>) {
+    setIncrementsActiveIncrementId(
+      state,
+      action: PayloadAction<string | null>,
+    ) {
       state.incrementsActiveIncrementId = action.payload;
     },
     setIncrementsModalOpen(state, action: PayloadAction<boolean>) {
@@ -102,7 +110,9 @@ const incrementsSlice = createSlice({
       })
       .addCase(addOrUpdateIncrement.fulfilled, (state, action) => {
         if (state.increments && Array.isArray(state.increments)) {
-          const index = state.increments.findIndex((inc) => inc.id === action.payload.id);
+          const index = state.increments.findIndex(
+            (inc) => inc.id === action.payload.id,
+          );
           if (index !== -1) {
             state.increments[index] = action.payload;
           } else {
@@ -116,7 +126,9 @@ const incrementsSlice = createSlice({
       })
       .addCase(deleteIncrement.fulfilled, (state, action) => {
         if (state.increments && Array.isArray(state.increments)) {
-          state.increments = state.increments.filter((increment) => increment.id !== action.payload);
+          state.increments = state.increments.filter(
+            (increment) => increment.id !== action.payload,
+          );
         }
         state.incrementsConfirmOpen = false;
       })
@@ -126,7 +138,6 @@ const incrementsSlice = createSlice({
       });
   },
 });
-
 
 export const {
   setIncrementsActiveIndex,

@@ -7,12 +7,10 @@ const Empty: React.FC = () => {
   /**
    * global states
    */
-  const { 
-    models, 
-    modelsError, 
-    modelsIsLoading, 
-  } = useSelector((state: RootState) => state.models);
-  
+  const { models, modelsError, modelsIsLoading } = useSelector(
+    (state: RootState) => state.models,
+  );
+
   /**
    * tsx
    */
@@ -28,6 +26,6 @@ const Empty: React.FC = () => {
       )}
     </>
   );
-}
+};
 
 export default Empty;

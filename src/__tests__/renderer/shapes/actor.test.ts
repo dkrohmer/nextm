@@ -51,22 +51,22 @@ describe('Actor Module', () => {
       throw new Error('Test error');
     });
 
-    expect(() => actor.register()).toThrowError('Registering actor failed');
+    expect(() => actor.register()).toThrow('Registering actor failed');
   });
 
   it('should create a node with actor attributes', () => {
     const nodeMock = {
       setAttrs: jest.fn(),
     } as Partial<Node>; // Ensure we use a partial Node
-  
+
     graphMock.createNode.mockReturnValue(nodeMock as Node); // Cast the return value to Node
-  
+
     const node = actor.create(graphMock);
-  
+
     expect(graphMock.createNode).toHaveBeenCalledWith({
       shape: 'actor',
     });
-  
+
     expect(nodeMock.setAttrs).toHaveBeenCalledWith({
       body: {
         strokeWidth: 1,
@@ -88,13 +88,13 @@ describe('Actor Module', () => {
         },
       },
     });
-  
+
     expect(node).toBe(nodeMock);
   });
 
   it('should set actor attributes correctly', () => {
     const attrs = actor.setActorAttrs('Test Name');
-  
+
     expect(attrs).toEqual({
       body: {
         strokeWidth: 1,
@@ -116,5 +116,5 @@ describe('Actor Module', () => {
         },
       },
     });
-  });  
+  });
 });

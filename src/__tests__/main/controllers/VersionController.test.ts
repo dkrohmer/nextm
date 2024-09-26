@@ -45,7 +45,7 @@ describe('VersionController', () => {
 
     const response = await ipcRenderer.invoke('create-version', {
       modelId: 'test-model',
-      payload: { graph: { "graph": {} } },
+      payload: { graph: { graph: {} } },
       thumbnail: 'thumb',
       x: 0,
       y: 0,
@@ -67,13 +67,15 @@ describe('VersionController', () => {
 
   it('should handle create-version error', async () => {
     const error = new Error('Model not found');
-    versionService.createVersion.mockRejectedValue(new Error('Model not found'));
+    versionService.createVersion.mockRejectedValue(
+      new Error('Model not found'),
+    );
 
     // const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation();
 
     const response = await ipcRenderer.invoke('create-version', {
       modelId: null,
-      payload: { graph: { "graph": {} } },
+      payload: { graph: { graph: {} } },
       thumbnail: 'thumb',
       x: 0,
       y: 0,
@@ -109,7 +111,7 @@ describe('VersionController', () => {
     expect(versionService.getAllVersions).toHaveBeenCalledWith(
       'createdAt',
       'asc',
-      'test-model'
+      'test-model',
     );
   });
 
@@ -138,7 +140,7 @@ describe('VersionController', () => {
     expect(versionService.getAllVersions).toHaveBeenCalledWith(
       'createdAt',
       'desc',
-      'test-model'
+      'test-model',
     );
   });
 
@@ -151,22 +153,22 @@ describe('VersionController', () => {
       ...mockVersion,
       createdAt: mockVersion.createdAt.toISOString(),
     });
-  
+
     versionService.getAllVersions.mockResolvedValue({
       versions: [mockVersion],
       versionsCount: 1,
     });
-  
+
     const response = await ipcRenderer.invoke('get-all-versions', {
       sort: 'asc',
       modelId: 'test-model',
     });
-  
+
     expect(response).toEqual([mockVersion]);
     expect(versionService.getAllVersions).toHaveBeenCalledWith(
       'createdAt',
       'asc',
-      'test-model'
+      'test-model',
     );
   });
 
@@ -240,7 +242,9 @@ describe('VersionController', () => {
       modelId: 'testModelId',
     });
 
-    expect(versionService.getLatestVersionByModelId).toHaveBeenCalledWith(mockModelId);
+    expect(versionService.getLatestVersionByModelId).toHaveBeenCalledWith(
+      mockModelId,
+    );
     expect(result).toEqual({
       ...mockVersion,
       payload: JSON.parse(mockVersion.payload),
@@ -303,37 +307,43 @@ describe('VersionController', () => {
   it('should handle get-latest-version-thumbnail correctly', async () => {
     const mockModelId = 'testModelId';
     const mockThumbnail = 'data:image/png;base64,iVBORw...';
-  
-    versionService.getLatestVersionThumbnailByModelId.mockResolvedValue(mockThumbnail);
-  
+
+    versionService.getLatestVersionThumbnailByModelId.mockResolvedValue(
+      mockThumbnail,
+    );
+
     const result = await ipcRenderer.invoke('get-latest-version-thumbnail', {
       modelId: mockModelId,
     });
-  
-    expect(versionService.getLatestVersionThumbnailByModelId).toHaveBeenCalledWith(mockModelId);
+
+    expect(
+      versionService.getLatestVersionThumbnailByModelId,
+    ).toHaveBeenCalledWith(mockModelId);
     expect(result).toEqual(mockThumbnail);
   });
-  
+
   it('should return null when get-latest-version-thumbnail has no thumbnail', async () => {
     const mockModelId = 'testModelId';
-  
+
     versionService.getLatestVersionThumbnailByModelId.mockResolvedValue(null);
-  
+
     const result = await ipcRenderer.invoke('get-latest-version-thumbnail', {
       modelId: mockModelId,
     });
-  
-    expect(versionService.getLatestVersionThumbnailByModelId).toHaveBeenCalledWith(mockModelId);
+
+    expect(
+      versionService.getLatestVersionThumbnailByModelId,
+    ).toHaveBeenCalledWith(mockModelId);
     expect(result).toBeNull();
   });
-  
+
   it('should handle get-latest-version-thumbnail with no modelId error', async () => {
     const error = new Error('No modelId provided');
-  
+
     const result = await ipcRenderer.invoke('get-latest-version-thumbnail', {
       modelId: null,
     });
-  
+
     expect(result).toEqual(error);
   });
 });

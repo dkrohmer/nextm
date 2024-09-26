@@ -3,11 +3,19 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
-import settingsReducer, { initialSettingsState } from '../../../../renderer/store/settings';
+import settingsReducer, {
+  initialSettingsState,
+} from '../../../../renderer/store/settings';
 import GeneralSettings from '../../../../renderer/components/Settings/GeneralSettings';
 
 // Mocking child components
-jest.mock('../../../../renderer/components/Settings/DatabaseType', () => () => <div>DatabaseType Component</div>);
+jest.mock(
+  '../../../../renderer/components/Settings/DatabaseType',
+  () =>
+    function () {
+      return <div>DatabaseType Component</div>;
+    },
+);
 
 // Mock store with initial state
 const mockStore = configureStore({
@@ -20,11 +28,7 @@ const mockStore = configureStore({
 });
 
 const renderWithProviders = (component: React.ReactElement, store: any) => {
-  return render(
-    <Provider store={store}>
-      {component}
-    </Provider>
-  );
+  return render(<Provider store={store}>{component}</Provider>);
 };
 
 describe('GeneralSettings Component', () => {

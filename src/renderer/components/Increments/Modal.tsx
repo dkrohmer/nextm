@@ -6,10 +6,18 @@ import { RootState, AppDispatch } from '../../store';
 import ModalName from './ModalName';
 import ModalCancelButton from './ModalCancelButton';
 import ModalSubmitButton from './ModalSubmitButton';
-import '../../styles/increments.css';
 import { IIncrement } from '../../interfaces/IIncrement';
-import { addOrUpdateIncrement, fetchIncrement } from '../../services/api/increments';
-import { setCurrentIncrement, setIncrementsIsCloning, setIncrementsIsEditing, setIncrementsModalOpen } from '../../store/increments';
+import {
+  addOrUpdateIncrement,
+  fetchIncrement,
+} from '../../services/api/increments';
+import {
+  setCurrentIncrement,
+  setIncrementsIsCloning,
+  setIncrementsIsEditing,
+  setIncrementsModalOpen,
+} from '../../store/increments';
+import '../../styles/increments.css';
 
 const Modal: React.FC = () => {
   /**
@@ -21,7 +29,7 @@ const Modal: React.FC = () => {
     incrementsIsCloning,
     currentIncrement,
   } = useSelector((state: RootState) => state.increments);
-  
+
   /**
    * hooks
    */
@@ -35,7 +43,7 @@ const Modal: React.FC = () => {
   const handleSubmit = async () => {
     if (currentIncrement && productId) {
       let increment: IIncrement;
-  
+
       if (incrementsIsCloning) {
         const cloneResponse = await dispatch(
           fetchIncrement({
@@ -57,7 +65,7 @@ const Modal: React.FC = () => {
       } else {
         increment = currentIncrement;
       }
-  
+
       const response = await dispatch(
         addOrUpdateIncrement({ increment, productId }),
       );
@@ -76,22 +84,23 @@ const Modal: React.FC = () => {
     dispatch(setIncrementsIsEditing(false));
   };
 
-  const getModalHeader = () => (
+  const getModalHeader = () =>
     incrementsIsCloning
-    ? 'Clone Increment'
-    : incrementsIsEditing
-      ? 'Edit Increment'
-      : 'Add Increment'
-  );
+      ? 'Clone Increment'
+      : incrementsIsEditing
+        ? 'Edit Increment'
+        : 'Add Increment';
 
   /**
    * tsx
    */
   return (
-    <SemanticModal open={incrementsModalOpen} onClose={handleClose} dimmer="blurring">
-      <SemanticModal.Header>
-        {getModalHeader()}
-      </SemanticModal.Header>
+    <SemanticModal
+      open={incrementsModalOpen}
+      onClose={handleClose}
+      dimmer="blurring"
+    >
+      <SemanticModal.Header>{getModalHeader()}</SemanticModal.Header>
       <SemanticModal.Content>
         <Form onSubmit={handleSubmit}>
           <ModalName />

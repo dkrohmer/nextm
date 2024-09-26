@@ -1,8 +1,8 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import { Graph as x6Graph } from '@antv/x6';
 import ToolbarUndo from '../../../../renderer/components/ModelEditor/ToolbarUndo';
 import actions from '../../../../renderer/services/model-editor/actions';
-import { Graph as x6Graph } from '@antv/x6';
 
 // Mock the actions service
 jest.mock('../../../../renderer/services/model-editor/actions', () => ({
@@ -39,9 +39,11 @@ describe('ToolbarUndo Component', () => {
 
   it('renders the undo toolbar item as enabled and handles undo action on click', () => {
     // Mock useSelector to return canUndo as true
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      modelEditor: { canUndo: true },
-    }));
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        modelEditor: { canUndo: true },
+      }),
+    );
 
     render(<ToolbarUndo graph={mockGraph} />);
 
@@ -59,9 +61,11 @@ describe('ToolbarUndo Component', () => {
 
   it('renders the undo toolbar item as disabled when canUndo is false', () => {
     // Mock useSelector to return canUndo as false
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      modelEditor: { canUndo: false },
-    }));
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        modelEditor: { canUndo: false },
+      }),
+    );
 
     render(<ToolbarUndo graph={mockGraph} />);
 

@@ -81,7 +81,9 @@ describe('TableCellActionsEdit Component', () => {
 
     // Ensure the popup content disappears
     await waitFor(() => {
-      expect(screen.queryByTestId('edit-popup-content')).not.toBeInTheDocument();
+      expect(
+        screen.queryByTestId('edit-popup-content'),
+      ).not.toBeInTheDocument();
     });
   });
 
@@ -100,7 +102,9 @@ describe('TableCellActionsEdit Component', () => {
 
     // Ensure the popup content disappears after clicking outside
     await waitFor(() => {
-      expect(screen.queryByTestId('edit-popup-content')).not.toBeInTheDocument();
+      expect(
+        screen.queryByTestId('edit-popup-content'),
+      ).not.toBeInTheDocument();
     });
   });
 });

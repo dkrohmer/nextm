@@ -1,5 +1,4 @@
 import { renderHook } from '@testing-library/react-hooks';
-import { useSelector } from 'react-redux';
 import { Graph } from '@antv/x6';
 import useLoadLatestGraph from '../../../../renderer/hooks/model-editor/useLoadLatestGraph';
 
@@ -34,13 +33,16 @@ describe('useLoadLatestGraph hook', () => {
             },
           },
         },
-      })
+      }),
     );
 
     const { result } = renderHook(() => useLoadLatestGraph(mockGraph as Graph));
 
     // Ensure the graph is loaded with the cells from the latest version
-    expect(mockGraph.fromJSON).toHaveBeenCalledWith({ id: 'cell1', type: 'node' });
+    expect(mockGraph.fromJSON).toHaveBeenCalledWith({
+      id: 'cell1',
+      type: 'node',
+    });
   });
 
   it('should zoom to the latest version’s dimensions if available on first load', () => {
@@ -57,13 +59,18 @@ describe('useLoadLatestGraph hook', () => {
             width: 500,
           },
         },
-      })
+      }),
     );
 
     const { result } = renderHook(() => useLoadLatestGraph(mockGraph as Graph));
 
     // Ensure the graph zooms to the rect provided by the latest version
-    expect(mockGraph.zoomToRect).toHaveBeenCalledWith({ x: 100, y: 100, height: 500, width: 500 });
+    expect(mockGraph.zoomToRect).toHaveBeenCalledWith({
+      x: 100,
+      y: 100,
+      height: 500,
+      width: 500,
+    });
   });
 
   it('should zoom to fit if dimensions are missing on first load', () => {
@@ -80,20 +87,22 @@ describe('useLoadLatestGraph hook', () => {
             width: null,
           },
         },
-      })
+      }),
     );
 
     const { result } = renderHook(() => useLoadLatestGraph(mockGraph as Graph));
 
     // Ensure the graph zooms to fit since no dimensions are provided
-    expect(mockGraph.zoomToFit).toHaveBeenCalledWith({ padding: { left: 200, right: 200 } });
+    expect(mockGraph.zoomToFit).toHaveBeenCalledWith({
+      padding: { left: 200, right: 200 },
+    });
   });
 
   it('should not do anything if graph or latestVersion is missing', () => {
     mockUseSelector.mockImplementation((selector: any) =>
       selector({
         versions: { latestVersion: null },
-      })
+      }),
     );
 
     const { result } = renderHook(() => useLoadLatestGraph(undefined));

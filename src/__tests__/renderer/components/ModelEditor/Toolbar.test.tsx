@@ -3,25 +3,109 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
+import { Graph as x6Graph } from '@antv/x6';
 import CustomToolbar from '../../../../renderer/components/ModelEditor/Toolbar';
 import modelEditorReducer from '../../../../renderer/store/modelEditor';
-import { Graph as x6Graph } from '@antv/x6';
 
 // Mock the sub-components
-jest.mock('../../../../renderer/components/ModelEditor/ToolbarSave', () => () => <div data-testid="toolbar-save">ToolbarSave</div>);
-jest.mock('../../../../renderer/components/ModelEditor/ToolbarExport', () => () => <div data-testid="toolbar-export">ToolbarExport</div>);
-jest.mock('../../../../renderer/components/ModelEditor/ToolbarImport', () => () => <div data-testid="toolbar-import">ToolbarImport</div>);
-jest.mock('../../../../renderer/components/ModelEditor/ToolbarFitView', () => () => <div data-testid="toolbar-fitview">ToolbarFitView</div>);
-jest.mock('../../../../renderer/components/ModelEditor/ToolbarZoomIn', () => () => <div data-testid="toolbar-zoomin">ToolbarZoomIn</div>);
-jest.mock('../../../../renderer/components/ModelEditor/ToolbarZoomOut', () => () => <div data-testid="toolbar-zoomout">ToolbarZoomOut</div>);
-jest.mock('../../../../renderer/components/ModelEditor/ToolbarUndo', () => () => <div data-testid="toolbar-undo">ToolbarUndo</div>);
-jest.mock('../../../../renderer/components/ModelEditor/ToolbarRedo', () => () => <div data-testid="toolbar-redo">ToolbarRedo</div>);
-jest.mock('../../../../renderer/components/ModelEditor/ToolbarSelectAll', () => () => <div data-testid="toolbar-selectall">ToolbarSelectAll</div>);
-jest.mock('../../../../renderer/components/ModelEditor/ToolbarCut', () => () => <div data-testid="toolbar-cut">ToolbarCut</div>);
-jest.mock('../../../../renderer/components/ModelEditor/ToolbarCopy', () => () => <div data-testid="toolbar-copy">ToolbarCopy</div>);
-jest.mock('../../../../renderer/components/ModelEditor/ToolbarPaste', () => () => <div data-testid="toolbar-paste">ToolbarPaste</div>);
-jest.mock('../../../../renderer/components/ModelEditor/ToolbarDelete', () => () => <div data-testid="toolbar-delete">ToolbarDelete</div>);
-jest.mock('../../../../renderer/components/ModelEditor/ToolbarSaveAndClose', () => () => <div data-testid="toolbar-saveandclose">ToolbarSaveAndClose</div>);
+jest.mock(
+  '../../../../renderer/components/ModelEditor/ToolbarSave',
+  () =>
+    function () {
+      return <div data-testid="toolbar-save">ToolbarSave</div>;
+    },
+);
+jest.mock(
+  '../../../../renderer/components/ModelEditor/ToolbarExport',
+  () =>
+    function () {
+      return <div data-testid="toolbar-export">ToolbarExport</div>;
+    },
+);
+jest.mock(
+  '../../../../renderer/components/ModelEditor/ToolbarImport',
+  () =>
+    function () {
+      return <div data-testid="toolbar-import">ToolbarImport</div>;
+    },
+);
+jest.mock(
+  '../../../../renderer/components/ModelEditor/ToolbarFitView',
+  () =>
+    function () {
+      return <div data-testid="toolbar-fitview">ToolbarFitView</div>;
+    },
+);
+jest.mock(
+  '../../../../renderer/components/ModelEditor/ToolbarZoomIn',
+  () =>
+    function () {
+      return <div data-testid="toolbar-zoomin">ToolbarZoomIn</div>;
+    },
+);
+jest.mock(
+  '../../../../renderer/components/ModelEditor/ToolbarZoomOut',
+  () =>
+    function () {
+      return <div data-testid="toolbar-zoomout">ToolbarZoomOut</div>;
+    },
+);
+jest.mock(
+  '../../../../renderer/components/ModelEditor/ToolbarUndo',
+  () =>
+    function () {
+      return <div data-testid="toolbar-undo">ToolbarUndo</div>;
+    },
+);
+jest.mock(
+  '../../../../renderer/components/ModelEditor/ToolbarRedo',
+  () =>
+    function () {
+      return <div data-testid="toolbar-redo">ToolbarRedo</div>;
+    },
+);
+jest.mock(
+  '../../../../renderer/components/ModelEditor/ToolbarSelectAll',
+  () =>
+    function () {
+      return <div data-testid="toolbar-selectall">ToolbarSelectAll</div>;
+    },
+);
+jest.mock(
+  '../../../../renderer/components/ModelEditor/ToolbarCut',
+  () =>
+    function () {
+      return <div data-testid="toolbar-cut">ToolbarCut</div>;
+    },
+);
+jest.mock(
+  '../../../../renderer/components/ModelEditor/ToolbarCopy',
+  () =>
+    function () {
+      return <div data-testid="toolbar-copy">ToolbarCopy</div>;
+    },
+);
+jest.mock(
+  '../../../../renderer/components/ModelEditor/ToolbarPaste',
+  () =>
+    function () {
+      return <div data-testid="toolbar-paste">ToolbarPaste</div>;
+    },
+);
+jest.mock(
+  '../../../../renderer/components/ModelEditor/ToolbarDelete',
+  () =>
+    function () {
+      return <div data-testid="toolbar-delete">ToolbarDelete</div>;
+    },
+);
+jest.mock(
+  '../../../../renderer/components/ModelEditor/ToolbarSaveAndClose',
+  () =>
+    function () {
+      return <div data-testid="toolbar-saveandclose">ToolbarSaveAndClose</div>;
+    },
+);
 
 // Create a mock Graph instance
 const mockGraph = new x6Graph({

@@ -1,9 +1,9 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import ImportModalSubmitButton from '../../../../renderer/components/ModelEditor/ImportModalSubmitButton'; // Adjust the import path if necessary
 import { useSelector } from 'react-redux';
 import { jest } from '@jest/globals';
+import ImportModalSubmitButton from '../../../../renderer/components/ModelEditor/ImportModalSubmitButton'; // Adjust the import path if necessary
 
 // Mock useSelector hook
 const mockUseSelector = jest.fn();
@@ -19,11 +19,13 @@ describe('ImportModalSubmitButton Component', () => {
 
   it('renders the submit button as enabled when importIsFileValid is true', () => {
     // Set up the mock to return importIsFileValid = true
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      modelEditor: {
-        importIsFileValid: true,
-      }
-    }));
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        modelEditor: {
+          importIsFileValid: true,
+        },
+      }),
+    );
 
     render(<ImportModalSubmitButton />);
 
@@ -34,11 +36,13 @@ describe('ImportModalSubmitButton Component', () => {
 
   it('renders the submit button as disabled when importIsFileValid is false', () => {
     // Set up the mock to return importIsFileValid = false
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      modelEditor: {
-        importIsFileValid: false,
-      }
-    }));
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        modelEditor: {
+          importIsFileValid: false,
+        },
+      }),
+    );
 
     render(<ImportModalSubmitButton />);
 
@@ -49,11 +53,13 @@ describe('ImportModalSubmitButton Component', () => {
 
   it('renders the submit button with correct attributes', () => {
     // Set up the mock to return default values
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      modelEditor: {
-        importIsFileValid: true, // Or false, the attributes shouldn't change
-      }
-    }));
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        modelEditor: {
+          importIsFileValid: true, // Or false, the attributes shouldn't change
+        },
+      }),
+    );
 
     render(<ImportModalSubmitButton />);
 

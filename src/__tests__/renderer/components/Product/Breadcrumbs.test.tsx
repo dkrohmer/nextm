@@ -18,7 +18,8 @@ jest.mock('react-router-dom', () => ({
 // Mock state
 const mockState: Partial<RootState> = {
   products: {
-    ...initialProductsState, product: { id: 'product-123', name: 'Test Product', createdAt: '1' },
+    ...initialProductsState,
+    product: { id: 'product-123', name: 'Test Product', createdAt: '1' },
   },
 };
 
@@ -32,7 +33,7 @@ const renderWithProviders = (component: React.ReactElement) => {
   return render(
     <Provider store={store}>
       <MemoryRouter>{component}</MemoryRouter>
-    </Provider>
+    </Provider>,
   );
 };
 
@@ -63,7 +64,7 @@ describe('Breadcrumbs Component', () => {
   it('renders "Loading..." when product is not available', () => {
     // Mock state where product is undefined
     const mockEmptyState: Partial<RootState> = {
-      products:  {...initialProductsState, product: null },
+      products: { ...initialProductsState, product: null },
     };
 
     const emptyStore = configureStore({
@@ -77,7 +78,7 @@ describe('Breadcrumbs Component', () => {
         <MemoryRouter>
           <Breadcrumbs />
         </MemoryRouter>
-      </Provider>
+      </Provider>,
     );
 
     expect(screen.getByText('Loading...')).toBeInTheDocument();

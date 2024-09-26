@@ -1,9 +1,9 @@
 import React from 'react';
 import { render, screen, fireEvent, within } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import { jest } from '@jest/globals';
 import ExportModalPng from '../../../../renderer/components/ModelEditor/ExportModalPng'; // Adjust the path as needed
 import { setExportFormat } from '../../../../renderer/store/modelEditor';
-import { jest } from '@jest/globals';
 
 // Mock useDispatch and useSelector hooks
 const mockDispatch = jest.fn();
@@ -21,11 +21,13 @@ describe('ExportModalPng Component', () => {
 
   it('renders the radio button with the correct state when exportFormat is "png"', () => {
     // Set up the mock to return exportFormat as "png"
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      modelEditor: {
-        exportFormat: 'png',
-      }
-    }));
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        modelEditor: {
+          exportFormat: 'png',
+        },
+      }),
+    );
 
     render(<ExportModalPng />);
 
@@ -39,11 +41,13 @@ describe('ExportModalPng Component', () => {
 
   it('renders the radio button with the correct state when exportFormat is not "png"', () => {
     // Set up the mock to return exportFormat as something other than "png"
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      modelEditor: {
-        exportFormat: 'jpeg',
-      }
-    }));
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        modelEditor: {
+          exportFormat: 'jpeg',
+        },
+      }),
+    );
 
     render(<ExportModalPng />);
 
@@ -57,11 +61,13 @@ describe('ExportModalPng Component', () => {
 
   it('dispatches setExportFormat with "png" when the radio button is clicked', () => {
     // Set up the mock to return any initial exportFormat
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      modelEditor: {
-        exportFormat: 'jpeg', // or any format other than "png"
-      }
-    }));
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        modelEditor: {
+          exportFormat: 'jpeg', // or any format other than "png"
+        },
+      }),
+    );
 
     render(<ExportModalPng />);
 

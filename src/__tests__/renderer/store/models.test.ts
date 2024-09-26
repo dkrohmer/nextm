@@ -8,7 +8,12 @@ import reducer, {
   setModelToDelete,
   ModelsState,
 } from '../../../renderer/store/models';
-import { fetchModels, fetchModel, addOrUpdateModel, deleteModel } from '../../../renderer/services/api/models';
+import {
+  fetchModels,
+  fetchModel,
+  addOrUpdateModel,
+  deleteModel,
+} from '../../../renderer/services/api/models';
 import { IModel } from '../../../renderer/interfaces/IModel';
 
 describe('modelsSlice', () => {
@@ -34,7 +39,12 @@ describe('modelsSlice', () => {
   });
 
   it('should handle setModelsCurrentModel', () => {
-    const mockModel: IModel = { id: '1', name: 'Test Model', createdAt: '1', incrementId: '1'  }; // mock model object
+    const mockModel: IModel = {
+      id: '1',
+      name: 'Test Model',
+      createdAt: '1',
+      incrementId: '1',
+    }; // mock model object
     const state = reducer(initialState, setModelsCurrentModel(mockModel));
     expect(state.modelsCurrentModel).toEqual(mockModel);
   });
@@ -57,7 +67,10 @@ describe('modelsSlice', () => {
     });
 
     it('should handle fetchModels.fulfilled', () => {
-      const mockModels: IModel[] = [{ id: '1', name: 'Model 1', createdAt: '1', incrementId: '1'  }, { id: '2', name: 'Model 2', createdAt: '2', incrementId: '2'  }];
+      const mockModels: IModel[] = [
+        { id: '1', name: 'Model 1', createdAt: '1', incrementId: '1' },
+        { id: '2', name: 'Model 2', createdAt: '2', incrementId: '2' },
+      ];
       const action = { type: fetchModels.fulfilled.type, payload: mockModels };
       const state = reducer(initialState, action);
       expect(state.models).toEqual(mockModels);
@@ -65,7 +78,10 @@ describe('modelsSlice', () => {
     });
 
     it('should handle fetchModels.rejected', () => {
-      const action = { type: fetchModels.rejected.type, payload: 'Error fetching models' };
+      const action = {
+        type: fetchModels.rejected.type,
+        payload: 'Error fetching models',
+      };
       const state = reducer(initialState, action);
       expect(state.modelsIsLoading).toBe(false);
       expect(state.modelsError).toBe('Error fetching models');
@@ -79,7 +95,12 @@ describe('modelsSlice', () => {
     });
 
     it('should handle fetchModel.fulfilled', () => {
-      const mockModel: IModel = { id: '1', name: 'Model 1', createdAt: '1', incrementId: '1'  };
+      const mockModel: IModel = {
+        id: '1',
+        name: 'Model 1',
+        createdAt: '1',
+        incrementId: '1',
+      };
       const action = { type: fetchModel.fulfilled.type, payload: mockModel };
       const state = reducer(initialState, action);
       expect(state.model).toEqual(mockModel);
@@ -88,7 +109,10 @@ describe('modelsSlice', () => {
     });
 
     it('should handle fetchModel.rejected', () => {
-      const action = { type: fetchModel.rejected.type, payload: 'Error fetching model' };
+      const action = {
+        type: fetchModel.rejected.type,
+        payload: 'Error fetching model',
+      };
       const state = reducer(initialState, action);
       expect(state.modelIsLoading).toBe(false);
       expect(state.modelIsLoaded).toBe(false);
@@ -96,11 +120,24 @@ describe('modelsSlice', () => {
     });
 
     it('should handle addOrUpdateModel.fulfilled with existing model', () => {
-      const existingModel: IModel = { id: '1', name: 'Existing Model', createdAt: '1', incrementId: '1'  };
-      const newModel: IModel = { id: '1', name: 'Updated Model' , createdAt: '1', incrementId: '1' };
+      const existingModel: IModel = {
+        id: '1',
+        name: 'Existing Model',
+        createdAt: '1',
+        incrementId: '1',
+      };
+      const newModel: IModel = {
+        id: '1',
+        name: 'Updated Model',
+        createdAt: '1',
+        incrementId: '1',
+      };
 
       initialState.models = [existingModel];
-      const action = { type: addOrUpdateModel.fulfilled.type, payload: newModel };
+      const action = {
+        type: addOrUpdateModel.fulfilled.type,
+        payload: newModel,
+      };
       const state = reducer(initialState, action);
 
       expect(state.models[0]).toEqual(newModel);
@@ -108,9 +145,17 @@ describe('modelsSlice', () => {
     });
 
     it('should handle addOrUpdateModel.fulfilled with new model', () => {
-      const newModel: IModel = { id: '2', name: 'New Model', createdAt: '2', incrementId: '2'  };
+      const newModel: IModel = {
+        id: '2',
+        name: 'New Model',
+        createdAt: '2',
+        incrementId: '2',
+      };
 
-      const action = { type: addOrUpdateModel.fulfilled.type, payload: newModel };
+      const action = {
+        type: addOrUpdateModel.fulfilled.type,
+        payload: newModel,
+      };
       const state = reducer(initialState, action);
 
       expect(state.models[0]).toEqual(newModel);
@@ -118,13 +163,19 @@ describe('modelsSlice', () => {
     });
 
     it('should handle addOrUpdateModel.rejected', () => {
-      const action = { type: addOrUpdateModel.rejected.type, payload: 'Error adding/updating model' };
+      const action = {
+        type: addOrUpdateModel.rejected.type,
+        payload: 'Error adding/updating model',
+      };
       const state = reducer(initialState, action);
       expect(state.modelsError).toBe('Error adding/updating model');
     });
 
     it('should handle deleteModel.fulfilled', () => {
-      const existingModels: IModel[] = [{ id: '1', name: 'Model 1', createdAt: '1', incrementId: '1' }, { id: '2', name: 'Model 2', createdAt: '2', incrementId: '2'  }];
+      const existingModels: IModel[] = [
+        { id: '1', name: 'Model 1', createdAt: '1', incrementId: '1' },
+        { id: '2', name: 'Model 2', createdAt: '2', incrementId: '2' },
+      ];
 
       initialState.models = existingModels;
       const action = { type: deleteModel.fulfilled.type, payload: '1' };
@@ -136,7 +187,10 @@ describe('modelsSlice', () => {
     });
 
     it('should handle deleteModel.rejected', () => {
-      const action = { type: deleteModel.rejected.type, payload: 'Error deleting model' };
+      const action = {
+        type: deleteModel.rejected.type,
+        payload: 'Error deleting model',
+      };
       const state = reducer(initialState, action);
       expect(state.modelsError).toBe('Error deleting model');
       expect(state.modelsConfirmOpen).toBe(false);

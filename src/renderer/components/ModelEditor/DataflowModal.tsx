@@ -19,12 +19,12 @@ const DataflowModal: React.FC<DataflowModalProps> = ({ graph }) => {
   /**
    * global states
    */
-  const { 
-    dataflowModalOpen, 
-    dataflowModalSelectedCell, 
-    dataflowStride, 
-    dataflowLabel, 
-    dataflowProtocol 
+  const {
+    dataflowModalOpen,
+    dataflowModalSelectedCell,
+    dataflowStride,
+    dataflowLabel,
+    dataflowProtocol,
   } = useSelector((state: RootState) => state.modelEditor);
 
   /**
@@ -39,37 +39,40 @@ const DataflowModal: React.FC<DataflowModalProps> = ({ graph }) => {
     if (dataflowModalSelectedCell) {
       const cell = graph.getCellById(dataflowModalSelectedCell);
       if (cell.isEdge()) {
-        const strideString = (Object.keys(dataflowStride) as Array<keyof DataflowStride>)
+        const strideString = (
+          Object.keys(dataflowStride) as Array<keyof DataflowStride>
+        )
           .filter((key) => dataflowStride[key])
           .map((key) => key.charAt(0).toUpperCase())
           .join(' ');
-        const label = dataflow.setDataflowLabel(dataflowLabel, dataflowProtocol, strideString);
+        const label = dataflow.setDataflowLabel(
+          dataflowLabel,
+          dataflowProtocol,
+          strideString,
+        );
         cell.setLabelAt(0, label);
       }
       dispatch(setDataflowModalOpen(false));
     }
-  }
+  };
 
   const handleCancel = () => {
     dispatch(setDataflowModalOpen(false));
-  }
+  };
 
   /**
    * tsx
    */
   return (
-    <Modal 
-      open={dataflowModalOpen} 
-      onClose={handleCancel} 
+    <Modal
+      open={dataflowModalOpen}
+      onClose={handleCancel}
       dimmer="blurring"
       data-testid="dataflow-modal"
     >
       <Modal.Header>Edit Dataflow</Modal.Header>
       <Modal.Content>
-        <Form 
-          onSubmit={handleSubmit} 
-          data-testid="dataflow-modal-form"
-        >
+        <Form onSubmit={handleSubmit} data-testid="dataflow-modal-form">
           <DataflowModalName />
           <DataflowModalProtocol />
           <DataflowModalStride />

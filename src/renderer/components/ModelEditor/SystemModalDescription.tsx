@@ -8,18 +8,22 @@ const SystemModalDescription: React.FC = () => {
   /**
    * hooks
    */
-  const dispatch = useDispatch<AppDispatch>()
-  
+  const dispatch = useDispatch<AppDispatch>();
+
   /**
    * global states
    */
-  const { systemDescription } = useSelector((state: RootState) => state.modelEditor);
-  
+  const { systemDescription } = useSelector(
+    (state: RootState) => state.modelEditor,
+  );
+
   /**
    * handlers
    */
-  const handleDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    let value = e.target.value;
+  const handleDescriptionChange = (
+    e: React.ChangeEvent<HTMLTextAreaElement>,
+  ) => {
+    let { value } = e.target;
 
     if (value.length > 5000) {
       value = value.slice(0, 4999);

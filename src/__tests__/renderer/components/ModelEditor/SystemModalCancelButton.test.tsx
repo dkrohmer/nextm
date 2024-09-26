@@ -17,17 +17,17 @@ describe('SystemModalCancelButton Component', () => {
 
   it('renders the cancel button', () => {
     render(<SystemModalCancelButton />);
-    
+
     // Check if the button is rendered with the correct label
     expect(screen.getByRole('button', { name: /Cancel/i })).toBeInTheDocument();
   });
 
   it('dispatches setSystemModalOpen(false) when clicked', () => {
     render(<SystemModalCancelButton />);
-    
+
     // Trigger the click event on the button
     fireEvent.click(screen.getByRole('button', { name: /Cancel/i }));
-    
+
     // Verify that the correct action is dispatched
     expect(mockDispatch).toHaveBeenCalledWith(setSystemModalOpen(false));
   });

@@ -51,7 +51,14 @@ const mockProduct: IProduct = {
 const store = configureStore({
   reducer: {
     models: modelsReducer,
-    versions: (state = { latestVersionThumbnails: {}, latestVersionThumbnailsIsLoading: {}, latestVersionThumbnailsError: {} }, action) => state,
+    versions: (
+      state = {
+        latestVersionThumbnails: {},
+        latestVersionThumbnailsIsLoading: {},
+        latestVersionThumbnailsError: {},
+      },
+      action,
+    ) => state,
   },
 });
 
@@ -59,10 +66,8 @@ describe('Model Component', () => {
   const renderWithProviders = (component: React.ReactElement) => {
     return render(
       <Provider store={store}>
-        <MemoryRouter>
-          {component}
-        </MemoryRouter>
-      </Provider>
+        <MemoryRouter>{component}</MemoryRouter>
+      </Provider>,
     );
   };
 
@@ -72,7 +77,11 @@ describe('Model Component', () => {
 
   it('renders the model details and handles navigation', () => {
     renderWithProviders(
-      <Model model={mockModel} increment={mockIncrement} product={mockProduct} />
+      <Model
+        model={mockModel}
+        increment={mockIncrement}
+        product={mockProduct}
+      />,
     );
 
     // Check if the model name and created date are rendered
@@ -83,12 +92,18 @@ describe('Model Component', () => {
     fireEvent.click(screen.getByText(mockModel.name));
 
     // Verify that navigate was called with the correct URL
-    expect(navigateMock).toHaveBeenCalledWith(`/products/${mockProduct.id}/increments/${mockIncrement.id}/models/${mockModel.id}`);
+    expect(navigateMock).toHaveBeenCalledWith(
+      `/products/${mockProduct.id}/increments/${mockIncrement.id}/models/${mockModel.id}`,
+    );
   });
 
   it('calls useFetchVersionThumbnail with the correct model id', () => {
     renderWithProviders(
-      <Model model={mockModel} increment={mockIncrement} product={mockProduct} />
+      <Model
+        model={mockModel}
+        increment={mockIncrement}
+        product={mockProduct}
+      />,
     );
 
     // Verify that useFetchVersionThumbnail was called with the correct model id
@@ -97,21 +112,25 @@ describe('Model Component', () => {
 
   it('should trigger handleMouseEnter and handleMouseLeave', () => {
     renderWithProviders(
-      <Model model={mockModel} increment={mockIncrement} product={mockProduct} />
+      <Model
+        model={mockModel}
+        increment={mockIncrement}
+        product={mockProduct}
+      />,
     );
-  
+
     const modelItem = screen.getByTestId('model-item');
-  
+
     // Simulate mouse enter to trigger handleMouseEnter
     fireEvent.mouseEnter(modelItem);
-    
+
     // The Actions component should now be visible due to hovering
     const actions = screen.getByTestId('model-actions-container');
     expect(actions).toBeVisible();
-  
+
     // Simulate mouse leave to trigger handleMouseLeave
     fireEvent.mouseLeave(modelItem);
-  
+
     // The Actions component should no longer be visible
     expect(actions).not.toBeVisible();
   });

@@ -4,8 +4,17 @@ import { Modal as SemanticModal, Form } from 'semantic-ui-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store';
 import { IModel } from '../../interfaces/IModel';
-import { addOrUpdateModel, fetchModel, fetchModels } from '../../services/api/models';
-import { setModelsCurrentModel, setModelsIsCloning, setModelsIsEditing, setModelsModalOpen } from '../../store/models';
+import {
+  addOrUpdateModel,
+  fetchModel,
+  fetchModels,
+} from '../../services/api/models';
+import {
+  setModelsCurrentModel,
+  setModelsIsCloning,
+  setModelsIsEditing,
+  setModelsModalOpen,
+} from '../../store/models';
 import ModalName from './ModalName';
 import ModalSubmitButton from './ModalSubmitButton';
 import ModalCancelButton from './ModalCancelButton';
@@ -18,11 +27,11 @@ const Modal: React.FC = () => {
     modelsIsEditing,
     modelsModalOpen,
     modelsIsCloning,
-    modelsCurrentModel
+    modelsCurrentModel,
   } = useSelector((state: RootState) => state.models);
 
   /**
-   * hooks 
+   * hooks
    */
   const { incrementId } = useParams<{ incrementId: string }>();
   const dispatch = useDispatch<AppDispatch>();
@@ -33,10 +42,10 @@ const Modal: React.FC = () => {
   const handleSubmit = async () => {
     if (modelsCurrentModel && incrementId) {
       let model: IModel;
-  
+
       if (modelsIsCloning) {
         const cloneResponse = await dispatch(
-          fetchModel({ modelId: modelsCurrentModel.id, isEagerLoading: true })
+          fetchModel({ modelId: modelsCurrentModel.id, isEagerLoading: true }),
         );
         if (fetchModel.fulfilled.match(cloneResponse)) {
           const eagerModel: IModel = cloneResponse.payload;
@@ -63,24 +72,19 @@ const Modal: React.FC = () => {
   const handleModalHeader = () => {
     if (modelsIsCloning) {
       return 'Clone Model';
-    } else if (modelsIsEditing) {
-      return 'Edit Model';
-    } else {
-      return 'Add Model';
     }
+    if (modelsIsEditing) {
+      return 'Edit Model';
+    }
+    return 'Add Model';
   };
 
   /**
    * tsx
    */
   return (
-    <SemanticModal
-      open={modelsModalOpen}
-      dimmer="blurring"
-    >
-      <SemanticModal.Header>
-        {handleModalHeader()}
-      </SemanticModal.Header>
+    <SemanticModal open={modelsModalOpen} dimmer="blurring">
+      <SemanticModal.Header>{handleModalHeader()}</SemanticModal.Header>
       <SemanticModal.Content>
         <Form onSubmit={handleSubmit}>
           <ModalName />

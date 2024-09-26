@@ -17,7 +17,7 @@ const Loader: React.FC<LoaderProps> = ({ isLoading }) => {
         </Dimmer>
       )}
     </>
-  )
+  );
 };
 
 export default Loader;

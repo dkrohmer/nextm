@@ -4,8 +4,8 @@ import '@testing-library/jest-dom';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import { MemoryRouter } from 'react-router-dom';
-import Breadcrumbs from '../../../../renderer/components/ModelEditor/Breadcrumbs';
 import { Graph } from '@antv/x6';
+import Breadcrumbs from '../../../../renderer/components/ModelEditor/Breadcrumbs';
 
 // Mocking the useNavigate hook
 const navigateMock = jest.fn();
@@ -50,10 +50,8 @@ const store = configureStore({
 const renderWithProviders = (component: React.ReactElement) => {
   return render(
     <Provider store={store}>
-      <MemoryRouter>
-        {component}
-      </MemoryRouter>
-    </Provider>
+      <MemoryRouter>{component}</MemoryRouter>
+    </Provider>,
   );
 };
 
@@ -92,7 +90,9 @@ describe('Breadcrumbs Component', () => {
     fireEvent.click(screen.getByText('Test Increment'));
 
     await waitFor(() => {
-      expect(navigateMock).toHaveBeenCalledWith('/products/product-123/increments/increment-456');
+      expect(navigateMock).toHaveBeenCalledWith(
+        '/products/product-123/increments/increment-456',
+      );
     });
   });
 

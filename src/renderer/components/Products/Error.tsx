@@ -19,6 +19,6 @@ const Error: React.FC<ProductsErrorProps> = ({ error }) => {
       </Table.Cell>
     </Table.Row>
   );
-}
+};
 
 export default Error;

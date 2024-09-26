@@ -7,21 +7,15 @@ const ModalSubmitButton: React.FC = () => {
   /**
    * global states
    */
-  const {
-    incrementsIsEditing,
-    incrementsIsCloning,
-  } = useSelector((state: RootState) => state.increments);
-  
+  const { incrementsIsEditing, incrementsIsCloning } = useSelector(
+    (state: RootState) => state.increments,
+  );
+
   /**
    * handlers
    */
-  const handleSubmitButtonText = () => (
-    incrementsIsCloning
-    ? 'Clone'
-    : incrementsIsEditing
-      ? 'Edit'
-      : 'Add'
-  );
+  const handleSubmitButtonText = () =>
+    incrementsIsCloning ? 'Clone' : incrementsIsEditing ? 'Edit' : 'Add';
 
   /**
    * tsx
@@ -30,7 +24,7 @@ const ModalSubmitButton: React.FC = () => {
     <Form.Button primary type="submit">
       {handleSubmitButtonText()}
     </Form.Button>
-  )
-}
+  );
+};
 
 export default ModalSubmitButton;

@@ -1,9 +1,9 @@
 // src/__tests__/renderer/hooks/useFetchProduct.test.ts
 
 import { render } from '@testing-library/react';
-import useFetchProduct from '../../../renderer/hooks/useFetchProduct';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import useFetchProduct from '../../../renderer/hooks/useFetchProduct';
 import { fetchProduct } from '../../../renderer/services/api/products';
 
 // Mock dependencies
@@ -20,10 +20,10 @@ jest.mock('../../../renderer/services/api/products', () => ({
 }));
 
 // Helper component to test the hook
-const TestComponent = () => {
+function TestComponent() {
   useFetchProduct();
   return null;
-};
+}
 
 describe('useFetchProduct', () => {
   let dispatchMock: jest.Mock;
@@ -43,7 +43,7 @@ describe('useFetchProduct', () => {
     render(<TestComponent />);
 
     expect(dispatchMock).toHaveBeenCalledWith(
-      fetchProduct({ productId: '123', isEagerLoading: false })
+      fetchProduct({ productId: '123', isEagerLoading: false }),
     );
   });
 
@@ -63,14 +63,14 @@ describe('useFetchProduct', () => {
 
   it('should dispatch fetchProduct again if productId changes', () => {
     const { rerender } = render(<TestComponent />);
-    
+
     // Re-render with a different productId
     (useParams as jest.Mock).mockReturnValue({ productId: '456' });
     rerender(<TestComponent />);
 
     expect(dispatchMock).toHaveBeenCalledTimes(2); // Once for each valid productId
     expect(dispatchMock).toHaveBeenCalledWith(
-      fetchProduct({ productId: '456', isEagerLoading: false })
+      fetchProduct({ productId: '456', isEagerLoading: false }),
     );
   });
 });

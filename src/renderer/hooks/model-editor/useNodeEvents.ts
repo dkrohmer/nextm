@@ -25,8 +25,12 @@ import {
 
 const useNodeEvents = (graph?: Graph) => {
   const dispatch = useDispatch<AppDispatch>();
-  const { selectedNodeId } = useSelector((state: RootState) => state.modelEditor);
-  const { explicitObjectSelection } = useSelector((state: RootState) => state.settings);
+  const { selectedNodeId } = useSelector(
+    (state: RootState) => state.modelEditor,
+  );
+  const { explicitObjectSelection } = useSelector(
+    (state: RootState) => state.settings,
+  );
 
   useEffect(() => {
     if (!graph) return;
@@ -47,7 +51,10 @@ const useNodeEvents = (graph?: Graph) => {
 
     const nodeContextmenu = ({ cell, e }: { cell: Cell; e: MouseEvent }) => {
       if (graph.getSelectedCells().length <= 1 && cell.isNode()) {
-        if (!explicitObjectSelection || (selectedNodeId && cell.id === selectedNodeId)) {
+        if (
+          !explicitObjectSelection ||
+          (selectedNodeId && cell.id === selectedNodeId)
+        ) {
           e.stopPropagation();
           e.preventDefault();
           const inputValue = cell.getAttrs()!.text!.text! as string;

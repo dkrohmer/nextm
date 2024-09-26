@@ -1,8 +1,8 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import { jest } from '@jest/globals';
 import SystemModalStack from '../../../../renderer/components/ModelEditor/SystemModalStack'; // Adjust the import path if necessary
 import { setSystemStack } from '../../../../renderer/store/modelEditor';
-import { jest } from '@jest/globals';
 
 // Mock useDispatch and useSelector hooks
 const mockDispatch = jest.fn();
@@ -20,11 +20,13 @@ describe('SystemModalStack Component', () => {
 
   it('renders the input with the current system stack value', () => {
     // Set up the mock to return a non-null systemStack
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      modelEditor: {
-        systemStack: 'Existing System Stack',
-      }
-    }));
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        modelEditor: {
+          systemStack: 'Existing System Stack',
+        },
+      }),
+    );
 
     render(<SystemModalStack />);
 
@@ -35,11 +37,13 @@ describe('SystemModalStack Component', () => {
 
   it('renders the input with an empty value when systemStack is empty', () => {
     // Set up the mock to return an empty systemStack
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      modelEditor: {
-        systemStack: '',
-      }
-    }));
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        modelEditor: {
+          systemStack: '',
+        },
+      }),
+    );
 
     render(<SystemModalStack />);
 
@@ -50,11 +54,13 @@ describe('SystemModalStack Component', () => {
 
   it('dispatches setSystemStack action on input change', () => {
     // Set up the mock to return a non-null systemStack
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      modelEditor: {
-        systemStack: 'Existing System Stack',
-      }
-    }));
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        modelEditor: {
+          systemStack: 'Existing System Stack',
+        },
+      }),
+    );
 
     render(<SystemModalStack />);
 
@@ -64,24 +70,27 @@ describe('SystemModalStack Component', () => {
     });
 
     // Check if dispatch is called with the correct action
-    expect(mockDispatch).toHaveBeenCalledWith(setSystemStack('New System Stack'));
+    expect(mockDispatch).toHaveBeenCalledWith(
+      setSystemStack('New System Stack'),
+    );
   });
 
   it('should truncate the input value to 249 characters if it exceeds 250 characters', () => {
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      modelEditor: {
-        systemStack: 'Existing System Stack',
-      }
-    }));
-  
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        modelEditor: {
+          systemStack: 'Existing System Stack',
+        },
+      }),
+    );
+
     render(<SystemModalStack />);
-  
+
     const longStack = 'A'.repeat(260);
     fireEvent.change(screen.getByPlaceholderText('Add system stack...'), {
       target: { value: longStack },
     });
-  
+
     expect(mockDispatch).toHaveBeenCalledWith(setSystemStack('A'.repeat(249)));
   });
-  
 });

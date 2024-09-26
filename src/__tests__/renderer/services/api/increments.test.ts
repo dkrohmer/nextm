@@ -50,7 +50,9 @@ describe('Increments Thunks with Redux Store', () => {
     };
 
     // Dispatch the fetchIncrement thunk
-    await store.dispatch(fetchIncrement({ incrementId: '1', isEagerLoading: true }));
+    await store.dispatch(
+      fetchIncrement({ incrementId: '1', isEagerLoading: true }),
+    );
 
     // Check if the electron API was called correctly
     expect(window.electron.getIncrementById).toHaveBeenCalledWith({
@@ -64,7 +66,11 @@ describe('Increments Thunks with Redux Store', () => {
   });
 
   it('dispatches addOrUpdateIncrement and updates the store for an update', async () => {
-    const mockIncrement = { id: '1', name: 'Updated Increment', productId: '123' };
+    const mockIncrement = {
+      id: '1',
+      name: 'Updated Increment',
+      productId: '123',
+    };
 
     window.electron = {
       ...windowElectron,
@@ -72,7 +78,9 @@ describe('Increments Thunks with Redux Store', () => {
     };
 
     // Dispatch the addOrUpdateIncrement thunk
-    await store.dispatch(addOrUpdateIncrement({ increment: mockIncrement, productId: '123' }));
+    await store.dispatch(
+      addOrUpdateIncrement({ increment: mockIncrement, productId: '123' }),
+    );
 
     const state = store.getState().increments;
     expect(state.increments[0]).toEqual(mockIncrement);
@@ -85,7 +93,11 @@ describe('Increments Thunks with Redux Store', () => {
 
   it('dispatches addOrUpdateIncrement and updates the store for a new increment', async () => {
     const newIncrement = { id: '', name: 'New Increment', productId: '123' };
-    const mockCreatedIncrement = { id: '1', name: 'New Increment', productId: '123' };
+    const mockCreatedIncrement = {
+      id: '1',
+      name: 'New Increment',
+      productId: '123',
+    };
 
     window.electron = {
       ...windowElectron,
@@ -93,7 +105,9 @@ describe('Increments Thunks with Redux Store', () => {
     };
 
     // Dispatch the addOrUpdateIncrement thunk
-    await store.dispatch(addOrUpdateIncrement({ increment: newIncrement, productId: '123' }));
+    await store.dispatch(
+      addOrUpdateIncrement({ increment: newIncrement, productId: '123' }),
+    );
 
     const state = store.getState().increments;
     expect(state.increments[0]).toEqual(mockCreatedIncrement);
@@ -114,19 +128,23 @@ describe('Increments Thunks with Redux Store', () => {
 
     const state = store.getState().increments;
     expect(state.increments.find((inc) => inc.id === '1')).toBeUndefined();
-    expect(window.electron.deleteIncrement).toHaveBeenCalledWith({ incrementId: '1' });
+    expect(window.electron.deleteIncrement).toHaveBeenCalledWith({
+      incrementId: '1',
+    });
   });
 
   it('handles fetchIncrements failure correctly', async () => {
     // Mock the electron API to reject the call
     window.electron = {
       ...windowElectron,
-      getAllIncrements: jest.fn().mockRejectedValue(new Error('Failed to load increments.')),
+      getAllIncrements: jest
+        .fn()
+        .mockRejectedValue(new Error('Failed to load increments.')),
     };
-  
+
     // Dispatch the fetchIncrements thunk
     await store.dispatch(fetchIncrements({ productId: 'product-123' }));
-  
+
     // Check the state for the error
     const state = store.getState().increments;
     expect(state.incrementsError).toBe('Failed to load increments.');
@@ -135,14 +153,18 @@ describe('Increments Thunks with Redux Store', () => {
       sortby: 'incrementIndex',
       sort: 'desc',
     });
-  });  
+  });
 
   it('handles fetchIncrement failure correctly', async () => {
-    window.electron.getIncrementById = jest.fn().mockRejectedValue(new Error('Failed to load increment.'));
-  
+    window.electron.getIncrementById = jest
+      .fn()
+      .mockRejectedValue(new Error('Failed to load increment.'));
+
     // Dispatch the fetchIncrement thunk
-    await store.dispatch(fetchIncrement({ incrementId: '1', isEagerLoading: true }));
-  
+    await store.dispatch(
+      fetchIncrement({ incrementId: '1', isEagerLoading: true }),
+    );
+
     const state = store.getState().increments;
     expect(state.incrementError).toBe('Failed to load increment.');
     expect(window.electron.getIncrementById).toHaveBeenCalledWith({
@@ -150,24 +172,33 @@ describe('Increments Thunks with Redux Store', () => {
       isEagerLoading: true,
     });
   });
-  
+
   it('handles addOrUpdateIncrement failure correctly', async () => {
     const mockIncrement = { id: '1', name: 'Increment 1', productId: '1' };
-    window.electron.updateIncrement = jest.fn().mockRejectedValue(new Error('Failed to add or update increment.'));
+    window.electron.updateIncrement = jest
+      .fn()
+      .mockRejectedValue(new Error('Failed to add or update increment.'));
 
     // Dispatch the addOrUpdateIncrement thunk
-    await store.dispatch(addOrUpdateIncrement({ increment: mockIncrement, productId: 'product-123' }));
-  
+    await store.dispatch(
+      addOrUpdateIncrement({
+        increment: mockIncrement,
+        productId: 'product-123',
+      }),
+    );
+
     const state = store.getState().increments;
     expect(state.incrementsError).toBe('Failed to add or update increment.');
   });
-  
+
   it('handles deleteIncrement failure correctly', async () => {
-    window.electron.deleteIncrement = jest.fn().mockRejectedValue(new Error('Failed to delete increment.'));
-  
+    window.electron.deleteIncrement = jest
+      .fn()
+      .mockRejectedValue(new Error('Failed to delete increment.'));
+
     // Dispatch the deleteIncrement thunk
     await store.dispatch(deleteIncrement('1'));
-  
+
     const state = store.getState().increments;
     expect(state.incrementsError).toBe('Failed to delete increment.');
   });

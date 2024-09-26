@@ -1,10 +1,10 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import ToolbarSaveAndClose from '../../../../renderer/components/ModelEditor/ToolbarSaveAndClose';
-import { saveModel } from '../../../../renderer/utils/saveModel';
 import { Graph as x6Graph } from '@antv/x6';
 import { useNavigate, useParams } from 'react-router-dom';
+import ToolbarSaveAndClose from '../../../../renderer/components/ModelEditor/ToolbarSaveAndClose';
+import { saveModel } from '../../../../renderer/utils/saveModel';
 
 // Mock the `saveModel` utility function
 jest.mock('../../../../renderer/utils/saveModel', () => ({
@@ -58,11 +58,13 @@ describe('ToolbarSaveAndClose Component', () => {
 
   it('renders the save and close toolbar item and handles save and navigate on click', async () => {
     // Mock useSelector to return the latestVersion state
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      versions: {
-        latestVersion: { id: 'latestVersionId', payload: 'somePayload' },
-      },
-    }));
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        versions: {
+          latestVersion: { id: 'latestVersionId', payload: 'somePayload' },
+        },
+      }),
+    );
 
     render(<ToolbarSaveAndClose graph={mockGraph} />);
 
@@ -78,7 +80,7 @@ describe('ToolbarSaveAndClose Component', () => {
       'testModelId',
       mockGraph,
       { id: 'latestVersionId', payload: 'somePayload' },
-      mockDispatch
+      mockDispatch,
     );
   });
 });

@@ -10,6 +10,8 @@ describe('ModelCreatedAt Component', () => {
     render(<ModelCreatedAt createdAt={testDate} />);
 
     // Verify that the component renders the formatted date correctly
-    expect(screen.getByText(`Created at: ${formattedDate}`)).toBeInTheDocument();
+    expect(
+      screen.getByText(`Created at: ${formattedDate}`),
+    ).toBeInTheDocument();
   });
 });

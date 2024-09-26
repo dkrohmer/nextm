@@ -15,8 +15,8 @@ const Actions: React.FC<ActionsProps> = ({ model, isVisible }) => {
    * tsx
    */
   return (
-    <div 
-      className={`model-actions ${isVisible ? 'visible' : ''}`} 
+    <div
+      className={`model-actions ${isVisible ? 'visible' : ''}`}
       data-testid="model-actions-container"
     >
       <ModelActionsEdit model={model} />
@@ -24,6 +24,6 @@ const Actions: React.FC<ActionsProps> = ({ model, isVisible }) => {
       <ModelActionsDelete model={model} />
     </div>
   );
-}
+};
 
 export default Actions;

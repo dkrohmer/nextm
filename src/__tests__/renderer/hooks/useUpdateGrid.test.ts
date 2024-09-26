@@ -1,8 +1,6 @@
-// src/__tests__/hooks/useUpdateGrid.test.tsx
-
 import { renderHook } from '@testing-library/react';
-import useUpdateGrid from '../../../renderer/hooks/useUpdateGrid';
 import { Graph } from '@antv/x6';
+import useUpdateGrid from '../../../renderer/hooks/useUpdateGrid';
 
 // Mock Graph instance methods
 const mockHideGrid = jest.fn();
@@ -56,7 +54,7 @@ describe('useUpdateGrid', () => {
       ({ graph, gridVisible }) => useUpdateGrid(graph, gridVisible),
       {
         initialProps: { graph: mockGraph, gridVisible: 'dot' },
-      }
+      },
     );
 
     // Initially, the grid should be drawn with the 'dot' type

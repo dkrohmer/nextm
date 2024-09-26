@@ -1,8 +1,8 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import { jest } from '@jest/globals';
 import SystemModalDescription from '../../../../renderer/components/ModelEditor/SystemModalDescription';
 import { setSystemDescription } from '../../../../renderer/store/modelEditor';
-import { jest } from '@jest/globals';
 
 // Mock useDispatch and useSelector hooks
 const mockDispatch = jest.fn();
@@ -20,11 +20,13 @@ describe('SystemModalDescription Component', () => {
 
   it('renders the text area with the current system description', () => {
     // Set up the mock to return a description
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      modelEditor: {
-        systemDescription: 'Existing System Description',
-      }
-    }));
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        modelEditor: {
+          systemDescription: 'Existing System Description',
+        },
+      }),
+    );
 
     render(<SystemModalDescription />);
 
@@ -35,11 +37,13 @@ describe('SystemModalDescription Component', () => {
 
   it('renders the text area with an empty value when systemDescription is empty', () => {
     // Set up the mock to return an empty description
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      modelEditor: {
-        systemDescription: '',
-      }
-    }));
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        modelEditor: {
+          systemDescription: '',
+        },
+      }),
+    );
 
     render(<SystemModalDescription />);
 
@@ -50,11 +54,13 @@ describe('SystemModalDescription Component', () => {
 
   it('dispatches setSystemDescription action on input change', () => {
     // Set up the mock to return a description
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      modelEditor: {
-        systemDescription: 'Existing System Description',
-      }
-    }));
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        modelEditor: {
+          systemDescription: 'Existing System Description',
+        },
+      }),
+    );
 
     render(<SystemModalDescription />);
 
@@ -64,24 +70,29 @@ describe('SystemModalDescription Component', () => {
     });
 
     // Check if dispatch is called with correct action
-    expect(mockDispatch).toHaveBeenCalledWith(setSystemDescription('New System Description'));
+    expect(mockDispatch).toHaveBeenCalledWith(
+      setSystemDescription('New System Description'),
+    );
   });
 
   it('should truncate the input value to 4999 characters if it exceeds 5000 characters', () => {
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      modelEditor: {
-        systemDescription: 'Existing System Description',
-      }
-    }));
-  
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        modelEditor: {
+          systemDescription: 'Existing System Description',
+        },
+      }),
+    );
+
     render(<SystemModalDescription />);
-  
+
     const longDescription = 'A'.repeat(5100);
     fireEvent.change(screen.getByTestId('system-description'), {
       target: { value: longDescription },
     });
-  
-    expect(mockDispatch).toHaveBeenCalledWith(setSystemDescription('A'.repeat(4999)));
+
+    expect(mockDispatch).toHaveBeenCalledWith(
+      setSystemDescription('A'.repeat(4999)),
+    );
   });
-  
 });

@@ -1,9 +1,9 @@
 // src/__tests__/renderer/hooks/useFetchProductAndIncrements.test.ts
 
 import { render } from '@testing-library/react';
-import useFetchProductAndIncrements from '../../../renderer/hooks/useFetchIncrements';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import useFetchProductAndIncrements from '../../../renderer/hooks/useFetchIncrements';
 import { fetchProduct } from '../../../renderer/services/api/products';
 import { fetchIncrements } from '../../../renderer/services/api/increments';
 import { setIncrementsActiveIndex } from '../../../renderer/store/increments';
@@ -30,10 +30,10 @@ jest.mock('../../../renderer/store/increments', () => ({
 }));
 
 // Helper component to test the hook
-const TestComponent = () => {
+function TestComponent() {
   useFetchProductAndIncrements();
   return null;
-};
+}
 
 describe('useFetchProductAndIncrements', () => {
   let dispatchMock: jest.Mock;
@@ -54,9 +54,11 @@ describe('useFetchProductAndIncrements', () => {
 
     expect(dispatchMock).toHaveBeenCalledWith(setIncrementsActiveIndex(-1));
     expect(dispatchMock).toHaveBeenCalledWith(
-      fetchProduct({ productId: '123', isEagerLoading: false })
+      fetchProduct({ productId: '123', isEagerLoading: false }),
     );
-    expect(dispatchMock).toHaveBeenCalledWith(fetchIncrements({ productId: '123' }));
+    expect(dispatchMock).toHaveBeenCalledWith(
+      fetchIncrements({ productId: '123' }),
+    );
   });
 
   it('should not dispatch actions if productId is undefined', () => {
@@ -75,7 +77,7 @@ describe('useFetchProductAndIncrements', () => {
 
   it('should dispatch actions again if productId changes', () => {
     const { rerender } = render(<TestComponent />);
-    
+
     // Re-render with a different productId
     (useParams as jest.Mock).mockReturnValue({ productId: '456' });
     rerender(<TestComponent />);
@@ -83,8 +85,10 @@ describe('useFetchProductAndIncrements', () => {
     expect(dispatchMock).toHaveBeenCalledTimes(6); // Each dispatch function should have been called again
     expect(dispatchMock).toHaveBeenCalledWith(setIncrementsActiveIndex(-1));
     expect(dispatchMock).toHaveBeenCalledWith(
-      fetchProduct({ productId: '456', isEagerLoading: false })
+      fetchProduct({ productId: '456', isEagerLoading: false }),
     );
-    expect(dispatchMock).toHaveBeenCalledWith(fetchIncrements({ productId: '456' }));
+    expect(dispatchMock).toHaveBeenCalledWith(
+      fetchIncrements({ productId: '456' }),
+    );
   });
 });

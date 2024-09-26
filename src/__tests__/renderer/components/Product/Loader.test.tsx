@@ -3,7 +3,10 @@ import { render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import Loader from '../../../../renderer/components/Product/Loader';
-import productsReducer, { initialProductsState, ProductsState } from '../../../../renderer/store/products';
+import productsReducer, {
+  initialProductsState,
+  ProductsState,
+} from '../../../../renderer/store/products';
 
 // Define RootState interface and createTestStore function
 interface RootState {
@@ -19,13 +22,12 @@ const createTestStore = (initialState: Partial<RootState>) => {
   });
 };
 
-const renderWithStore = (ui: React.ReactElement, initialState: Partial<RootState> = {}) => {
+const renderWithStore = (
+  ui: React.ReactElement,
+  initialState: Partial<RootState> = {},
+) => {
   const store = createTestStore(initialState);
-  return render(
-    <Provider store={store}>
-      {ui}
-    </Provider>
-  );
+  return render(<Provider store={store}>{ui}</Provider>);
 };
 
 // Tests

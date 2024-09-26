@@ -5,11 +5,13 @@ import ModelLoader from '../../../../renderer/components/Model/Loader'; // Adjus
 
 describe('ModelLoader Component', () => {
   it('renders the loader when isLoading is true', () => {
-    render(<ModelLoader isLoading={true} />);
+    render(<ModelLoader isLoading />);
 
     // Verify that the Dimmer is present with the correct classes
     const dimmerElement = screen.getByTestId('model-loader-dimmer');
-    expect(dimmerElement).toHaveClass('ui active transition visible inverted dimmer');
+    expect(dimmerElement).toHaveClass(
+      'ui active transition visible inverted dimmer',
+    );
 
     // Verify that the loader text is present inside the Dimmer
     const loaderElement = screen.getByText(/loading model/i);

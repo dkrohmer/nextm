@@ -73,7 +73,10 @@ describe('useNodeEmbed hook', () => {
     unmount();
 
     // Ensure the event listener is removed
-    expect(mockGraph.off).toHaveBeenCalledWith('node:change:parent', expect.any(Function));
+    expect(mockGraph.off).toHaveBeenCalledWith(
+      'node:change:parent',
+      expect.any(Function),
+    );
   });
 
   it('should update z-index of parent and children when node is embedded', () => {
@@ -93,16 +96,16 @@ describe('useNodeEmbed hook', () => {
   it('should fallback to z-index 0 when parent.getZIndex() returns undefined', () => {
     // Mock getZIndex to return undefined
     mockParent.getZIndex.mockReturnValue(undefined);
-  
+
     // Call the hook with the mock graph
     renderHook(() => useNodeEmbed(mockGraph));
-  
+
     // Simulate the event being triggered
     nodeEmbedCallback({ cell: mockCell });
-  
+
     // Verify that the z-index is updated correctly with the fallback
     expect(mockCell.setZIndex).toHaveBeenCalledWith(1); // parentZIndex is 0, so new zIndex should be 0 + 1
-  
+
     // Verify that the z-index for the child is updated correctly
     expect(mockChildCell.setZIndex).toHaveBeenCalledWith(2); // child zIndex set to parent + 2
   });
@@ -114,44 +117,48 @@ describe('useNodeEmbed hook', () => {
       { getZIndex: jest.fn(() => 10) } as unknown as Cell,
       { getZIndex: jest.fn(() => 3) } as unknown as Cell,
     ];
-  
+
     mockGraph.getCells = jest.fn(() => mockCells);
-  
+
     // Mock the selected Cell object (not a "zone" shape)
     mockCell = {
       ...mockCell,
       shape: 'rect', // Example shape other than 'zone'
     } as jest.Mocked<Cell>;
-    
+
     mockCell.setZIndex = jest.fn();
-  
+
     // Call the hook with the mock graph
     renderHook(() => useNodeEmbed(mockGraph));
-  
+
     // Simulate the 'node:selected' event
-    const nodeSelectCallback = (mockGraph.on as jest.Mock).mock.calls.find(call => call[0] === 'node:selected')[1];
+    const nodeSelectCallback = (mockGraph.on as jest.Mock).mock.calls.find(
+      (call) => call[0] === 'node:selected',
+    )[1];
     nodeSelectCallback({ cell: mockCell });
-  
+
     // Verify that the z-index is updated to be higher than the current highest z-index (which is 10 in mockCells)
     expect(mockCell.setZIndex).toHaveBeenCalledWith(11);
   });
-  
+
   it('should not update the z-index if the selected node is a "zone"', () => {
     // Mock the selected Cell object with shape 'zone'
     mockCell = {
       ...mockCell,
       shape: 'zone',
     } as jest.Mocked<Cell>;
-    
+
     mockCell.setZIndex = jest.fn();
-  
+
     // Call the hook with the mock graph
     renderHook(() => useNodeEmbed(mockGraph));
-  
+
     // Simulate the 'node:selected' event
-    const nodeSelectCallback = (mockGraph.on as jest.Mock).mock.calls.find(call => call[0] === 'node:selected')[1];
+    const nodeSelectCallback = (mockGraph.on as jest.Mock).mock.calls.find(
+      (call) => call[0] === 'node:selected',
+    )[1];
     nodeSelectCallback({ cell: mockCell });
-  
+
     // Verify that setZIndex is not called since the shape is 'zone'
     expect(mockCell.setZIndex).not.toHaveBeenCalled();
   });
@@ -163,24 +170,26 @@ describe('useNodeEmbed hook', () => {
       { getZIndex: jest.fn(() => undefined) } as unknown as Cell, // This will trigger the `|| 0` fallback
       { getZIndex: jest.fn(() => 3) } as unknown as Cell,
     ];
-  
+
     mockGraph.getCells = jest.fn(() => mockCells);
-  
+
     // Mock the selected Cell object (not a "zone" shape)
     mockCell = {
       ...mockCell,
       shape: 'rect', // Example shape other than 'zone'
     } as jest.Mocked<Cell>;
-    
+
     mockCell.setZIndex = jest.fn();
-  
+
     // Call the hook with the mock graph
     renderHook(() => useNodeEmbed(mockGraph));
-  
+
     // Simulate the 'node:selected' event
-    const nodeSelectCallback = (mockGraph.on as jest.Mock).mock.calls.find(call => call[0] === 'node:selected')[1];
+    const nodeSelectCallback = (mockGraph.on as jest.Mock).mock.calls.find(
+      (call) => call[0] === 'node:selected',
+    )[1];
     nodeSelectCallback({ cell: mockCell });
-  
+
     // Verify that the z-index is updated to be higher than the current highest z-index (which is 5 in this case)
     expect(mockCell.setZIndex).toHaveBeenCalledWith(6);
   });

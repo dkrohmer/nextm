@@ -15,7 +15,7 @@ import {
   MaxLength,
   Min,
   Max,
-  IsInt
+  IsInt,
 } from 'class-validator';
 import { v4 as uuidv4 } from 'uuid';
 import { Product } from './Product';

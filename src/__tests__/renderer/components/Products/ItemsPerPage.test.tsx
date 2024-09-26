@@ -2,7 +2,10 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import ItemsPerPage from '../../../../renderer/components/Products/ItemsPerPage'; // Adjust the import path if necessary
-import { setProductsItemsPerPage, resetProductsCurrentPage } from '../../../../renderer/store/products';
+import {
+  setProductsItemsPerPage,
+  resetProductsCurrentPage,
+} from '../../../../renderer/store/products';
 import { fetchProducts } from '../../../../renderer/services/api/products';
 
 // Mocking useDispatch and useSelector hooks
@@ -31,13 +34,15 @@ describe('ItemsPerPage Component', () => {
 
   it('renders the dropdown with the correct value', () => {
     // Mock useSelector to return productsItemsPerPage and other product-related states
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      products: {
-        productsItemsPerPage: 10,
-        productsSort: 'name',
-        productsSortby: 'asc',
-      }
-    }));
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        products: {
+          productsItemsPerPage: 10,
+          productsSort: 'name',
+          productsSortby: 'asc',
+        },
+      }),
+    );
 
     render(<ItemsPerPage />);
 
@@ -52,13 +57,15 @@ describe('ItemsPerPage Component', () => {
 
   it('dispatches the correct actions when a new dropdown value is selected', async () => {
     // Mock useSelector to return productsItemsPerPage and other product-related states
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      products: {
-        productsItemsPerPage: 10,
-        productsSort: 'name',
-        productsSortby: 'asc',
-      }
-    }));
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        products: {
+          productsItemsPerPage: 10,
+          productsSort: 'name',
+          productsSortby: 'asc',
+        },
+      }),
+    );
 
     render(<ItemsPerPage />);
 
@@ -80,7 +87,7 @@ describe('ItemsPerPage Component', () => {
         offset: 0,
         sort: 'name',
         sortby: 'asc',
-      })
+      }),
     );
   });
 });

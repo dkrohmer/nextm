@@ -4,14 +4,62 @@ import useFetchProductAndIncrements from '../../../../renderer/hooks/useFetchInc
 
 // Mock the dependent components and hooks
 jest.mock('../../../../renderer/hooks/useFetchIncrements');
-jest.mock('../../../../renderer/components/Increments/Loader', () => () => <div>Loader Component</div>);
-jest.mock('../../../../renderer/components/Increments/Error', () => () => <div>Error Component</div>);
-jest.mock('../../../../renderer/components/Increments/Empty', () => () => <div>Empty Component</div>);
-jest.mock('../../../../renderer/components/Increments/Accordion', () => () => <div>Accordion Component</div>);
-jest.mock('../../../../renderer/components/Increments/Add', () => () => <div>Add Component</div>);
-jest.mock('../../../../renderer/components/Increments/Modal', () => () => <div>Modal Component</div>);
-jest.mock('../../../../renderer/components/Increments/ConfirmDelete', () => () => <div>ConfirmDelete Component</div>);
-jest.mock('../../../../renderer/components/Increments/Title', () => () => <div>Title Component</div>);
+jest.mock(
+  '../../../../renderer/components/Increments/Loader',
+  () =>
+    function () {
+      return <div>Loader Component</div>;
+    },
+);
+jest.mock(
+  '../../../../renderer/components/Increments/Error',
+  () =>
+    function () {
+      return <div>Error Component</div>;
+    },
+);
+jest.mock(
+  '../../../../renderer/components/Increments/Empty',
+  () =>
+    function () {
+      return <div>Empty Component</div>;
+    },
+);
+jest.mock(
+  '../../../../renderer/components/Increments/Accordion',
+  () =>
+    function () {
+      return <div>Accordion Component</div>;
+    },
+);
+jest.mock(
+  '../../../../renderer/components/Increments/Add',
+  () =>
+    function () {
+      return <div>Add Component</div>;
+    },
+);
+jest.mock(
+  '../../../../renderer/components/Increments/Modal',
+  () =>
+    function () {
+      return <div>Modal Component</div>;
+    },
+);
+jest.mock(
+  '../../../../renderer/components/Increments/ConfirmDelete',
+  () =>
+    function () {
+      return <div>ConfirmDelete Component</div>;
+    },
+);
+jest.mock(
+  '../../../../renderer/components/Increments/Title',
+  () =>
+    function () {
+      return <div>Title Component</div>;
+    },
+);
 
 describe('Increments Component', () => {
   beforeEach(() => {
@@ -21,7 +69,7 @@ describe('Increments Component', () => {
 
   it('should render the Title and Add components', () => {
     render(<Increments />);
-    
+
     // Check if Title and Add components are rendered
     expect(screen.getByText('Title Component')).toBeInTheDocument();
     expect(screen.getByText('Add Component')).toBeInTheDocument();

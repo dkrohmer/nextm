@@ -2,7 +2,14 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Form } from 'semantic-ui-react';
 import { AppDispatch } from '../../store';
-import { resetProductsCurrentPage, setProductsIsCloning, setProductsIsEditing, setProductsModalOpen, setProductsSort, setProductsSortby } from '../../store/products';
+import {
+  resetProductsCurrentPage,
+  setProductsIsCloning,
+  setProductsIsEditing,
+  setProductsModalOpen,
+  setProductsSort,
+  setProductsSortby,
+} from '../../store/products';
 import { fetchProducts } from '../../services/api/products';
 
 const ModalCancelButton: React.FC = () => {
@@ -24,7 +31,7 @@ const ModalCancelButton: React.FC = () => {
         offset: 0,
         sort: 'desc',
         sortby: 'createdAt',
-      })
+      }),
     );
     dispatch(setProductsModalOpen(false));
     dispatch(setProductsIsCloning(false));

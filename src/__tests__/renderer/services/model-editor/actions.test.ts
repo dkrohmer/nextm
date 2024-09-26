@@ -1,5 +1,5 @@
-import actions from '../../../../renderer/services/model-editor/actions'; // update this to the correct path
 import { Cell, Graph } from '@antv/x6';
+import actions from '../../../../renderer/services/model-editor/actions'; // update this to the correct path
 
 describe('Graph actions', () => {
   let graph: jest.Mocked<Graph>;
@@ -27,7 +27,9 @@ describe('Graph actions', () => {
 
   it('fitViewAction should call zoomToFit with padding', () => {
     const result = actions.fitViewAction(graph);
-    expect(graph.zoomToFit).toHaveBeenCalledWith({ padding: { left: 200, right: 200 } });
+    expect(graph.zoomToFit).toHaveBeenCalledWith({
+      padding: { left: 200, right: 200 },
+    });
     expect(result).toBe(true);
   });
 
@@ -76,7 +78,7 @@ describe('Graph actions', () => {
   it('selectAllAction should select all cells if any exist', () => {
     const mockCells = [new Cell(), new Cell()];
     graph.getCells.mockReturnValue(mockCells);
-    
+
     const result = actions.selectAllAction(graph);
     expect(graph.getCells).toHaveBeenCalled();
     expect(graph.select).toHaveBeenCalledWith(mockCells);
@@ -93,7 +95,7 @@ describe('Graph actions', () => {
   it('cutAction should cut selected cells if any exist', () => {
     const selectedCells = [new Cell()]; // Create mock Cell instances for selected cells
     graph.getSelectedCells.mockReturnValue(selectedCells);
-    
+
     const result = actions.cutAction(graph);
     expect(graph.getSelectedCells).toHaveBeenCalled();
     expect(graph.cut).toHaveBeenCalledWith(selectedCells);
@@ -145,7 +147,7 @@ describe('Graph actions', () => {
   it('deleteAction should remove selected cells if any exist', () => {
     const selectedCells = [new Cell()];
     graph.getSelectedCells.mockReturnValue(selectedCells);
-    
+
     const result = actions.deleteAction(graph);
     expect(graph.getSelectedCells).toHaveBeenCalled();
     expect(graph.removeCells).toHaveBeenCalledWith(selectedCells);

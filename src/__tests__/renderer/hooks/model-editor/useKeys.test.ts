@@ -1,5 +1,4 @@
 import { renderHook } from '@testing-library/react-hooks';
-import { useDispatch, useSelector } from 'react-redux';
 import { Graph } from '@antv/x6';
 import useKeys from '../../../../renderer/hooks/model-editor/useKeys';
 import Actions from '../../../../renderer/services/model-editor/actions';
@@ -58,30 +57,75 @@ describe('useKeys hook', () => {
     const { unmount } = renderHook(() => useKeys(mockGraph as Graph));
 
     // Check that keys were bound
-    expect(mockGraph.bindKey).toHaveBeenCalledWith(['meta+s', 'ctrl+s'], expect.any(Function));
-    expect(mockGraph.bindKey).toHaveBeenCalledWith(['meta+e', 'ctrl+e'], expect.any(Function));
-    expect(mockGraph.bindKey).toHaveBeenCalledWith(['meta+i', 'ctrl+i'], expect.any(Function));
-    expect(mockGraph.bindKey).toHaveBeenCalledWith(['meta+space', 'ctrl+space'], expect.any(Function));
-    expect(mockGraph.bindKey).toHaveBeenCalledWith(['meta+=', 'ctrl+='], expect.any(Function));
-    expect(mockGraph.bindKey).toHaveBeenCalledWith(['meta+-', 'ctrl+-'], expect.any(Function));
-    expect(mockGraph.bindKey).toHaveBeenCalledWith(['meta+z', 'ctrl+z'], expect.any(Function));
-    expect(mockGraph.bindKey).toHaveBeenCalledWith(['meta+shift+z', 'ctrl+shift+z'], expect.any(Function));
-    expect(mockGraph.bindKey).toHaveBeenCalledWith(['meta+a', 'ctrl+a'], expect.any(Function));
-    expect(mockGraph.bindKey).toHaveBeenCalledWith(['meta+x', 'ctrl+x'], expect.any(Function));
-    expect(mockGraph.bindKey).toHaveBeenCalledWith(['meta+c', 'ctrl+c'], expect.any(Function));
-    expect(mockGraph.bindKey).toHaveBeenCalledWith(['meta+v', 'ctrl+v'], expect.any(Function));
-    expect(mockGraph.bindKey).toHaveBeenCalledWith('backspace', expect.any(Function));
+    expect(mockGraph.bindKey).toHaveBeenCalledWith(
+      ['meta+s', 'ctrl+s'],
+      expect.any(Function),
+    );
+    expect(mockGraph.bindKey).toHaveBeenCalledWith(
+      ['meta+e', 'ctrl+e'],
+      expect.any(Function),
+    );
+    expect(mockGraph.bindKey).toHaveBeenCalledWith(
+      ['meta+i', 'ctrl+i'],
+      expect.any(Function),
+    );
+    expect(mockGraph.bindKey).toHaveBeenCalledWith(
+      ['meta+space', 'ctrl+space'],
+      expect.any(Function),
+    );
+    expect(mockGraph.bindKey).toHaveBeenCalledWith(
+      ['meta+=', 'ctrl+='],
+      expect.any(Function),
+    );
+    expect(mockGraph.bindKey).toHaveBeenCalledWith(
+      ['meta+-', 'ctrl+-'],
+      expect.any(Function),
+    );
+    expect(mockGraph.bindKey).toHaveBeenCalledWith(
+      ['meta+z', 'ctrl+z'],
+      expect.any(Function),
+    );
+    expect(mockGraph.bindKey).toHaveBeenCalledWith(
+      ['meta+shift+z', 'ctrl+shift+z'],
+      expect.any(Function),
+    );
+    expect(mockGraph.bindKey).toHaveBeenCalledWith(
+      ['meta+a', 'ctrl+a'],
+      expect.any(Function),
+    );
+    expect(mockGraph.bindKey).toHaveBeenCalledWith(
+      ['meta+x', 'ctrl+x'],
+      expect.any(Function),
+    );
+    expect(mockGraph.bindKey).toHaveBeenCalledWith(
+      ['meta+c', 'ctrl+c'],
+      expect.any(Function),
+    );
+    expect(mockGraph.bindKey).toHaveBeenCalledWith(
+      ['meta+v', 'ctrl+v'],
+      expect.any(Function),
+    );
+    expect(mockGraph.bindKey).toHaveBeenCalledWith(
+      'backspace',
+      expect.any(Function),
+    );
 
     // Unmount and check that all keys were unbound
     unmount();
     expect(mockGraph.unbindKey).toHaveBeenCalledWith(['meta+s', 'ctrl+s']);
     expect(mockGraph.unbindKey).toHaveBeenCalledWith(['meta+e', 'ctrl+e']);
     expect(mockGraph.unbindKey).toHaveBeenCalledWith(['meta+i', 'ctrl+i']);
-    expect(mockGraph.unbindKey).toHaveBeenCalledWith(['meta+space', 'ctrl+space']);
+    expect(mockGraph.unbindKey).toHaveBeenCalledWith([
+      'meta+space',
+      'ctrl+space',
+    ]);
     expect(mockGraph.unbindKey).toHaveBeenCalledWith(['meta+=', 'ctrl+=']);
     expect(mockGraph.unbindKey).toHaveBeenCalledWith(['meta+-', 'ctrl+-']);
     expect(mockGraph.unbindKey).toHaveBeenCalledWith(['meta+z', 'ctrl+z']);
-    expect(mockGraph.unbindKey).toHaveBeenCalledWith(['meta+shift+z', 'ctrl+shift+z']);
+    expect(mockGraph.unbindKey).toHaveBeenCalledWith([
+      'meta+shift+z',
+      'ctrl+shift+z',
+    ]);
     expect(mockGraph.unbindKey).toHaveBeenCalledWith(['meta+a', 'ctrl+a']);
     expect(mockGraph.unbindKey).toHaveBeenCalledWith(['meta+x', 'ctrl+x']);
     expect(mockGraph.unbindKey).toHaveBeenCalledWith(['meta+c', 'ctrl+c']);
@@ -93,12 +137,17 @@ describe('useKeys hook', () => {
     renderHook(() => useKeys(mockGraph as Graph));
 
     const saveCallback = (mockGraph.bindKey as jest.Mock).mock.calls.find(
-      ([keys]) => keys.includes('meta+s') || keys.includes('ctrl+s')
+      ([keys]) => keys.includes('meta+s') || keys.includes('ctrl+s'),
     )![1];
 
     await saveCallback();
 
-    expect(saveModel).toHaveBeenCalledWith('mockModelId', mockGraph, 'mockVersion', mockDispatch);
+    expect(saveModel).toHaveBeenCalledWith(
+      'mockModelId',
+      mockGraph,
+      'mockVersion',
+      mockDispatch,
+    );
     expect(mockDispatch).toHaveBeenCalledWith(setSavePressed(true));
   });
 
@@ -106,35 +155,35 @@ describe('useKeys hook', () => {
     renderHook(() => useKeys(mockGraph as Graph));
 
     const exportCallback = (mockGraph.bindKey as jest.Mock).mock.calls.find(
-      ([keys]) => keys.includes('meta+e') || keys.includes('ctrl+e')
+      ([keys]) => keys.includes('meta+e') || keys.includes('ctrl+e'),
     )![1];
     exportCallback();
     expect(mockDispatch).toHaveBeenCalledWith(setExportModalOpen(true));
     expect(mockDispatch).toHaveBeenCalledWith(setExportPressed(true));
 
     const importCallback = (mockGraph.bindKey as jest.Mock).mock.calls.find(
-      ([keys]) => keys.includes('meta+i') || keys.includes('ctrl+i')
+      ([keys]) => keys.includes('meta+i') || keys.includes('ctrl+i'),
     )![1];
     importCallback();
     expect(mockDispatch).toHaveBeenCalledWith(setImportModalOpen(true));
     expect(mockDispatch).toHaveBeenCalledWith(setImportPressed(true));
 
     const fitViewCallback = (mockGraph.bindKey as jest.Mock).mock.calls.find(
-      ([keys]) => keys.includes('meta+space') || keys.includes('ctrl+space')
+      ([keys]) => keys.includes('meta+space') || keys.includes('ctrl+space'),
     )![1];
     (Actions.fitViewAction as jest.Mock).mockReturnValue(true);
     fitViewCallback();
     expect(mockDispatch).toHaveBeenCalledWith(setFitViewPressed(true));
 
     const zoomInCallback = (mockGraph.bindKey as jest.Mock).mock.calls.find(
-      ([keys]) => keys.includes('meta+=') || keys.includes('ctrl+=')
+      ([keys]) => keys.includes('meta+=') || keys.includes('ctrl+='),
     )![1];
     (Actions.zoomInAction as jest.Mock).mockReturnValue(true);
     zoomInCallback();
     expect(mockDispatch).toHaveBeenCalledWith(setZoomInPressed(true));
 
     const zoomOutCallback = (mockGraph.bindKey as jest.Mock).mock.calls.find(
-      ([keys]) => keys.includes('meta+-') || keys.includes('ctrl+-')
+      ([keys]) => keys.includes('meta+-') || keys.includes('ctrl+-'),
     )![1];
     (Actions.zoomOutAction as jest.Mock).mockReturnValue(true);
     zoomOutCallback();
@@ -142,7 +191,7 @@ describe('useKeys hook', () => {
 
     // Testing Undo (meta+z or ctrl+z)
     const undoCallback = (mockGraph.bindKey as jest.Mock).mock.calls.find(
-      ([keys]) => keys.includes('meta+z') || keys.includes('ctrl+z')
+      ([keys]) => keys.includes('meta+z') || keys.includes('ctrl+z'),
     )![1];
     (Actions.undoAction as jest.Mock).mockReturnValue(true);
     undoCallback();
@@ -150,7 +199,8 @@ describe('useKeys hook', () => {
 
     // Testing Redo (meta+shift+z or ctrl+shift+z)
     const redoCallback = (mockGraph.bindKey as jest.Mock).mock.calls.find(
-      ([keys]) => keys.includes('meta+shift+z') || keys.includes('ctrl+shift+z')
+      ([keys]) =>
+        keys.includes('meta+shift+z') || keys.includes('ctrl+shift+z'),
     )![1];
     (Actions.redoAction as jest.Mock).mockReturnValue(true);
     redoCallback();
@@ -158,7 +208,7 @@ describe('useKeys hook', () => {
 
     // Testing Cut (meta+x or ctrl+x)
     const cutCallback = (mockGraph.bindKey as jest.Mock).mock.calls.find(
-      ([keys]) => keys.includes('meta+x') || keys.includes('ctrl+x')
+      ([keys]) => keys.includes('meta+x') || keys.includes('ctrl+x'),
     )![1];
     (Actions.cutAction as jest.Mock).mockReturnValue(true);
     cutCallback();
@@ -166,7 +216,7 @@ describe('useKeys hook', () => {
 
     // Testing Copy (meta+c or ctrl+c)
     const copyCallback = (mockGraph.bindKey as jest.Mock).mock.calls.find(
-      ([keys]) => keys.includes('meta+c') || keys.includes('ctrl+c')
+      ([keys]) => keys.includes('meta+c') || keys.includes('ctrl+c'),
     )![1];
     (Actions.copyAction as jest.Mock).mockReturnValue(true);
     copyCallback();
@@ -174,7 +224,7 @@ describe('useKeys hook', () => {
 
     // Testing Paste (meta+v or ctrl+v)
     const pasteCallback = (mockGraph.bindKey as jest.Mock).mock.calls.find(
-      ([keys]) => keys.includes('meta+v') || keys.includes('ctrl+v')
+      ([keys]) => keys.includes('meta+v') || keys.includes('ctrl+v'),
     )![1];
     (Actions.pasteAction as jest.Mock).mockReturnValue(true);
     pasteCallback();
@@ -182,7 +232,7 @@ describe('useKeys hook', () => {
 
     // Testing Delete (backspace)
     const deleteCallback = (mockGraph.bindKey as jest.Mock).mock.calls.find(
-      ([keys]) => keys.includes('backspace')
+      ([keys]) => keys.includes('backspace'),
     )![1];
     (Actions.deleteAction as jest.Mock).mockReturnValue(true);
     deleteCallback();
@@ -190,7 +240,7 @@ describe('useKeys hook', () => {
 
     // Testing Select All (meta+a or ctrl+a)
     const selectAllCallback = (mockGraph.bindKey as jest.Mock).mock.calls.find(
-      ([keys]) => keys.includes('meta+a') || keys.includes('ctrl+a')
+      ([keys]) => keys.includes('meta+a') || keys.includes('ctrl+a'),
     )![1];
     (Actions.selectAllAction as jest.Mock).mockReturnValue(true);
     selectAllCallback();
@@ -199,18 +249,17 @@ describe('useKeys hook', () => {
 
   it('should return early and not bind any keys if graph is undefined', () => {
     // Mock useSelector to simulate the initial state
-    mockUseSelector.mockImplementation((selector: any) => 
+    mockUseSelector.mockImplementation((selector: any) =>
       selector({
         versions: { latestVersion: null }, // Simulate no version available
-      })
+      }),
     );
-  
+
     // Call the hook with graph as undefined
     renderHook(() => useKeys(undefined));
-  
+
     // Ensure that no key bindings were created
     expect(mockGraph.bindKey).not.toHaveBeenCalled();
     expect(mockDispatch).not.toHaveBeenCalled();
   });
-  
 });

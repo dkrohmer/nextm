@@ -5,15 +5,27 @@ import TableCellActions from '../../../../renderer/components/Products/TableCell
 import { IProduct } from '../../../../renderer/interfaces/IProduct';
 
 // Mock child components
-jest.mock('../../../../renderer/components/Products/TableCellActionsEdit', () => ({ product }: { product: IProduct }) => (
-  <div data-testid={`edit-action-${product.id}`}>Edit</div>
-));
-jest.mock('../../../../renderer/components/Products/TableCellActionsClone', () => ({ product }: { product: IProduct }) => (
-  <div data-testid={`clone-action-${product.id}`}>Clone</div>
-));
-jest.mock('../../../../renderer/components/Products/TableCellActionsDelete', () => ({ product }: { product: IProduct }) => (
-  <div data-testid={`delete-action-${product.id}`}>Delete</div>
-));
+jest.mock(
+  '../../../../renderer/components/Products/TableCellActionsEdit',
+  () =>
+    function ({ product }: { product: IProduct }) {
+      return <div data-testid={`edit-action-${product.id}`}>Edit</div>;
+    },
+);
+jest.mock(
+  '../../../../renderer/components/Products/TableCellActionsClone',
+  () =>
+    function ({ product }: { product: IProduct }) {
+      return <div data-testid={`clone-action-${product.id}`}>Clone</div>;
+    },
+);
+jest.mock(
+  '../../../../renderer/components/Products/TableCellActionsDelete',
+  () =>
+    function ({ product }: { product: IProduct }) {
+      return <div data-testid={`delete-action-${product.id}`}>Delete</div>;
+    },
+);
 
 describe('TableCellActions Component', () => {
   const product: IProduct = {

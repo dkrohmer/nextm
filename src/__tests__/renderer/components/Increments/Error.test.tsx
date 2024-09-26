@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import Error from '../../../../renderer/components/Increments/Error';
 import { jest } from '@jest/globals';
+import Error from '../../../../renderer/components/Increments/Error';
 
 // Mock useSelector hook
 const mockUseSelector = jest.fn();
@@ -22,7 +22,7 @@ describe('Error Component', () => {
         increments: {
           incrementsError: 'Test error message',
         },
-      })
+      }),
     );
 
     // Render the Error component
@@ -40,7 +40,7 @@ describe('Error Component', () => {
         increments: {
           incrementsError: 'Test error message',
         },
-      })
+      }),
     );
 
     // Render the Error component
@@ -58,7 +58,7 @@ describe('Error Component', () => {
         increments: {
           incrementsError: null,
         },
-      })
+      }),
     );
 
     // Render the Error component

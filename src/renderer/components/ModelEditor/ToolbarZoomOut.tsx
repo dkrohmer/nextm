@@ -15,7 +15,7 @@ const ToolbarZoomOut: React.FC<ToolbarZoomOutProps> = ({ graph }) => {
   const handleZoomOut = () => {
     actions.zoomOutAction(graph);
   };
-  
+
   /**
    * tsx
    */

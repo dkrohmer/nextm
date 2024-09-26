@@ -1,10 +1,10 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import ModalResponsibleRole from '../../../../renderer/components/Products/ModalResponsibleRole'; // Adjust the import path if necessary
-import { setProductsCurrentProduct } from '../../../../renderer/store/products';
 import { useDispatch, useSelector } from 'react-redux';
 import { jest } from '@jest/globals';
+import ModalResponsibleRole from '../../../../renderer/components/Products/ModalResponsibleRole'; // Adjust the import path if necessary
+import { setProductsCurrentProduct } from '../../../../renderer/store/products';
 import { IResponsible } from '../../../../renderer/interfaces/IResponsible';
 
 // Mock useDispatch and useSelector hooks
@@ -44,16 +44,18 @@ describe('ModalResponsibleRole Component', () => {
 
   it('renders the input with the current responsible role', () => {
     // Mock the global state with productsCurrentProduct
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      products: {
-        productsCurrentProduct: {
-          id: '1',
-          name: 'Test Product',
-          createdAt: '1',
-          responsibles: [responsible1, responsible2],
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        products: {
+          productsCurrentProduct: {
+            id: '1',
+            name: 'Test Product',
+            createdAt: '1',
+            responsibles: [responsible1, responsible2],
+          },
         },
-      },
-    }));
+      }),
+    );
 
     render(<ModalResponsibleRole index={0} responsible={responsible1} />);
 
@@ -64,16 +66,18 @@ describe('ModalResponsibleRole Component', () => {
 
   it('renders the input with an empty value when responsible role is empty', () => {
     // Mock the global state with productsCurrentProduct where responsible has no role
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      products: {
-        productsCurrentProduct: {
-          id: '1',
-          name: 'Test Product',
-          createdAt: '1',
-          responsibles: [emptyResponsible],
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        products: {
+          productsCurrentProduct: {
+            id: '1',
+            name: 'Test Product',
+            createdAt: '1',
+            responsibles: [emptyResponsible],
+          },
         },
-      },
-    }));
+      }),
+    );
 
     render(<ModalResponsibleRole index={0} responsible={emptyResponsible} />);
 
@@ -84,16 +88,18 @@ describe('ModalResponsibleRole Component', () => {
 
   it('dispatches setProductsCurrentProduct action on input change', () => {
     // Mock the global state with productsCurrentProduct
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      products: {
-        productsCurrentProduct: {
-          id: '1',
-          name: 'Test Product',
-          createdAt: '1',
-          responsibles: [responsible1, responsible2],
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        products: {
+          productsCurrentProduct: {
+            id: '1',
+            name: 'Test Product',
+            createdAt: '1',
+            responsibles: [responsible1, responsible2],
+          },
         },
-      },
-    }));
+      }),
+    );
 
     render(<ModalResponsibleRole index={0} responsible={responsible1} />);
 
@@ -111,38 +117,57 @@ describe('ModalResponsibleRole Component', () => {
           { ...responsible1, role: 'Director' }, // First responsible updated
           responsible2, // Second responsible unchanged
         ],
-      })
+      }),
     );
   });
 
   it('truncates the role to 249 characters if it exceeds 250', () => {
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      products: {
-        productsCurrentProduct: {
-          id: '1',
-          name: 'Test Product',
-          createdAt: '1',
-          responsibles: [{ id: '1', firstName: 'John', lastName: 'Doe', role: 'Manager' }],
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        products: {
+          productsCurrentProduct: {
+            id: '1',
+            name: 'Test Product',
+            createdAt: '1',
+            responsibles: [
+              { id: '1', firstName: 'John', lastName: 'Doe', role: 'Manager' },
+            ],
+          },
         },
-      },
-    }));
-  
-    render(<ModalResponsibleRole index={0} responsible={{ id: '1', firstName: 'John', lastName: 'Doe', role: 'Manager' }} />);
-  
+      }),
+    );
+
+    render(
+      <ModalResponsibleRole
+        index={0}
+        responsible={{
+          id: '1',
+          firstName: 'John',
+          lastName: 'Doe',
+          role: 'Manager',
+        }}
+      />,
+    );
+
     const longInputValue = 'A'.repeat(260);
     const inputElement = screen.getByPlaceholderText('Role');
-  
+
     fireEvent.change(inputElement, { target: { value: longInputValue } });
-  
+
     expect(mockDispatch).toHaveBeenCalledWith(
       setProductsCurrentProduct({
         id: '1',
         name: 'Test Product',
         createdAt: '1',
         responsibles: [
-          { id: '1', firstName: 'John', lastName: 'Doe', role: 'A'.repeat(249) },
+          {
+            id: '1',
+            firstName: 'John',
+            lastName: 'Doe',
+            role: 'A'.repeat(249),
+          },
         ],
-      })
+      }),
     );
   });
 });

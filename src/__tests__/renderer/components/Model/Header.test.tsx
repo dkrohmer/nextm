@@ -21,7 +21,7 @@ const mockModel: IModel = {
   id: 'model-1',
   name: 'Test Model',
   createdAt: '2024-08-01T00:00:00Z',
-  incrementId: '1'
+  incrementId: '1',
 };
 
 const mockIncrement: IIncrement = {
@@ -37,7 +37,7 @@ const mockIncrement: IIncrement = {
 const mockProduct: IProduct = {
   id: 'product-123',
   name: 'Test Product',
-  createdAt: '1'
+  createdAt: '1',
 };
 
 const store = configureStore({
@@ -50,10 +50,8 @@ describe('ModelHeader Component', () => {
   const renderWithProviders = (component: React.ReactElement) => {
     return render(
       <Provider store={store}>
-        <MemoryRouter>
-          {component}
-        </MemoryRouter>
-      </Provider>
+        <MemoryRouter>{component}</MemoryRouter>
+      </Provider>,
     );
   };
 
@@ -63,7 +61,11 @@ describe('ModelHeader Component', () => {
 
   it('renders the model name and navigates on click', () => {
     renderWithProviders(
-      <ModelHeader model={mockModel} increment={mockIncrement} product={mockProduct} />
+      <ModelHeader
+        model={mockModel}
+        increment={mockIncrement}
+        product={mockProduct}
+      />,
     );
 
     // Check if the model name is rendered
@@ -73,6 +75,8 @@ describe('ModelHeader Component', () => {
     fireEvent.click(screen.getByText(mockModel.name));
 
     // Verify that navigate was called with the correct URL
-    expect(navigateMock).toHaveBeenCalledWith(`/products/${mockProduct.id}/increments/${mockIncrement.id}/models/${mockModel.id}`);
+    expect(navigateMock).toHaveBeenCalledWith(
+      `/products/${mockProduct.id}/increments/${mockIncrement.id}/models/${mockModel.id}`,
+    );
   });
 });

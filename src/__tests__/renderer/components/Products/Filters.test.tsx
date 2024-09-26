@@ -2,7 +2,10 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import Filters from '../../../../renderer/components/Products/Filters'; // Adjust the import path if necessary
-import { setProductsSortby, toggleProductsSort } from '../../../../renderer/store/products';
+import {
+  setProductsSortby,
+  toggleProductsSort,
+} from '../../../../renderer/store/products';
 
 // Mock useDispatch and useSelector hooks
 const mockDispatch = jest.fn();
@@ -26,12 +29,14 @@ describe('Filters Component', () => {
 
   it('renders the dropdown and button when productsSortby and productsSort are present', () => {
     // Mock useSelector to return the desired state
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      products: {
-        productsSort: 'asc',
-        productsSortby: 'name',
-      },
-    }));
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        products: {
+          productsSort: 'asc',
+          productsSortby: 'name',
+        },
+      }),
+    );
 
     render(<Filters />);
 
@@ -46,12 +51,14 @@ describe('Filters Component', () => {
 
   it('dispatches setProductsSortby action when the dropdown value is changed', () => {
     // Mock useSelector to return the initial state
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      products: {
-        productsSort: 'asc',
-        productsSortby: 'name',
-      },
-    }));
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        products: {
+          productsSort: 'asc',
+          productsSortby: 'name',
+        },
+      }),
+    );
 
     render(<Filters />);
 
@@ -63,17 +70,21 @@ describe('Filters Component', () => {
     fireEvent.click(option);
 
     // Check if setProductsSortby action is dispatched with the correct value
-    expect(mockDispatch).toHaveBeenCalledWith(setProductsSortby({ sortby: 'createdAt' }));
+    expect(mockDispatch).toHaveBeenCalledWith(
+      setProductsSortby({ sortby: 'createdAt' }),
+    );
   });
 
   it('dispatches toggleProductsSort action when the button is clicked', () => {
     // Mock useSelector to return the desired state
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      products: {
-        productsSort: 'asc',
-        productsSortby: 'name',
-      },
-    }));
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        products: {
+          productsSort: 'asc',
+          productsSortby: 'name',
+        },
+      }),
+    );
 
     render(<Filters />);
 
@@ -87,12 +98,14 @@ describe('Filters Component', () => {
 
   it('renders the down arrow icon when the sort direction is descending', () => {
     // Mock useSelector to return the descending sort state
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      products: {
-        productsSort: 'desc',
-        productsSortby: 'name',
-      },
-    }));
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        products: {
+          productsSort: 'desc',
+          productsSortby: 'name',
+        },
+      }),
+    );
 
     render(<Filters />);
 

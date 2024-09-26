@@ -1,9 +1,9 @@
-import { buildIncrementEntity } from "../../../main/helpers/entityBuilder";
-import { Increment } from "../../../main/models/Increment";
-import { IncrementRepository } from "../../../main/repositories/IncrementRepository";
-import { ProductRepository } from "../../../main/repositories/ProductRepository";
-import { IncrementService } from "../../../main/services/IncrementService";
-import { Product } from "../../../main/models/Product";
+import { buildIncrementEntity } from '../../../main/helpers/entityBuilder';
+import { Increment } from '../../../main/models/Increment';
+import { IncrementRepository } from '../../../main/repositories/IncrementRepository';
+import { ProductRepository } from '../../../main/repositories/ProductRepository';
+import { IncrementService } from '../../../main/services/IncrementService';
+import { Product } from '../../../main/models/Product';
 
 jest.mock('../../../main/repositories/IncrementRepository');
 jest.mock('../../../main/repositories/ProductRepository');
@@ -15,8 +15,10 @@ describe('IncrementService', () => {
   let productRepository: jest.Mocked<ProductRepository>;
 
   beforeEach(() => {
-    incrementRepository = new IncrementRepository() as jest.Mocked<IncrementRepository>;
-    productRepository = new ProductRepository() as jest.Mocked<ProductRepository>;
+    incrementRepository =
+      new IncrementRepository() as jest.Mocked<IncrementRepository>;
+    productRepository =
+      new ProductRepository() as jest.Mocked<ProductRepository>;
     incrementService = new IncrementService();
 
     (incrementService as any).incrementRepository = incrementRepository;
@@ -39,18 +41,31 @@ describe('IncrementService', () => {
       product.id = productId;
 
       const newIncrement = new Increment();
-      Object.assign(newIncrement, incrementData, { id: 'increment-uuid', toJSON: jest.fn().mockReturnValue({}) });
+      Object.assign(newIncrement, incrementData, {
+        id: 'increment-uuid',
+        toJSON: jest.fn().mockReturnValue({}),
+      });
 
       productRepository.getProductById.mockResolvedValue(product);
       incrementRepository.getLatestIncrement.mockResolvedValue(null);
       (buildIncrementEntity as jest.Mock).mockReturnValue(newIncrement);
       incrementRepository.createIncrement.mockResolvedValue(newIncrement);
 
-      const result = await incrementService.createIncrement(incrementData as Increment);
+      const result = await incrementService.createIncrement(
+        incrementData as Increment,
+      );
 
-      expect(productRepository.getProductById).toHaveBeenCalledWith(productId, false);
-      expect(buildIncrementEntity).toHaveBeenCalledWith(expect.objectContaining(incrementData), 0);
-      expect(incrementRepository.createIncrement).toHaveBeenCalledWith(newIncrement);
+      expect(productRepository.getProductById).toHaveBeenCalledWith(
+        productId,
+        false,
+      );
+      expect(buildIncrementEntity).toHaveBeenCalledWith(
+        expect.objectContaining(incrementData),
+        0,
+      );
+      expect(incrementRepository.createIncrement).toHaveBeenCalledWith(
+        newIncrement,
+      );
       expect(result).toEqual({});
     });
 
@@ -68,18 +83,31 @@ describe('IncrementService', () => {
       latestIncrement.incrementIndex = 1;
 
       const newIncrement = new Increment();
-      Object.assign(newIncrement, incrementData, { id: 'increment-uuid', toJSON: jest.fn().mockReturnValue({}) });
+      Object.assign(newIncrement, incrementData, {
+        id: 'increment-uuid',
+        toJSON: jest.fn().mockReturnValue({}),
+      });
 
       productRepository.getProductById.mockResolvedValue(product);
       incrementRepository.getLatestIncrement.mockResolvedValue(latestIncrement);
       (buildIncrementEntity as jest.Mock).mockReturnValue(newIncrement);
       incrementRepository.createIncrement.mockResolvedValue(newIncrement);
 
-      const result = await incrementService.createIncrement(incrementData as Increment);
+      const result = await incrementService.createIncrement(
+        incrementData as Increment,
+      );
 
-      expect(productRepository.getProductById).toHaveBeenCalledWith(productId, false);
-      expect(buildIncrementEntity).toHaveBeenCalledWith(expect.objectContaining(incrementData), 2);
-      expect(incrementRepository.createIncrement).toHaveBeenCalledWith(newIncrement);
+      expect(productRepository.getProductById).toHaveBeenCalledWith(
+        productId,
+        false,
+      );
+      expect(buildIncrementEntity).toHaveBeenCalledWith(
+        expect.objectContaining(incrementData),
+        2,
+      );
+      expect(incrementRepository.createIncrement).toHaveBeenCalledWith(
+        newIncrement,
+      );
       expect(result).toEqual({});
     });
 
@@ -91,25 +119,35 @@ describe('IncrementService', () => {
 
       productRepository.getProductById.mockResolvedValue(null);
 
-      await expect(incrementService.createIncrement(incrementData as Increment)).rejects.toThrow('Product not found');
+      await expect(
+        incrementService.createIncrement(incrementData as Increment),
+      ).rejects.toThrow('Product not found');
     });
   });
 
   describe('getAllIncrements', () => {
     it('should return all increments with count', async () => {
-      const increments = [
-        new Increment(),
-        new Increment(),
-      ];
+      const increments = [new Increment(), new Increment()];
       increments[0].toJSON = jest.fn().mockReturnValue({});
       increments[1].toJSON = jest.fn().mockReturnValue({});
       const incrementsCount = 2;
 
-      incrementRepository.getAllIncrements.mockResolvedValue([increments, incrementsCount]);
+      incrementRepository.getAllIncrements.mockResolvedValue([
+        increments,
+        incrementsCount,
+      ]);
 
-      const result = await incrementService.getAllIncrements('name', 'asc', 'product-uuid');
+      const result = await incrementService.getAllIncrements(
+        'name',
+        'asc',
+        'product-uuid',
+      );
 
-      expect(incrementRepository.getAllIncrements).toHaveBeenCalledWith('name', 'asc', 'product-uuid');
+      expect(incrementRepository.getAllIncrements).toHaveBeenCalledWith(
+        'name',
+        'asc',
+        'product-uuid',
+      );
       expect(result).toEqual({ increments: [{}, {}], incrementsCount });
     });
   });
@@ -121,16 +159,24 @@ describe('IncrementService', () => {
 
       incrementRepository.getIncrementById.mockResolvedValue(increment);
 
-      const result = await incrementService.getIncrementById('increment-uuid', true);
+      const result = await incrementService.getIncrementById(
+        'increment-uuid',
+        true,
+      );
 
-      expect(incrementRepository.getIncrementById).toHaveBeenCalledWith('increment-uuid', true);
+      expect(incrementRepository.getIncrementById).toHaveBeenCalledWith(
+        'increment-uuid',
+        true,
+      );
       expect(result).toEqual({});
     });
 
     it('should throw an error if increment not found', async () => {
       incrementRepository.getIncrementById.mockResolvedValue(null);
 
-      await expect(incrementService.getIncrementById('increment-uuid', true)).rejects.toThrow('Cannot read properties of null (reading \'toJSON\')');
+      await expect(
+        incrementService.getIncrementById('increment-uuid', true),
+      ).rejects.toThrow("Cannot read properties of null (reading 'toJSON')");
     });
   });
 
@@ -143,7 +189,9 @@ describe('IncrementService', () => {
 
       const result = await incrementService.getLatestIncrement('product-uuid');
 
-      expect(incrementRepository.getLatestIncrement).toHaveBeenCalledWith('product-uuid');
+      expect(incrementRepository.getLatestIncrement).toHaveBeenCalledWith(
+        'product-uuid',
+      );
       expect(result).toEqual({});
     });
   });
@@ -156,9 +204,15 @@ describe('IncrementService', () => {
 
       incrementRepository.updateIncrement.mockResolvedValue(increment);
 
-      const result = await incrementService.updateIncrement('increment-uuid', updateData);
+      const result = await incrementService.updateIncrement(
+        'increment-uuid',
+        updateData,
+      );
 
-      expect(incrementRepository.updateIncrement).toHaveBeenCalledWith('increment-uuid', updateData);
+      expect(incrementRepository.updateIncrement).toHaveBeenCalledWith(
+        'increment-uuid',
+        updateData,
+      );
       expect(result).toEqual({});
     });
   });
@@ -167,7 +221,9 @@ describe('IncrementService', () => {
     it('should delete an increment', async () => {
       await incrementService.deleteIncrement('increment-uuid');
 
-      expect(incrementRepository.deleteIncrement).toHaveBeenCalledWith('increment-uuid');
+      expect(incrementRepository.deleteIncrement).toHaveBeenCalledWith(
+        'increment-uuid',
+      );
     });
   });
 });

@@ -1,9 +1,9 @@
 // src/__tests__/renderer/hooks/useFetchVersion.test.tsx
 
 import { render } from '@testing-library/react';
-import useFetchVersion from '../../../renderer/hooks/useFetchVersion';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import useFetchVersion from '../../../renderer/hooks/useFetchVersion';
 import { fetchProduct } from '../../../renderer/services/api/products';
 import { fetchIncrement } from '../../../renderer/services/api/increments';
 import { fetchModel } from '../../../renderer/services/api/models';
@@ -35,10 +35,10 @@ jest.mock('../../../renderer/services/api/versions', () => ({
 }));
 
 // Helper component to test the hook
-const TestComponent = () => {
+function TestComponent() {
   useFetchVersion();
   return null;
-};
+}
 
 describe('useFetchVersion', () => {
   let dispatchMock: jest.Mock;
@@ -63,10 +63,18 @@ describe('useFetchVersion', () => {
   it('should dispatch fetchProduct, fetchIncrement, fetchModel, and fetchLatestVersion when productId, incrementId, and modelId are defined', () => {
     render(<TestComponent />);
 
-    expect(dispatchMock).toHaveBeenCalledWith(fetchProduct({ productId: 'product1', isEagerLoading: false }));
-    expect(dispatchMock).toHaveBeenCalledWith(fetchIncrement({ incrementId: 'increment1', isEagerLoading: false }));
-    expect(dispatchMock).toHaveBeenCalledWith(fetchModel({ modelId: 'model1', isEagerLoading: false }));
-    expect(dispatchMock).toHaveBeenCalledWith(fetchLatestVersion({ modelId: 'model1' }));
+    expect(dispatchMock).toHaveBeenCalledWith(
+      fetchProduct({ productId: 'product1', isEagerLoading: false }),
+    );
+    expect(dispatchMock).toHaveBeenCalledWith(
+      fetchIncrement({ incrementId: 'increment1', isEagerLoading: false }),
+    );
+    expect(dispatchMock).toHaveBeenCalledWith(
+      fetchModel({ modelId: 'model1', isEagerLoading: false }),
+    );
+    expect(dispatchMock).toHaveBeenCalledWith(
+      fetchLatestVersion({ modelId: 'model1' }),
+    );
   });
 
   it('should not dispatch any actions if productId is undefined', () => {
@@ -117,9 +125,17 @@ describe('useFetchVersion', () => {
     expect(dispatchMock).toHaveBeenCalledTimes(8);
 
     // Ensure the second set of dispatch calls is with the new values
-    expect(dispatchMock).toHaveBeenCalledWith(fetchProduct({ productId: 'product2', isEagerLoading: false }));
-    expect(dispatchMock).toHaveBeenCalledWith(fetchIncrement({ incrementId: 'increment2', isEagerLoading: false }));
-    expect(dispatchMock).toHaveBeenCalledWith(fetchModel({ modelId: 'model2', isEagerLoading: false }));
-    expect(dispatchMock).toHaveBeenCalledWith(fetchLatestVersion({ modelId: 'model2' }));
+    expect(dispatchMock).toHaveBeenCalledWith(
+      fetchProduct({ productId: 'product2', isEagerLoading: false }),
+    );
+    expect(dispatchMock).toHaveBeenCalledWith(
+      fetchIncrement({ incrementId: 'increment2', isEagerLoading: false }),
+    );
+    expect(dispatchMock).toHaveBeenCalledWith(
+      fetchModel({ modelId: 'model2', isEagerLoading: false }),
+    );
+    expect(dispatchMock).toHaveBeenCalledWith(
+      fetchLatestVersion({ modelId: 'model2' }),
+    );
   });
 });

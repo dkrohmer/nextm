@@ -9,15 +9,69 @@ import { initialProductsState } from '../../../../renderer/store/products';
 
 // Mock the dependent components and hooks
 jest.mock('../../../../renderer/hooks/useFetchProduct', () => jest.fn());
-jest.mock('../../../../renderer/components/Product/Breadcrumbs', () => () => <div>Breadcrumbs Component</div>);
-jest.mock('../../../../renderer/components/Product/Loader', () => () => <div>Loader Component</div>);
-jest.mock('../../../../renderer/components/Product/Error', () => () => <div>Error Component</div>);
-jest.mock('../../../../renderer/components/Product/Description', () => () => <div>Description Component</div>);
-jest.mock('../../../../renderer/components/Product/Responsibles', () => () => <div>Responsibles Component</div>);
-jest.mock('../../../../renderer/components/Product/StartsAt', () => () => <div>StartsAt Component</div>);
-jest.mock('../../../../renderer/components/Product/EndsAt', () => () => <div>EndsAt Component</div>);
-jest.mock('../../../../renderer/components/Product/CreatedAt', () => () => <div>CreatedAt Component</div>);
-jest.mock('../../../../renderer/components/Increments', () => () => <div>Increments Component</div>);
+jest.mock(
+  '../../../../renderer/components/Product/Breadcrumbs',
+  () =>
+    function () {
+      return <div>Breadcrumbs Component</div>;
+    },
+);
+jest.mock(
+  '../../../../renderer/components/Product/Loader',
+  () =>
+    function () {
+      return <div>Loader Component</div>;
+    },
+);
+jest.mock(
+  '../../../../renderer/components/Product/Error',
+  () =>
+    function () {
+      return <div>Error Component</div>;
+    },
+);
+jest.mock(
+  '../../../../renderer/components/Product/Description',
+  () =>
+    function () {
+      return <div>Description Component</div>;
+    },
+);
+jest.mock(
+  '../../../../renderer/components/Product/Responsibles',
+  () =>
+    function () {
+      return <div>Responsibles Component</div>;
+    },
+);
+jest.mock(
+  '../../../../renderer/components/Product/StartsAt',
+  () =>
+    function () {
+      return <div>StartsAt Component</div>;
+    },
+);
+jest.mock(
+  '../../../../renderer/components/Product/EndsAt',
+  () =>
+    function () {
+      return <div>EndsAt Component</div>;
+    },
+);
+jest.mock(
+  '../../../../renderer/components/Product/CreatedAt',
+  () =>
+    function () {
+      return <div>CreatedAt Component</div>;
+    },
+);
+jest.mock(
+  '../../../../renderer/components/Increments',
+  () =>
+    function () {
+      return <div>Increments Component</div>;
+    },
+);
 
 const createTestStore = (initialState: Partial<RootState>) => {
   return configureStore({
@@ -27,18 +81,22 @@ const createTestStore = (initialState: Partial<RootState>) => {
   });
 };
 
-const renderWithProviders = (component: React.ReactElement, initialState: Partial<RootState>) => {
+const renderWithProviders = (
+  component: React.ReactElement,
+  initialState: Partial<RootState>,
+) => {
   const store = createTestStore(initialState);
-  return render(
-    <Provider store={store}>
-      {component}
-    </Provider>
-  );
+  return render(<Provider store={store}>{component}</Provider>);
 };
 
 // Tests
 describe('Product Component', () => {
-  const mockProduct = { id: '1', name: 'Test Product', description: 'Test Description', createdAt: '2023-09-01T10:00:00Z' };
+  const mockProduct = {
+    id: '1',
+    name: 'Test Product',
+    description: 'Test Description',
+    createdAt: '2023-09-01T10:00:00Z',
+  };
 
   const initialStateWithProduct = {
     products: {
@@ -117,7 +175,9 @@ describe('Product Component', () => {
     // Check if Breadcrumbs is rendered but product details are not
     expect(screen.getByText('Breadcrumbs Component')).toBeInTheDocument();
     expect(screen.queryByText('Description Component')).not.toBeInTheDocument();
-    expect(screen.queryByText('Responsibles Component')).not.toBeInTheDocument();
+    expect(
+      screen.queryByText('Responsibles Component'),
+    ).not.toBeInTheDocument();
     expect(screen.queryByText('StartsAt Component')).not.toBeInTheDocument();
     expect(screen.queryByText('EndsAt Component')).not.toBeInTheDocument();
     expect(screen.queryByText('CreatedAt Component')).not.toBeInTheDocument();

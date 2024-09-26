@@ -1,5 +1,5 @@
-import { compareGraphHashes } from '../../../renderer/utils/compareGraphHashes'; // Adjust the path if necessary
 import crypto from 'crypto-js';
+import { compareGraphHashes } from '../../../renderer/utils/compareGraphHashes'; // Adjust the path if necessary
 
 jest.mock('crypto-js', () => ({
   SHA256: jest.fn((input: string) => ({

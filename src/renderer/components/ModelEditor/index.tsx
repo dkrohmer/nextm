@@ -21,7 +21,7 @@ import Loader from './Loader';
 import Error from './Error';
 import Graph from './Graph';
 import 'semantic-ui-css/semantic.min.css';
-import '../../styles/model-editor/model-editor.css'
+import '../../styles/model-editor/model-editor.css';
 
 const ModelEditor: React.FC = () => {
   /**
@@ -32,10 +32,17 @@ const ModelEditor: React.FC = () => {
   /**
    * global states
    */
-  const { product, productIsLoading, productError } = useSelector((state: RootState) => state.products);
-  const { increment, incrementIsLoading, incrementError } = useSelector((state: RootState) => state.increments);
-  const { model, modelIsLoading, modelError } = useSelector((state: RootState) => state.models);
-  const { latestVersion, latestVersionIsLoading, latestVersionError } = useSelector((state: RootState) => state.versions);
+  const { product, productIsLoading, productError } = useSelector(
+    (state: RootState) => state.products,
+  );
+  const { increment, incrementIsLoading, incrementError } = useSelector(
+    (state: RootState) => state.increments,
+  );
+  const { model, modelIsLoading, modelError } = useSelector(
+    (state: RootState) => state.models,
+  );
+  const { latestVersion, latestVersionIsLoading, latestVersionError } =
+    useSelector((state: RootState) => state.versions);
   const { gridVisible } = useSelector((state: RootState) => state.settings);
 
   /**
@@ -56,7 +63,13 @@ const ModelEditor: React.FC = () => {
   useNodeEvents(graph);
   useNodeEmbed(graph);
   useHoverCells(graph);
-  useInitializeGraph(containerRef, minimapRef, isGraphInitialized, setGraph, gridVisible);
+  useInitializeGraph(
+    containerRef,
+    minimapRef,
+    isGraphInitialized,
+    setGraph,
+    gridVisible,
+  );
   useGraphHistoryChange(graph);
 
   /**
@@ -65,9 +78,23 @@ const ModelEditor: React.FC = () => {
   return (
     <div id="x6-graph-container" className="graph-container">
       <div className="x6-graph-wrap">
-        <Breadcrumbs graph={graph ?? null}/>
-        <Loader isLoading={productIsLoading || incrementIsLoading || modelIsLoading || latestVersionIsLoading} />
-        <Error errors={[productError, incrementError, modelError, latestVersionError]} />
+        <Breadcrumbs graph={graph ?? null} />
+        <Loader
+          isLoading={
+            productIsLoading ||
+            incrementIsLoading ||
+            modelIsLoading ||
+            latestVersionIsLoading
+          }
+        />
+        <Error
+          errors={[
+            productError,
+            incrementError,
+            modelError,
+            latestVersionError,
+          ]}
+        />
         {product && increment && model && latestVersion && graph && (
           <Graph graph={graph} />
         )}

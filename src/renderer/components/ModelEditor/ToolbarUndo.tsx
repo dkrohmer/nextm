@@ -15,7 +15,7 @@ const ToolbarUndo: React.FC<ToolbarUndoProps> = ({ graph }) => {
    * global states
    */
   const { canUndo } = useSelector((state: RootState) => state.modelEditor);
-  
+
   /**
    * handlers
    */

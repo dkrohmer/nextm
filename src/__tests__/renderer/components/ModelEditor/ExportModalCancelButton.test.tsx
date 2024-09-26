@@ -1,8 +1,8 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import ExportModalCancel from '../../../../renderer/components/ModelEditor/ExportModalCancelButton'; 
-import { setExportModalOpen } from '../../../../renderer/store/modelEditor';
 import { jest } from '@jest/globals';
+import ExportModalCancel from '../../../../renderer/components/ModelEditor/ExportModalCancelButton';
+import { setExportModalOpen } from '../../../../renderer/store/modelEditor';
 
 // Mock the useDispatch hook
 const mockDispatch = jest.fn();

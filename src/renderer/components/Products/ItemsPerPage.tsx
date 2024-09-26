@@ -3,7 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Dropdown, DropdownProps } from 'semantic-ui-react';
 import { AppDispatch, RootState } from '../../store';
 import '../../styles/products.css';
-import { resetProductsCurrentPage, setProductsItemsPerPage } from '../../store/products';
+import {
+  resetProductsCurrentPage,
+  setProductsItemsPerPage,
+} from '../../store/products';
 import { fetchProducts } from '../../services/api/products';
 
 const itemsPerPageOptions = [
@@ -18,11 +21,9 @@ const ItemsPerPage: React.FC = () => {
   /**
    * global states
    */
-  const {
-    productsItemsPerPage,
-    productsSort,
-    productsSortby,
-  } = useSelector((state: RootState) => state.products);
+  const { productsItemsPerPage, productsSort, productsSortby } = useSelector(
+    (state: RootState) => state.products,
+  );
 
   /**
    * hooks
@@ -34,21 +35,20 @@ const ItemsPerPage: React.FC = () => {
    */
   const handleItemsPerPageChange = async (
     _event: React.SyntheticEvent<HTMLElement>,
-    data: DropdownProps
+    data: DropdownProps,
   ) => {
     dispatch(setProductsItemsPerPage(data.value as number));
     dispatch(resetProductsCurrentPage());
-  
+
     await dispatch(
       fetchProducts({
         limit: data.value as number,
         offset: 0,
         sort: productsSort,
         sortby: productsSortby,
-      })
+      }),
     );
   };
-  
 
   /**
    * tsx

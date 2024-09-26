@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import Error from '../../../../renderer/components/Product/Error'; // Adjust path if necessary
 import { jest } from '@jest/globals';
+import Error from '../../../../renderer/components/Product/Error'; // Adjust path if necessary
 
 // Mock useSelector hook
 const mockUseSelector = jest.fn();
@@ -22,7 +22,7 @@ describe('Error Component', () => {
         products: {
           productError: 'Test error message',
         },
-      })
+      }),
     );
 
     // Render the Error component
@@ -40,7 +40,7 @@ describe('Error Component', () => {
         products: {
           productError: 'Test error message',
         },
-      })
+      }),
     );
 
     // Render the Error component
@@ -59,7 +59,7 @@ describe('Error Component', () => {
         products: {
           productError: null,
         },
-      })
+      }),
     );
 
     // Render the Error component

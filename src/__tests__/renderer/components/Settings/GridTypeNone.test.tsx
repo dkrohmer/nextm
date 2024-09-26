@@ -26,7 +26,7 @@ describe('GridTypeNone Component', () => {
         settings: {
           gridVisible: 'mesh',
         },
-      })
+      }),
     );
 
     // Render the component
@@ -37,7 +37,7 @@ describe('GridTypeNone Component', () => {
     expect(noneRadioButton).toBeInTheDocument();
 
     // Check if it is not selected by default
-    expect(noneRadioButton).not.toHaveClass("checked");
+    expect(noneRadioButton).not.toHaveClass('checked');
   });
 
   it('renders the None radio button and checks if it is selected when gridVisible is "none"', () => {
@@ -47,7 +47,7 @@ describe('GridTypeNone Component', () => {
         settings: {
           gridVisible: 'none',
         },
-      })
+      }),
     );
 
     // Render the component
@@ -58,7 +58,7 @@ describe('GridTypeNone Component', () => {
     expect(noneRadioButton).toBeInTheDocument();
 
     // Check if it is selected
-    expect(noneRadioButton).toHaveClass("checked");
+    expect(noneRadioButton).toHaveClass('checked');
   });
 
   it('dispatches actions when the None radio button is selected', () => {
@@ -68,7 +68,7 @@ describe('GridTypeNone Component', () => {
         settings: {
           gridVisible: 'mesh',
         },
-      })
+      }),
     );
 
     // Render the component
@@ -84,14 +84,19 @@ describe('GridTypeNone Component', () => {
     expect(window.electron.setGridType).toHaveBeenCalledWith('none');
 
     // Check if the setGridVisible action was dispatched with 'none'
-    expect(mockDispatch).toHaveBeenCalledWith({ type: 'settings/setGridVisible', payload: 'none' });
+    expect(mockDispatch).toHaveBeenCalledWith({
+      type: 'settings/setGridVisible',
+      payload: 'none',
+    });
 
     // Check if showToast action was dispatched with the correct success message
-    expect(mockDispatch).toHaveBeenCalledWith(expect.objectContaining({
-      type: 'settings/showToast',
-      payload: expect.objectContaining({
-        successMessage: 'Grid type changed to: none',
+    expect(mockDispatch).toHaveBeenCalledWith(
+      expect.objectContaining({
+        type: 'settings/showToast',
+        payload: expect.objectContaining({
+          successMessage: 'Grid type changed to: none',
+        }),
       }),
-    }));
+    );
   });
 });

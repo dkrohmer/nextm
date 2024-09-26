@@ -6,4 +6,4 @@ export { default as Models } from './Models';
 export { default as Model } from './Model';
 export { default as ModelEditor } from './ModelEditor';
 export { default as Settings } from './Settings';
-export * from './Layout'
+export * from './Layout';

@@ -2,12 +2,48 @@ import { render, screen } from '@testing-library/react';
 import Footer from '../../../../renderer/components/Layout/Footer';
 
 // Mock components
-jest.mock('../../../../renderer/components/layout/FooterContribute', () => () => <div>FooterContribute Component</div>);
-jest.mock('../../../../renderer/components/layout/FooterDiscuss', () => () => <div>FooterDiscuss Component</div>);
-jest.mock('../../../../renderer/components/layout/FooterDonate', () => () => <div>FooterDonate Component</div>);
-jest.mock('../../../../renderer/components/layout/FooterToolInfo', () => () => <div>FooterToolInfo Component</div>);
-jest.mock('../../../../renderer/components/layout/FooterCopyright', () => () => <div>FooterCopyright Component</div>);
-jest.mock('../../../../renderer/components/layout/FooterLicensing', () => () => <div>FooterLicensing Component</div>);
+jest.mock(
+  '../../../../renderer/components/layout/FooterContribute',
+  () =>
+    function () {
+      return <div>FooterContribute Component</div>;
+    },
+);
+jest.mock(
+  '../../../../renderer/components/layout/FooterDiscuss',
+  () =>
+    function () {
+      return <div>FooterDiscuss Component</div>;
+    },
+);
+jest.mock(
+  '../../../../renderer/components/layout/FooterDonate',
+  () =>
+    function () {
+      return <div>FooterDonate Component</div>;
+    },
+);
+jest.mock(
+  '../../../../renderer/components/layout/FooterToolInfo',
+  () =>
+    function () {
+      return <div>FooterToolInfo Component</div>;
+    },
+);
+jest.mock(
+  '../../../../renderer/components/layout/FooterCopyright',
+  () =>
+    function () {
+      return <div>FooterCopyright Component</div>;
+    },
+);
+jest.mock(
+  '../../../../renderer/components/layout/FooterLicensing',
+  () =>
+    function () {
+      return <div>FooterLicensing Component</div>;
+    },
+);
 
 describe('Footer Component', () => {
   it('renders the Footer component with all sections', () => {

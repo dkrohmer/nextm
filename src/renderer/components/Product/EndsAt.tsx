@@ -8,7 +8,7 @@ const EndsAt: React.FC = () => {
    * global states
    */
   const { product } = useSelector((state: RootState) => state.products);
-  
+
   /**
    * tsx
    */
@@ -18,10 +18,12 @@ const EndsAt: React.FC = () => {
         <strong>Ends At:</strong>
       </Grid.Column>
       <Grid.Column width={12}>
-        {product?.endsAt ? new Date(product?.endsAt).toLocaleDateString() : 'n/a'}
+        {product?.endsAt
+          ? new Date(product?.endsAt).toLocaleDateString()
+          : 'n/a'}
       </Grid.Column>
     </Grid.Row>
-  )
-}
+  );
+};
 
 export default EndsAt;

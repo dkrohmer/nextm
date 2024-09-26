@@ -15,7 +15,7 @@ const ToolbarCut: React.FC<ToolbarCutProps> = ({ graph }) => {
   const handleCut = () => {
     actions.cutAction(graph);
   };
-  
+
   /**
    * tsx
    */

@@ -1,14 +1,20 @@
 import React from 'react';
 import { Form } from 'semantic-ui-react';
-import { AppDispatch } from '../../store';
-import { setImportError, setImportFileName, setImportIsFileValid, setImportJsonData, setImportModalOpen } from '../../store/modelEditor';
 import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../store';
+import {
+  setImportError,
+  setImportFileName,
+  setImportIsFileValid,
+  setImportJsonData,
+  setImportModalOpen,
+} from '../../store/modelEditor';
 
 const ImportModalCancelButton: React.FC = () => {
   /**
    * hooks
    */
-  const dispatch = useDispatch<AppDispatch>()
+  const dispatch = useDispatch<AppDispatch>();
 
   /**
    * handlers

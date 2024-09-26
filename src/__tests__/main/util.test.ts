@@ -33,6 +33,8 @@ describe('resolveHtmlPath', () => {
     process.env.NODE_ENV = 'production';
     const htmlFileName = 'index.html';
     const result = resolveHtmlPath(htmlFileName);
-    expect(result).toBe(`file://${path.resolve(__dirname, '../../renderer/', htmlFileName)}`);
+    expect(result).toBe(
+      `file://${path.resolve(__dirname, '../../renderer/', htmlFileName)}`,
+    );
   });
 });

@@ -23,11 +23,9 @@ const Models: React.FC<ModelsProps> = ({ product, increment }) => {
   /**
    * global states
    */
-  const { 
-    models, 
-    modelsError, 
-    modelsIsLoading, 
-  } = useSelector((state: RootState) => state.models);
+  const { models, modelsError, modelsIsLoading } = useSelector(
+    (state: RootState) => state.models,
+  );
 
   /**
    * hooks

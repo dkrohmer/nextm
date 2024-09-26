@@ -5,7 +5,7 @@ import { AppDispatch } from '../../store';
 import { setCanRedo, setCanUndo } from '../../store/modelEditor';
 
 const useGraphHistoryChange = (graph: Graph | undefined) => {
-  const dispatch = useDispatch<AppDispatch>()
+  const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
     if (!graph) {

@@ -5,8 +5,15 @@ import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import { configureStore } from '@reduxjs/toolkit';
 import Add from '../../../../renderer/components/Increments/Add';
-import incrementsReducer, { IncrementsState, setCurrentIncrement, setIncrementsIsEditing, setIncrementsModalOpen } from '../../../../renderer/store/increments'; // Adjust import as needed
-import productsReducer, { ProductsState } from '../../../../renderer/store/products'; // Adjust import as needed
+import incrementsReducer, {
+  IncrementsState,
+  setCurrentIncrement,
+  setIncrementsIsEditing,
+  setIncrementsModalOpen,
+} from '../../../../renderer/store/increments'; // Adjust import as needed
+import productsReducer, {
+  ProductsState,
+} from '../../../../renderer/store/products'; // Adjust import as needed
 import { initialIncrementsState } from '../../../../renderer/store/increments';
 import { initialProductsState } from '../../../../renderer/store/products';
 
@@ -26,14 +33,15 @@ const createTestStore = (initialState: Partial<RootState>) => {
   });
 };
 
-const renderWithStore = (ui: React.ReactElement, initialState: Partial<RootState> = {}) => {
+const renderWithStore = (
+  ui: React.ReactElement,
+  initialState: Partial<RootState> = {},
+) => {
   const store = createTestStore(initialState);
   return render(
     <Provider store={store}>
-      <MemoryRouter>
-        {ui}
-      </MemoryRouter>
-    </Provider>
+      <MemoryRouter>{ui}</MemoryRouter>
+    </Provider>,
   );
 };
 
@@ -45,8 +53,8 @@ describe('Add Component', () => {
 
   it('renders correctly', () => {
     renderWithStore(<Add />, {
-      increments: {...initialIncrementsState, incrementsModalOpen: false},
-      products: initialProductsState
+      increments: { ...initialIncrementsState, incrementsModalOpen: false },
+      products: initialProductsState,
     });
 
     expect(screen.getByText(/\+ Add Increment/i)).toBeInTheDocument();
@@ -54,25 +62,49 @@ describe('Add Component', () => {
 
   it('dispatches actions on click', () => {
     // Ensure mocks are correct
-    jest.spyOn(require('../../../../renderer/store/increments'), 'setIncrementsIsEditing').mockImplementation(() => ({ type: 'increments/setIncrementsIsEditing', payload: false }));
-    jest.spyOn(require('../../../../renderer/store/increments'), 'setIncrementsModalOpen').mockImplementation(() => ({ type: 'increments/setIncrementsModalOpen', payload: true }));
-    jest.spyOn(require('../../../../renderer/store/increments'), 'setCurrentIncrement').mockImplementation(() => ({ type: 'increments/setCurrentIncrement', payload: {
-      id: '',
-      name: '',
-      start: '',
-      end: '',
-      deadline: '',
-      state: '',
-      productId: ''
-    }}));
-  
+    jest
+      .spyOn(
+        require('../../../../renderer/store/increments'),
+        'setIncrementsIsEditing',
+      )
+      .mockImplementation(() => ({
+        type: 'increments/setIncrementsIsEditing',
+        payload: false,
+      }));
+    jest
+      .spyOn(
+        require('../../../../renderer/store/increments'),
+        'setIncrementsModalOpen',
+      )
+      .mockImplementation(() => ({
+        type: 'increments/setIncrementsModalOpen',
+        payload: true,
+      }));
+    jest
+      .spyOn(
+        require('../../../../renderer/store/increments'),
+        'setCurrentIncrement',
+      )
+      .mockImplementation(() => ({
+        type: 'increments/setCurrentIncrement',
+        payload: {
+          id: '',
+          name: '',
+          start: '',
+          end: '',
+          deadline: '',
+          state: '',
+          productId: '',
+        },
+      }));
+
     renderWithStore(<Add />, {
       increments: { ...initialIncrementsState, incrementsModalOpen: false },
-      products: initialProductsState
+      products: initialProductsState,
     });
-  
+
     fireEvent.click(screen.getByText(/\+ Add Increment/i));
-  
+
     expect(setIncrementsIsEditing).toHaveBeenCalledWith(false);
     expect(setIncrementsModalOpen).toHaveBeenCalledWith(true);
     expect(setCurrentIncrement).toHaveBeenCalledWith({
@@ -82,17 +114,32 @@ describe('Add Component', () => {
       end: '',
       deadline: '',
       state: '',
-      productId: ''
+      productId: '',
     });
   });
 
   it('does not dispatch actions if modal is already open', () => {
-    jest.spyOn(require('../../../../renderer/store/increments'), 'setIncrementsIsEditing').mockImplementation(() => {});
-    jest.spyOn(require('../../../../renderer/store/increments'), 'setIncrementsModalOpen').mockImplementation(() => {});
-    jest.spyOn(require('../../../../renderer/store/increments'), 'setCurrentIncrement').mockImplementation(() => {});
+    jest
+      .spyOn(
+        require('../../../../renderer/store/increments'),
+        'setIncrementsIsEditing',
+      )
+      .mockImplementation(() => {});
+    jest
+      .spyOn(
+        require('../../../../renderer/store/increments'),
+        'setIncrementsModalOpen',
+      )
+      .mockImplementation(() => {});
+    jest
+      .spyOn(
+        require('../../../../renderer/store/increments'),
+        'setCurrentIncrement',
+      )
+      .mockImplementation(() => {});
     renderWithStore(<Add />, {
       increments: { ...initialIncrementsState, incrementsModalOpen: true },
-      products: initialProductsState
+      products: initialProductsState,
     });
 
     fireEvent.click(screen.getByText(/\+ Add Increment/i));

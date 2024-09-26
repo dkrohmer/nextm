@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import Error from '../../../../renderer/components/Models/Error'; // Adjust the path if needed
 import { jest } from '@jest/globals';
+import Error from '../../../../renderer/components/Models/Error'; // Adjust the path if needed
 
 // Mock useSelector hook
 const mockUseSelector = jest.fn();
@@ -22,7 +22,7 @@ describe('Models Error Component', () => {
         models: {
           modelsError: 'Test models error message',
         },
-      })
+      }),
     );
 
     // Render the Error component
@@ -40,7 +40,7 @@ describe('Models Error Component', () => {
         models: {
           modelsError: 'Test models error message',
         },
-      })
+      }),
     );
 
     // Render the Error component
@@ -58,7 +58,7 @@ describe('Models Error Component', () => {
         models: {
           modelsError: null,
         },
-      })
+      }),
     );
 
     // Render the Error component
@@ -66,6 +66,8 @@ describe('Models Error Component', () => {
 
     // Ensure the Error component is not rendered when there is no error
     expect(screen.queryByText('Error❗️')).not.toBeInTheDocument();
-    expect(screen.queryByText('Test models error message')).not.toBeInTheDocument();
+    expect(
+      screen.queryByText('Test models error message'),
+    ).not.toBeInTheDocument();
   });
 });

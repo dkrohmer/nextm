@@ -12,7 +12,9 @@ const ModalResponsible: React.FC = () => {
   /**
    * global states
    */
-  const { productsCurrentProduct } = useSelector((state: RootState) => state.products);
+  const { productsCurrentProduct } = useSelector(
+    (state: RootState) => state.products,
+  );
 
   /**
    * tsx

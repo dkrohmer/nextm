@@ -1,4 +1,4 @@
-import { renderHook, act } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react-hooks';
 import { Graph } from '@antv/x6';
 import useSetupStencil from '../../../../renderer/hooks/model-editor/useSetupStencil';
 

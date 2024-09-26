@@ -8,9 +8,9 @@ const ModalName: React.FC = () => {
   /**
    * global states
    */
-  const {
-    modelsCurrentModel
-  } = useSelector((state: RootState) => state.models);
+  const { modelsCurrentModel } = useSelector(
+    (state: RootState) => state.models,
+  );
 
   /**
    * hooks
@@ -20,17 +20,18 @@ const ModalName: React.FC = () => {
   /**
    * handlers
    */
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, key: string) => {
-    let value = e.target.value;
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    key: string,
+  ) => {
+    let { value } = e.target;
 
     if (value.length > 250) {
       value = value.slice(0, 249);
     }
-    
+
     if (modelsCurrentModel) {
-      dispatch(
-        setModelsCurrentModel({ ...modelsCurrentModel, [key]: value })
-      );
+      dispatch(setModelsCurrentModel({ ...modelsCurrentModel, [key]: value }));
     }
   };
 

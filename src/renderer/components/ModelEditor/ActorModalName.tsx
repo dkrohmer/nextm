@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form } from 'semantic-ui-react';
-import { AppDispatch, RootState } from '../../store';
 import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../store';
 import { setActorName } from '../../store/modelEditor';
 
 const ActorModalName: React.FC = () => {
@@ -13,13 +13,13 @@ const ActorModalName: React.FC = () => {
   /**
    * hooks
    */
-  const dispatch = useDispatch<AppDispatch>()
+  const dispatch = useDispatch<AppDispatch>();
 
   /**
    * handlers
    */
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    let value = event.target.value;
+    let { value } = event.target;
 
     if (value.length > 250) {
       value = value.slice(0, 249);

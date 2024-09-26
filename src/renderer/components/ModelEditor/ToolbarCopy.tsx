@@ -15,7 +15,7 @@ const ToolbarCopy: React.FC<ToolbarCopyProps> = ({ graph }) => {
   const handleCopy = () => {
     actions.copyAction(graph);
   };
-  
+
   /**
    * tsx
    */

@@ -1,5 +1,4 @@
 import { renderHook, act } from '@testing-library/react-hooks';
-import { useDispatch } from 'react-redux';
 import { Graph } from '@antv/x6';
 import useGraphHistoryChange from '../../../../renderer/hooks/model-editor/useGraphHistoryChange';
 import { setCanRedo, setCanUndo } from '../../../../renderer/store/modelEditor';
@@ -59,12 +58,17 @@ describe('useGraphHistoryChange hook', () => {
 
   it('should unregister history:change event on cleanup', () => {
     // Render the hook with a graph
-    const { unmount } = renderHook(() => useGraphHistoryChange(mockGraph as Graph));
+    const { unmount } = renderHook(() =>
+      useGraphHistoryChange(mockGraph as Graph),
+    );
 
     // Unmount the hook (trigger cleanup)
     unmount();
 
     // Expect the history:change event to be unregistered
-    expect(mockGraph.off).toHaveBeenCalledWith('history:change', expect.any(Function));
+    expect(mockGraph.off).toHaveBeenCalledWith(
+      'history:change',
+      expect.any(Function),
+    );
   });
 });

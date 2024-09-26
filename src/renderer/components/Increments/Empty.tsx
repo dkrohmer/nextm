@@ -7,11 +7,9 @@ const Empty: React.FC = () => {
   /**
    * global states
    */
-  const {
-    increments,
-    incrementsError,
-    incrementsIsLoading,
-  } = useSelector((state: RootState) => state.increments);
+  const { increments, incrementsError, incrementsIsLoading } = useSelector(
+    (state: RootState) => state.increments,
+  );
 
   /**
    * tsx
@@ -28,7 +26,6 @@ const Empty: React.FC = () => {
       )}
     </>
   );
-}
-
+};
 
 export default Empty;

@@ -20,7 +20,7 @@ const ExportModalJson: React.FC = () => {
    */
   const handleChange = () => {
     dispatch(setExportFormat('json'));
-  }
+  };
 
   /**
    * tsx
@@ -36,7 +36,7 @@ const ExportModalJson: React.FC = () => {
         onChange={handleChange}
       />
     </Form.Field>
-  )
-}
+  );
+};
 
 export default ExportModalJson;

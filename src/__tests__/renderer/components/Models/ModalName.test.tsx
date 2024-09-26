@@ -1,10 +1,10 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import ModalName from '../../../../renderer/components/Models/ModalName'; // Adjust the import path if necessary
-import { setModelsCurrentModel } from '../../../../renderer/store/models';
 import { useDispatch, useSelector } from 'react-redux';
 import { jest } from '@jest/globals';
+import ModalName from '../../../../renderer/components/Models/ModalName'; // Adjust the import path if necessary
+import { setModelsCurrentModel } from '../../../../renderer/store/models';
 
 // Mock useDispatch and useSelector hooks
 const mockDispatch = jest.fn();
@@ -22,11 +22,18 @@ describe('ModalName Component', () => {
 
   it('renders the input with the current model name', () => {
     // Set up the mock to return a non-null modelsCurrentModel
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      models: {
-        modelsCurrentModel: { id: '1', name: 'Old Model Name', createdAt: '1', incrementId: '123' },
-      }
-    }));
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        models: {
+          modelsCurrentModel: {
+            id: '1',
+            name: 'Old Model Name',
+            createdAt: '1',
+            incrementId: '123',
+          },
+        },
+      }),
+    );
 
     render(<ModalName />);
 
@@ -37,11 +44,13 @@ describe('ModalName Component', () => {
 
   it('renders the input with an empty value when modelsCurrentModel is null', () => {
     // Set up the mock to return a null modelsCurrentModel
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      models: {
-        modelsCurrentModel: null,
-      }
-    }));
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        models: {
+          modelsCurrentModel: null,
+        },
+      }),
+    );
 
     render(<ModalName />);
 
@@ -52,41 +61,65 @@ describe('ModalName Component', () => {
 
   it('dispatches setModelsCurrentModel action on input change', () => {
     // Set up the mock to return a non-null modelsCurrentModel
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      models: {
-        modelsCurrentModel: { id: '1', name: 'Old Model Name', createdAt: '1', incrementId: '123' },
-      }
-    }));
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        models: {
+          modelsCurrentModel: {
+            id: '1',
+            name: 'Old Model Name',
+            createdAt: '1',
+            incrementId: '123',
+          },
+        },
+      }),
+    );
 
     render(<ModalName />);
 
     // Simulate input change
     fireEvent.change(screen.getByPlaceholderText('Threat Model Name'), {
-      target: { value: 'New Model Name' }
+      target: { value: 'New Model Name' },
     });
 
     // Check if dispatch is called with the correct action
     expect(mockDispatch).toHaveBeenCalledWith(
-      setModelsCurrentModel({ id: '1', name: 'New Model Name', createdAt: '1', incrementId: '123' })
+      setModelsCurrentModel({
+        id: '1',
+        name: 'New Model Name',
+        createdAt: '1',
+        incrementId: '123',
+      }),
     );
   });
 
   it('should truncate the input value to 249 characters if it exceeds 250 characters', () => {
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      models: {
-        modelsCurrentModel: { id: '1', name: 'Old Model Name', createdAt: '1', incrementId: '123' },
-      }
-    }));
-  
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        models: {
+          modelsCurrentModel: {
+            id: '1',
+            name: 'Old Model Name',
+            createdAt: '1',
+            incrementId: '123',
+          },
+        },
+      }),
+    );
+
     render(<ModalName />);
-  
+
     const longName = 'A'.repeat(260); // 260 characters
     fireEvent.change(screen.getByPlaceholderText('Threat Model Name'), {
       target: { value: longName },
     });
-  
+
     expect(mockDispatch).toHaveBeenCalledWith(
-      setModelsCurrentModel({ id: '1', name: 'A'.repeat(249), createdAt: '1', incrementId: '123' })
+      setModelsCurrentModel({
+        id: '1',
+        name: 'A'.repeat(249),
+        createdAt: '1',
+        incrementId: '123',
+      }),
     );
   });
 });

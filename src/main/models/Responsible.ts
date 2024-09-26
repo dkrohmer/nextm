@@ -6,12 +6,12 @@ import {
   PrimaryGeneratedColumn,
   Relation,
 } from 'typeorm';
-import { 
+import {
   IsOptional,
   IsString,
   isUUID,
   IsUUID,
-  MaxLength
+  MaxLength,
 } from 'class-validator';
 
 import { v4 as uuidv4 } from 'uuid';

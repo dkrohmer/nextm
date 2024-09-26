@@ -2,13 +2,19 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from 'semantic-ui-react';
 import { AppDispatch, RootState } from '../../store';
-import { setCurrentIncrement, setIncrementsIsEditing, setIncrementsModalOpen } from '../../store/increments';
+import {
+  setCurrentIncrement,
+  setIncrementsIsEditing,
+  setIncrementsModalOpen,
+} from '../../store/increments';
 
-const Add: React.FC = () => {  
+const Add: React.FC = () => {
   /**
    * global states
    */
-  const { incrementsModalOpen } = useSelector((state: RootState) => state.increments);
+  const { incrementsModalOpen } = useSelector(
+    (state: RootState) => state.increments,
+  );
 
   /**
    * hooks
@@ -30,7 +36,7 @@ const Add: React.FC = () => {
           end: '',
           deadline: '',
           state: '',
-          productId: ''
+          productId: '',
         }),
       );
     }

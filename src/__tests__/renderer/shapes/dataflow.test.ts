@@ -83,7 +83,7 @@ describe('Dataflow Module', () => {
       throw new Error('Test error');
     });
 
-    expect(() => dataflow.register()).toThrowError('Registering dataflow failed');
+    expect(() => dataflow.register()).toThrow('Registering dataflow failed');
   });
 
   it('should create a dataflow stencil node', () => {
@@ -125,7 +125,7 @@ describe('Dataflow Module', () => {
             breakWord: true,
             ellipsis: true,
             height: 40,
-            text: "Test Label",
+            text: 'Test Label',
             width: 250,
           },
         },
@@ -151,7 +151,7 @@ describe('Dataflow Module', () => {
           textWrap: {
             ellipsis: true,
             height: 20,
-            text: "HTTP",
+            text: 'HTTP',
           },
         },
         protocolBody: {

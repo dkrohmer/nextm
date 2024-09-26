@@ -2,7 +2,10 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import ConfirmDelete from '../../../../renderer/components/Increments/ConfirmDelete';
 import { deleteIncrement } from '../../../../renderer/services/api/increments';
-import { setIncrementsActiveIndex, setIncrementsConfirmOpen } from '../../../../renderer/store/increments';
+import {
+  setIncrementsActiveIndex,
+  setIncrementsConfirmOpen,
+} from '../../../../renderer/store/increments';
 
 // Mocking useDispatch, useSelector, and useNavigate hooks
 const mockDispatch = jest.fn();
@@ -30,38 +33,54 @@ describe('ConfirmDelete Component', () => {
 
   it('renders the Confirm dialog when incrementsConfirmOpen is true', () => {
     // Mock useSelector to return incrementsConfirmOpen as true
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      increments: { incrementsConfirmOpen: true, incrementToDelete: { id: '1' } },
-      products: { product: { id: 'testProductId' } }
-    }));
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        increments: {
+          incrementsConfirmOpen: true,
+          incrementToDelete: { id: '1' },
+        },
+        products: { product: { id: 'testProductId' } },
+      }),
+    );
 
     // Render the ConfirmDelete component
     render(<ConfirmDelete />);
 
     // Check if the Confirm dialog is rendered
-    expect(screen.getByText(/Deleting an increment will permanently delete/i)).toBeInTheDocument();
+    expect(
+      screen.getByText(/Deleting an increment will permanently delete/i),
+    ).toBeInTheDocument();
   });
 
   it('does not render the Confirm dialog when incrementsConfirmOpen is false', () => {
     // Mock useSelector to return incrementsConfirmOpen as false
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      increments: { incrementsConfirmOpen: false, incrementToDelete: null },
-      products: { product: { id: 'testProductId' } }
-    }));
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        increments: { incrementsConfirmOpen: false, incrementToDelete: null },
+        products: { product: { id: 'testProductId' } },
+      }),
+    );
 
     // Render the ConfirmDelete component
     render(<ConfirmDelete />);
 
     // Check if the Confirm dialog is not rendered
-    expect(screen.queryByText(/Deleting an increment will permanently delete/i)).not.toBeInTheDocument();
+    expect(
+      screen.queryByText(/Deleting an increment will permanently delete/i),
+    ).not.toBeInTheDocument();
   });
 
   it('handles confirm action correctly', () => {
     // Mock useSelector to return the incrementToDelete and product
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      increments: { incrementsConfirmOpen: true, incrementToDelete: { id: '1' } },
-      products: { product: { id: 'testProductId' } }
-    }));
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        increments: {
+          incrementsConfirmOpen: true,
+          incrementToDelete: { id: '1' },
+        },
+        products: { product: { id: 'testProductId' } },
+      }),
+    );
 
     render(<ConfirmDelete />);
 
@@ -80,10 +99,15 @@ describe('ConfirmDelete Component', () => {
 
   it('handles cancel action correctly', () => {
     // Mock useSelector to return incrementsConfirmOpen as true
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      increments: { incrementsConfirmOpen: true, incrementToDelete: { id: '1' } },
-      products: { product: { id: 'testProductId' } }
-    }));
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        increments: {
+          incrementsConfirmOpen: true,
+          incrementToDelete: { id: '1' },
+        },
+        products: { product: { id: 'testProductId' } },
+      }),
+    );
 
     render(<ConfirmDelete />);
 

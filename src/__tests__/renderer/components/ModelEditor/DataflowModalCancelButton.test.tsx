@@ -1,9 +1,9 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import { jest } from '@jest/globals';
 import DataflowModalCancelButton from '../../../../renderer/components/ModelEditor/DataflowModalCancelButton';
 import { setDataflowModalOpen } from '../../../../renderer/store/modelEditor';
-import { jest } from '@jest/globals';
 
 // Mock the useDispatch hook
 const mockDispatch = jest.fn();

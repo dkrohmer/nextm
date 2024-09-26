@@ -2,11 +2,19 @@ import { render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import SideBar from '../../../../renderer/components/Layout/SideBar';
-import settingsReducer, { initialSettingsState } from '../../../../renderer/store/settings';
+import settingsReducer, {
+  initialSettingsState,
+} from '../../../../renderer/store/settings';
 
 // Mock the necessary hooks and components
 jest.mock('../../../../renderer/hooks/useHandleClickOutside', () => jest.fn());
-jest.mock('../../../../renderer/components/Settings', () => () => <div>Settings Component</div>);
+jest.mock(
+  '../../../../renderer/components/Settings',
+  () =>
+    function () {
+      return <div>Settings Component</div>;
+    },
+);
 
 // Create a mock store
 const createMockStore = (sidebarVisible: boolean) => {
@@ -27,11 +35,13 @@ describe('SideBar Component', () => {
     render(
       <Provider store={store}>
         <SideBar />
-      </Provider>
+      </Provider>,
     );
 
     // Check that the Semantic Sidebar is visible with the correct classes
-    const sidebarElement = screen.getByText('Settings Component').closest('.sidebar');
+    const sidebarElement = screen
+      .getByText('Settings Component')
+      .closest('.sidebar');
     expect(sidebarElement).toHaveClass('visible');
     expect(sidebarElement).toHaveClass('animating');
   });
@@ -42,11 +52,13 @@ describe('SideBar Component', () => {
     render(
       <Provider store={store}>
         <SideBar />
-      </Provider>
+      </Provider>,
     );
 
     // Check that the Semantic Sidebar is rendered but not visible
-    const sidebarElement = screen.getByText('Settings Component').closest('.sidebar');
+    const sidebarElement = screen
+      .getByText('Settings Component')
+      .closest('.sidebar');
     expect(sidebarElement).not.toHaveClass('visible');
     expect(sidebarElement).not.toHaveClass('animating');
   });
@@ -58,7 +70,7 @@ describe('SideBar Component', () => {
     render(
       <Provider store={store}>
         <SideBar />
-      </Provider>
+      </Provider>,
     );
 
     // Ensure that the useHandleClickOutside hook was called

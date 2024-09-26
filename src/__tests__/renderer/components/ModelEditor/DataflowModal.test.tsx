@@ -3,6 +3,8 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
+import { Graph } from '@antv/x6';
+import { jest } from '@jest/globals';
 import DataflowModal from '../../../../renderer/components/ModelEditor/DataflowModal';
 import modelEditorReducer, {
   setDataflowModalOpen,
@@ -11,9 +13,7 @@ import modelEditorReducer, {
   setDataflowProtocol,
   setDataflowStride,
 } from '../../../../renderer/store/modelEditor';
-import { Graph } from '@antv/x6';
 import dataflow from '../../../../renderer/shapes/dataflow'; // Adjust path if necessary
-import { jest } from '@jest/globals';
 
 // Mock the Graph class
 jest.mock('@antv/x6', () => {
@@ -80,14 +80,16 @@ describe('DataflowModal Component', () => {
     store.dispatch(setDataflowModalSelectedCell('mockCellId'));
     store.dispatch(setDataflowLabel('New Dataflow Label'));
     store.dispatch(setDataflowProtocol('Protocol A'));
-    store.dispatch(setDataflowStride({
-      spoofing: true,
-      tampering: false,
-      repudiation: true,
-      informationDisclosure: false,
-      denialOfService: true,
-      elevatePrivilege: false,
-    }));
+    store.dispatch(
+      setDataflowStride({
+        spoofing: true,
+        tampering: false,
+        repudiation: true,
+        informationDisclosure: false,
+        denialOfService: true,
+        elevatePrivilege: false,
+      }),
+    );
 
     // Mock the label creation logic
     const mockLabel = {
@@ -118,7 +120,7 @@ describe('DataflowModal Component', () => {
     await waitFor(() => {
       expect(mockCell.setLabelAt).toHaveBeenCalledWith(
         0,
-        mockLabel // Adjust this based on the actual label logic
+        mockLabel, // Adjust this based on the actual label logic
       );
     });
 

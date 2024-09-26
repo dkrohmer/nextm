@@ -34,7 +34,9 @@ describe('TableCellCreated Component', () => {
       expect(popup).toBeInTheDocument();
 
       // Ensure the formatted date is present in the popup content
-      const popupContent = screen.getByText(formattedDate, { selector: '.ui.popup.visible' });
+      const popupContent = screen.getByText(formattedDate, {
+        selector: '.ui.popup.visible',
+      });
       expect(popupContent).toBeInTheDocument();
     });
   });

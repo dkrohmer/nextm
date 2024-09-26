@@ -17,14 +17,12 @@ export const fetchIncrements = createAsyncThunk(
   'increments/fetchIncrements',
   async ({ productId }: FetchIncrementsArgs, { rejectWithValue }) => {
     try {
-      // const response = await axios.get(`/api/increments?productId=${productId}&sortBy=incrementIndex&sort=desc`);
-      // return response.data.increments;
       const response = await window.electron.getAllIncrements({
         productId,
         sortby: 'incrementIndex',
         sort: 'desc',
       });
-      return response ;
+      return response;
     } catch (error) {
       return rejectWithValue('Failed to load increments.');
     }

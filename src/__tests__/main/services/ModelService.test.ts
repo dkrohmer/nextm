@@ -17,7 +17,8 @@ describe('ModelService', () => {
 
   beforeEach(() => {
     modelRepository = new ModelRepository() as jest.Mocked<ModelRepository>;
-    incrementRepository = new IncrementRepository() as jest.Mocked<IncrementRepository>;
+    incrementRepository =
+      new IncrementRepository() as jest.Mocked<IncrementRepository>;
     modelService = new ModelService();
 
     (modelService as any).modelRepository = modelRepository;
@@ -40,7 +41,10 @@ describe('ModelService', () => {
       increment.id = incrementId;
 
       const newModel = new Model();
-      Object.assign(newModel, modelData, { id: 'model-uuid', toJSON: jest.fn().mockReturnValue({}) });
+      Object.assign(newModel, modelData, {
+        id: 'model-uuid',
+        toJSON: jest.fn().mockReturnValue({}),
+      });
 
       incrementRepository.getIncrementById.mockResolvedValue(increment);
       (buildModelEntity as jest.Mock).mockReturnValue(newModel);
@@ -48,8 +52,13 @@ describe('ModelService', () => {
 
       const result = await modelService.createModel(modelData);
 
-      expect(incrementRepository.getIncrementById).toHaveBeenCalledWith(incrementId, false);
-      expect(buildModelEntity).toHaveBeenCalledWith(expect.objectContaining(modelData));
+      expect(incrementRepository.getIncrementById).toHaveBeenCalledWith(
+        incrementId,
+        false,
+      );
+      expect(buildModelEntity).toHaveBeenCalledWith(
+        expect.objectContaining(modelData),
+      );
       expect(modelRepository.createModel).toHaveBeenCalledWith(newModel);
       expect(result).toEqual({});
     });
@@ -62,25 +71,32 @@ describe('ModelService', () => {
 
       incrementRepository.getIncrementById.mockResolvedValue(null);
 
-      await expect(modelService.createModel(modelData)).rejects.toThrow('Product not found');
+      await expect(modelService.createModel(modelData)).rejects.toThrow(
+        'Product not found',
+      );
     });
   });
 
   describe('getAllModels', () => {
     it('should return all models with count', async () => {
-      const models = [
-        new Model(),
-        new Model(),
-      ];
+      const models = [new Model(), new Model()];
       models[0].toJSON = jest.fn().mockReturnValue({});
       models[1].toJSON = jest.fn().mockReturnValue({});
       const modelsCount = 2;
 
       modelRepository.getAllModels.mockResolvedValue([models, modelsCount]);
 
-      const result = await modelService.getAllModels('name', 'asc', 'increment-uuid');
+      const result = await modelService.getAllModels(
+        'name',
+        'asc',
+        'increment-uuid',
+      );
 
-      expect(modelRepository.getAllModels).toHaveBeenCalledWith('name', 'asc', 'increment-uuid');
+      expect(modelRepository.getAllModels).toHaveBeenCalledWith(
+        'name',
+        'asc',
+        'increment-uuid',
+      );
       expect(result).toEqual({ models: [{}, {}], modelsCount });
     });
   });
@@ -94,14 +110,19 @@ describe('ModelService', () => {
 
       const result = await modelService.getModelById('model-uuid', true);
 
-      expect(modelRepository.getModelById).toHaveBeenCalledWith('model-uuid', true);
+      expect(modelRepository.getModelById).toHaveBeenCalledWith(
+        'model-uuid',
+        true,
+      );
       expect(result).toEqual({});
     });
 
     it('should throw an error if model not found', async () => {
       modelRepository.getModelById.mockResolvedValue(null);
 
-      await expect(modelService.getModelById('model-uuid', true)).rejects.toThrow('Cannot read properties of null (reading \'toJSON\')');
+      await expect(
+        modelService.getModelById('model-uuid', true),
+      ).rejects.toThrow("Cannot read properties of null (reading 'toJSON')");
     });
   });
 
@@ -115,7 +136,10 @@ describe('ModelService', () => {
 
       const result = await modelService.updateModel('model-uuid', updateData);
 
-      expect(modelRepository.updateModel).toHaveBeenCalledWith('model-uuid', updateData);
+      expect(modelRepository.updateModel).toHaveBeenCalledWith(
+        'model-uuid',
+        updateData,
+      );
       expect(result).toEqual({});
     });
   });

@@ -26,35 +26,51 @@ describe('ConfirmDelete Component', () => {
 
   it('renders the Confirm dialog when modelsConfirmOpen is true', () => {
     // Mock useSelector to return modelsConfirmOpen as true
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      models: { modelsConfirmOpen: true, modelToDelete: { id: '1', name: 'Test Model' } }
-    }));
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        models: {
+          modelsConfirmOpen: true,
+          modelToDelete: { id: '1', name: 'Test Model' },
+        },
+      }),
+    );
 
     // Render the ConfirmDelete component
     render(<ConfirmDelete />);
 
     // Check if the Confirm dialog is rendered
-    expect(screen.getByText(/Do you want to delete this model permanently\?/i)).toBeInTheDocument();
+    expect(
+      screen.getByText(/Do you want to delete this model permanently\?/i),
+    ).toBeInTheDocument();
   });
 
   it('does not render the Confirm dialog when modelsConfirmOpen is false', () => {
     // Mock useSelector to return modelsConfirmOpen as false
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      models: { modelsConfirmOpen: false, modelToDelete: null }
-    }));
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        models: { modelsConfirmOpen: false, modelToDelete: null },
+      }),
+    );
 
     // Render the ConfirmDelete component
     render(<ConfirmDelete />);
 
     // Check if the Confirm dialog is not rendered
-    expect(screen.queryByText(/Do you want to delete this model permanently\?/i)).not.toBeInTheDocument();
+    expect(
+      screen.queryByText(/Do you want to delete this model permanently\?/i),
+    ).not.toBeInTheDocument();
   });
 
   it('handles confirm action correctly', () => {
     // Mock useSelector to return the modelToDelete
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      models: { modelsConfirmOpen: true, modelToDelete: { id: '1', name: 'Test Model' } }
-    }));
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        models: {
+          modelsConfirmOpen: true,
+          modelToDelete: { id: '1', name: 'Test Model' },
+        },
+      }),
+    );
 
     render(<ConfirmDelete />);
 
@@ -67,9 +83,14 @@ describe('ConfirmDelete Component', () => {
 
   it('handles cancel action correctly', () => {
     // Mock useSelector to return modelsConfirmOpen as true
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      models: { modelsConfirmOpen: true, modelToDelete: { id: '1', name: 'Test Model' } }
-    }));
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        models: {
+          modelsConfirmOpen: true,
+          modelToDelete: { id: '1', name: 'Test Model' },
+        },
+      }),
+    );
 
     render(<ConfirmDelete />);
 

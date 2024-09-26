@@ -13,7 +13,9 @@ const DatabaseType: React.FC = () => {
   /**
    * global states
    */
-  const useDefaultDatabase = useSelector((state: RootState) => state.settings.useDefaultDatabase);
+  const useDefaultDatabase = useSelector(
+    (state: RootState) => state.settings.useDefaultDatabase,
+  );
 
   /**
    * hooks
@@ -30,15 +32,20 @@ const DatabaseType: React.FC = () => {
           <label>Database Type</label>
         </h3>
         <Popup
-          trigger={<Icon name="info circle" inverted className="settings-info" data-testid="info-icon" />}
+          trigger={
+            <Icon
+              name="info circle"
+              inverted
+              className="settings-info"
+              data-testid="info-icon"
+            />
+          }
           content={`By default, the database is stored in the app's respective user data folder depending on your operating system. However, you may also specify a custom database directory of your choice.`}
         />
       </div>
       <DatabaseTypeDefault />
       <DatabaseTypeCustom />
-      {!useDefaultDatabase && (
-        <DatabaseTypePicker />
-      )}
+      {!useDefaultDatabase && <DatabaseTypePicker />}
       <DatabaseTypeSubmitButton />
     </Form>
   );

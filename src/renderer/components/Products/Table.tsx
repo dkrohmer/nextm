@@ -1,5 +1,5 @@
 import React from 'react';
-import { Segment, Table as SemanticTable} from 'semantic-ui-react';
+import { Segment, Table as SemanticTable } from 'semantic-ui-react';
 import TableHeaders from './TableHeaders';
 import TableBody from './TableBody';
 

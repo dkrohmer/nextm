@@ -73,7 +73,10 @@ export class IncrementRepository {
     return latestIncrement?.id || null;
   }
 
-  async updateIncrement(id: string, data: Partial<Increment>): Promise<Increment | null> {
+  async updateIncrement(
+    id: string,
+    data: Partial<Increment>,
+  ): Promise<Increment | null> {
     const increment = await this.incrementRepository.findOneBy({ id });
     if (!increment) {
       return null;

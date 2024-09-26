@@ -6,7 +6,7 @@ interface TitleProps {
   name: string;
 }
 
-const Title: React.FC<TitleProps> = ({ number, name }) => (  
+const Title: React.FC<TitleProps> = ({ number, name }) => (
   /**
    * tsx
    */

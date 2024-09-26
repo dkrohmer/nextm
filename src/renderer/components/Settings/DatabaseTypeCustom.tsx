@@ -2,13 +2,19 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Form, Radio } from 'semantic-ui-react';
 import { AppDispatch, RootState } from '../../store';
-import { setUseDefaultDatabase, setButtonLabel, setInputPath, setCustomDatabasePath } from '../../store/settings';
+import {
+  setUseDefaultDatabase,
+  setButtonLabel,
+  setInputPath,
+} from '../../store/settings';
 
 const DatabaseTypeCustom: React.FC = () => {
   /**
    * global states
    */
-  const { useDefaultDatabase, customDatabasePath } = useSelector((state: RootState) => state.settings);
+  const { useDefaultDatabase, customDatabasePath } = useSelector(
+    (state: RootState) => state.settings,
+  );
 
   /**
    * hooks

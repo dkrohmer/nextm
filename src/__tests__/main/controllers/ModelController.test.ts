@@ -87,7 +87,7 @@ describe('ModelController', () => {
     expect(modelService.getAllModels).toHaveBeenCalledWith(
       'createdAt',
       'asc',
-      'test-increment'
+      'test-increment',
     );
   });
 
@@ -116,7 +116,7 @@ describe('ModelController', () => {
     expect(modelService.getAllModels).toHaveBeenCalledWith(
       'createdAt',
       'desc',
-      'test-increment'
+      'test-increment',
     );
   });
 
@@ -145,7 +145,7 @@ describe('ModelController', () => {
     expect(modelService.getAllModels).toHaveBeenCalledWith(
       'createdAt',
       'asc',
-      'test-increment'
+      'test-increment',
     );
   });
 
@@ -173,7 +173,7 @@ describe('ModelController', () => {
     expect(modelService.getAllModels).toHaveBeenCalledWith(
       'createdAt',
       'asc',
-      'test-increment'
+      'test-increment',
     );
   });
 

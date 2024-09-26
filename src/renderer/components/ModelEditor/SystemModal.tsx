@@ -19,12 +19,12 @@ const SystemModal: React.FC<SystemModalProps> = ({ graph }) => {
   /**
    * global states
    */
-  const { 
+  const {
     systemModalOpen,
-    systemModalSelectedCell, 
-    systemName, 
-    systemStack, 
-    systemDescription 
+    systemModalSelectedCell,
+    systemName,
+    systemStack,
+    systemDescription,
   } = useSelector((state: RootState) => state.modelEditor);
 
   /**
@@ -57,7 +57,12 @@ const SystemModal: React.FC<SystemModalProps> = ({ graph }) => {
    * tsx
    */
   return (
-    <Modal open={systemModalOpen} onClose={handleClose} dimmer="blurring" data-testid="system-modal">
+    <Modal
+      open={systemModalOpen}
+      onClose={handleClose}
+      dimmer="blurring"
+      data-testid="system-modal"
+    >
       <Modal.Header>Edit System</Modal.Header>
       <Modal.Content>
         <Form onSubmit={handleSubmit} data-testid="system-modal-form">

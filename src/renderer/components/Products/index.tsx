@@ -30,7 +30,10 @@ const Products: React.FC = () => {
       <Segment basic data-testid="table-segment">
         <Table data-testid="table" />
       </Segment>
-      <div className="products-pagination-items-container" data-testid="pagination-items-container">
+      <div
+        className="products-pagination-items-container"
+        data-testid="pagination-items-container"
+      >
         <Pagination data-testid="pagination" />
         <ItemsPerPage data-testid="items-per-page" />
       </div>

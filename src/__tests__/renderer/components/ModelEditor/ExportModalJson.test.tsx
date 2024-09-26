@@ -1,8 +1,8 @@
 import { render, screen, fireEvent, within } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import { jest } from '@jest/globals';
 import ExportModalJson from '../../../../renderer/components/ModelEditor/ExportModalJson'; // Adjust the path as needed
 import { setExportFormat } from '../../../../renderer/store/modelEditor';
-import { jest } from '@jest/globals';
 
 // Mock useDispatch and useSelector hooks
 const mockDispatch = jest.fn();
@@ -20,11 +20,13 @@ describe('ExportModalJson Component', () => {
 
   it('renders the radio button with the correct state when exportFormat is "json"', () => {
     // Set up the mock to return exportFormat as "json"
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      modelEditor: {
-        exportFormat: 'json',
-      }
-    }));
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        modelEditor: {
+          exportFormat: 'json',
+        },
+      }),
+    );
 
     render(<ExportModalJson />);
 
@@ -38,11 +40,13 @@ describe('ExportModalJson Component', () => {
 
   it('renders the radio button with the correct state when exportFormat is not "json"', () => {
     // Set up the mock to return exportFormat as something other than "json"
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      modelEditor: {
-        exportFormat: 'png',
-      }
-    }));
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        modelEditor: {
+          exportFormat: 'png',
+        },
+      }),
+    );
 
     render(<ExportModalJson />);
 
@@ -56,11 +60,13 @@ describe('ExportModalJson Component', () => {
 
   it('dispatches setExportFormat with "json" when the radio button is clicked', () => {
     // Set up the mock to return any initial exportFormat
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      modelEditor: {
-        exportFormat: 'png', // or any format other than "json"
-      }
-    }));
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        modelEditor: {
+          exportFormat: 'png', // or any format other than "json"
+        },
+      }),
+    );
 
     render(<ExportModalJson />);
 

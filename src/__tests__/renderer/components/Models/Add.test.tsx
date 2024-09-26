@@ -5,10 +5,17 @@ import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import { configureStore } from '@reduxjs/toolkit';
 import Add from '../../../../renderer/components/Models/Add';
-import modelsReducer, { ModelsState, setModelsCurrentModel, setModelsIsEditing, setModelsModalOpen } from '../../../../renderer/store/models';
-import productsReducer, { ProductsState } from '../../../../renderer/store/products';
-import { initialModelsState } from '../../../../renderer/store/models';
-import { initialProductsState } from '../../../../renderer/store/products';
+import modelsReducer, {
+  ModelsState,
+  setModelsCurrentModel,
+  setModelsIsEditing,
+  setModelsModalOpen,
+  initialModelsState,
+} from '../../../../renderer/store/models';
+import productsReducer, {
+  ProductsState,
+  initialProductsState,
+} from '../../../../renderer/store/products';
 
 // Define RootState interface and createTestStore function
 interface RootState {
@@ -26,14 +33,15 @@ const createTestStore = (initialState: Partial<RootState>) => {
   });
 };
 
-const renderWithStore = (ui: React.ReactElement, initialState: Partial<RootState> = {}) => {
+const renderWithStore = (
+  ui: React.ReactElement,
+  initialState: Partial<RootState> = {},
+) => {
   const store = createTestStore(initialState);
   return render(
     <Provider store={store}>
-      <MemoryRouter>
-        {ui}
-      </MemoryRouter>
-    </Provider>
+      <MemoryRouter>{ui}</MemoryRouter>
+    </Provider>,
   );
 };
 
@@ -54,14 +62,32 @@ describe('Add Component', () => {
 
   it('dispatches actions on click', () => {
     // Ensure mocks are correct
-    jest.spyOn(require('../../../../renderer/store/models'), 'setModelsIsEditing').mockImplementation(() => ({ type: 'models/setModelsIsEditing', payload: false }));
-    jest.spyOn(require('../../../../renderer/store/models'), 'setModelsModalOpen').mockImplementation(() => ({ type: 'models/setModelsModalOpen', payload: true }));
-    jest.spyOn(require('../../../../renderer/store/models'), 'setModelsCurrentModel').mockImplementation(() => ({ type: 'models/setModelsCurrentModel', payload: {
-      id: '',
-      name: '',
-      createdAt: '',
-      incrementId: '',
-    }}));
+    jest
+      .spyOn(require('../../../../renderer/store/models'), 'setModelsIsEditing')
+      .mockImplementation(() => ({
+        type: 'models/setModelsIsEditing',
+        payload: false,
+      }));
+    jest
+      .spyOn(require('../../../../renderer/store/models'), 'setModelsModalOpen')
+      .mockImplementation(() => ({
+        type: 'models/setModelsModalOpen',
+        payload: true,
+      }));
+    jest
+      .spyOn(
+        require('../../../../renderer/store/models'),
+        'setModelsCurrentModel',
+      )
+      .mockImplementation(() => ({
+        type: 'models/setModelsCurrentModel',
+        payload: {
+          id: '',
+          name: '',
+          createdAt: '',
+          incrementId: '',
+        },
+      }));
 
     renderWithStore(<Add />, {
       models: { ...initialModelsState, modelsModalOpen: false },
@@ -81,9 +107,18 @@ describe('Add Component', () => {
   });
 
   it('does not dispatch actions if modal is already open', () => {
-    jest.spyOn(require('../../../../renderer/store/models'), 'setModelsIsEditing').mockImplementation(() => {});
-    jest.spyOn(require('../../../../renderer/store/models'), 'setModelsModalOpen').mockImplementation(() => {});
-    jest.spyOn(require('../../../../renderer/store/models'), 'setModelsCurrentModel').mockImplementation(() => {});
+    jest
+      .spyOn(require('../../../../renderer/store/models'), 'setModelsIsEditing')
+      .mockImplementation(() => {});
+    jest
+      .spyOn(require('../../../../renderer/store/models'), 'setModelsModalOpen')
+      .mockImplementation(() => {});
+    jest
+      .spyOn(
+        require('../../../../renderer/store/models'),
+        'setModelsCurrentModel',
+      )
+      .mockImplementation(() => {});
 
     renderWithStore(<Add />, {
       models: { ...initialModelsState, modelsModalOpen: true },

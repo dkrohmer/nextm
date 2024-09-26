@@ -2,14 +2,20 @@ import React from 'react';
 import { Form, Button, Input, Popup } from 'semantic-ui-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store';
-import { setInputPath, setButtonLabel, setCustomDatabasePath } from '../../store/settings';
+import {
+  setInputPath,
+  setButtonLabel,
+  setCustomDatabasePath,
+} from '../../store/settings';
 
 const DatabaseTypePicker: React.FC = () => {
   /**
    * global states
    */
-  const { path, inputPath, useDefaultDatabase } = useSelector((state: RootState) => state.settings);
-  
+  const { path, inputPath, useDefaultDatabase } = useSelector(
+    (state: RootState) => state.settings,
+  );
+
   /**
    * hooks
    */
@@ -19,7 +25,7 @@ const DatabaseTypePicker: React.FC = () => {
    * handlers
    */
   const handlePathChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
+    const { value } = e.target;
     dispatch(setInputPath(value));
     if (!useDefaultDatabase) {
       dispatch(setCustomDatabasePath(value));
@@ -50,12 +56,23 @@ const DatabaseTypePicker: React.FC = () => {
   return (
     <>
       <Form.Field>
-        <Button primary onClick={handleOpenFilePicker}>Open existing</Button>
-        <Button primary onClick={handleOpenDirectoryPicker}>Create new</Button>
+        <Button primary onClick={handleOpenFilePicker}>
+          Open existing
+        </Button>
+        <Button primary onClick={handleOpenDirectoryPicker}>
+          Create new
+        </Button>
       </Form.Field>
       <Form.Field>
         <Popup
-          trigger={<Input placeholder={path} value={inputPath} onChange={handlePathChange} readOnly />}
+          trigger={
+            <Input
+              placeholder={path}
+              value={inputPath}
+              onChange={handlePathChange}
+              readOnly
+            />
+          }
           content={`${inputPath || path}`}
         />
       </Form.Field>

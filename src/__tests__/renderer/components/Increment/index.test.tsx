@@ -5,7 +5,9 @@ import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import { MemoryRouter } from 'react-router-dom';
 import Increment from '../../../../renderer/components/Increment';
-import incrementsReducer, { setIncrementsActiveIndex } from '../../../../renderer/store/increments';
+import incrementsReducer, {
+  setIncrementsActiveIndex,
+} from '../../../../renderer/store/increments';
 import modelsReducer from '../../../../renderer/store/models';
 import { IIncrement } from '../../../../renderer/interfaces/IIncrement';
 import { IProduct } from '../../../../renderer/interfaces/IProduct';
@@ -44,10 +46,8 @@ describe('Increment Component', () => {
   const renderWithProviders = (component: React.ReactElement) => {
     return render(
       <Provider store={store}>
-        <MemoryRouter>
-          {component}
-        </MemoryRouter>
-      </Provider>
+        <MemoryRouter>{component}</MemoryRouter>
+      </Provider>,
     );
   };
 
@@ -58,7 +58,13 @@ describe('Increment Component', () => {
   it('collapses the active accordion and navigates back to the product page', () => {
     store.dispatch(setIncrementsActiveIndex(0));
 
-    renderWithProviders(<Increment product={mockProduct} increment={mockIncrements[0]} index={0} />);
+    renderWithProviders(
+      <Increment
+        product={mockProduct}
+        increment={mockIncrements[0]}
+        index={0}
+      />,
+    );
 
     const accordionTitle = screen.getByTestId('accordion-title-0');
 
@@ -72,7 +78,13 @@ describe('Increment Component', () => {
   it('activates the accordion and navigates to the increment when it is not active', () => {
     store.dispatch(setIncrementsActiveIndex(-1));
 
-    renderWithProviders(<Increment product={mockProduct} increment={mockIncrements[0]} index={0} />);
+    renderWithProviders(
+      <Increment
+        product={mockProduct}
+        increment={mockIncrements[0]}
+        index={0}
+      />,
+    );
 
     const accordionTitle = screen.getByTestId('accordion-title-0');
 
@@ -80,13 +92,21 @@ describe('Increment Component', () => {
 
     const currentState = store.getState().increments;
     expect(currentState.incrementsActiveIndex).toBe(0);
-    expect(navigateMock).toHaveBeenCalledWith(`/products/${mockProduct.id}/increments/${mockIncrements[0].id}`);
+    expect(navigateMock).toHaveBeenCalledWith(
+      `/products/${mockProduct.id}/increments/${mockIncrements[0].id}`,
+    );
   });
 
   it('sets isHovering to true on mouse enter', () => {
     store.dispatch(setIncrementsActiveIndex(-1));
 
-    renderWithProviders(<Increment product={mockProduct} increment={mockIncrements[0]} index={0} />);
+    renderWithProviders(
+      <Increment
+        product={mockProduct}
+        increment={mockIncrements[0]}
+        index={0}
+      />,
+    );
 
     const incrementWrapper = screen.getByTestId('increment-wrapper-0');
     const actionsContainer = screen.getByTestId('actions-container');
@@ -104,7 +124,13 @@ describe('Increment Component', () => {
   it('sets isHovering to false on mouse leave', () => {
     store.dispatch(setIncrementsActiveIndex(-1));
 
-    renderWithProviders(<Increment product={mockProduct} increment={mockIncrements[0]} index={0} />);
+    renderWithProviders(
+      <Increment
+        product={mockProduct}
+        increment={mockIncrements[0]}
+        index={0}
+      />,
+    );
 
     const incrementWrapper = screen.getByTestId('increment-wrapper-0');
     const actionsContainer = screen.getByTestId('actions-container');

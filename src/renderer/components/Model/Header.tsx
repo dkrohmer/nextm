@@ -4,7 +4,7 @@ import { List } from 'semantic-ui-react';
 import { IModel } from '../../interfaces/IModel';
 import { IIncrement } from '../../interfaces/IIncrement';
 import { IProduct } from '../../interfaces/IProduct';
-import '../../styles/model.css'
+import '../../styles/model.css';
 
 interface ModelHeaderProps {
   model: IModel;
@@ -12,7 +12,11 @@ interface ModelHeaderProps {
   product: IProduct;
 }
 
-const ModelHeader: React.FC<ModelHeaderProps> = ({ model, increment, product }) => {
+const ModelHeader: React.FC<ModelHeaderProps> = ({
+  model,
+  increment,
+  product,
+}) => {
   /**
    * hooks
    */
@@ -22,18 +26,16 @@ const ModelHeader: React.FC<ModelHeaderProps> = ({ model, increment, product }) 
    * handlers
    */
   const handleNavigate = () => {
-    navigate(`/products/${product.id}/increments/${increment.id}/models/${model.id}`)
-  }
+    navigate(
+      `/products/${product.id}/increments/${increment.id}/models/${model.id}`,
+    );
+  };
 
   /**
    * tsx
    */
   return (
-    <List.Header
-      as="h3"
-      onClick={handleNavigate}
-      className='model-title'
-    >
+    <List.Header as="h3" onClick={handleNavigate} className="model-title">
       {model.name}
     </List.Header>
   );

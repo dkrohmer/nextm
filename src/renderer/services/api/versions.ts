@@ -24,17 +24,19 @@ interface AddLatestVersionArgs {
 /**
  * get latest version
  */
-export const fetchLatestVersion = createAsyncThunk<IVersion, FetchLatestVersionArgs>(
-  'versions/fetchLatestVersion',
-  async ({ modelId }, { rejectWithValue }) => {
-    try {
-      const response: IVersion = await window.electron.getLatestVersion({ modelId });
-      return response;
-    } catch (error) {
-      return rejectWithValue('Failed to load increment.');
-    }
-  },
-);
+export const fetchLatestVersion = createAsyncThunk<
+  IVersion,
+  FetchLatestVersionArgs
+>('versions/fetchLatestVersion', async ({ modelId }, { rejectWithValue }) => {
+  try {
+    const response: IVersion = await window.electron.getLatestVersion({
+      modelId,
+    });
+    return response;
+  } catch (error) {
+    return rejectWithValue('Failed to load increment.');
+  }
+});
 
 /**
  * Get latest version thumbnail
@@ -46,7 +48,9 @@ export const fetchLatestVersionThumbnail = createAsyncThunk<
   'versions/fetchLatestVersionThumbnail',
   async ({ modelId }, { rejectWithValue }) => {
     try {
-      const response: string = await window.electron.getLatestVersionThumbnail({ modelId });
+      const response: string = await window.electron.getLatestVersionThumbnail({
+        modelId,
+      });
       return response;
     } catch (error) {
       return rejectWithValue('Failed to load version thumbnail.');
@@ -60,8 +64,22 @@ export const fetchLatestVersionThumbnail = createAsyncThunk<
 export const addLatestVersion = createAsyncThunk(
   'versions/addLatestVersion',
   async (
-    { graph, modelId, x, y, height, width }: { graph: Graph, modelId: string, x: number, y: number, height: number, width: number },
-    { rejectWithValue }
+    {
+      graph,
+      modelId,
+      x,
+      y,
+      height,
+      width,
+    }: {
+      graph: Graph;
+      modelId: string;
+      x: number;
+      y: number;
+      height: number;
+      width: number;
+    },
+    { rejectWithValue },
   ) => {
     try {
       const dataUri = await graphToPng(graph);
@@ -81,5 +99,5 @@ export const addLatestVersion = createAsyncThunk(
     } catch (error) {
       return rejectWithValue('Failed to create version.');
     }
-  }
+  },
 );

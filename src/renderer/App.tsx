@@ -1,7 +1,12 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { SidebarPushable, SidebarPusher } from 'semantic-ui-react';
-import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import {
+  HashRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from 'react-router-dom';
 import {
   Products,
   Product,
@@ -14,7 +19,7 @@ import {
 import store from './store';
 import useInitializeApp from './hooks/useInitializeApp';
 import usePreventDefaultHistoryKeys from './hooks/usePreventDefaultHistoryKeys';
-import './styles/app.css'
+import './styles/app.css';
 
 const App: React.FC = () => {
   /**
@@ -38,10 +43,22 @@ const App: React.FC = () => {
               <Route path="/" element={<Navigate to="/products" replace />} />
               <Route path="/products" element={<Products />} />
               <Route path="/products/:productId" element={<Product />} />
-              <Route path="/products/:productId/increments" element={<Product />} />
-              <Route path="/products/:productId/increments/:incrementId" element={<Product />} />
-              <Route path="/products/:productId/increments/:incrementId/models" element={<Product />} />
-              <Route path="/products/:productId/increments/:incrementId/models/:modelId" element={<ModelEditor />} />
+              <Route
+                path="/products/:productId/increments"
+                element={<Product />}
+              />
+              <Route
+                path="/products/:productId/increments/:incrementId"
+                element={<Product />}
+              />
+              <Route
+                path="/products/:productId/increments/:incrementId/models"
+                element={<Product />}
+              />
+              <Route
+                path="/products/:productId/increments/:incrementId/models/:modelId"
+                element={<ModelEditor />}
+              />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </div>

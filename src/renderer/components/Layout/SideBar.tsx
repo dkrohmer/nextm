@@ -3,10 +3,9 @@ import { useSelector } from 'react-redux';
 import { Sidebar as SemanticSidebar, Segment } from 'semantic-ui-react';
 import { RootState } from '../../store';
 import useHandleClickOutside from '../../hooks/useHandleClickOutside';
-import Settings from "../Settings"
+import Settings from '../Settings';
 
 const SideBar: React.FC = () => {
-
   /**
    * global states
    */
@@ -28,7 +27,7 @@ const SideBar: React.FC = () => {
   return (
     <SemanticSidebar
       as={Segment}
-      className='sidebar'
+      className="sidebar"
       animation="push"
       icon="labeled"
       inverted

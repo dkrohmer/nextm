@@ -1,8 +1,8 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import { jest } from '@jest/globals';
 import ModalResponsibleFirstName from '../../../../renderer/components/Products/ModalResponsibleFirstName'; // Adjust the import path if necessary
 import { setProductsCurrentProduct } from '../../../../renderer/store/products';
-import { jest } from '@jest/globals';
 import { IResponsible } from '../../../../renderer/interfaces/IResponsible';
 
 // Mock useDispatch and useSelector hooks
@@ -42,16 +42,18 @@ describe('ModalResponsibleFirstName Component', () => {
 
   it('renders the input with the current responsible first name', () => {
     // Mock the global state with productsCurrentProduct
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      products: {
-        productsCurrentProduct: {
-          id: '1',
-          name: 'Test Product',
-          createdAt: '1',
-          responsibles: [responsible1, responsible2],
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        products: {
+          productsCurrentProduct: {
+            id: '1',
+            name: 'Test Product',
+            createdAt: '1',
+            responsibles: [responsible1, responsible2],
+          },
         },
-      },
-    }));
+      }),
+    );
 
     render(<ModalResponsibleFirstName index={0} responsible={responsible1} />);
 
@@ -69,18 +71,22 @@ describe('ModalResponsibleFirstName Component', () => {
       role: 'Developer',
     };
 
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      products: {
-        productsCurrentProduct: {
-          id: '1',
-          name: 'Test Product',
-          createdAt: '1',
-          responsibles: [emptyResponsible],
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        products: {
+          productsCurrentProduct: {
+            id: '1',
+            name: 'Test Product',
+            createdAt: '1',
+            responsibles: [emptyResponsible],
+          },
         },
-      },
-    }));
+      }),
+    );
 
-    render(<ModalResponsibleFirstName index={0} responsible={emptyResponsible} />);
+    render(
+      <ModalResponsibleFirstName index={0} responsible={emptyResponsible} />,
+    );
 
     // Check if input field renders with an empty value using placeholder
     const inputElement = screen.getByPlaceholderText('First Name');
@@ -89,16 +95,18 @@ describe('ModalResponsibleFirstName Component', () => {
 
   it('dispatches setProductsCurrentProduct action on input change', () => {
     // Mock the global state with productsCurrentProduct
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      products: {
-        productsCurrentProduct: {
-          id: '1',
-          name: 'Test Product',
-          createdAt: '1',
-          responsibles: [responsible1, responsible2],
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        products: {
+          productsCurrentProduct: {
+            id: '1',
+            name: 'Test Product',
+            createdAt: '1',
+            responsibles: [responsible1, responsible2],
+          },
         },
-      },
-    }));
+      }),
+    );
 
     render(<ModalResponsibleFirstName index={0} responsible={responsible1} />);
 
@@ -111,45 +119,63 @@ describe('ModalResponsibleFirstName Component', () => {
       setProductsCurrentProduct({
         id: '1',
         name: 'Test Product',
-        createdAt:'1',
+        createdAt: '1',
         responsibles: [
           { ...responsible1, firstName: 'Jane' }, // First responsible updated
           responsible2, // Second responsible unchanged
         ],
-      })
+      }),
     );
   });
 
   it('truncates the first name to 249 characters if it exceeds 250', () => {
     // Mock the global state with productsCurrentProduct
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      products: {
-        productsCurrentProduct: {
-          id: '1',
-          name: 'Test Product',
-          createdAt: '1',
-          responsibles: [{ id: '1', firstName: 'John', lastName: 'Doe', role: 'Manager' }],
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        products: {
+          productsCurrentProduct: {
+            id: '1',
+            name: 'Test Product',
+            createdAt: '1',
+            responsibles: [
+              { id: '1', firstName: 'John', lastName: 'Doe', role: 'Manager' },
+            ],
+          },
         },
-      },
-    }));
-  
-    render(<ModalResponsibleFirstName index={0} responsible={{ id: '1', firstName: 'John', lastName: 'Doe', role: 'Manager' }} />);
-  
+      }),
+    );
+
+    render(
+      <ModalResponsibleFirstName
+        index={0}
+        responsible={{
+          id: '1',
+          firstName: 'John',
+          lastName: 'Doe',
+          role: 'Manager',
+        }}
+      />,
+    );
+
     const longInputValue = 'A'.repeat(260);
     const inputElement = screen.getByPlaceholderText('First Name');
-    
+
     fireEvent.change(inputElement, { target: { value: longInputValue } });
-  
+
     expect(mockDispatch).toHaveBeenCalledWith(
       setProductsCurrentProduct({
         id: '1',
         name: 'Test Product',
         createdAt: '1',
         responsibles: [
-          { id: '1', firstName: 'A'.repeat(249), lastName: 'Doe', role: 'Manager' },
+          {
+            id: '1',
+            firstName: 'A'.repeat(249),
+            lastName: 'Doe',
+            role: 'Manager',
+          },
         ],
-      })
+      }),
     );
   });
-  
 });

@@ -3,7 +3,11 @@ import { useDispatch } from 'react-redux';
 import { Button } from 'semantic-ui-react';
 import { AppDispatch } from '../../store';
 import '../../styles/products.css';
-import { setProductsCurrentProduct, setProductsIsEditing, setProductsModalOpen } from '../../store/products';
+import {
+  setProductsCurrentProduct,
+  setProductsIsEditing,
+  setProductsModalOpen,
+} from '../../store/products';
 
 const Add: React.FC = () => {
   /**
@@ -22,7 +26,7 @@ const Add: React.FC = () => {
         startsAt: '',
         endsAt: '',
         createdAt: '',
-      })
+      }),
     );
     dispatch(setProductsModalOpen(true));
     dispatch(setProductsIsEditing(false));

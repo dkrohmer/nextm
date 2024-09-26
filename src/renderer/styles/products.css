@@ -53,14 +53,14 @@
 }
 
 .products-table-responsibles-cell-label {
-  max-width: 150px; /* Set your desired max width */
+  max-width: 150px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .more-responsibles {
-  margin-left: 5px; /* Optional: Add some spacing */
+  margin-left: 5px;
 }
 
 .products-table-responsibles-cell-label .icon {
@@ -181,7 +181,6 @@
   margin: 0;
 }
 
-/* semantic ui overrides */
 .ui.popup {
   word-break: normal;
   overflow-wrap: anywhere;

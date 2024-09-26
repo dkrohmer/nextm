@@ -32,7 +32,7 @@ describe('useNodeAdded hook', () => {
     // Mock a Node object for non-dataflow-stencil shape
     mockNonDataflowNode = {
       id: 'non-dataflow-node-1',
-      shape: 'non-dataflow-shape',  // Simulate a node with a different shape
+      shape: 'non-dataflow-shape', // Simulate a node with a different shape
       remove: jest.fn(),
     } as Partial<Node>;
   });
@@ -46,7 +46,10 @@ describe('useNodeAdded hook', () => {
     nodeAddedCallback({ node: mockDataflowNode as Node });
 
     // Ensure Dataflow.createEdge is called with the graph and node
-    expect(Dataflow.createEdge).toHaveBeenCalledWith(mockGraph, mockDataflowNode);
+    expect(Dataflow.createEdge).toHaveBeenCalledWith(
+      mockGraph,
+      mockDataflowNode,
+    );
 
     // Ensure the node is removed
     expect(mockDataflowNode.remove).toHaveBeenCalled();
@@ -73,8 +76,8 @@ describe('useNodeAdded hook', () => {
 
     // Simulate the node:added event twice with the same node
     const nodeAddedCallback = (mockGraph.on as jest.Mock).mock.calls[0][1];
-    nodeAddedCallback({ node: mockDataflowNode as Node });  // First addition
-    nodeAddedCallback({ node: mockDataflowNode as Node });  // Second addition
+    nodeAddedCallback({ node: mockDataflowNode as Node }); // First addition
+    nodeAddedCallback({ node: mockDataflowNode as Node }); // Second addition
 
     // Ensure Dataflow.createEdge is only called once
     expect(Dataflow.createEdge).toHaveBeenCalledTimes(1);
@@ -90,18 +93,20 @@ describe('useNodeAdded hook', () => {
     unmount();
 
     // Ensure the off method is called to remove the listener
-    expect(mockGraph.off).toHaveBeenCalledWith('node:added', expect.any(Function));
+    expect(mockGraph.off).toHaveBeenCalledWith(
+      'node:added',
+      expect.any(Function),
+    );
   });
 
   it('should return early if graph is undefined', () => {
     // Render the hook without providing a graph (undefined)
     const { result } = renderHook(() => useNodeAdded(undefined));
-  
+
     // Ensure the graph's on method is never called since the hook should return early
     expect(mockGraph.on).not.toHaveBeenCalled();
-  
+
     // You can also check that no nodes are processed
     expect(result.current).toBeUndefined(); // No effect from the hook since graph is undefined
   });
-  
 });

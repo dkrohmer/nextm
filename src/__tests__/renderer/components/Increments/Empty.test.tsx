@@ -1,8 +1,8 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import Empty from '../../../../renderer/components/Increments/Empty';
 import { jest } from '@jest/globals';
+import Empty from '../../../../renderer/components/Increments/Empty';
 
 // Mock useSelector hook
 const mockUseSelector = jest.fn();
@@ -25,7 +25,7 @@ describe('Empty Component', () => {
           incrementsError: null,
           incrementsIsLoading: false,
         },
-      })
+      }),
     );
 
     // Render the Empty component
@@ -35,7 +35,9 @@ describe('Empty Component', () => {
     expect(screen.getByText('Increments, anyone? 👀')).toBeInTheDocument();
 
     // Check for the presence of the body text
-    expect(screen.getByText('Hang on! Add one by clicking:')).toBeInTheDocument();
+    expect(
+      screen.getByText('Hang on! Add one by clicking:'),
+    ).toBeInTheDocument();
 
     // Check for the presence of the label text
     expect(screen.getByText('+ Add increment')).toBeInTheDocument();
@@ -50,14 +52,16 @@ describe('Empty Component', () => {
           incrementsError: null,
           incrementsIsLoading: false,
         },
-      })
+      }),
     );
 
     // Render the Empty component
     render(<Empty />);
 
     // Check for the presence of the segment with the correct class
-    const segmentElement = screen.getByText('Increments, anyone? 👀').closest('div');
+    const segmentElement = screen
+      .getByText('Increments, anyone? 👀')
+      .closest('div');
     expect(segmentElement).toHaveClass('increments-segment');
 
     // Check for the label with the correct class
@@ -74,14 +78,16 @@ describe('Empty Component', () => {
           incrementsError: null,
           incrementsIsLoading: true,
         },
-      })
+      }),
     );
 
     // Render the Empty component
     render(<Empty />);
 
     // Ensure the Empty component is not rendered when loading
-    expect(screen.queryByText('Increments, anyone? 👀')).not.toBeInTheDocument();
+    expect(
+      screen.queryByText('Increments, anyone? 👀'),
+    ).not.toBeInTheDocument();
   });
 
   it('does not render when there is an increments error', () => {
@@ -93,14 +99,16 @@ describe('Empty Component', () => {
           incrementsError: 'Some error',
           incrementsIsLoading: false,
         },
-      })
+      }),
     );
 
     // Render the Empty component
     render(<Empty />);
 
     // Ensure the Empty component is not rendered when there's an error
-    expect(screen.queryByText('Increments, anyone? 👀')).not.toBeInTheDocument();
+    expect(
+      screen.queryByText('Increments, anyone? 👀'),
+    ).not.toBeInTheDocument();
   });
 
   it('does not render when increments list is not empty', () => {
@@ -112,13 +120,15 @@ describe('Empty Component', () => {
           incrementsError: null,
           incrementsIsLoading: false,
         },
-      })
+      }),
     );
 
     // Render the Empty component
     render(<Empty />);
 
     // Ensure the Empty component is not rendered when increments are available
-    expect(screen.queryByText('Increments, anyone? 👀')).not.toBeInTheDocument();
+    expect(
+      screen.queryByText('Increments, anyone? 👀'),
+    ).not.toBeInTheDocument();
   });
 });

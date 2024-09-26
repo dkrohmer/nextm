@@ -3,12 +3,27 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
-import settingsReducer, { initialSettingsState, setActiveSettingsIndex } from '../../../../renderer/store/settings';
+import settingsReducer, {
+  initialSettingsState,
+  setActiveSettingsIndex,
+} from '../../../../renderer/store/settings';
 import ModelEditorSettings from '../../../../renderer/components/Settings/ModelEditorSettings';
 
 // Mocking child components
-jest.mock('../../../../renderer/components/Settings/GridType', () => () => <div>SetGridType Component</div>);
-jest.mock('../../../../renderer/components/Settings/ExplicitObjectSelection', () => () => <div>SetExplicitObjectSelection Component</div>);
+jest.mock(
+  '../../../../renderer/components/Settings/GridType',
+  () =>
+    function () {
+      return <div>SetGridType Component</div>;
+    },
+);
+jest.mock(
+  '../../../../renderer/components/Settings/ExplicitObjectSelection',
+  () =>
+    function () {
+      return <div>SetExplicitObjectSelection Component</div>;
+    },
+);
 
 // Mock store with initial state
 const mockStore = configureStore({
@@ -21,11 +36,7 @@ const mockStore = configureStore({
 });
 
 const renderWithProviders = (component: React.ReactElement, store: any) => {
-  return render(
-    <Provider store={store}>
-      {component}
-    </Provider>
-  );
+  return render(<Provider store={store}>{component}</Provider>);
 };
 
 describe('ModelEditorSettings Component', () => {

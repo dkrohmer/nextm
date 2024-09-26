@@ -1,10 +1,10 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import ModalResponsibleRemoveButton from '../../../../renderer/components/Products/ModalResponsibleRemoveButton'; // Adjust the import path if necessary
-import { setProductsCurrentProduct } from '../../../../renderer/store/products';
 import { useDispatch, useSelector } from 'react-redux';
 import { jest } from '@jest/globals';
+import ModalResponsibleRemoveButton from '../../../../renderer/components/Products/ModalResponsibleRemoveButton'; // Adjust the import path if necessary
+import { setProductsCurrentProduct } from '../../../../renderer/store/products';
 import { IResponsible } from '../../../../renderer/interfaces/IResponsible';
 
 // Mock useDispatch and useSelector hooks
@@ -47,7 +47,7 @@ describe('ModalResponsibleRemoveButton Component', () => {
             responsibles: [responsible1, responsible2],
           },
         },
-      })
+      }),
     );
 
     render(<ModalResponsibleRemoveButton index={0} />);
@@ -63,7 +63,7 @@ describe('ModalResponsibleRemoveButton Component', () => {
         name: 'Test Product',
         createdAt: '1',
         responsibles: [responsible2], // Only the second responsible remains
-      })
+      }),
     );
   });
 
@@ -79,7 +79,7 @@ describe('ModalResponsibleRemoveButton Component', () => {
             responsibles: [responsible1],
           },
         },
-      })
+      }),
     );
 
     render(<ModalResponsibleRemoveButton index={0} />);
@@ -95,7 +95,7 @@ describe('ModalResponsibleRemoveButton Component', () => {
         name: 'Test Product',
         createdAt: '1',
         responsibles: [], // All responsibles removed, setting an empty array
-      })
+      }),
     );
   });
 
@@ -111,7 +111,7 @@ describe('ModalResponsibleRemoveButton Component', () => {
             responsibles: undefined,
           },
         },
-      })
+      }),
     );
 
     render(<ModalResponsibleRemoveButton index={0} />);
@@ -127,7 +127,7 @@ describe('ModalResponsibleRemoveButton Component', () => {
         name: 'Test Product',
         createdAt: '1',
         responsibles: [], // Responsibles undefined, fallback to empty array
-      })
+      }),
     );
   });
 
@@ -138,7 +138,7 @@ describe('ModalResponsibleRemoveButton Component', () => {
         products: {
           productsCurrentProduct: undefined,
         },
-      })
+      }),
     );
 
     render(<ModalResponsibleRemoveButton index={0} />);

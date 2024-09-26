@@ -1,4 +1,3 @@
-// ExplicitObjectSelection.tsx
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Form, Icon, Popup, Checkbox } from 'semantic-ui-react';
@@ -10,8 +9,10 @@ const ExplicitObjectSelection: React.FC = () => {
   /**
    * global states
    */
-  const { explicitObjectSelection } = useSelector((state: RootState) => state.settings);
-  
+  const { explicitObjectSelection } = useSelector(
+    (state: RootState) => state.settings,
+  );
+
   /**
    * hooks
    */
@@ -29,7 +30,7 @@ const ExplicitObjectSelection: React.FC = () => {
         loadingMessage: '',
         successMessage: `Explicit object selection ${!explicitObjectSelection ? 'active' : 'inactive'}`,
         errorMessage: '',
-      })
+      }),
     );
   };
 
@@ -48,7 +49,7 @@ const ExplicitObjectSelection: React.FC = () => {
               name="info circle"
               inverted
               className="settings-info"
-              data-testid="info-icon" 
+              data-testid="info-icon"
             />
           }
           content="If explicit object selection is active, you cannot context-click an object unless it has previously been selected with a left mouse click."

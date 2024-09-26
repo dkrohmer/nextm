@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Button, Icon, Popup } from 'semantic-ui-react';
 import { IProduct } from '../../interfaces/IProduct';
 import '../../styles/products.css';
@@ -10,7 +10,9 @@ interface TableCellActionsDeleteProps {
   product: IProduct;
 }
 
-const TableCellActionsDelete: React.FC<TableCellActionsDeleteProps> = ({ product }) => {
+const TableCellActionsDelete: React.FC<TableCellActionsDeleteProps> = ({
+  product,
+}) => {
   /**
    * hooksv
    */
@@ -42,7 +44,11 @@ const TableCellActionsDelete: React.FC<TableCellActionsDeleteProps> = ({ product
           <Icon color="red" name="trash" />
         </Button>
       }
-      content={<span data-testid="delete-popup-content"><strong>Delete product</strong> "{product.name}"</span>}
+      content={
+        <span data-testid="delete-popup-content">
+          <strong>Delete product</strong> "{product.name}"
+        </span>
+      }
     />
   );
 };

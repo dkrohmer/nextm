@@ -1,16 +1,21 @@
 import React from 'react';
 import { Confirm } from 'semantic-ui-react';
-import { setIncrementsActiveIndex, setIncrementsConfirmOpen } from '../../store/increments';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import {
+  setIncrementsActiveIndex,
+  setIncrementsConfirmOpen,
+} from '../../store/increments';
 import { AppDispatch, RootState } from '../../store';
 import { deleteIncrement } from '../../services/api/increments';
-import { useNavigate } from 'react-router-dom';
 
 const ConfirmDelete: React.FC = () => {
   /**
    * global states
    */
-  const { incrementsConfirmOpen, incrementToDelete } = useSelector((state: RootState) => state.increments);
+  const { incrementsConfirmOpen, incrementToDelete } = useSelector(
+    (state: RootState) => state.increments,
+  );
   const { product } = useSelector((state: RootState) => state.products);
 
   /**
@@ -28,11 +33,11 @@ const ConfirmDelete: React.FC = () => {
       navigate(`/products/${product?.id}/`);
       dispatch(setIncrementsActiveIndex(-1));
     }
-  }
+  };
 
   const handleCancel = () => {
-    dispatch(setIncrementsConfirmOpen(false))
-  }
+    dispatch(setIncrementsConfirmOpen(false));
+  };
 
   /**
    * tsx
@@ -44,7 +49,7 @@ const ConfirmDelete: React.FC = () => {
       onConfirm={handleConfirm}
       content="Deleting an increment will permanently delete all models associated with it. Do you want to delete this increment?"
     />
-  )
-}
+  );
+};
 
 export default ConfirmDelete;

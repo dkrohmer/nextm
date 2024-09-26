@@ -70,16 +70,16 @@ describe('MenuBuilder', () => {
 
     expect(mainWindow.webContents.on).toHaveBeenCalledWith(
       'context-menu',
-      expect.any(Function)
+      expect.any(Function),
     );
   });
 
   it('should handle context-menu event in development environment', () => {
     menuBuilder.setupDevelopmentEnvironment();
 
-    const contextMenuCallback = (mainWindow.webContents.on as jest.Mock).mock.calls.find(
-      (call) => call[0] === 'context-menu'
-    )[1];
+    const contextMenuCallback = (
+      mainWindow.webContents.on as jest.Mock
+    ).mock.calls.find((call) => call[0] === 'context-menu')[1];
 
     const eventProps = { x: 100, y: 200 };
     contextMenuCallback({}, eventProps);
@@ -91,14 +91,16 @@ describe('MenuBuilder', () => {
       },
     ]);
 
-    const mockMenu = (Menu.buildFromTemplate as jest.Mock).mock.results[0].value;
+    const mockMenu = (Menu.buildFromTemplate as jest.Mock).mock.results[0]
+      .value;
     expect(mockMenu.popup).toHaveBeenCalledWith({ window: mainWindow });
 
-    const inspectElementItem = (Menu.buildFromTemplate as jest.Mock).mock.calls[0][0][0];
+    const inspectElementItem = (Menu.buildFromTemplate as jest.Mock).mock
+      .calls[0][0][0];
     inspectElementItem.click();
     expect(mainWindow.webContents.inspectElement).toHaveBeenCalledWith(
       eventProps.x,
-      eventProps.y
+      eventProps.y,
     );
   });
 
@@ -116,7 +118,7 @@ describe('MenuBuilder', () => {
   it('should handle "Quit" click in Darwin template', () => {
     const template = menuBuilder.buildDarwinTemplate();
     const quitItem = (template[0].submenu as any[]).find(
-      (item) => item.label === 'Quit'
+      (item) => item.label === 'Quit',
     );
 
     quitItem.click();
@@ -140,7 +142,7 @@ describe('MenuBuilder', () => {
     const viewSubmenu = template[2].submenu as any[];
 
     const toggleFullScreenItem = viewSubmenu.find(
-      (item) => item.label === 'Toggle Full Screen'
+      (item) => item.label === 'Toggle Full Screen',
     );
 
     // Simulate the mainWindow being in full screen
@@ -155,7 +157,7 @@ describe('MenuBuilder', () => {
     const viewSubmenu = template[2].submenu as any[];
 
     const toggleFullScreenItem = viewSubmenu.find(
-      (item) => item.label === 'Toggle Full Screen'
+      (item) => item.label === 'Toggle Full Screen',
     );
 
     // Simulate the mainWindow being in full screen
@@ -170,7 +172,7 @@ describe('MenuBuilder', () => {
     const viewSubmenu = template[2].submenu as any[];
 
     const toggleDevToolsItem = viewSubmenu.find(
-      (item) => item.label === 'Toggle Developer Tools'
+      (item) => item.label === 'Toggle Developer Tools',
     );
     toggleDevToolsItem.click();
 
@@ -202,7 +204,7 @@ describe('MenuBuilder', () => {
     const viewSubmenu = template[1].submenu as any[];
 
     const toggleDevToolsItem = viewSubmenu.find(
-      (item) => item.label === 'Toggle &Developer Tools'
+      (item) => item.label === 'Toggle &Developer Tools',
     );
 
     toggleDevToolsItem.click();
@@ -216,7 +218,7 @@ describe('MenuBuilder', () => {
     const viewSubmenu = template[1].submenu as any[];
 
     const toggleFullScreenItem = viewSubmenu.find(
-      (item) => item.label === 'Toggle &Full Screen'
+      (item) => item.label === 'Toggle &Full Screen',
     );
 
     toggleFullScreenItem.click();
@@ -230,7 +232,7 @@ describe('MenuBuilder', () => {
     const viewSubmenu = template[1].submenu as any[];
 
     const toggleFullScreenItem = viewSubmenu.find(
-      (item) => item.label === 'Toggle &Full Screen'
+      (item) => item.label === 'Toggle &Full Screen',
     );
 
     // Simulate the mainWindow being in full screen
@@ -244,7 +246,9 @@ describe('MenuBuilder', () => {
     const template = menuBuilder.buildDefaultTemplate();
     const viewSubmenu = template[1].submenu as any[];
 
-    const toggleFullScreenItem = viewSubmenu.find((item) => item.label === 'Toggle &Full Screen');
+    const toggleFullScreenItem = viewSubmenu.find(
+      (item) => item.label === 'Toggle &Full Screen',
+    );
 
     // Ensure toggleFullScreenItem is defined before accessing its click property
     expect(toggleFullScreenItem).toBeDefined();
@@ -275,7 +279,9 @@ describe('MenuBuilder', () => {
     const template = menuBuilder.buildDarwinTemplate();
     const helpSubmenu = template[4].submenu as any[];
 
-    const learnMoreItem = helpSubmenu.find((item) => item.label === 'Learn More');
+    const learnMoreItem = helpSubmenu.find(
+      (item) => item.label === 'Learn More',
+    );
     learnMoreItem.click();
 
     expect(shell.openExternal).toHaveBeenCalledWith('https://electronjs.org');
@@ -285,37 +291,51 @@ describe('MenuBuilder', () => {
     const template = menuBuilder.buildDarwinTemplate();
     const helpSubmenu = template[4].submenu as any[];
 
-    const documentationItem = helpSubmenu.find((item) => item.label === 'Documentation');
+    const documentationItem = helpSubmenu.find(
+      (item) => item.label === 'Documentation',
+    );
     documentationItem.click();
 
-    expect(shell.openExternal).toHaveBeenCalledWith('https://github.com/electron/electron/tree/main/docs#readme');
+    expect(shell.openExternal).toHaveBeenCalledWith(
+      'https://github.com/electron/electron/tree/main/docs#readme',
+    );
   });
 
   it('should handle "Community Discussions" click in Help menu in Darwin template', () => {
     const template = menuBuilder.buildDarwinTemplate();
     const helpSubmenu = template[4].submenu as any[];
 
-    const communityDiscussionsItem = helpSubmenu.find((item) => item.label === 'Community Discussions');
+    const communityDiscussionsItem = helpSubmenu.find(
+      (item) => item.label === 'Community Discussions',
+    );
     communityDiscussionsItem.click();
 
-    expect(shell.openExternal).toHaveBeenCalledWith('https://www.electronjs.org/community');
+    expect(shell.openExternal).toHaveBeenCalledWith(
+      'https://www.electronjs.org/community',
+    );
   });
 
   it('should handle "Search Issues" click in Help menu in Darwin template', () => {
     const template = menuBuilder.buildDarwinTemplate();
     const helpSubmenu = template[4].submenu as any[];
 
-    const searchIssuesItem = helpSubmenu.find((item) => item.label === 'Search Issues');
+    const searchIssuesItem = helpSubmenu.find(
+      (item) => item.label === 'Search Issues',
+    );
     searchIssuesItem.click();
 
-    expect(shell.openExternal).toHaveBeenCalledWith('https://github.com/electron/electron/issues');
+    expect(shell.openExternal).toHaveBeenCalledWith(
+      'https://github.com/electron/electron/issues',
+    );
   });
 
   it('should handle "Learn More" click in Help menu in default template', () => {
     const template = menuBuilder.buildDefaultTemplate();
     const helpSubmenu = template[2].submenu as any[];
 
-    const learnMoreItem = helpSubmenu.find((item) => item.label === 'Learn More');
+    const learnMoreItem = helpSubmenu.find(
+      (item) => item.label === 'Learn More',
+    );
     learnMoreItem.click();
 
     expect(shell.openExternal).toHaveBeenCalledWith('https://electronjs.org');
@@ -325,30 +345,42 @@ describe('MenuBuilder', () => {
     const template = menuBuilder.buildDefaultTemplate();
     const helpSubmenu = template[2].submenu as any[];
 
-    const documentationItem = helpSubmenu.find((item) => item.label === 'Documentation');
+    const documentationItem = helpSubmenu.find(
+      (item) => item.label === 'Documentation',
+    );
     documentationItem.click();
 
-    expect(shell.openExternal).toHaveBeenCalledWith('https://github.com/electron/electron/tree/main/docs#readme');
+    expect(shell.openExternal).toHaveBeenCalledWith(
+      'https://github.com/electron/electron/tree/main/docs#readme',
+    );
   });
 
   it('should handle "Community Discussions" click in Help menu in default template', () => {
     const template = menuBuilder.buildDefaultTemplate();
     const helpSubmenu = template[2].submenu as any[];
 
-    const communityDiscussionsItem = helpSubmenu.find((item) => item.label === 'Community Discussions');
+    const communityDiscussionsItem = helpSubmenu.find(
+      (item) => item.label === 'Community Discussions',
+    );
     communityDiscussionsItem.click();
 
-    expect(shell.openExternal).toHaveBeenCalledWith('https://www.electronjs.org/community');
+    expect(shell.openExternal).toHaveBeenCalledWith(
+      'https://www.electronjs.org/community',
+    );
   });
 
   it('should handle "Search Issues" click in Help menu in default template', () => {
     const template = menuBuilder.buildDefaultTemplate();
     const helpSubmenu = template[2].submenu as any[];
 
-    const searchIssuesItem = helpSubmenu.find((item) => item.label === 'Search Issues');
+    const searchIssuesItem = helpSubmenu.find(
+      (item) => item.label === 'Search Issues',
+    );
     searchIssuesItem.click();
 
-    expect(shell.openExternal).toHaveBeenCalledWith('https://github.com/electron/electron/issues');
+    expect(shell.openExternal).toHaveBeenCalledWith(
+      'https://github.com/electron/electron/issues',
+    );
   });
 
   it('should setup development environment when NODE_ENV is development', () => {
@@ -357,7 +389,7 @@ describe('MenuBuilder', () => {
 
     expect(mainWindow.webContents.on).toHaveBeenCalledWith(
       'context-menu',
-      expect.any(Function)
+      expect.any(Function),
     );
   });
 
@@ -367,7 +399,7 @@ describe('MenuBuilder', () => {
 
     expect(mainWindow.webContents.on).toHaveBeenCalledWith(
       'context-menu',
-      expect.any(Function)
+      expect.any(Function),
     );
   });
 
@@ -377,7 +409,7 @@ describe('MenuBuilder', () => {
     const viewSubmenu = template[1].submenu as any[];
 
     const toggleFullScreenItem = viewSubmenu.find(
-      (item) => item.label === 'Toggle &Full Screen'
+      (item) => item.label === 'Toggle &Full Screen',
     );
 
     // Simulate the mainWindow initially not being in full screen
@@ -391,7 +423,9 @@ describe('MenuBuilder', () => {
     const template = menuBuilder.buildDefaultTemplate();
     const viewSubmenu = template[1].submenu as any[];
 
-    const toggleFullScreenItem = viewSubmenu.find((item) => item.label === 'Toggle &Full Screen');
+    const toggleFullScreenItem = viewSubmenu.find(
+      (item) => item.label === 'Toggle &Full Screen',
+    );
 
     // Ensure toggleFullScreenItem is defined before accessing its click property
     expect(toggleFullScreenItem).toBeDefined();
@@ -412,7 +446,9 @@ describe('MenuBuilder', () => {
     const template = menuBuilder.buildDefaultTemplate();
     const viewSubmenu = template[1].submenu as any[];
 
-    const toggleFullScreenItem = viewSubmenu.find((item) => item.label === 'Toggle &Full Screen');
+    const toggleFullScreenItem = viewSubmenu.find(
+      (item) => item.label === 'Toggle &Full Screen',
+    );
 
     // Ensure toggleFullScreenItem is defined before accessing its click property
     expect(toggleFullScreenItem).toBeDefined();

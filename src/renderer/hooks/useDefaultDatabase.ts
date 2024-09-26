@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { AppDispatch } from '../store';
 import { fetchProduct } from '../services/api/products';
 import { fetchIncrements } from '../services/api/increments';
 import { setIncrementsActiveIndex } from '../store/increments';
-import { useParams } from 'react-router-dom';
 
 const useDefaultDatabase = () => {
   const { productId } = useParams<{ productId: string }>();

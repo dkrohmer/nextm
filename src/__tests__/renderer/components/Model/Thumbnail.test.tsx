@@ -4,7 +4,7 @@ import '@testing-library/jest-dom';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import ModelThumbnail from '../../../../renderer/components/Model/Thumbnail';
-import versionsReducer from '../../../../renderer/store/versions'; 
+import versionsReducer from '../../../../renderer/store/versions';
 import { fetchLatestVersionThumbnail } from '../../../../renderer/services/api/versions';
 
 const store = configureStore({
@@ -25,9 +25,9 @@ describe('ModelThumbnail Component', () => {
     store.dispatch({
       type: fetchLatestVersionThumbnail.fulfilled.type,
       payload: mockThumbnail,
-      meta: { arg: { modelId: '123' } }
+      meta: { arg: { modelId: '123' } },
     });
-    
+
     renderWithRedux(<ModelThumbnail modelId="123" />);
 
     const image = screen.getByRole('img');
@@ -37,9 +37,9 @@ describe('ModelThumbnail Component', () => {
   it('renders the default thumbnail when loading', () => {
     store.dispatch({
       type: fetchLatestVersionThumbnail.pending.type,
-      meta: { arg: { modelId: '123' } }
+      meta: { arg: { modelId: '123' } },
     });
-    
+
     renderWithRedux(<ModelThumbnail modelId="123" />);
 
     const image = screen.getByRole('img');
@@ -50,9 +50,9 @@ describe('ModelThumbnail Component', () => {
     store.dispatch({
       type: fetchLatestVersionThumbnail.rejected.type,
       payload: 'Some error',
-      meta: { arg: { modelId: '123' } }
+      meta: { arg: { modelId: '123' } },
     });
-    
+
     renderWithRedux(<ModelThumbnail modelId="123" />);
 
     const image = screen.getByRole('img');

@@ -21,7 +21,7 @@ describe('App', () => {
     return render(
       <Provider store={store}>
         <AppWrapper />
-      </Provider>
+      </Provider>,
     );
   };
 

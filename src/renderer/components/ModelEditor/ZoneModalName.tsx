@@ -10,7 +10,6 @@ const ZoneModalName: React.FC = () => {
    */
   const { zoneName } = useSelector((state: RootState) => state.modelEditor);
 
-
   /**
    * hooks
    */
@@ -21,7 +20,7 @@ const ZoneModalName: React.FC = () => {
    */
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    let value = event.target.value;
+    let { value } = event.target;
 
     if (value.length > 250) {
       value = value.slice(0, 249);

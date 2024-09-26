@@ -4,16 +4,12 @@ import { List } from 'semantic-ui-react';
 import { IModel } from '../../interfaces/IModel';
 import { IIncrement } from '../../interfaces/IIncrement';
 import { IProduct } from '../../interfaces/IProduct';
-import Loader from './Loader';
-import Error from './Error';
 import Thumbnail from './Thumbnail';
 import Header from './Header';
 import CreatedAt from './CreatedAt';
 import Actions from './Actions';
-import '../../styles/model.css';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../store';
 import useFetchVersionThumbnail from '../../hooks/useFetchVersionThumbnail';
+import '../../styles/model.css';
 
 interface ModelProps {
   model: IModel;
@@ -37,16 +33,18 @@ const Model: React.FC<ModelProps> = ({ model, increment, product }) => {
    * handlers
    */
   const handleMouseEnter = () => {
-    setIsHovering(true)
-  }
+    setIsHovering(true);
+  };
 
   const handleMouseLeave = () => {
-    setIsHovering(false)
-  }
+    setIsHovering(false);
+  };
 
   const handleNavigate = () => {
-    navigate(`/products/${product.id}/increments/${increment.id}/models/${model.id}`)
-  }
+    navigate(
+      `/products/${product.id}/increments/${increment.id}/models/${model.id}`,
+    );
+  };
 
   /**
    * tsx
@@ -62,14 +60,28 @@ const Model: React.FC<ModelProps> = ({ model, increment, product }) => {
           key={model.id}
           data-testid="model-item"
         >
-          <Thumbnail modelId={model.id} data-testid="model-thumbnail"/>
+          <Thumbnail modelId={model.id} data-testid="model-thumbnail" />
           <List.Content className="model-content" data-testid="model-content">
-            <Header model={model} increment={increment} product={product} data-testid="model-header"/>
-            <CreatedAt createdAt={model.createdAt} data-testid="model-created-at"/>
+            <Header
+              model={model}
+              increment={increment}
+              product={product}
+              data-testid="model-header"
+            />
+            <CreatedAt
+              createdAt={model.createdAt}
+              data-testid="model-created-at"
+            />
           </List.Content>
 
-          {isHovering && <Actions model={model} isVisible={isHovering} data-testid="model-actions-container" />}
-          </List.Item>
+          {isHovering && (
+            <Actions
+              model={model}
+              isVisible={isHovering}
+              data-testid="model-actions-container"
+            />
+          )}
+        </List.Item>
       )}
     </div>
   );

@@ -14,7 +14,7 @@ const DataflowModalCancelButton: React.FC = () => {
    */
   const handleCancel = () => {
     dispatch(setDataflowModalOpen(false));
-  }
+  };
 
   /**
    * tsx

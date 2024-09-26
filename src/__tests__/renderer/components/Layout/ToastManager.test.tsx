@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
+import { Toaster } from 'react-hot-toast';
 import ToastManager from '../../../../renderer/components/Layout/ToastManager';
 import useToastNotifications from '../../../../renderer/hooks/useToastNotifications';
-import { Toaster } from 'react-hot-toast';
 
 // Mock the `useToastNotifications` hook
 jest.mock('../../../../renderer/hooks/useToastNotifications', () => jest.fn());
@@ -32,7 +32,7 @@ describe('ToastManager Component', () => {
       expect.objectContaining({
         position: 'top-center',
       }),
-      {}
+      {},
     );
   });
 });

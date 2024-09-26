@@ -26,11 +26,11 @@ export function buildProductEntity(productData: Product): Product {
     );
   } else {
     // " - Baseline" has 11 characters, so product.name should be trimmed accordingly
-    const baselineSuffix = " - Baseline";
+    const baselineSuffix = ' - Baseline';
     const maxLength = 250;
 
     let truncatedName = product.name;
-    if ((product.name.length + baselineSuffix.length) > maxLength) {
+    if (product.name.length + baselineSuffix.length > maxLength) {
       truncatedName = product.name.slice(0, maxLength - baselineSuffix.length);
     }
 

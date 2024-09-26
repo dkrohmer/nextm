@@ -42,7 +42,6 @@ export const fetchProducts = createAsyncThunk(
       if (sort !== undefined) params.append('sort', String(sort));
       if (sortby !== undefined) params.append('sortby', String(sortby));
 
-      // const response = await axios.get<IProducts>(`/api/products?${params.toString()}`);
       const response = await window.electron.getAllProducts({
         limit,
         offset,
@@ -68,8 +67,6 @@ export const fetchProduct = createAsyncThunk(
     { rejectWithValue },
   ) => {
     try {
-      // const response = await axios.get<IProduct>(`/api/products/${productId}?eager=${isEagerLoading ? 'true' : 'false'}`);
-      // return response.data;
       const response = await window.electron.getProductById({
         productId,
         isEagerLoading,
@@ -89,8 +86,6 @@ export const addOrUpdateProduct = createAsyncThunk(
   async ({ product }: AddOrUpdateProductArgs, { rejectWithValue }) => {
     try {
       if (product.id) {
-        // const response = await axios.put(`/api/products/${product.id}`, product);
-        // return response.data;
         const productId = product.id;
         const response = await window.electron.updateProduct({
           productId,
@@ -98,8 +93,6 @@ export const addOrUpdateProduct = createAsyncThunk(
         });
         return response;
       }
-      // const response = await axios.post('/api/products', product);
-      // return response.data;
       const response = await window.electron.createProduct(product);
       return response;
     } catch (error) {
@@ -115,10 +108,9 @@ export const deleteProduct = createAsyncThunk(
   'products/deleteProduct',
   async (
     { productId, limit, offset, sort, sortby }: DeleteProductArgs,
-    { dispatch, rejectWithValue},
+    { dispatch, rejectWithValue },
   ) => {
     try {
-      // await axios.delete(`/api/products/${productId}`);
       await window.electron.deleteProduct({ productId });
       dispatch(fetchProducts({ limit, offset, sort, sortby }));
       return productId;

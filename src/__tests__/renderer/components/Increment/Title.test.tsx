@@ -14,6 +14,8 @@ describe('Title Component', () => {
     expect(iconElement).toBeInTheDocument();
 
     // Verify the text content is correct
-    expect(screen.getByText(`Increment #${number}: ${name}`)).toBeInTheDocument();
+    expect(
+      screen.getByText(`Increment #${number}: ${name}`),
+    ).toBeInTheDocument();
   });
 });

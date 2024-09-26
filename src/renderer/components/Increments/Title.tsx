@@ -14,7 +14,7 @@ const Title: React.FC = () => {
         </Header>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default Title;

@@ -3,7 +3,11 @@ import { useDispatch } from 'react-redux';
 import { Button, Icon, Popup } from 'semantic-ui-react';
 import { IModel } from '../../interfaces/IModel';
 import { AppDispatch } from '../../store';
-import { setModelsCurrentModel, setModelsIsEditing, setModelsModalOpen } from '../../store/models';
+import {
+  setModelsCurrentModel,
+  setModelsIsEditing,
+  setModelsModalOpen,
+} from '../../store/models';
 import '../../styles/products.css';
 
 interface ModelActionsEditProps {
@@ -15,7 +19,7 @@ const ModelActionsEdit: React.FC<ModelActionsEditProps> = ({ model }) => {
    * hooks
    */
   const dispatch = useDispatch<AppDispatch>();
-  
+
   /**
    * handlers
    */
@@ -25,7 +29,7 @@ const ModelActionsEdit: React.FC<ModelActionsEditProps> = ({ model }) => {
     dispatch(setModelsModalOpen(true));
     dispatch(setModelsIsEditing(true));
   };
-  
+
   /**
    * tsx
    */
@@ -43,9 +47,13 @@ const ModelActionsEdit: React.FC<ModelActionsEditProps> = ({ model }) => {
           <Icon name="pencil" />
         </Button>
       }
-      content={<span><strong>Edit model</strong> "{model.name}"</span>}
+      content={
+        <span>
+          <strong>Edit model</strong> "{model.name}"
+        </span>
+      }
     />
-  )
-}
+  );
+};
 
 export default ModelActionsEdit;

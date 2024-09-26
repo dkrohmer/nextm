@@ -57,22 +57,22 @@ describe('Zone Module', () => {
       throw new Error('Test error');
     });
 
-    expect(() => zone.register()).toThrowError('Registering zone failed');
+    expect(() => zone.register()).toThrow('Registering zone failed');
   });
 
   it('should create a zone node with correct attributes', () => {
     const nodeMock = {
       setAttrs: jest.fn(),
     } as Partial<Node>; // Mock a partial Node
-  
+
     graphMock.createNode.mockReturnValue(nodeMock as Node);
-  
+
     const node = zone.create(graphMock);
-  
+
     expect(graphMock.createNode).toHaveBeenCalledWith({
       shape: 'zone',
     });
-  
+
     expect(nodeMock.setAttrs).toHaveBeenCalledWith({
       body: {
         strokeWidth: 1,
@@ -110,13 +110,13 @@ describe('Zone Module', () => {
         },
       },
     });
-  
+
     expect(node).toBe(nodeMock);
-  });  
+  });
 
   it('should set zone attributes correctly', () => {
     const attrs = zone.setZoneAttrs('Test Zone', 'High Trust');
-  
+
     expect(attrs).toEqual({
       body: {
         strokeWidth: 1,
@@ -154,5 +154,5 @@ describe('Zone Module', () => {
         },
       },
     });
-  });  
+  });
 });

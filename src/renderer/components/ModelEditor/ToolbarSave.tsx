@@ -27,8 +27,8 @@ const ToolbarSave: React.FC<CustomToolbarProps> = ({ graph }) => {
    * handlers
    */
   const handleSave = () => {
-    saveModel(modelId, graph, latestVersion, dispatch)
-  }
+    saveModel(modelId, graph, latestVersion, dispatch);
+  };
 
   /**
    * tsx

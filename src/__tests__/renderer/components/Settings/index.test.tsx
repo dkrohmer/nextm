@@ -10,8 +10,20 @@ import GeneralSettings from '../../../../renderer/components/Settings/GeneralSet
 import ModelEditorSettings from '../../../../renderer/components/Settings/ModelEditorSettings';
 
 // Mocking child components
-jest.mock('../../../../renderer/components/Settings/GeneralSettings', () => () => <div>General Settings Component</div>);
-jest.mock('../../../../renderer/components/Settings/ModelEditorSettings', () => () => <div>Model Editor Settings Component</div>);
+jest.mock(
+  '../../../../renderer/components/Settings/GeneralSettings',
+  () =>
+    function () {
+      return <div>General Settings Component</div>;
+    },
+);
+jest.mock(
+  '../../../../renderer/components/Settings/ModelEditorSettings',
+  () =>
+    function () {
+      return <div>Model Editor Settings Component</div>;
+    },
+);
 
 // Configure mock store
 const mockStore = configureStore({
@@ -24,7 +36,7 @@ const renderWithProviders = (component: React.ReactElement) => {
   return render(
     <Provider store={mockStore}>
       <MemoryRouter>{component}</MemoryRouter>
-    </Provider>
+    </Provider>,
   );
 };
 
@@ -37,6 +49,8 @@ describe('Settings Component', () => {
 
     // Check if the GeneralSettings and ModelEditorSettings components are rendered
     expect(screen.getByText('General Settings Component')).toBeInTheDocument();
-    expect(screen.getByText('Model Editor Settings Component')).toBeInTheDocument();
+    expect(
+      screen.getByText('Model Editor Settings Component'),
+    ).toBeInTheDocument();
   });
 });

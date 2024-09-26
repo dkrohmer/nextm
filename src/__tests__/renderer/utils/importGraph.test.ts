@@ -1,6 +1,6 @@
-import { importGraph } from '../../../renderer/utils/importGraph';
 import { Cell, Graph } from '@antv/x6';
 import { configureStore } from '@reduxjs/toolkit';
+import { importGraph } from '../../../renderer/utils/importGraph';
 import modelEditorReducer, {
   setImportError,
   setImportJsonData,
@@ -41,12 +41,14 @@ describe('importGraph thunk', () => {
 
     // Create import data as an object (not JSON string)
     const importJsonData = { nodes: [], edges: [] };
-    
+
     // Mock the state
     store.dispatch(setImportJsonData(JSON.stringify(importJsonData)));
 
     // Dispatch the thunk
-    const result = await store.dispatch(importGraph({ graph: graphMock, jsonData: importJsonData }) as any);
+    const result = await store.dispatch(
+      importGraph({ graph: graphMock, jsonData: importJsonData }) as any,
+    );
 
     // Ensure that the graph was imported and the success actions were dispatched
     expect(graphMock.fromJSON).toHaveBeenCalledWith(importJsonData);
@@ -64,7 +66,9 @@ describe('importGraph thunk', () => {
     const importJsonData = { nodes: [], edges: [] };
 
     // Dispatch the thunk
-    const result = await store.dispatch(importGraph({ graph: graphMock, jsonData: importJsonData }) as any);
+    const result = await store.dispatch(
+      importGraph({ graph: graphMock, jsonData: importJsonData }) as any,
+    );
 
     // Ensure the graph import failed and error was handled
     expect(graphMock.fromJSON).toHaveBeenCalledTimes(2); // Called once with data and once with fallback
@@ -82,7 +86,9 @@ describe('importGraph thunk', () => {
     const importJsonData = { nodes: [], edges: [] };
 
     // Dispatch the thunk
-    const result = await store.dispatch(importGraph({ graph: graphMock, jsonData: importJsonData }) as any);
+    const result = await store.dispatch(
+      importGraph({ graph: graphMock, jsonData: importJsonData }) as any,
+    );
 
     // Ensure the exception was caught and rejectWithValue was called
     expect(result.meta.requestStatus).toBe('rejected');
@@ -93,10 +99,15 @@ describe('importGraph thunk', () => {
     // Mock the import modal state and JSON data
     store.dispatch(setImportModalOpen(true));
     store.dispatch(setImportJsonData(JSON.stringify({ nodes: [], edges: [] })));
-  
+
     // Simulate the ImportModal handleSubmit action
-    const promise = store.dispatch(importGraph({ graph: graphMock, jsonData: { nodes: [], edges: [] } }) as any);
-  
+    const promise = store.dispatch(
+      importGraph({
+        graph: graphMock,
+        jsonData: { nodes: [], edges: [] },
+      }) as any,
+    );
+
     // Show toast for loading state
     store.dispatch(
       showToast({
@@ -106,23 +117,23 @@ describe('importGraph thunk', () => {
         errorMessage: 'Failed to import threat model',
       }),
     );
-  
+
     // Await the promise to ensure all actions complete
     await promise;
-  
+
     // Manually clear the importJsonData after the import is completed
     store.dispatch(setImportJsonData(null));
-  
+
     // Dispatch the action to close the modal after import
     store.dispatch(setImportModalOpen(false));
-  
+
     // Ensure the modal was closed and reset the form
     expect(store.getState().modelEditor.isImportModalOpen).toBe(false);
     expect(store.getState().modelEditor.importFileName).toBeNull();
     expect(store.getState().modelEditor.importJsonData).toBeNull();
     expect(store.getState().modelEditor.importError).toBeNull();
     expect(store.getState().modelEditor.importIsFileValid).toBe(false);
-  });  
+  });
 
   it('should handle "No file selected" error', async () => {
     store.dispatch(setImportModalOpen(true));
@@ -130,10 +141,14 @@ describe('importGraph thunk', () => {
 
     // Simulate the ImportModal handleSubmit action when no file is provided
     const dispatchSpy = jest.spyOn(store, 'dispatch');
-    const dispatchResult = await store.dispatch(setImportError('No file selected'));
+    const dispatchResult = await store.dispatch(
+      setImportError('No file selected'),
+    );
 
     expect(dispatchResult.payload).toBe('No file selected');
-    expect(dispatchSpy).toHaveBeenCalledWith(setImportError('No file selected'));
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      setImportError('No file selected'),
+    );
     expect(store.getState().modelEditor.importError).toBe('No file selected');
   });
 });

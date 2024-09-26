@@ -10,11 +10,16 @@ interface ProductsModalResponsibleRoleProps {
   responsible: IResponsible;
 }
 
-const ModalResponsibleRole: React.FC<ProductsModalResponsibleRoleProps> = ({ index, responsible }) => {
+const ModalResponsibleRole: React.FC<ProductsModalResponsibleRoleProps> = ({
+  index,
+  responsible,
+}) => {
   /**
    * global states
    */
-  const { productsCurrentProduct } = useSelector((state: RootState) => state.products);
+  const { productsCurrentProduct } = useSelector(
+    (state: RootState) => state.products,
+  );
 
   /**
    * hooks
@@ -24,24 +29,27 @@ const ModalResponsibleRole: React.FC<ProductsModalResponsibleRoleProps> = ({ ind
   /**
    * handlers
    */
-  const handleResponsibleChange = (field: keyof IResponsible, value: string) => {
+  const handleResponsibleChange = (
+    field: keyof IResponsible,
+    value: string,
+  ) => {
     if (value.length > 250) {
       value = value.slice(0, 249);
     }
-    
+
     if (productsCurrentProduct) {
       let updatedResponsibles: IResponsible[] = [];
       if (productsCurrentProduct.responsibles) {
-        updatedResponsibles = productsCurrentProduct.responsibles.map((resp, i) =>
-          i === index ? { ...resp, [field]: value } : resp
-        )
-      } 
+        updatedResponsibles = productsCurrentProduct.responsibles.map(
+          (resp, i) => (i === index ? { ...resp, [field]: value } : resp),
+        );
+      }
 
       dispatch(
         setProductsCurrentProduct({
           ...productsCurrentProduct,
           responsibles: updatedResponsibles,
-        })
+        }),
       );
     }
   };
@@ -53,7 +61,7 @@ const ModalResponsibleRole: React.FC<ProductsModalResponsibleRoleProps> = ({ ind
     <Form.Input
       placeholder="Role"
       value={responsible.role || ''}
-      onChange={(e) =>handleResponsibleChange('role', e.target.value)}
+      onChange={(e) => handleResponsibleChange('role', e.target.value)}
     />
   );
 };

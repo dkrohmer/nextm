@@ -4,11 +4,13 @@ import '@testing-library/jest-dom';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import { MemoryRouter } from 'react-router-dom';
-import settingsReducer, { initialSettingsState } from '../../../../renderer/store/settings';
+import settingsReducer, {
+  initialSettingsState,
+} from '../../../../renderer/store/settings';
 import DatabaseType from '../../../../renderer/components/Settings/DatabaseType';
 import windowElectron from '../../../../../mocks/window-electron';
 
-window.electron = windowElectron
+window.electron = windowElectron;
 
 // Mock store with initial state
 const mockStore = configureStore({
@@ -41,7 +43,7 @@ const renderWithProviders = (component: React.ReactElement) => {
   return render(
     <Provider store={store}>
       <MemoryRouter>{component}</MemoryRouter>
-    </Provider>
+    </Provider>,
   );
 };
 

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Breadcrumb } from 'semantic-ui-react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
-import '../../styles/product.css'
+import '../../styles/product.css';
 
 const Breadcrumbs: React.FC = () => {
   /**

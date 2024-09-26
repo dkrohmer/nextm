@@ -1,9 +1,13 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import Add from '../../../../renderer/components/Products/Add';
-import { setProductsCurrentProduct, setProductsIsEditing, setProductsModalOpen } from '../../../../renderer/store/products';
 import { jest } from '@jest/globals';
+import Add from '../../../../renderer/components/Products/Add';
+import {
+  setProductsCurrentProduct,
+  setProductsIsEditing,
+  setProductsModalOpen,
+} from '../../../../renderer/store/products';
 
 // Mock useDispatch hook
 const mockDispatch = jest.fn();
@@ -46,7 +50,7 @@ describe('Add Component', () => {
         startsAt: '',
         endsAt: '',
         createdAt: '',
-      })
+      }),
     );
 
     // Verify that setProductsModalOpen was dispatched with true

@@ -1,6 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { IVersion } from '../interfaces/IVersion';
-import { fetchLatestVersion, addLatestVersion, fetchLatestVersionThumbnail } from '../services/api/versions';
+import {
+  fetchLatestVersion,
+  addLatestVersion,
+  fetchLatestVersionThumbnail,
+} from '../services/api/versions';
 
 export interface VersionsState {
   latestVersion: IVersion | null;
@@ -21,7 +25,7 @@ export const initialState: VersionsState = {
   latestVersionThumbnails: {},
   latestVersionThumbnailsIsLoading: {},
   latestVersionThumbnailsIsLoaded: {},
-  latestVersionThumbnailsError: {}
+  latestVersionThumbnailsError: {},
 };
 
 const versionsSlice = createSlice({
@@ -64,17 +68,17 @@ const versionsSlice = createSlice({
       })
       // cases for fetching latest version thumbnails
       .addCase(fetchLatestVersionThumbnail.pending, (state, action) => {
-        const modelId = action.meta.arg.modelId;
+        const { modelId } = action.meta.arg;
         state.latestVersionThumbnailsIsLoading[modelId] = true;
         state.latestVersionThumbnailsError[modelId] = null;
       })
       .addCase(fetchLatestVersionThumbnail.fulfilled, (state, action) => {
-        const modelId = action.meta.arg.modelId;
+        const { modelId } = action.meta.arg;
         state.latestVersionThumbnails[modelId] = action.payload;
         state.latestVersionThumbnailsIsLoading[modelId] = false;
       })
       .addCase(fetchLatestVersionThumbnail.rejected, (state, action) => {
-        const modelId = action.meta.arg.modelId;
+        const { modelId } = action.meta.arg;
         state.latestVersionThumbnailsIsLoading[modelId] = false;
         state.latestVersionThumbnailsError[modelId] = action.payload as string;
       });

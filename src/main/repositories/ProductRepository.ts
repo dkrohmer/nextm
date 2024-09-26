@@ -59,20 +59,23 @@ export class ProductRepository {
     });
   }
 
-  async updateProduct(id: string, data: Partial<Product>): Promise<Product | null> {
+  async updateProduct(
+    id: string,
+    data: Partial<Product>,
+  ): Promise<Product | null> {
     const product = await this.productRepository.findOneBy({ id });
     if (!product) {
       return null;
     }
-  
+
     const updatedProduct = this.productRepository.merge(product, data);
-  
+
     const validationErrors = await validate(updatedProduct);
     if (validationErrors.length > 0) {
       console.error('Validation failed:', validationErrors);
       throw new Error('Validation failed');
     }
-  
+
     return await this.productRepository.save(updatedProduct);
   }
 

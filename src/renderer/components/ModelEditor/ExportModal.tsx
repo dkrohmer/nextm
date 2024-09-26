@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Form } from 'semantic-ui-react';
 import { Graph } from '@antv/x6';
@@ -21,7 +21,9 @@ const ExportModal: React.FC<ExportModalProps> = ({ graph, filename }) => {
   /**
    * global states
    */
-  const { isExportModalOpen, exportFormat } = useSelector((state: any) => state.modelEditor);
+  const { isExportModalOpen, exportFormat } = useSelector(
+    (state: any) => state.modelEditor,
+  );
 
   /**
    * hooks
@@ -38,11 +40,11 @@ const ExportModal: React.FC<ExportModalProps> = ({ graph, filename }) => {
     } catch (error) {
       console.error('Export failed:', error);
     }
-  }
+  };
 
   const handleClose = () => {
     dispatch(setExportModalOpen(false));
-  }  
+  };
 
   /**
    * tsx

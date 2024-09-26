@@ -18,11 +18,11 @@ const ActorModal: React.FC<ActorModalProps> = ({ graph }) => {
   /**
    * global states
    */
-  const { 
-    actorModalOpen, 
-    actorModalSelectedCell, 
-    actorName, 
-    actorDescription 
+  const {
+    actorModalOpen,
+    actorModalSelectedCell,
+    actorName,
+    actorDescription,
   } = useSelector((state: RootState) => state.modelEditor);
 
   /**
@@ -53,13 +53,15 @@ const ActorModal: React.FC<ActorModalProps> = ({ graph }) => {
    * tsx
    */
   return (
-    <Modal open={actorModalOpen} onClose={handleClose} dimmer="blurring" data-testid="actor-modal">
+    <Modal
+      open={actorModalOpen}
+      onClose={handleClose}
+      dimmer="blurring"
+      data-testid="actor-modal"
+    >
       <Modal.Header>Edit Actor</Modal.Header>
       <Modal.Content>
-        <Form
-          onSubmit={handleSubmit}
-          data-testid="actor-modal-form"
-        >
+        <Form onSubmit={handleSubmit} data-testid="actor-modal-form">
           <ActorModalName />
           <ActorModalDescription />
           <Form.Group className="form-button-group">

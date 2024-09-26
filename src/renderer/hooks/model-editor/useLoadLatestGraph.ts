@@ -8,7 +8,12 @@ const useLoadLatestGraph = (graph: Graph | undefined) => {
   const [isFirstLoad, setIsFirstLoad] = useState<boolean>(true);
 
   useEffect(() => {
-    if (graph && latestVersion && latestVersion.payload && latestVersion.payload.cells) {
+    if (
+      graph &&
+      latestVersion &&
+      latestVersion.payload &&
+      latestVersion.payload.cells
+    ) {
       const { cells } = latestVersion.payload;
       graph.fromJSON(cells);
 

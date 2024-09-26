@@ -6,14 +6,17 @@ interface TableCellResponsibleProps {
   responsibles: IResponsible[] | undefined;
 }
 
-const TableCellResponsible: React.FC<TableCellResponsibleProps> = ({ responsibles = [] }) => {
+const TableCellResponsible: React.FC<TableCellResponsibleProps> = ({
+  responsibles = [],
+}) => {
   /**
    * handlers
    */
   const renderResponsibles = () => {
     if (responsibles.length === 0) {
       return 'n/a';
-    } else if (responsibles.length === 1) {
+    }
+    if (responsibles.length === 1) {
       const responsible = responsibles[0];
       return (
         <Label
@@ -25,23 +28,28 @@ const TableCellResponsible: React.FC<TableCellResponsibleProps> = ({ responsible
           {`${responsible.firstName} ${responsible.lastName}${responsible.role ? ` (${responsible.role})` : ''}`}
         </Label>
       );
-    } else {
-      const firstResponsible = responsibles[0];
-      const additionalCount = responsibles.length - 1;
-      return (
-        <div className="responsibles-container" data-testid="responsibles-container">
-          <Label
-            size="tiny"
-            className="products-table-responsibles-cell-label"
-            data-testid={`responsible-label-${firstResponsible.id}`}
-          >
-            <Icon name="user" />
-            {`${firstResponsible.firstName} ${firstResponsible.lastName}${firstResponsible.role ? ` (${firstResponsible.role})` : ''}`}
-          </Label>
-          <span className="more-responsibles" data-testid="more-responsibles"> + {additionalCount} more</span>
-        </div>
-      );
     }
+    const firstResponsible = responsibles[0];
+    const additionalCount = responsibles.length - 1;
+    return (
+      <div
+        className="responsibles-container"
+        data-testid="responsibles-container"
+      >
+        <Label
+          size="tiny"
+          className="products-table-responsibles-cell-label"
+          data-testid={`responsible-label-${firstResponsible.id}`}
+        >
+          <Icon name="user" />
+          {`${firstResponsible.firstName} ${firstResponsible.lastName}${firstResponsible.role ? ` (${firstResponsible.role})` : ''}`}
+        </Label>
+        <span className="more-responsibles" data-testid="more-responsibles">
+          {' '}
+          + {additionalCount} more
+        </span>
+      </div>
+    );
   };
 
   const truncateString = (str: string | undefined, maxLength: number) => {
@@ -67,10 +75,13 @@ const TableCellResponsible: React.FC<TableCellResponsibleProps> = ({ responsible
       }
 
       responsibleElements.push(
-        <div key={responsible.id} data-testid={`popup-responsible-${responsible.id}`}>
+        <div
+          key={responsible.id}
+          data-testid={`popup-responsible-${responsible.id}`}
+        >
           <Icon name="user" />
           {fullName}
-        </div>
+        </div>,
       );
       displayedCount++;
     }
@@ -79,7 +90,9 @@ const TableCellResponsible: React.FC<TableCellResponsibleProps> = ({ responsible
       return (
         <div>
           {responsibleElements}
-          <div data-testid="popup-more-responsibles">... and {responsibles.length - displayedCount} more</div>
+          <div data-testid="popup-more-responsibles">
+            ... and {responsibles.length - displayedCount} more
+          </div>
         </div>
       );
     }

@@ -3,7 +3,6 @@ html, body, #root {
   margin: 0;
 }
 
-/* for messages in Products, Increments and Models when no data is provided */ 
 .empty-message-header {
   text-align: center;
   padding-top: 20px;
@@ -11,19 +10,16 @@ html, body, #root {
   color: #999;
 }
 
-/* for messages in Products, Increments and Models when no data is provided */ 
 .empty-message-body {
   text-align: center;
   padding-bottom: 20px;
   color: #999;
 }
 
-/* used by Products and Models */
 .clickable-row:hover {
   background-color: #f0f0f0;
 }
 
-/* used by Products and Models */
 .clickable-row a {
   cursor: pointer;
   text-decoration: underline;

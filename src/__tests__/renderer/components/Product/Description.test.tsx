@@ -12,7 +12,12 @@ import { initialProductsState } from '../../../../renderer/store/products';
 const mockProductState: Partial<RootState> = {
   products: {
     ...initialProductsState,
-    product: { id: 'product-123', name: 'Test Product', createdAt: '1', description: 'This is a test description' },
+    product: {
+      id: 'product-123',
+      name: 'Test Product',
+      createdAt: '1',
+      description: 'This is a test description',
+    },
   },
 };
 
@@ -25,10 +30,8 @@ const store = configureStore({
 const renderWithProviders = (component: React.ReactElement) => {
   return render(
     <Provider store={store}>
-      <Grid>
-        {component}
-      </Grid>
-    </Provider>
+      <Grid>{component}</Grid>
+    </Provider>,
   );
 };
 
@@ -48,8 +51,13 @@ describe('Description Component', () => {
     // Mock state where description is not provided
     const mockEmptyState: Partial<RootState> = {
       products: {
-        ...initialProductsState, 
-        product: { id: 'product-123', name: 'Test Product', createdAt: '1', description: '' },
+        ...initialProductsState,
+        product: {
+          id: 'product-123',
+          name: 'Test Product',
+          createdAt: '1',
+          description: '',
+        },
       },
     };
 
@@ -64,7 +72,7 @@ describe('Description Component', () => {
         <Grid>
           <Description />
         </Grid>
-      </Provider>
+      </Provider>,
     );
 
     expect(screen.getByText('Description:')).toBeInTheDocument();

@@ -5,7 +5,7 @@ import Loader from '../../../../renderer/components/Products/Loader';
 
 describe('Loader Component', () => {
   it('renders the loader when isLoading is true', () => {
-    render(<Loader isLoading={true} />);
+    render(<Loader isLoading />);
 
     // Check if the loader is present
     const loaderElement = screen.getByTestId('models-loader');

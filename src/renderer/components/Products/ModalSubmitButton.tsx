@@ -7,17 +7,15 @@ const ModalSubmitButton: React.FC = () => {
   /**
    * global states
    */
-  const { productsIsCloning, productsIsEditing } = useSelector((state: RootState) => state.products);
+  const { productsIsCloning, productsIsEditing } = useSelector(
+    (state: RootState) => state.products,
+  );
 
   /**
    * handlers
    */
   const handleSubmitButtonText = () => {
-    return productsIsCloning
-      ? 'Clone'
-      : productsIsEditing
-        ? 'Edit'
-        : 'Add';
+    return productsIsCloning ? 'Clone' : productsIsEditing ? 'Edit' : 'Add';
   };
 
   /**
@@ -27,7 +25,7 @@ const ModalSubmitButton: React.FC = () => {
     <Form.Button primary type="submit">
       {handleSubmitButtonText()}
     </Form.Button>
-  )
-}
+  );
+};
 
 export default ModalSubmitButton;

@@ -7,14 +7,30 @@ import Products from '../../../../renderer/components/Products'; // Adjust the i
 jest.mock('../../../../renderer/hooks/useFetchProducts', () => jest.fn());
 
 // Mock the subcomponents used in Products
-jest.mock('../../../../renderer/components/Products/Breadcrumbs', () => jest.fn(() => <div data-testid="breadcrumbs" />));
-jest.mock('../../../../renderer/components/Products/Modal', () => jest.fn(() => <div data-testid="modal" />));
-jest.mock('../../../../renderer/components/Products/Table', () => jest.fn(() => <div data-testid="table" />));
-jest.mock('../../../../renderer/components/Products/Filters', () => jest.fn(() => <div data-testid="filters" />));
-jest.mock('../../../../renderer/components/Products/Add', () => jest.fn(() => <div data-testid="add" />));
-jest.mock('../../../../renderer/components/Products/Pagination', () => jest.fn(() => <div data-testid="pagination" />));
-jest.mock('../../../../renderer/components/Products/ItemsPerPage', () => jest.fn(() => <div data-testid="items-per-page" />));
-jest.mock('../../../../renderer/components/Products/ConfirmDelete', () => jest.fn(() => <div data-testid="confirm-delete" />));
+jest.mock('../../../../renderer/components/Products/Breadcrumbs', () =>
+  jest.fn(() => <div data-testid="breadcrumbs" />),
+);
+jest.mock('../../../../renderer/components/Products/Modal', () =>
+  jest.fn(() => <div data-testid="modal" />),
+);
+jest.mock('../../../../renderer/components/Products/Table', () =>
+  jest.fn(() => <div data-testid="table" />),
+);
+jest.mock('../../../../renderer/components/Products/Filters', () =>
+  jest.fn(() => <div data-testid="filters" />),
+);
+jest.mock('../../../../renderer/components/Products/Add', () =>
+  jest.fn(() => <div data-testid="add" />),
+);
+jest.mock('../../../../renderer/components/Products/Pagination', () =>
+  jest.fn(() => <div data-testid="pagination" />),
+);
+jest.mock('../../../../renderer/components/Products/ItemsPerPage', () =>
+  jest.fn(() => <div data-testid="items-per-page" />),
+);
+jest.mock('../../../../renderer/components/Products/ConfirmDelete', () =>
+  jest.fn(() => <div data-testid="confirm-delete" />),
+);
 
 describe('Products Component', () => {
   beforeEach(() => {

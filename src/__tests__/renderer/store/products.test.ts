@@ -15,7 +15,12 @@ import reducer, {
   setOpenConfirm,
   ProductsState,
 } from '../../../renderer/store/products';
-import { fetchProducts, fetchProduct, addOrUpdateProduct, deleteProduct } from '../../../renderer/services/api/products';
+import {
+  fetchProducts,
+  fetchProduct,
+  addOrUpdateProduct,
+  deleteProduct,
+} from '../../../renderer/services/api/products';
 import { IProduct } from '../../../renderer/interfaces/IProduct';
 
 describe('productsSlice', () => {
@@ -41,7 +46,11 @@ describe('productsSlice', () => {
   });
 
   it('should handle setProductsCurrentProduct', () => {
-    const mockProduct: IProduct = { id: '1', name: 'Test Product', createdAt: '1' };
+    const mockProduct: IProduct = {
+      id: '1',
+      name: 'Test Product',
+      createdAt: '1',
+    };
     const state = reducer(initialState, setProductsCurrentProduct(mockProduct));
     expect(state.productsCurrentProduct).toEqual(mockProduct);
   });
@@ -90,7 +99,10 @@ describe('productsSlice', () => {
 
   it('should handle setProductsCurrentResponsibles', () => {
     const responsibles = [{ id: '1', name: 'Responsible 1' }];
-    const action = { type: setProductsCurrentResponsibles.type, payload: responsibles };
+    const action = {
+      type: setProductsCurrentResponsibles.type,
+      payload: responsibles,
+    };
     const state = reducer(initialState, action);
 
     expect(state.productsCurrentResponsibles).toEqual(responsibles);
@@ -103,15 +115,24 @@ describe('productsSlice', () => {
   });
 
   it('should handle fetchProducts.fulfilled', () => {
-    const mockProducts = { products: [{ id: '1', name: 'Product 1', createdAt: '1' }], productsCount: 1 };
-    const action = { type: fetchProducts.fulfilled.type, payload: mockProducts };
+    const mockProducts = {
+      products: [{ id: '1', name: 'Product 1', createdAt: '1' }],
+      productsCount: 1,
+    };
+    const action = {
+      type: fetchProducts.fulfilled.type,
+      payload: mockProducts,
+    };
     const state = reducer(initialState, action);
     expect(state.products).toEqual(mockProducts);
     expect(state.productsIsLoading).toBe(false);
   });
 
   it('should handle fetchProducts.rejected', () => {
-    const action = { type: fetchProducts.rejected.type, payload: 'Error fetching products' };
+    const action = {
+      type: fetchProducts.rejected.type,
+      payload: 'Error fetching products',
+    };
     const state = reducer(initialState, action);
     expect(state.productsIsLoading).toBe(false);
     expect(state.productsError).toBe('Error fetching products');
@@ -126,7 +147,11 @@ describe('productsSlice', () => {
   });
 
   it('should handle fetchProduct.fulfilled', () => {
-    const mockProduct: IProduct = { id: '1', name: 'Product 1', createdAt: '1' };
+    const mockProduct: IProduct = {
+      id: '1',
+      name: 'Product 1',
+      createdAt: '1',
+    };
     const action = { type: fetchProduct.fulfilled.type, payload: mockProduct };
     const state = reducer(initialState, action);
     expect(state.product).toEqual(mockProduct);
@@ -135,7 +160,10 @@ describe('productsSlice', () => {
   });
 
   it('should handle fetchProduct.rejected', () => {
-    const action = { type: fetchProduct.rejected.type, payload: 'Error fetching product' };
+    const action = {
+      type: fetchProduct.rejected.type,
+      payload: 'Error fetching product',
+    };
     const state = reducer(initialState, action);
     expect(state.productIsLoading).toBe(false);
     expect(state.productIsLoaded).toBe(false);
@@ -143,11 +171,25 @@ describe('productsSlice', () => {
   });
 
   it('should handle addOrUpdateProduct.fulfilled with existing product', () => {
-    const existingProduct: IProduct = { id: '1', name: 'Existing Product', createdAt: '1' };
-    const updatedProduct: IProduct = { id: '1', name: 'Updated Product', createdAt: '1'};
+    const existingProduct: IProduct = {
+      id: '1',
+      name: 'Existing Product',
+      createdAt: '1',
+    };
+    const updatedProduct: IProduct = {
+      id: '1',
+      name: 'Updated Product',
+      createdAt: '1',
+    };
 
-    const modifiedState = { ...initialState, products: { ...initialState.products, products: [existingProduct] } };
-    const action = { type: addOrUpdateProduct.fulfilled.type, payload: updatedProduct };
+    const modifiedState = {
+      ...initialState,
+      products: { ...initialState.products, products: [existingProduct] },
+    };
+    const action = {
+      type: addOrUpdateProduct.fulfilled.type,
+      payload: updatedProduct,
+    };
     const state = reducer(modifiedState, action);
 
     expect(state.products.products[0]).toEqual(updatedProduct);
@@ -155,9 +197,16 @@ describe('productsSlice', () => {
   });
 
   it('should handle addOrUpdateProduct.fulfilled with new product', () => {
-    const newProduct: IProduct = { id: '2', name: 'New Product', createdAt: '2' };
+    const newProduct: IProduct = {
+      id: '2',
+      name: 'New Product',
+      createdAt: '2',
+    };
 
-    const action = { type: addOrUpdateProduct.fulfilled.type, payload: newProduct };
+    const action = {
+      type: addOrUpdateProduct.fulfilled.type,
+      payload: newProduct,
+    };
     const state = reducer(initialState, action);
 
     expect(state.products.products[0]).toEqual(newProduct);
@@ -165,7 +214,10 @@ describe('productsSlice', () => {
   });
 
   it('should handle addOrUpdateProduct.rejected', () => {
-    const action = { type: addOrUpdateProduct.rejected.type, payload: 'Error adding/updating product' };
+    const action = {
+      type: addOrUpdateProduct.rejected.type,
+      payload: 'Error adding/updating product',
+    };
     const state = reducer(initialState, action);
     expect(state.productsError).toBe('Error adding/updating product');
   });
@@ -176,7 +228,10 @@ describe('productsSlice', () => {
       { id: '2', name: 'Product 2', createdAt: '2' },
     ];
 
-    const modifiedState = { ...initialState, products: { ...initialState.products, products: existingProducts } };
+    const modifiedState = {
+      ...initialState,
+      products: { ...initialState.products, products: existingProducts },
+    };
     const action = { type: deleteProduct.fulfilled.type, payload: '1' };
     const state = reducer(modifiedState, action);
 
@@ -188,7 +243,10 @@ describe('productsSlice', () => {
   // Test deleteProduct.fulfilled when products array is empty
   it('should handle deleteProduct.fulfilled with empty products array', () => {
     // Simulate a scenario where products.products is an empty array
-    const modifiedState = { ...initialState, products: { ...initialState.products, products: [] } };
+    const modifiedState = {
+      ...initialState,
+      products: { ...initialState.products, products: [] },
+    };
     const action = { type: deleteProduct.fulfilled.type, payload: '1' };
     const state = reducer(modifiedState, action);
 
@@ -198,21 +256,27 @@ describe('productsSlice', () => {
   });
 
   it('should handle deleteProduct.rejected', () => {
-    const action = { type: deleteProduct.rejected.type, payload: 'Error deleting product' };
+    const action = {
+      type: deleteProduct.rejected.type,
+      payload: 'Error deleting product',
+    };
     const state = reducer(initialState, action);
 
     expect(state.productsError).toBe('Error deleting product');
     expect(state.openConfirm).toBe(false);
   });
 
-    // Test deleteProduct.fulfilled with existing products array
+  // Test deleteProduct.fulfilled with existing products array
   it('should handle deleteProduct.fulfilled with existing products array', () => {
     const existingProducts: IProduct[] = [
       { id: '1', name: 'Product 1', createdAt: '1' },
       { id: '2', name: 'Product 2', createdAt: '2' },
     ];
 
-    const modifiedState = { ...initialState, products: { ...initialState.products, products: existingProducts } };
+    const modifiedState = {
+      ...initialState,
+      products: { ...initialState.products, products: existingProducts },
+    };
     const action = { type: deleteProduct.fulfilled.type, payload: '1' };
     const state = reducer(modifiedState, action);
 

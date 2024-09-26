@@ -1,8 +1,10 @@
 import { renderHook } from '@testing-library/react-hooks';
-import { useDispatch, useSelector } from 'react-redux';
 import { Graph, Cell } from '@antv/x6';
 import useEdgeEvents from '../../../../renderer/hooks/model-editor/useEdgeEvents';
-import { setSelectedEdgeId, setDataflowModalOpen } from '../../../../renderer/store/modelEditor';
+import {
+  setSelectedEdgeId,
+  setDataflowModalOpen,
+} from '../../../../renderer/store/modelEditor';
 
 // Mock useSelector and useDispatch hooks
 const mockUseSelector = jest.fn();
@@ -15,8 +17,8 @@ jest.mock('react-redux', () => ({
 
 describe('useEdgeEvents hook', () => {
   let mockGraph: Graph;
-  let mockCell: Partial<Cell> & { 
-    getLabelAt: (index: number) => any; 
+  let mockCell: Partial<Cell> & {
+    getLabelAt: (index: number) => any;
     isEdge: () => boolean;
   };
   let edgeSelectedCallback: Function;
@@ -49,8 +51,8 @@ describe('useEdgeEvents hook', () => {
           stride: { text: 'STRIDE' },
         },
       })),
-    } as unknown as Partial<Cell> & { 
-      getLabelAt: (index: number) => any; 
+    } as unknown as Partial<Cell> & {
+      getLabelAt: (index: number) => any;
       isEdge: () => boolean;
     };
   });
@@ -69,7 +71,7 @@ describe('useEdgeEvents hook', () => {
       selector({
         modelEditor: { selectedEdgeId: null },
         settings: { explicitObjectSelection: false },
-      })
+      }),
     );
 
     renderHook(() => useEdgeEvents(mockGraph));
@@ -89,7 +91,7 @@ describe('useEdgeEvents hook', () => {
       selector({
         modelEditor: { selectedEdgeId: 'mockCellId' },
         settings: { explicitObjectSelection: false },
-      })
+      }),
     );
 
     renderHook(() => useEdgeEvents(mockGraph));
@@ -105,7 +107,7 @@ describe('useEdgeEvents hook', () => {
       selector({
         modelEditor: { selectedEdgeId: 'mockCellId' },
         settings: { explicitObjectSelection: true },
-      })
+      }),
     );
 
     renderHook(() => useEdgeEvents(mockGraph));

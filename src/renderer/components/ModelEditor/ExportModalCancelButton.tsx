@@ -14,7 +14,7 @@ const ExportModalCancel: React.FC = () => {
    */
   const handleClose = () => {
     dispatch(setExportModalOpen(false));
-  } 
+  };
 
   /**
    * tsx

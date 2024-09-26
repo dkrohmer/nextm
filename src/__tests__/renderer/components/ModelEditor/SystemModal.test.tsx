@@ -3,10 +3,16 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
-import SystemModal from '../../../../renderer/components/ModelEditor/SystemModal';
-import modelEditorReducer, { setSystemModalOpen, setSystemModalSelectedCell, setSystemName, setSystemStack, setSystemDescription } from '../../../../renderer/store/modelEditor';
 import { Graph } from '@antv/x6';
 import { jest } from '@jest/globals';
+import SystemModal from '../../../../renderer/components/ModelEditor/SystemModal';
+import modelEditorReducer, {
+  setSystemModalOpen,
+  setSystemModalSelectedCell,
+  setSystemName,
+  setSystemStack,
+  setSystemDescription,
+} from '../../../../renderer/store/modelEditor';
 
 // Mock the Graph class with correct constructor arguments
 jest.mock('@antv/x6', () => {
@@ -71,7 +77,9 @@ describe('SystemModal Component', () => {
     // Verify cell updates
     await waitFor(() => {
       expect(mockCell.setAttrs).toHaveBeenCalled();
-      expect(mockCell.setData).toHaveBeenCalledWith({ description: 'New Description' });
+      expect(mockCell.setData).toHaveBeenCalledWith({
+        description: 'New Description',
+      });
     });
 
     // Verify that the modal close action is dispatched

@@ -9,17 +9,17 @@ const SystemModalName: React.FC = () => {
    * global states
    */
   const { systemName } = useSelector((state: RootState) => state.modelEditor);
-  
+
   /**
    * hooks
    */
-  const dispatch = useDispatch<AppDispatch>()
+  const dispatch = useDispatch<AppDispatch>();
 
   /**
    * handlers
    */
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    let value = event.target.value;
+    let { value } = event.target;
 
     if (value.length > 250) {
       value = value.slice(0, 249);
@@ -27,7 +27,7 @@ const SystemModalName: React.FC = () => {
 
     dispatch(setSystemName(value));
   };
-  
+
   /**
    * tsx
    */

@@ -3,21 +3,69 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
+import { Graph as x6Graph } from '@antv/x6';
 import Graph from '../../../../renderer/components/ModelEditor/Graph';
 import productsReducer from '../../../../renderer/store/products';
 import incrementsReducer from '../../../../renderer/store/increments';
 import modelsReducer from '../../../../renderer/store/models';
-import { Graph as x6Graph } from '@antv/x6';
 
 // Mock the sub-components
-jest.mock('../../../../renderer/components/ModelEditor/Stencil', () => () => <div data-testid="stencil-container">StencilContainer</div>);
-jest.mock('../../../../renderer/components/ModelEditor/Toolbar', () => () => <div data-testid="toolbar">Toolbar</div>);
-jest.mock('../../../../renderer/components/ModelEditor/ExportModal', () => () => <div data-testid="export-modal">ExportModal</div>);
-jest.mock('../../../../renderer/components/ModelEditor/ImportModal', () => () => <div data-testid="import-modal">ImportModal</div>);
-jest.mock('../../../../renderer/components/ModelEditor/ActorModal', () => () => <div data-testid="actor-modal">ActorModal</div>);
-jest.mock('../../../../renderer/components/ModelEditor/SystemModal', () => () => <div data-testid="system-modal">SystemModal</div>);
-jest.mock('../../../../renderer/components/ModelEditor/ZoneModal', () => () => <div data-testid="zone-modal">ZoneModal</div>);
-jest.mock('../../../../renderer/components/ModelEditor/DataflowModal', () => () => <div data-testid="dataflow-modal">DataflowModal</div>);
+jest.mock(
+  '../../../../renderer/components/ModelEditor/Stencil',
+  () =>
+    function () {
+      return <div data-testid="stencil-container">StencilContainer</div>;
+    },
+);
+jest.mock(
+  '../../../../renderer/components/ModelEditor/Toolbar',
+  () =>
+    function () {
+      return <div data-testid="toolbar">Toolbar</div>;
+    },
+);
+jest.mock(
+  '../../../../renderer/components/ModelEditor/ExportModal',
+  () =>
+    function () {
+      return <div data-testid="export-modal">ExportModal</div>;
+    },
+);
+jest.mock(
+  '../../../../renderer/components/ModelEditor/ImportModal',
+  () =>
+    function () {
+      return <div data-testid="import-modal">ImportModal</div>;
+    },
+);
+jest.mock(
+  '../../../../renderer/components/ModelEditor/ActorModal',
+  () =>
+    function () {
+      return <div data-testid="actor-modal">ActorModal</div>;
+    },
+);
+jest.mock(
+  '../../../../renderer/components/ModelEditor/SystemModal',
+  () =>
+    function () {
+      return <div data-testid="system-modal">SystemModal</div>;
+    },
+);
+jest.mock(
+  '../../../../renderer/components/ModelEditor/ZoneModal',
+  () =>
+    function () {
+      return <div data-testid="zone-modal">ZoneModal</div>;
+    },
+);
+jest.mock(
+  '../../../../renderer/components/ModelEditor/DataflowModal',
+  () =>
+    function () {
+      return <div data-testid="dataflow-modal">DataflowModal</div>;
+    },
+);
 
 // Create a mock Graph instance
 const mockGraph = new x6Graph({
@@ -43,15 +91,15 @@ describe('Graph Component', () => {
     // Set initial state for Redux store
     store.dispatch({
       type: 'products/setProduct',
-      payload: { name: 'ProductA' }
+      payload: { name: 'ProductA' },
     });
     store.dispatch({
       type: 'increments/setIncrement',
-      payload: { name: 'IncrementB' }
+      payload: { name: 'IncrementB' },
     });
     store.dispatch({
       type: 'models/setModel',
-      payload: { name: 'ModelC' }
+      payload: { name: 'ModelC' },
     });
   });
 

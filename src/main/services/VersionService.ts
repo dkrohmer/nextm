@@ -65,7 +65,9 @@ export class VersionService {
     return serializedVerison;
   }
 
-  async getLatestVersionThumbnailByModelId(modelId: string): Promise<string | null> {
+  async getLatestVersionThumbnailByModelId(
+    modelId: string,
+  ): Promise<string | null> {
     const versionThumbnail =
       await this.versionRepository.getLatestVersionThumbnailByModelId(modelId);
     return versionThumbnail;

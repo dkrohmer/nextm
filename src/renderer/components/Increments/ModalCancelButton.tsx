@@ -1,8 +1,13 @@
 import React from 'react';
 import { Form } from 'semantic-ui-react';
-import { AppDispatch } from '../../store';
 import { useDispatch } from 'react-redux';
-import { setCurrentIncrement, setIncrementsIsCloning, setIncrementsIsEditing, setIncrementsModalOpen } from '../../store/increments';
+import { AppDispatch } from '../../store';
+import {
+  setCurrentIncrement,
+  setIncrementsIsCloning,
+  setIncrementsIsEditing,
+  setIncrementsModalOpen,
+} from '../../store/increments';
 
 const ModalCancelButton: React.FC = () => {
   /**
@@ -23,11 +28,7 @@ const ModalCancelButton: React.FC = () => {
   /**
    * tsx
    */
-  return (
-    <Form.Button onClick={handleClose}>
-      Cancel
-    </Form.Button>
-  )
-}
+  return <Form.Button onClick={handleClose}>Cancel</Form.Button>;
+};
 
 export default ModalCancelButton;

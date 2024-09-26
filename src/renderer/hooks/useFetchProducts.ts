@@ -22,7 +22,13 @@ const useFetchProducts = () => {
         sortby: productsSortby,
       }),
     );
-  }, [dispatch, productsItemsPerPage, productsCurrentPage, productsSort, productsSortby]);
+  }, [
+    dispatch,
+    productsItemsPerPage,
+    productsCurrentPage,
+    productsSort,
+    productsSortby,
+  ]);
 };
 
 export default useFetchProducts;

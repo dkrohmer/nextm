@@ -31,7 +31,7 @@ const renderWithRedux = (component: React.ReactElement) => {
   return render(
     <Provider store={store}>
       <MemoryRouter>{component}</MemoryRouter>
-    </Provider>
+    </Provider>,
   );
 };
 
@@ -41,7 +41,9 @@ describe('TableCellName Component', () => {
   });
 
   it('renders the product name and shows the popup content on hover', async () => {
-    renderWithRedux(<TableCellName name={mockProduct.name} productId={mockProduct.id} />);
+    renderWithRedux(
+      <TableCellName name={mockProduct.name} productId={mockProduct.id} />,
+    );
 
     // Check if product name is rendered
     const nameElement = screen.getByText(mockProduct.name);
@@ -67,7 +69,9 @@ describe('TableCellName Component', () => {
   });
 
   it('navigates to the correct product page when name is clicked', async () => {
-    renderWithRedux(<TableCellName name={mockProduct.name} productId={mockProduct.id} />);
+    renderWithRedux(
+      <TableCellName name={mockProduct.name} productId={mockProduct.id} />,
+    );
 
     // Simulate click on the product name
     const nameElement = screen.getByText(mockProduct.name);
@@ -80,7 +84,9 @@ describe('TableCellName Component', () => {
   });
 
   it('hides the popup when the mouse leaves the cell', async () => {
-    renderWithRedux(<TableCellName name={mockProduct.name} productId={mockProduct.id} />);
+    renderWithRedux(
+      <TableCellName name={mockProduct.name} productId={mockProduct.id} />,
+    );
 
     const nameElement = screen.getByText(mockProduct.name);
     fireEvent.mouseEnter(nameElement);
@@ -102,7 +108,9 @@ describe('TableCellName Component', () => {
   });
 
   it('closes the popup when clicking outside the component', async () => {
-    renderWithRedux(<TableCellName name={mockProduct.name} productId={mockProduct.id} />);
+    renderWithRedux(
+      <TableCellName name={mockProduct.name} productId={mockProduct.id} />,
+    );
 
     const nameElement = screen.getByText(mockProduct.name);
 

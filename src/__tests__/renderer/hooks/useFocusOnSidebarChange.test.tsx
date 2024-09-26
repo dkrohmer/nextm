@@ -13,13 +13,17 @@ jest.mock('react-redux', () => ({
 }));
 
 // Helper component to test the hook
-const TestComponent = ({ sidebarVisible }: { sidebarVisible: boolean }) => {
+function TestComponent({ sidebarVisible }: { sidebarVisible: boolean }) {
   const containerRef = React.useRef<HTMLDivElement>(null);
 
   useFocusOnSidebarChange(containerRef);
 
-  return <div ref={containerRef} tabIndex={-1}>Content</div>;
-};
+  return (
+    <div ref={containerRef} tabIndex={-1}>
+      Content
+    </div>
+  );
+}
 
 describe('useFocusOnSidebarChange', () => {
   beforeEach(() => {
@@ -33,10 +37,10 @@ describe('useFocusOnSidebarChange', () => {
     mockUseSelector.mockImplementation((selector: any) =>
       selector({
         settings: { sidebarVisible: true },
-      })
+      }),
     );
 
-    const { container } = render(<TestComponent sidebarVisible={true} />);
+    const { container } = render(<TestComponent sidebarVisible />);
 
     // Manually attach the focus mock to the container
     const divElement = container.querySelector('div');
@@ -55,10 +59,10 @@ describe('useFocusOnSidebarChange', () => {
     mockUseSelector.mockImplementation((selector: any) =>
       selector({
         settings: { sidebarVisible: true },
-      })
+      }),
     );
 
-    const { container, rerender } = render(<TestComponent sidebarVisible={true} />);
+    const { container, rerender } = render(<TestComponent sidebarVisible />);
 
     // Manually attach the focus mock to the container
     const divElement = container.querySelector('div');
@@ -73,7 +77,7 @@ describe('useFocusOnSidebarChange', () => {
     mockUseSelector.mockImplementation((selector: any) =>
       selector({
         settings: { sidebarVisible: false },
-      })
+      }),
     );
 
     rerender(<TestComponent sidebarVisible={false} />);

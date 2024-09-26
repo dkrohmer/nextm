@@ -15,44 +15,71 @@ describe('ResponsibleService', () => {
   let productRepositoryMock: jest.Mocked<ProductRepository>;
 
   beforeEach(() => {
-    responsibleRepositoryMock = new ResponsibleRepository() as jest.Mocked<ResponsibleRepository>;
-    productRepositoryMock = new ProductRepository() as jest.Mocked<ProductRepository>;
+    responsibleRepositoryMock =
+      new ResponsibleRepository() as jest.Mocked<ResponsibleRepository>;
+    productRepositoryMock =
+      new ProductRepository() as jest.Mocked<ProductRepository>;
     responsibleService = new ResponsibleService();
 
-    (responsibleService as any).responsibleRepository = responsibleRepositoryMock;
+    (responsibleService as any).responsibleRepository =
+      responsibleRepositoryMock;
     (responsibleService as any).productRepository = productRepositoryMock;
   });
 
   describe('createResponsible', () => {
     it('should create a responsible successfully', async () => {
       const productId = 'product-id';
-      const data = { productId, firstName: 'John', lastName: 'Doe', role: 'Manager' };
+      const data = {
+        productId,
+        firstName: 'John',
+        lastName: 'Doe',
+        role: 'Manager',
+      };
       const product = new Product();
       const responsible = new Responsible();
 
       productRepositoryMock.getProductById.mockResolvedValue(product);
       (buildResponsibleEntity as jest.Mock).mockReturnValue(responsible);
-      responsibleRepositoryMock.createResponsible.mockResolvedValue(responsible);
+      responsibleRepositoryMock.createResponsible.mockResolvedValue(
+        responsible,
+      );
 
       const result = await responsibleService.createResponsible(data);
 
-      expect(productRepositoryMock.getProductById).toHaveBeenCalledWith(productId, false);
+      expect(productRepositoryMock.getProductById).toHaveBeenCalledWith(
+        productId,
+        false,
+      );
       expect(buildResponsibleEntity).toHaveBeenCalledWith(data);
-      expect(responsibleRepositoryMock.createResponsible).toHaveBeenCalledWith(responsible);
+      expect(responsibleRepositoryMock.createResponsible).toHaveBeenCalledWith(
+        responsible,
+      );
       expect(result).toBe(responsible);
     });
 
     it('should throw an error if the product is not found', async () => {
       const productId = 'product-id';
-      const data = { productId, firstName: 'John', lastName: 'Doe', role: 'Manager' };
+      const data = {
+        productId,
+        firstName: 'John',
+        lastName: 'Doe',
+        role: 'Manager',
+      };
 
       productRepositoryMock.getProductById.mockResolvedValue(null);
 
-      await expect(responsibleService.createResponsible(data)).rejects.toThrow('Product not found');
+      await expect(responsibleService.createResponsible(data)).rejects.toThrow(
+        'Product not found',
+      );
 
-      expect(productRepositoryMock.getProductById).toHaveBeenCalledWith(productId, false);
+      expect(productRepositoryMock.getProductById).toHaveBeenCalledWith(
+        productId,
+        false,
+      );
       // expect(buildResponsibleEntity).not.toHaveBeenCalled();
-      expect(responsibleRepositoryMock.createResponsible).not.toHaveBeenCalled();
+      expect(
+        responsibleRepositoryMock.createResponsible,
+      ).not.toHaveBeenCalled();
     });
   });
 
@@ -62,11 +89,16 @@ describe('ResponsibleService', () => {
       const responsibles = [new Responsible()];
       const responsiblesCount = 1;
 
-      responsibleRepositoryMock.getAllResponsibles.mockResolvedValue([responsibles, responsiblesCount]);
+      responsibleRepositoryMock.getAllResponsibles.mockResolvedValue([
+        responsibles,
+        responsiblesCount,
+      ]);
 
       const result = await responsibleService.getAllResponsibles(productId);
 
-      expect(responsibleRepositoryMock.getAllResponsibles).toHaveBeenCalledWith(productId);
+      expect(responsibleRepositoryMock.getAllResponsibles).toHaveBeenCalledWith(
+        productId,
+      );
       expect(result).toEqual({ responsibles, responsiblesCount });
     });
   });
@@ -76,11 +108,15 @@ describe('ResponsibleService', () => {
       const id = 'responsible-id';
       const responsible = new Responsible();
 
-      responsibleRepositoryMock.getResponsibleById.mockResolvedValue(responsible);
+      responsibleRepositoryMock.getResponsibleById.mockResolvedValue(
+        responsible,
+      );
 
       const result = await responsibleService.getResponsibleById(id);
 
-      expect(responsibleRepositoryMock.getResponsibleById).toHaveBeenCalledWith(id);
+      expect(responsibleRepositoryMock.getResponsibleById).toHaveBeenCalledWith(
+        id,
+      );
       expect(result).toBe(responsible);
     });
 
@@ -91,7 +127,9 @@ describe('ResponsibleService', () => {
 
       const result = await responsibleService.getResponsibleById(id);
 
-      expect(responsibleRepositoryMock.getResponsibleById).toHaveBeenCalledWith(id);
+      expect(responsibleRepositoryMock.getResponsibleById).toHaveBeenCalledWith(
+        id,
+      );
       expect(result).toBeNull();
     });
   });
@@ -102,11 +140,16 @@ describe('ResponsibleService', () => {
       const data = { firstName: 'Jane' };
       const responsible = new Responsible();
 
-      responsibleRepositoryMock.updateResponsible.mockResolvedValue(responsible);
+      responsibleRepositoryMock.updateResponsible.mockResolvedValue(
+        responsible,
+      );
 
       const result = await responsibleService.updateResponsible(id, data);
 
-      expect(responsibleRepositoryMock.updateResponsible).toHaveBeenCalledWith(id, data);
+      expect(responsibleRepositoryMock.updateResponsible).toHaveBeenCalledWith(
+        id,
+        data,
+      );
       expect(result).toBe(responsible);
     });
 
@@ -118,7 +161,10 @@ describe('ResponsibleService', () => {
 
       const result = await responsibleService.updateResponsible(id, data);
 
-      expect(responsibleRepositoryMock.updateResponsible).toHaveBeenCalledWith(id, data);
+      expect(responsibleRepositoryMock.updateResponsible).toHaveBeenCalledWith(
+        id,
+        data,
+      );
       expect(result).toBeNull();
     });
   });
@@ -131,7 +177,9 @@ describe('ResponsibleService', () => {
 
       await responsibleService.deleteResponsible(id);
 
-      expect(responsibleRepositoryMock.deleteResponsible).toHaveBeenCalledWith(id);
+      expect(responsibleRepositoryMock.deleteResponsible).toHaveBeenCalledWith(
+        id,
+      );
     });
   });
 });

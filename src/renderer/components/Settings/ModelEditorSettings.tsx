@@ -2,7 +2,7 @@ import React from 'react';
 import { Accordion, Form, Icon, Segment } from 'semantic-ui-react';
 import SetGridType from './GridType';
 import SetExplicitObjectSelection from './ExplicitObjectSelection';
-import '../../styles/settings.css'
+import '../../styles/settings.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store';
 import { setActiveSettingsIndex } from '../../store/settings';
@@ -13,7 +13,9 @@ const ModelEditorSettings: React.FC = () => {
   /**
    * global states
    */
-  const activeSettingsIndex = useSelector((state: RootState) => state.settings.activeSettingsIndex);
+  const activeSettingsIndex = useSelector(
+    (state: RootState) => state.settings.activeSettingsIndex,
+  );
 
   /**
    * hooks
@@ -24,7 +26,9 @@ const ModelEditorSettings: React.FC = () => {
    * handlers
    */
   const handleAccordionClick = (index: number) => {
-    dispatch(setActiveSettingsIndex(activeSettingsIndex === index ? -1 : index));
+    dispatch(
+      setActiveSettingsIndex(activeSettingsIndex === index ? -1 : index),
+    );
   };
 
   /**
@@ -33,9 +37,15 @@ const ModelEditorSettings: React.FC = () => {
   return (
     <Segment basic>
       <Segment inverted className="settings">
-        <Accordion.Title active={activeSettingsIndex === index} index={index} onClick={() => handleAccordionClick(index)}>
+        <Accordion.Title
+          active={activeSettingsIndex === index}
+          index={index}
+          onClick={() => handleAccordionClick(index)}
+        >
           <h2>
-            <Icon name={`caret ${activeSettingsIndex === index ? `down` : `right`}`} />
+            <Icon
+              name={`caret ${activeSettingsIndex === index ? `down` : `right`}`}
+            />
             Model Editor Settings
           </h2>
         </Accordion.Title>

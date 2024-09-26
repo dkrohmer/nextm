@@ -7,7 +7,13 @@ jest.mock('react-dom/client', () => ({
   }),
 }));
 
-jest.mock('../../renderer/App', () => () => <div>Mocked App Component</div>);
+jest.mock(
+  '../../renderer/App',
+  () =>
+    function () {
+      return <div>Mocked App Component</div>;
+    },
+);
 
 describe('Root rendering', () => {
   it('renders the App component without crashing', () => {

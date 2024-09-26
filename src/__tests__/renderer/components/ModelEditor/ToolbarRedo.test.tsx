@@ -1,8 +1,8 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import { Graph as x6Graph } from '@antv/x6';
 import ToolbarRedo from '../../../../renderer/components/ModelEditor/ToolbarRedo';
 import actions from '../../../../renderer/services/model-editor/actions';
-import { Graph as x6Graph } from '@antv/x6';
 
 // Mock the actions service
 jest.mock('../../../../renderer/services/model-editor/actions', () => ({
@@ -39,9 +39,11 @@ describe('ToolbarRedo Component', () => {
 
   it('renders the redo toolbar item as enabled and handles redo action on click', () => {
     // Mock useSelector to return canRedo as true
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      modelEditor: { canRedo: true },
-    }));
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        modelEditor: { canRedo: true },
+      }),
+    );
 
     render(<ToolbarRedo graph={mockGraph} />);
 
@@ -59,9 +61,11 @@ describe('ToolbarRedo Component', () => {
 
   it('renders the redo toolbar item as disabled when canRedo is false', () => {
     // Mock useSelector to return canRedo as false
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      modelEditor: { canRedo: false },
-    }));
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        modelEditor: { canRedo: false },
+      }),
+    );
 
     render(<ToolbarRedo graph={mockGraph} />);
 

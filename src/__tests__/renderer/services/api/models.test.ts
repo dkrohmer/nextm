@@ -22,7 +22,9 @@ describe('Models Thunks with Redux Store', () => {
   });
 
   it('dispatches fetchModels and updates the store on success', async () => {
-    const mockModels = [{ id: '1', name: 'Model 1', incrementId: '123', createdAt: '1' }];
+    const mockModels = [
+      { id: '1', name: 'Model 1', incrementId: '123', createdAt: '1' },
+    ];
 
     window.electron = {
       ...windowElectron,
@@ -40,7 +42,12 @@ describe('Models Thunks with Redux Store', () => {
   });
 
   it('dispatches fetchModel and updates the store on success', async () => {
-    const mockModel = { id: '1', name: 'Model 1', incrementId: '123', createdAt: '1' };
+    const mockModel = {
+      id: '1',
+      name: 'Model 1',
+      incrementId: '123',
+      createdAt: '1',
+    };
 
     window.electron = {
       ...windowElectron,
@@ -60,7 +67,12 @@ describe('Models Thunks with Redux Store', () => {
   });
 
   it('dispatches addOrUpdateModel and updates the store for an update', async () => {
-    const mockModel = { id: '1', name: 'Updated Model', incrementId: '123', createdAt: '1' };
+    const mockModel = {
+      id: '1',
+      name: 'Updated Model',
+      incrementId: '123',
+      createdAt: '1',
+    };
 
     window.electron = {
       ...windowElectron,
@@ -68,7 +80,9 @@ describe('Models Thunks with Redux Store', () => {
     };
 
     // Dispatch the addOrUpdateModel thunk
-    await store.dispatch(addOrUpdateModel({ model: mockModel, incrementId: '123' }));
+    await store.dispatch(
+      addOrUpdateModel({ model: mockModel, incrementId: '123' }),
+    );
 
     const state = store.getState().models;
     expect(state.models[0]).toEqual(mockModel);
@@ -79,8 +93,18 @@ describe('Models Thunks with Redux Store', () => {
   });
 
   it('dispatches addOrUpdateModel and updates the store for a new model', async () => {
-    const newModel = { id: '', name: 'New Model', incrementId: '123', createdAt: '1' };
-    const mockCreatedModel = { id: '1', name: 'New Model', incrementId: '123', createdAt: '1' };
+    const newModel = {
+      id: '',
+      name: 'New Model',
+      incrementId: '123',
+      createdAt: '1',
+    };
+    const mockCreatedModel = {
+      id: '1',
+      name: 'New Model',
+      incrementId: '123',
+      createdAt: '1',
+    };
 
     window.electron = {
       ...windowElectron,
@@ -88,7 +112,9 @@ describe('Models Thunks with Redux Store', () => {
     };
 
     // Dispatch the addOrUpdateModel thunk
-    await store.dispatch(addOrUpdateModel({ model: newModel, incrementId: '123' }));
+    await store.dispatch(
+      addOrUpdateModel({ model: newModel, incrementId: '123' }),
+    );
 
     const state = store.getState().models;
     expect(state.models[0]).toEqual(mockCreatedModel);
@@ -115,7 +141,9 @@ describe('Models Thunks with Redux Store', () => {
   it('handles fetchModels failure correctly', async () => {
     window.electron = {
       ...windowElectron,
-      getAllModels: jest.fn().mockRejectedValue(new Error('Failed to load models.')),
+      getAllModels: jest
+        .fn()
+        .mockRejectedValue(new Error('Failed to load models.')),
     };
 
     // Dispatch the fetchModels thunk
@@ -129,7 +157,9 @@ describe('Models Thunks with Redux Store', () => {
   });
 
   it('handles fetchModel failure correctly', async () => {
-    window.electron.getModelById = jest.fn().mockRejectedValue(new Error('Failed to load model.'));
+    window.electron.getModelById = jest
+      .fn()
+      .mockRejectedValue(new Error('Failed to load model.'));
 
     // Dispatch the fetchModel thunk
     await store.dispatch(fetchModel({ modelId: '1', isEagerLoading: true }));
@@ -143,18 +173,29 @@ describe('Models Thunks with Redux Store', () => {
   });
 
   it('handles addOrUpdateModel failure correctly', async () => {
-    const mockModel = { id: '1', name: 'Model 1', incrementId: '1', createdAt: '1' };
-    window.electron.updateModel = jest.fn().mockRejectedValue(new Error('Failed to add or update model.'));
+    const mockModel = {
+      id: '1',
+      name: 'Model 1',
+      incrementId: '1',
+      createdAt: '1',
+    };
+    window.electron.updateModel = jest
+      .fn()
+      .mockRejectedValue(new Error('Failed to add or update model.'));
 
     // Dispatch the addOrUpdateModel thunk
-    await store.dispatch(addOrUpdateModel({ model: mockModel, incrementId: 'increment-123' }));
+    await store.dispatch(
+      addOrUpdateModel({ model: mockModel, incrementId: 'increment-123' }),
+    );
 
     const state = store.getState().models;
     expect(state.modelsError).toBe('Failed to add or update model.');
   });
 
   it('handles deleteModel failure correctly', async () => {
-    window.electron.deleteModel = jest.fn().mockRejectedValue(new Error('Failed to delete model.'));
+    window.electron.deleteModel = jest
+      .fn()
+      .mockRejectedValue(new Error('Failed to delete model.'));
 
     // Dispatch the deleteModel thunk
     await store.dispatch(deleteModel('1'));

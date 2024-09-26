@@ -1,9 +1,12 @@
 // src/__tests__/renderer/hooks/useInitializeDatabasePath.test.tsx
 
 import { renderHook, waitFor } from '@testing-library/react';
-import useInitializeDatabasePath from '../../../renderer/hooks/useInitializeDatabasePath';
 import { useDispatch, useSelector } from 'react-redux';
-import { setInputPath, setUseDefaultDatabase } from '../../../renderer/store/settings';
+import useInitializeDatabasePath from '../../../renderer/hooks/useInitializeDatabasePath';
+import {
+  setInputPath,
+  setUseDefaultDatabase,
+} from '../../../renderer/store/settings';
 import windowElectron from '../../../../mocks/window-electron';
 
 // Mock useDispatch and useSelector functions
@@ -20,13 +23,13 @@ jest.mock('react-redux', () => ({
 }));
 
 beforeEach(() => {
-  window.electron = windowElectron
+  window.electron = windowElectron;
   jest.clearAllMocks();
 });
 
 describe('useInitializeDatabasePath', () => {
-  //TODO
-  
+  // TODO
+
   // it('should dispatch setUseDefaultDatabase(true) and setInputPath with default path if path equals default path', async () => {
   //   // Mock useSelector to return a path equal to the default path
   //   mockUseSelector.mockImplementation((selector: any) =>
@@ -62,7 +65,7 @@ describe('useInitializeDatabasePath', () => {
     mockUseSelector.mockImplementation((selector: any) =>
       selector({
         settings: { path: 'custom/db/path' },
-      })
+      }),
     );
 
     // Mock the Electron API to return the default database path

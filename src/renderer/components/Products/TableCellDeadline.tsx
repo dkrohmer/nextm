@@ -11,7 +11,7 @@ const TableCellDeadline: React.FC<TableCellDeadlineProps> = ({ endsAt }) => {
    */
   const handleDateFormat = () => {
     return endsAt ? new Date(endsAt).toLocaleDateString() : 'n/a';
-  }
+  };
 
   /**
    * tsx
@@ -27,6 +27,6 @@ const TableCellDeadline: React.FC<TableCellDeadlineProps> = ({ endsAt }) => {
       position="top center"
     />
   );
-}
+};
 
 export default TableCellDeadline;

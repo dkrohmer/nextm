@@ -4,7 +4,10 @@ import { Button, Icon, Popup } from 'semantic-ui-react';
 import { AppDispatch } from '../../store';
 import { IIncrement } from '../../interfaces/IIncrement';
 import '../../styles/products.css';
-import { setIncrementsConfirmOpen, setIncrementToDelete } from '../../store/increments';
+import {
+  setIncrementsConfirmOpen,
+  setIncrementToDelete,
+} from '../../store/increments';
 
 interface ActionsDeleteProps {
   increment: IIncrement;
@@ -32,12 +35,12 @@ const ActionsDelete: React.FC<ActionsDeleteProps> = ({ increment }) => {
   };
 
   const handleMouseEnter = () => {
-    setPopupOpen(true)
-  }
+    setPopupOpen(true);
+  };
 
   const handleMouseLeave = () => {
-    setPopupOpen(false)
-  }
+    setPopupOpen(false);
+  };
 
   /**
    * tsx
@@ -57,7 +60,11 @@ const ActionsDelete: React.FC<ActionsDeleteProps> = ({ increment }) => {
           <Icon color="red" name="trash" />
         </Button>
       }
-      content={<span><strong>Delete increment</strong> "{increment.name}"</span>}
+      content={
+        <span>
+          <strong>Delete increment</strong> "{increment.name}"
+        </span>
+      }
       open={popupOpen}
       onClose={() => setPopupOpen(false)}
     />

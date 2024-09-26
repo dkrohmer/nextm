@@ -11,7 +11,7 @@ const TableCellCreated: React.FC<TableCellCreatedProps> = ({ createdAt }) => {
    */
   const handleDataFormat = () => {
     return new Date(createdAt).toLocaleString();
-  }
+  };
 
   /**
    * tsx
@@ -27,6 +27,6 @@ const TableCellCreated: React.FC<TableCellCreatedProps> = ({ createdAt }) => {
       position="top center"
     />
   );
-}
+};
 
 export default TableCellCreated;

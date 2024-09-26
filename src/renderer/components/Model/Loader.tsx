@@ -14,6 +14,6 @@ const ModelLoader: React.FC<ModelLoaderProps> = ({ isLoading }) => {
       <Loader>Loading model...</Loader>
     </Dimmer>
   );
-}
+};
 
 export default ModelLoader;

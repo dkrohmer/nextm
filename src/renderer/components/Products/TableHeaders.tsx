@@ -16,7 +16,7 @@ const TableHeaders: React.FC = () => {
         <Table.HeaderCell>Actions</Table.HeaderCell>
       </Table.Row>
     </Table.Header>
-  )
-}
+  );
+};
 
 export default TableHeaders;

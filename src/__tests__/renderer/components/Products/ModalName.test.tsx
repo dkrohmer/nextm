@@ -1,10 +1,10 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import ModalName from '../../../../renderer/components/Products/ModalName';
-import { setProductsCurrentProduct } from '../../../../renderer/store/products';
 import { useDispatch, useSelector } from 'react-redux';
 import { jest } from '@jest/globals';
+import ModalName from '../../../../renderer/components/Products/ModalName';
+import { setProductsCurrentProduct } from '../../../../renderer/store/products';
 
 // Mock useDispatch and useSelector hooks
 const mockDispatch = jest.fn();
@@ -22,11 +22,17 @@ describe('ModalName Component', () => {
 
   it('renders the input with the current product name', () => {
     // Set up the mock to return a non-null productsCurrentProduct
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      products: {
-        productsCurrentProduct: { id: '1', name: 'Old Product Name', createdAt: '1' },
-      }
-    }));
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        products: {
+          productsCurrentProduct: {
+            id: '1',
+            name: 'Old Product Name',
+            createdAt: '1',
+          },
+        },
+      }),
+    );
 
     render(<ModalName />);
 
@@ -37,11 +43,13 @@ describe('ModalName Component', () => {
 
   it('renders the input with an empty value when productsCurrentProduct is null', () => {
     // Set up the mock to return a null productsCurrentProduct
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      products: {
-        productsCurrentProduct: null,
-      }
-    }));
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        products: {
+          productsCurrentProduct: null,
+        },
+      }),
+    );
 
     render(<ModalName />);
 
@@ -52,17 +60,23 @@ describe('ModalName Component', () => {
 
   it('dispatches setProductsCurrentProduct action on input change', () => {
     // Set up the mock to return a non-null productsCurrentProduct
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      products: {
-        productsCurrentProduct: { id: '1', name: 'Old Product Name', createdAt: '1' },
-      }
-    }));
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        products: {
+          productsCurrentProduct: {
+            id: '1',
+            name: 'Old Product Name',
+            createdAt: '1',
+          },
+        },
+      }),
+    );
 
     render(<ModalName />);
 
     // Simulate input change
     fireEvent.change(screen.getByPlaceholderText('Product Name'), {
-      target: { value: 'New Product Name' }
+      target: { value: 'New Product Name' },
     });
 
     // Check if dispatch is called with the correct action
@@ -70,32 +84,37 @@ describe('ModalName Component', () => {
       setProductsCurrentProduct({
         id: '1',
         name: 'New Product Name',
-        createdAt: '1'
-      })
+        createdAt: '1',
+      }),
     );
   });
 
   it('truncates the input value to 249 characters if it exceeds 250', () => {
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      products: {
-        productsCurrentProduct: { id: '1', name: 'Old Product Name', createdAt: '1' },
-      }
-    }));
-  
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        products: {
+          productsCurrentProduct: {
+            id: '1',
+            name: 'Old Product Name',
+            createdAt: '1',
+          },
+        },
+      }),
+    );
+
     render(<ModalName />);
-  
+
     const longInputValue = 'A'.repeat(260); // Create a string of 260 characters
     fireEvent.change(screen.getByPlaceholderText('Product Name'), {
-      target: { value: longInputValue }
+      target: { value: longInputValue },
     });
-  
+
     expect(mockDispatch).toHaveBeenCalledWith(
       setProductsCurrentProduct({
         id: '1',
         name: 'A'.repeat(249),
-        createdAt: '1'
-      })
+        createdAt: '1',
+      }),
     );
   });
-  
 });

@@ -75,7 +75,7 @@ describe('ActionsDelete Component', () => {
     renderWithRedux(<ActionsDelete increment={mockIncrement} number={1} />);
 
     const deleteButton = screen.getByRole('button');
-    
+
     // Simulate hover to open the popup
     fireEvent.mouseEnter(deleteButton);
     expect(screen.getByText(/delete increment/i)).toBeInTheDocument();

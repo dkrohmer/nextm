@@ -1,9 +1,11 @@
-import { Rectangle } from '@antv/x6';
+import { Rectangle, Graph } from '@antv/x6';
 import { saveModel } from '../../../renderer/utils/saveModel';
-import { addLatestVersion, fetchLatestVersion } from '../../../renderer/services/api/versions';
+import {
+  addLatestVersion,
+  fetchLatestVersion,
+} from '../../../renderer/services/api/versions';
 import { showToast } from '../../../renderer/store/settings';
 import { compareGraphHashes } from '../../../renderer/utils/compareGraphHashes';
-import { Graph } from '@antv/x6';
 import { AppDispatch } from '../../../renderer/store';
 
 // Mock Redux store and actions
@@ -58,18 +60,18 @@ describe('saveModel', () => {
         y: 20,
         height: 100,
         width: 200,
-      })
+      }),
     );
   });
 
   it('should return early if oldGraph is falsy', async () => {
     const latestVersion = { payload: { cells: null } }; // `oldGraph` is falsy
     graphMock.toJSON.mockReturnValue({ cells: [{ id: '2' }] }); // `newGraph` is valid
-  
+
     await saveModel('model-id', graphMock, latestVersion, dispatch);
-  
+
     expect(dispatch).not.toHaveBeenCalled(); // Ensure dispatch was not called
-  });  
+  });
 });
 
 describe('saveModel and compareGraphHashes', () => {
@@ -101,7 +103,10 @@ describe('saveModel and compareGraphHashes', () => {
     await saveModel('model-id', graphMock, latestVersion, dispatchMock);
 
     // Ensure compareGraphHashes was called
-    expect(compareGraphHashes).toHaveBeenCalledWith([{ id: '1' }], [{ id: '2' }]);
+    expect(compareGraphHashes).toHaveBeenCalledWith(
+      [{ id: '1' }],
+      [{ id: '2' }],
+    );
 
     // Ensure no further actions (like dispatching) occur after early return
     expect(dispatchMock).not.toHaveBeenCalled();

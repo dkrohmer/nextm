@@ -1,13 +1,5 @@
-import { 
-  Entity,
-  PrimaryGeneratedColumn,
-  Column
-} from 'typeorm';
-import { 
-  IsString,
-  IsUUID,
-  MaxLength
-} from 'class-validator';
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { IsString, IsUUID, MaxLength } from 'class-validator';
 import { v4 as uuidv4 } from 'uuid';
 
 @Entity('Setting')

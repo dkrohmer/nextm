@@ -72,7 +72,7 @@ describe('ActionsEdit Component', () => {
     renderWithRedux(<ActionsEdit increment={mockIncrement} number={1} />);
 
     const editButton = screen.getByRole('button');
-    
+
     fireEvent.mouseEnter(editButton);
     expect(screen.getByText(/edit increment/i)).toBeInTheDocument();
 

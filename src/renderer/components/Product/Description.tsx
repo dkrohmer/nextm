@@ -21,7 +21,7 @@ const Description: React.FC = () => {
         {product?.description || 'n/a'}
       </Grid.Column>
     </Grid.Row>
-  )
-}
+  );
+};
 
 export default Description;

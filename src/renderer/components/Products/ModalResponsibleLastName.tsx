@@ -10,11 +10,16 @@ interface ModalResponsibleLastNameProps {
   responsible: IResponsible;
 }
 
-const ModalResponsibleLastName: React.FC<ModalResponsibleLastNameProps> = ({ index, responsible }) => {
+const ModalResponsibleLastName: React.FC<ModalResponsibleLastNameProps> = ({
+  index,
+  responsible,
+}) => {
   /**
    * global states
    */
-  const { productsCurrentProduct } = useSelector((state: RootState) => state.products);
+  const { productsCurrentProduct } = useSelector(
+    (state: RootState) => state.products,
+  );
 
   /**
    * hooks
@@ -24,24 +29,27 @@ const ModalResponsibleLastName: React.FC<ModalResponsibleLastNameProps> = ({ ind
   /**
    * handlers
    */
-  const handleResponsibleChange = (field: keyof IResponsible, value: string) => {
+  const handleResponsibleChange = (
+    field: keyof IResponsible,
+    value: string,
+  ) => {
     if (value.length > 250) {
       value = value.slice(0, 249);
     }
-    
+
     if (productsCurrentProduct) {
       let updatedResponsibles: IResponsible[] = [];
       if (productsCurrentProduct.responsibles) {
-        updatedResponsibles = productsCurrentProduct.responsibles.map((resp, i) =>
-          i === index ? { ...resp, [field]: value } : resp
-        )
-      } 
+        updatedResponsibles = productsCurrentProduct.responsibles.map(
+          (resp, i) => (i === index ? { ...resp, [field]: value } : resp),
+        );
+      }
 
       dispatch(
         setProductsCurrentProduct({
           ...productsCurrentProduct,
           responsibles: updatedResponsibles,
-        })
+        }),
       );
     }
   };

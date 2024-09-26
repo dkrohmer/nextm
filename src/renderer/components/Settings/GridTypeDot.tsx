@@ -18,7 +18,10 @@ const GridTypeDot: React.FC = () => {
   /**
    * handlers
    */
-  const handleGridChange = (e: React.FormEvent<HTMLInputElement>, { value }: any) => {
+  const handleGridChange = (
+    e: React.FormEvent<HTMLInputElement>,
+    { value }: any,
+  ) => {
     window.electron.setGridType(value);
     dispatch(setGridVisible(value));
     dispatch(
@@ -27,10 +30,10 @@ const GridTypeDot: React.FC = () => {
         loadingMessage: '',
         successMessage: `Grid type changed to: ${value}`,
         errorMessage: '',
-      })
+      }),
     );
   };
-  
+
   /**
    * tsx
    */

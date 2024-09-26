@@ -2,8 +2,8 @@
 
 import { render, fireEvent } from '@testing-library/react';
 import React from 'react';
-import useHandleClickOutside from '../../../renderer/hooks/useHandleClickOutside';
 import { useDispatch } from 'react-redux';
+import useHandleClickOutside from '../../../renderer/hooks/useHandleClickOutside';
 import { setSidebarVisible } from '../../../renderer/store/settings';
 
 // Mock useDispatch function
@@ -14,17 +14,19 @@ jest.mock('react-redux', () => ({
 }));
 
 // Test component
-const TestComponent = () => {
+function TestComponent() {
   const ref = React.useRef<HTMLDivElement>(null);
   useHandleClickOutside(ref);
 
   return (
     <div>
-      <div ref={ref} data-testid="inside-div">Inside</div>
+      <div ref={ref} data-testid="inside-div">
+        Inside
+      </div>
       <div data-testid="outside-div">Outside</div>
     </div>
   );
-};
+}
 
 describe('useHandleClickOutside', () => {
   beforeEach(() => {
@@ -58,11 +60,17 @@ describe('useHandleClickOutside', () => {
     const { unmount } = render(<TestComponent />);
 
     // Ensure event listener was added
-    expect(addEventListenerSpy).toHaveBeenCalledWith('mousedown', expect.any(Function));
+    expect(addEventListenerSpy).toHaveBeenCalledWith(
+      'mousedown',
+      expect.any(Function),
+    );
 
     // Unmount the component and ensure the event listener was removed
     unmount();
-    expect(removeEventListenerSpy).toHaveBeenCalledWith('mousedown', expect.any(Function));
+    expect(removeEventListenerSpy).toHaveBeenCalledWith(
+      'mousedown',
+      expect.any(Function),
+    );
 
     addEventListenerSpy.mockRestore();
     removeEventListenerSpy.mockRestore();

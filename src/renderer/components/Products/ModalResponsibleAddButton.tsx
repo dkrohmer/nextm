@@ -8,7 +8,9 @@ const ModalResponsibleAddButton: React.FC = () => {
   /**
    * global states
    */
-  const { productsCurrentProduct } = useSelector((state: RootState) => state.products);
+  const { productsCurrentProduct } = useSelector(
+    (state: RootState) => state.products,
+  );
 
   /**
    * hooks
@@ -28,13 +30,17 @@ const ModalResponsibleAddButton: React.FC = () => {
         setProductsCurrentProduct({
           ...productsCurrentProduct,
           responsibles: updatedResponsibles,
-        })
+        }),
       );
     }
   };
 
   return (
-    <Button type="button" className="products-modal-add-responsible-button" onClick={handleAddResponsible}>
+    <Button
+      type="button"
+      className="products-modal-add-responsible-button"
+      onClick={handleAddResponsible}
+    >
       + Add Responsible
     </Button>
   );

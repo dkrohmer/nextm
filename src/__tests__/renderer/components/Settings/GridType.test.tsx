@@ -18,7 +18,7 @@ const renderWithProviders = (component: React.ReactElement) => {
   return render(
     <Provider store={mockStore}>
       <MemoryRouter>{component}</MemoryRouter>
-    </Provider>
+    </Provider>,
   );
 };
 
@@ -39,7 +39,9 @@ describe('GridType Component', () => {
     await waitFor(() => {
       const popup = document.querySelector('.ui.popup.visible');
       expect(popup).toBeInTheDocument();
-      expect(screen.getByText('Choose the type of grid for the model editor.')).toBeInTheDocument();
+      expect(
+        screen.getByText('Choose the type of grid for the model editor.'),
+      ).toBeInTheDocument();
     });
 
     // Simulate mouse leave to hide the popup

@@ -12,7 +12,7 @@ const FooterToolInfo: React.FC = () => {
     <List.Item>
       {appName} {appVersion}
     </List.Item>
-  )
-}
+  );
+};
 
 export default FooterToolInfo;

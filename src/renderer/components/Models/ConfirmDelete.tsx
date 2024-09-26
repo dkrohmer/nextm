@@ -9,10 +9,9 @@ const ConfirmDelete: React.FC = () => {
   /**
    * global states
    */
-  const { 
-    modelsConfirmOpen, 
-    modelToDelete 
-  } = useSelector((state: RootState) => state.models);
+  const { modelsConfirmOpen, modelToDelete } = useSelector(
+    (state: RootState) => state.models,
+  );
 
   /**
    * hooks

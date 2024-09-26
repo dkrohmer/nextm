@@ -8,7 +8,9 @@ const ModalDescription: React.FC = () => {
   /**
    * global states
    */
-  const { productsCurrentProduct } = useSelector((state: RootState) => state.products);
+  const { productsCurrentProduct } = useSelector(
+    (state: RootState) => state.products,
+  );
 
   /**
    * hooks
@@ -28,7 +30,7 @@ const ModalDescription: React.FC = () => {
         setProductsCurrentProduct({
           ...productsCurrentProduct,
           description: value,
-        })
+        }),
       );
     }
   };

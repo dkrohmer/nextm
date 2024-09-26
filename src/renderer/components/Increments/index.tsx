@@ -8,8 +8,8 @@ import Empty from './Empty';
 import ConfirmDelete from './ConfirmDelete';
 import Accordion from './Accordion';
 import Title from './Title';
-import '../../styles/increments.css';
 import Add from './Add';
+import '../../styles/increments.css';
 
 const Increments: React.FC = () => {
   /**
@@ -28,7 +28,7 @@ const Increments: React.FC = () => {
         <Add />
       </div>
       <Segment basic className="increments-segment">
-        <Loader/>
+        <Loader />
         <Error />
         <Empty />
         <Accordion />

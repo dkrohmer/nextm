@@ -19,7 +19,7 @@ describe('ModelActionsEdit Component', () => {
     id: '1',
     name: 'Test Model',
     createdAt: '1',
-    incrementId: '1'
+    incrementId: '1',
   };
 
   const renderWithRedux = (component: React.ReactElement) => {

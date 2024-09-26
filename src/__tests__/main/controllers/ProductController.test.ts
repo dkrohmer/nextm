@@ -48,7 +48,12 @@ describe('ProductController', () => {
     });
 
     expect(response).toEqual({ products: [mockProduct], productsCount: 1 });
-    expect(productService.getAllProducts).toHaveBeenCalledWith(10, 0, 'asc', 'createdAt');
+    expect(productService.getAllProducts).toHaveBeenCalledWith(
+      10,
+      0,
+      'asc',
+      'createdAt',
+    );
   });
 
   it('should handle get-all-products with invalid sort direction', async () => {
@@ -74,7 +79,12 @@ describe('ProductController', () => {
     });
 
     expect(response).toEqual({ products: [mockProduct], productsCount: 1 });
-    expect(productService.getAllProducts).toHaveBeenCalledWith(10, 0, 'desc', 'createdAt');
+    expect(productService.getAllProducts).toHaveBeenCalledWith(
+      10,
+      0,
+      'desc',
+      'createdAt',
+    );
   });
 
   it('should handle get-all-products with invalid sortby', async () => {
@@ -100,7 +110,12 @@ describe('ProductController', () => {
     });
 
     expect(response).toEqual({ products: [mockProduct], productsCount: 1 });
-    expect(productService.getAllProducts).toHaveBeenCalledWith(10, 0, 'asc', 'createdAt');
+    expect(productService.getAllProducts).toHaveBeenCalledWith(
+      10,
+      0,
+      'asc',
+      'createdAt',
+    );
   });
 
   it('should handle get-all-products with missing sortby', async () => {
@@ -125,7 +140,12 @@ describe('ProductController', () => {
     });
 
     expect(response).toEqual({ products: [mockProduct], productsCount: 1 });
-    expect(productService.getAllProducts).toHaveBeenCalledWith(10, 0, 'asc', 'createdAt');
+    expect(productService.getAllProducts).toHaveBeenCalledWith(
+      10,
+      0,
+      'asc',
+      'createdAt',
+    );
   });
 
   it('should handle get-all-products with default limit', async () => {
@@ -150,7 +170,12 @@ describe('ProductController', () => {
     });
 
     expect(response).toEqual({ products: [mockProduct], productsCount: 1 });
-    expect(productService.getAllProducts).toHaveBeenCalledWith(10, 0, 'asc', 'createdAt');
+    expect(productService.getAllProducts).toHaveBeenCalledWith(
+      10,
+      0,
+      'asc',
+      'createdAt',
+    );
   });
 
   it('should handle get-all-products error', async () => {

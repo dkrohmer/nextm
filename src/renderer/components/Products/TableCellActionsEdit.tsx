@@ -1,16 +1,22 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Button, Icon, Popup } from 'semantic-ui-react';
 import { IProduct } from '../../interfaces/IProduct';
 import { AppDispatch } from '../../store';
 import '../../styles/products.css';
-import { setProductsCurrentProduct, setProductsIsEditing, setProductsModalOpen } from '../../store/products';
+import {
+  setProductsCurrentProduct,
+  setProductsIsEditing,
+  setProductsModalOpen,
+} from '../../store/products';
 
 interface TableCellActionsEditProps {
   product: IProduct;
 }
 
-const TableCellActionsEdit: React.FC<TableCellActionsEditProps> = ({ product }) => {
+const TableCellActionsEdit: React.FC<TableCellActionsEditProps> = ({
+  product,
+}) => {
   /**
    * hooks
    */
@@ -23,7 +29,7 @@ const TableCellActionsEdit: React.FC<TableCellActionsEditProps> = ({ product }) 
     e.stopPropagation();
     dispatch(setProductsCurrentProduct(product));
     dispatch(setProductsModalOpen(true));
-    dispatch(setProductsIsEditing(true));  
+    dispatch(setProductsIsEditing(true));
   };
 
   /**
@@ -43,7 +49,11 @@ const TableCellActionsEdit: React.FC<TableCellActionsEditProps> = ({ product }) 
           <Icon name="pencil" />
         </Button>
       }
-      content={<span data-testid="edit-popup-content"><strong>Edit product</strong> "{product.name}"</span>}
+      content={
+        <span data-testid="edit-popup-content">
+          <strong>Edit product</strong> "{product.name}"
+        </span>
+      }
     />
   );
 };

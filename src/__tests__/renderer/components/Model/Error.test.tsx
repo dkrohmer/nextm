@@ -19,7 +19,9 @@ describe('ModelError Component', () => {
 
     // Verify that the message is not rendered
     expect(screen.queryByText(/Error❗️/i)).not.toBeInTheDocument();
-    expect(screen.queryByText(/Something went wrong!/i)).not.toBeInTheDocument();
+    expect(
+      screen.queryByText(/Something went wrong!/i),
+    ).not.toBeInTheDocument();
   });
 
   it('does not render anything when the error is an empty string', () => {
@@ -27,6 +29,8 @@ describe('ModelError Component', () => {
 
     // Verify that the message is not rendered
     expect(screen.queryByText(/Error❗️/i)).not.toBeInTheDocument();
-    expect(screen.queryByText(/Something went wrong!/i)).not.toBeInTheDocument();
+    expect(
+      screen.queryByText(/Something went wrong!/i),
+    ).not.toBeInTheDocument();
   });
 });

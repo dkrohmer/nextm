@@ -18,10 +18,9 @@ const Filters: React.FC = () => {
   /**
    * global states
    */
-  const {
-    productsSort,
-    productsSortby,
-  } = useSelector((state: RootState) => state.products);
+  const { productsSort, productsSortby } = useSelector(
+    (state: RootState) => state.products,
+  );
 
   /**
    * hooks
@@ -35,8 +34,14 @@ const Filters: React.FC = () => {
     dispatch(toggleProductsSort());
   };
 
-  const handleSortFieldChange = (_event: React.SyntheticEvent<HTMLElement>, data: DropdownProps) => {
-    if (typeof data.value === 'string' && validSortFields.includes(data.value)) {
+  const handleSortFieldChange = (
+    _event: React.SyntheticEvent<HTMLElement>,
+    data: DropdownProps,
+  ) => {
+    if (
+      typeof data.value === 'string' &&
+      validSortFields.includes(data.value)
+    ) {
       dispatch(setProductsSortby({ sortby: data.value }));
     }
   };
@@ -65,7 +70,11 @@ const Filters: React.FC = () => {
         data-testid="sort-direction-button"
       >
         <Icon
-          name={productsSort === 'asc' ? 'long arrow alternate up' : 'long arrow alternate down'}
+          name={
+            productsSort === 'asc'
+              ? 'long arrow alternate up'
+              : 'long arrow alternate down'
+          }
           data-testid="sort-icon"
         />
       </Button>

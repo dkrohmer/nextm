@@ -12,14 +12,12 @@ const Error: React.FC = () => {
   /**
    * tsx
    */
-  return (
-    modelsError ? (
-      <Message negative className="models-message" data-testid="models-error">
-        <Message.Header>Error❗️</Message.Header>
-        <p>{modelsError}</p>
-      </Message>
-    ) : null
-  )
-}
+  return modelsError ? (
+    <Message negative className="models-message" data-testid="models-error">
+      <Message.Header>Error❗️</Message.Header>
+      <p>{modelsError}</p>
+    </Message>
+  ) : null;
+};
 
 export default Error;

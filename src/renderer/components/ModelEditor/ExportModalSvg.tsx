@@ -20,7 +20,7 @@ const ExportModalSvg: React.FC = () => {
    */
   const handleChange = () => {
     dispatch(setExportFormat('svg'));
-  }
+  };
 
   /**
    * tsx
@@ -36,7 +36,7 @@ const ExportModalSvg: React.FC = () => {
         onChange={handleChange}
       />
     </Form.Field>
-  )
-}
+  );
+};
 
 export default ExportModalSvg;

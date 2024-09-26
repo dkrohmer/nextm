@@ -1,16 +1,22 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Button, Icon, Popup } from 'semantic-ui-react';
 import { IProduct } from '../../interfaces/IProduct';
 import { AppDispatch } from '../../store';
 import '../../styles/products.css';
-import { setProductsCurrentProduct, setProductsIsCloning, setProductsModalOpen } from '../../store/products';
+import {
+  setProductsCurrentProduct,
+  setProductsIsCloning,
+  setProductsModalOpen,
+} from '../../store/products';
 
 interface TableCellActionsCloneProps {
   product: IProduct;
 }
 
-const TableCellActionsClone: React.FC<TableCellActionsCloneProps> = ({ product }) => {
+const TableCellActionsClone: React.FC<TableCellActionsCloneProps> = ({
+  product,
+}) => {
   /**
    * hooks
    */
@@ -53,7 +59,11 @@ const TableCellActionsClone: React.FC<TableCellActionsCloneProps> = ({ product }
           <Icon name="clone" />
         </Button>
       }
-      content={<span data-testid="clone-popup-content"><strong>Clone product</strong> "{product.name}"</span>}
+      content={
+        <span data-testid="clone-popup-content">
+          <strong>Clone product</strong> "{product.name}"
+        </span>
+      }
     />
   );
 };

@@ -18,10 +18,12 @@ const CreatedAt: React.FC = () => {
         <strong>Created At:</strong>
       </Grid.Column>
       <Grid.Column width={12}>
-        {product?.createdAt ? new Date(product?.createdAt).toLocaleString() : 'n/a'}
+        {product?.createdAt
+          ? new Date(product?.createdAt).toLocaleString()
+          : 'n/a'}
       </Grid.Column>
     </Grid.Row>
-  )
-}
+  );
+};
 
 export default CreatedAt;

@@ -1,5 +1,12 @@
-import reducer, { initialState, VersionsState } from '../../../renderer/store/versions';
-import { fetchLatestVersion, addLatestVersion, fetchLatestVersionThumbnail } from '../../../renderer/services/api/versions';
+import reducer, {
+  initialState,
+  VersionsState,
+} from '../../../renderer/store/versions';
+import {
+  fetchLatestVersion,
+  addLatestVersion,
+  fetchLatestVersionThumbnail,
+} from '../../../renderer/services/api/versions';
 import type { IVersion } from '../../../renderer/interfaces/IVersion';
 
 describe('versionsSlice', () => {
@@ -29,7 +36,10 @@ describe('versionsSlice', () => {
         height: 200,
         width: 200,
       };
-      const action = { type: fetchLatestVersion.fulfilled.type, payload: mockVersion };
+      const action = {
+        type: fetchLatestVersion.fulfilled.type,
+        payload: mockVersion,
+      };
       const state = reducer(initialVersionsState, action);
       expect(state.latestVersion).toEqual(mockVersion);
       expect(state.latestVersionIsLoading).toBe(false);
@@ -37,7 +47,10 @@ describe('versionsSlice', () => {
     });
 
     it('should handle fetchLatestVersion.rejected', () => {
-      const action = { type: fetchLatestVersion.rejected.type, payload: 'Fetch error' };
+      const action = {
+        type: fetchLatestVersion.rejected.type,
+        payload: 'Fetch error',
+      };
       const state = reducer(initialVersionsState, action);
       expect(state.latestVersionIsLoading).toBe(false);
       expect(state.latestVersionIsLoaded).toBe(false);
@@ -63,7 +76,10 @@ describe('versionsSlice', () => {
         height: 250,
         width: 250,
       };
-      const action = { type: addLatestVersion.fulfilled.type, payload: mockVersion };
+      const action = {
+        type: addLatestVersion.fulfilled.type,
+        payload: mockVersion,
+      };
       const state = reducer(initialVersionsState, action);
       expect(state.latestVersion).toEqual(mockVersion);
       expect(state.latestVersionIsLoading).toBe(false);
@@ -71,7 +87,10 @@ describe('versionsSlice', () => {
     });
 
     it('should handle addLatestVersion.rejected', () => {
-      const action = { type: addLatestVersion.rejected.type, payload: 'Add error' };
+      const action = {
+        type: addLatestVersion.rejected.type,
+        payload: 'Add error',
+      };
       const state = reducer(initialVersionsState, action);
       expect(state.latestVersionIsLoading).toBe(false);
       expect(state.latestVersionIsLoaded).toBe(false);
@@ -79,7 +98,10 @@ describe('versionsSlice', () => {
     });
 
     it('should handle fetchLatestVersionThumbnail.pending', () => {
-      const action = { type: fetchLatestVersionThumbnail.pending.type, meta: { arg: { modelId: '1' } } };
+      const action = {
+        type: fetchLatestVersionThumbnail.pending.type,
+        meta: { arg: { modelId: '1' } },
+      };
       const state = reducer(initialVersionsState, action);
       expect(state.latestVersionThumbnailsIsLoading['1']).toBe(true);
       expect(state.latestVersionThumbnailsError['1']).toBeNull();
@@ -87,14 +109,22 @@ describe('versionsSlice', () => {
 
     it('should handle fetchLatestVersionThumbnail.fulfilled', () => {
       const mockThumbnail = 'thumbnail-url';
-      const action = { type: fetchLatestVersionThumbnail.fulfilled.type, payload: mockThumbnail, meta: { arg: { modelId: '1' } } };
+      const action = {
+        type: fetchLatestVersionThumbnail.fulfilled.type,
+        payload: mockThumbnail,
+        meta: { arg: { modelId: '1' } },
+      };
       const state = reducer(initialVersionsState, action);
       expect(state.latestVersionThumbnails['1']).toBe(mockThumbnail);
       expect(state.latestVersionThumbnailsIsLoading['1']).toBe(false);
     });
 
     it('should handle fetchLatestVersionThumbnail.rejected', () => {
-      const action = { type: fetchLatestVersionThumbnail.rejected.type, payload: 'Thumbnail error', meta: { arg: { modelId: '1' } } };
+      const action = {
+        type: fetchLatestVersionThumbnail.rejected.type,
+        payload: 'Thumbnail error',
+        meta: { arg: { modelId: '1' } },
+      };
       const state = reducer(initialVersionsState, action);
       expect(state.latestVersionThumbnailsIsLoading['1']).toBe(false);
       expect(state.latestVersionThumbnailsError['1']).toBe('Thumbnail error');

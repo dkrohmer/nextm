@@ -1,15 +1,17 @@
 import React from 'react';
 import { Form, InputOnChangeData } from 'semantic-ui-react';
-import { AppDispatch, RootState } from '../../store';
 import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../store';
 import { setCurrentIncrement } from '../../store/increments';
 
 const ModalName: React.FC = () => {
   /**
    * global states
    */
-  const { currentIncrement } = useSelector((state: RootState) => state.increments);
-  
+  const { currentIncrement } = useSelector(
+    (state: RootState) => state.increments,
+  );
+
   /**
    * hooks
    */
@@ -19,7 +21,7 @@ const ModalName: React.FC = () => {
    * handlers
    */
   const handleInputChange = (data: InputOnChangeData) => {
-    let value = data.value;
+    let { value } = data;
 
     if (value.length > 250) {
       value = value.slice(0, 249);
@@ -46,6 +48,6 @@ const ModalName: React.FC = () => {
       onChange={(_e, data) => handleInputChange(data)}
     />
   );
-}
+};
 
 export default ModalName;

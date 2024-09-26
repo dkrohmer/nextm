@@ -1,6 +1,9 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { PaginationProps, Pagination as SemanticPagination} from 'semantic-ui-react';
+import {
+  PaginationProps,
+  Pagination as SemanticPagination,
+} from 'semantic-ui-react';
 import { AppDispatch, RootState } from '../../store';
 import '../../styles/products.css';
 import { setProductsCurrentPage } from '../../store/products';
@@ -24,9 +27,12 @@ const Pagination: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
 
   /**
-   * handlers 
+   * handlers
    */
-  const handlePaginationChange = (_e: React.MouseEvent<HTMLAnchorElement>, { activePage }: PaginationProps) => {
+  const handlePaginationChange = (
+    _e: React.MouseEvent<HTMLAnchorElement>,
+    { activePage }: PaginationProps,
+  ) => {
     dispatch(setProductsCurrentPage(activePage as number));
     const offset = ((activePage as number) - 1) * productsItemsPerPage;
     dispatch(
@@ -35,7 +41,7 @@ const Pagination: React.FC = () => {
         offset,
         sort: productsSort,
         sortby: productsSortby,
-      })
+      }),
     );
   };
 

@@ -1,13 +1,13 @@
 // src/__tests__/renderer/hooks/useInitializeApp.test.tsx
 
 import { renderHook, waitFor } from '@testing-library/react';
-import useInitializeApp from '../../../renderer/hooks/useInitializeApp';
 import { useDispatch } from 'react-redux';
-import { 
-  setDatabasePath, 
-  showToast, 
-  setGridVisible, 
-  setExplicitObjectSelection 
+import useInitializeApp from '../../../renderer/hooks/useInitializeApp';
+import {
+  setDatabasePath,
+  showToast,
+  setGridVisible,
+  setExplicitObjectSelection,
 } from '../../../renderer/store/settings';
 import windowElectron from '../../../../mocks/window-electron';
 
@@ -30,7 +30,7 @@ const mockGetGridType = jest.fn();
 const mockGetExplicitObjectSelection = jest.fn();
 
 beforeEach(() => {
-  window.electron = windowElectron
+  window.electron = windowElectron;
 });
 
 afterEach(() => {
@@ -54,12 +54,14 @@ describe('useInitializeApp', () => {
     expect(mockDispatch).toHaveBeenCalledWith(setDatabasePath('test/db/path'));
 
     // Check if showToast was dispatched with the correct messages
-    expect(mockDispatch).toHaveBeenCalledWith(showToast({
-      promise: Promise.resolve(),
-      loadingMessage: '',
-      successMessage: 'Current database: test/db/path',
-      errorMessage: '',
-    }));
+    expect(mockDispatch).toHaveBeenCalledWith(
+      showToast({
+        promise: Promise.resolve(),
+        loadingMessage: '',
+        successMessage: 'Current database: test/db/path',
+        errorMessage: '',
+      }),
+    );
 
     // Check if setGridVisible was dispatched with the correct grid type
     expect(mockDispatch).toHaveBeenCalledWith(setGridVisible('none'));
@@ -87,6 +89,8 @@ describe('useInitializeApp', () => {
     expect(mockDispatch).toHaveBeenCalledWith(setGridVisible('none'));
 
     // Check if setExplicitObjectSelection was dispatched with the fallback value false
-    expect(mockDispatch).toHaveBeenCalledWith(setExplicitObjectSelection(false));
+    expect(mockDispatch).toHaveBeenCalledWith(
+      setExplicitObjectSelection(false),
+    );
   });
 });

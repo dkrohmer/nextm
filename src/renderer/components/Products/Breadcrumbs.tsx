@@ -12,6 +12,6 @@ const Breadcrumbs: React.FC = () => {
       </Breadcrumb.Section>
     </Breadcrumb>
   );
-}
+};
 
 export default Breadcrumbs;

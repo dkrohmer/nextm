@@ -2,7 +2,12 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Form } from 'semantic-ui-react';
 import { AppDispatch } from '../../store';
-import { setModelsCurrentModel, setModelsIsCloning, setModelsIsEditing, setModelsModalOpen } from '../../store/models';
+import {
+  setModelsCurrentModel,
+  setModelsIsCloning,
+  setModelsIsEditing,
+  setModelsModalOpen,
+} from '../../store/models';
 
 const ModalCancelButton: React.FC = () => {
   /**

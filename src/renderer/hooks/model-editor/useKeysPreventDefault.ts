@@ -3,15 +3,29 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
 
 const useKeysPreventDefault = () => {
-  const { actorModalOpen, systemModalOpen, zoneModalOpen, dataflowModalOpen } = useSelector((state: RootState) => state.modelEditor);
+  const { actorModalOpen, systemModalOpen, zoneModalOpen, dataflowModalOpen } =
+    useSelector((state: RootState) => state.modelEditor);
 
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
-      if (event.metaKey && (event.key === '+' || event.key === '-' || event.key === 's' || event.key === 'a')) {
+      if (
+        event.metaKey &&
+        (event.key === '+' ||
+          event.key === '-' ||
+          event.key === 's' ||
+          event.key === 'a')
+      ) {
         event.preventDefault();
       }
 
-      if (event.metaKey && event.key === ' ' && !actorModalOpen && !systemModalOpen && !zoneModalOpen && !dataflowModalOpen) {
+      if (
+        event.metaKey &&
+        event.key === ' ' &&
+        !actorModalOpen &&
+        !systemModalOpen &&
+        !zoneModalOpen &&
+        !dataflowModalOpen
+      ) {
         event.preventDefault();
       }
     };

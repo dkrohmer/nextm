@@ -3,7 +3,10 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
-import productsReducer, { setOpenConfirm, setProductToDelete } from '../../../../renderer/store/products';
+import productsReducer, {
+  setOpenConfirm,
+  setProductToDelete,
+} from '../../../../renderer/store/products';
 import TableCellActionsDelete from '../../../../renderer/components/Products/TableCellActionsDelete';
 import { IProduct } from '../../../../renderer/interfaces/IProduct';
 
@@ -76,7 +79,9 @@ describe('TableCellActionsDelete Component', () => {
 
     // Ensure the popup content disappears
     await waitFor(() => {
-      expect(screen.queryByTestId('delete-popup-content')).not.toBeInTheDocument();
+      expect(
+        screen.queryByTestId('delete-popup-content'),
+      ).not.toBeInTheDocument();
     });
   });
 
@@ -95,7 +100,9 @@ describe('TableCellActionsDelete Component', () => {
 
     // Ensure the popup content disappears after clicking outside
     await waitFor(() => {
-      expect(screen.queryByTestId('delete-popup-content')).not.toBeInTheDocument();
+      expect(
+        screen.queryByTestId('delete-popup-content'),
+      ).not.toBeInTheDocument();
     });
   });
 });

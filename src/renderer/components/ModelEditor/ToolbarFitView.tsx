@@ -15,7 +15,7 @@ const ToolbarFitView: React.FC<ToolbarFitViewProps> = ({ graph }) => {
   const handleFitView = () => {
     actions.fitViewAction(graph);
   };
-  
+
   /**
    * tsx
    */

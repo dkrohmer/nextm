@@ -17,7 +17,7 @@ describe('graphToPng', () => {
 
   it('should resolve with the PNG data URI when toPNG is successful', async () => {
     const mockDataUri = 'data:image/png;base64,mockDataUri';
-    
+
     graphMock.toPNG.mockImplementation((callback) => {
       callback(mockDataUri);
     });
@@ -38,7 +38,9 @@ describe('graphToPng', () => {
       callback('');
     });
 
-    await expect(graphToPng(graphMock)).rejects.toThrow('Failed to generate PNG data URI');
+    await expect(graphToPng(graphMock)).rejects.toThrow(
+      'Failed to generate PNG data URI',
+    );
   });
 
   it('should reject with an error if toPNG throws an exception', async () => {

@@ -11,7 +11,7 @@ import Responsibles from './Responsibles';
 import StartsAt from './StartsAt';
 import EndsAt from './EndsAt';
 import CreatedAt from './CreatedAt';
-import Increments from "../Increments"
+import Increments from '../Increments';
 import '../../styles/product.css';
 
 const Product: React.FC = () => {

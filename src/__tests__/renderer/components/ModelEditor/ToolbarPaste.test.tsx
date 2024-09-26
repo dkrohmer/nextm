@@ -1,8 +1,8 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import { Graph as x6Graph } from '@antv/x6';
 import ToolbarPaste from '../../../../renderer/components/ModelEditor/ToolbarPaste';
 import actions from '../../../../renderer/services/model-editor/actions';
-import { Graph as x6Graph } from '@antv/x6';
 
 // Mock the actions service
 jest.mock('../../../../renderer/services/model-editor/actions', () => ({

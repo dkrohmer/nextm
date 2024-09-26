@@ -22,7 +22,7 @@ describe('FooterDiscuss Component', () => {
 
     // Check that the Discord icon is rendered
     expect(screen.getByText('Discord Icon')).toBeInTheDocument();
-    
+
     // Check that the "Discuss" list item is rendered
     expect(screen.getByText(/Discuss/i)).toBeInTheDocument();
   });

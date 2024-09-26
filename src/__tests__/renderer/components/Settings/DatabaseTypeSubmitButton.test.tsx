@@ -33,7 +33,7 @@ describe('DatabaseTypeSubmitButton Component', () => {
           path: '/mock/default/path',
           inputPath: '',
         },
-      })
+      }),
     );
 
     // Render the component
@@ -57,7 +57,7 @@ describe('DatabaseTypeSubmitButton Component', () => {
           path: '/mock/default/path',
           inputPath: '/mock/input/path',
         },
-      })
+      }),
     );
 
     // Render the component
@@ -78,7 +78,7 @@ describe('DatabaseTypeSubmitButton Component', () => {
           path: '/mock/default/path',
           inputPath: '/mock/input/path',
         },
-      })
+      }),
     );
 
     // Mock electron API
@@ -95,7 +95,9 @@ describe('DatabaseTypeSubmitButton Component', () => {
     // Wait for the async action to complete
     await waitFor(() => {
       // Check if window.electron.openDatabase was called with the correct path
-      expect(window.electron.openDatabase).toHaveBeenCalledWith('/mock/input/path');
+      expect(window.electron.openDatabase).toHaveBeenCalledWith(
+        '/mock/input/path',
+      );
 
       // Check if getCurrentDbPath was called
       expect(window.electron.getCurrentDbPath).toHaveBeenCalled();
@@ -107,12 +109,14 @@ describe('DatabaseTypeSubmitButton Component', () => {
       });
 
       // Check if showToast was dispatched with the correct success message
-      expect(mockDispatch).toHaveBeenCalledWith(expect.objectContaining({
-        type: 'settings/showToast',
-        payload: expect.objectContaining({
-          successMessage: 'Current database: /mock/current/db/path',
+      expect(mockDispatch).toHaveBeenCalledWith(
+        expect.objectContaining({
+          type: 'settings/showToast',
+          payload: expect.objectContaining({
+            successMessage: 'Current database: /mock/current/db/path',
+          }),
         }),
-      }));
+      );
 
       // Check if navigate was called to redirect the user
       expect(mockNavigate).toHaveBeenCalledWith('/');
@@ -128,7 +132,7 @@ describe('DatabaseTypeSubmitButton Component', () => {
           path: '/mock/default/path',
           inputPath: '/mock/input/path',
         },
-      })
+      }),
     );
 
     // Mock electron API to resolve with success
@@ -145,7 +149,9 @@ describe('DatabaseTypeSubmitButton Component', () => {
     // Wait for the async action to complete
     await waitFor(() => {
       // Check if window.electron.createDatabase was called with the correct path
-      expect(window.electron.createDatabase).toHaveBeenCalledWith('/mock/input/path');
+      expect(window.electron.createDatabase).toHaveBeenCalledWith(
+        '/mock/input/path',
+      );
 
       // Check if getCurrentDbPath was called
       expect(window.electron.getCurrentDbPath).toHaveBeenCalled();
@@ -157,12 +163,14 @@ describe('DatabaseTypeSubmitButton Component', () => {
       });
 
       // Check if showToast was dispatched with the correct success message
-      expect(mockDispatch).toHaveBeenCalledWith(expect.objectContaining({
-        type: 'settings/showToast',
-        payload: expect.objectContaining({
-          successMessage: 'Current database: /mock/current/db/path',
+      expect(mockDispatch).toHaveBeenCalledWith(
+        expect.objectContaining({
+          type: 'settings/showToast',
+          payload: expect.objectContaining({
+            successMessage: 'Current database: /mock/current/db/path',
+          }),
         }),
-      }));
+      );
 
       // Check if navigate was called to redirect the user
       expect(mockNavigate).toHaveBeenCalledWith('/');
@@ -178,17 +186,19 @@ describe('DatabaseTypeSubmitButton Component', () => {
           path: null,
           inputPath: null,
         },
-      })
+      }),
     );
 
     // Mock electron API to simulate backend failure
-    window.electron = { 
+    window.electron = {
       ...windowElectron,
       createDatabase: jest.fn().mockResolvedValue({ success: false }),
-    }
+    };
 
     // Spy on console.error to capture the error message
-    const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+    const consoleErrorSpy = jest
+      .spyOn(console, 'error')
+      .mockImplementation(() => {});
 
     // Render the component
     render(<DatabaseTypeSubmitButton />);
@@ -200,13 +210,16 @@ describe('DatabaseTypeSubmitButton Component', () => {
     // Wait for async action to complete
     await waitFor(() => {
       // Check if the backend failure was handled
-      expect(consoleErrorSpy).toHaveBeenCalledWith('Error processing form submission:', expect.any(Error));
+      expect(consoleErrorSpy).toHaveBeenCalledWith(
+        'Error processing form submission:',
+        expect.any(Error),
+      );
     });
 
     // Restore console.error
     consoleErrorSpy.mockRestore();
   });
-  
+
   it('handles backend failure and throws an error', async () => {
     // Mock useSelector to return valid inputPath and buttonLabel as 'Create'
     mockUseSelector.mockImplementation((selector: any) =>
@@ -216,31 +229,36 @@ describe('DatabaseTypeSubmitButton Component', () => {
           path: '/mock/default/path',
           inputPath: '/mock/input/path',
         },
-      })
+      }),
     );
-  
+
     // Mock electron API to simulate backend failure
-    window.electron = { 
+    window.electron = {
       ...windowElectron,
       createDatabase: jest.fn().mockResolvedValue({ success: false }),
-    }
+    };
 
     // Spy on console.error to capture the error message
-    const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
-  
+    const consoleErrorSpy = jest
+      .spyOn(console, 'error')
+      .mockImplementation(() => {});
+
     // Render the component
     render(<DatabaseTypeSubmitButton />);
-  
+
     // Simulate clicking the submit button
     const submitButton = screen.getByTestId('submit-button');
     fireEvent.click(submitButton);
-  
+
     // Wait for async action to complete
     await waitFor(() => {
       // Check if the backend failure was handled
-      expect(consoleErrorSpy).toHaveBeenCalledWith('Error processing form submission:', expect.any(Error));
+      expect(consoleErrorSpy).toHaveBeenCalledWith(
+        'Error processing form submission:',
+        expect.any(Error),
+      );
     });
-  
+
     // Restore console.error
     consoleErrorSpy.mockRestore();
   });

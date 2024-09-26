@@ -4,11 +4,11 @@ import { showToast } from '../store/settings';
 import { compareGraphHashes } from './compareGraphHashes';
 import { AppDispatch } from '../store';
 
-export async function saveModel (
+export async function saveModel(
   modelId: string | undefined,
   graph: Graph | undefined,
   latestVersion: any,
-  dispatch: AppDispatch
+  dispatch: AppDispatch,
 ) {
   if (modelId && graph && latestVersion) {
     const oldGraph = latestVersion.payload.cells;
@@ -19,7 +19,7 @@ export async function saveModel (
 
     const { x, y, height, width }: Rectangle = graph.getGraphArea();
     const promise = dispatch(
-      addLatestVersion({ modelId, graph, x, y, height, width })
+      addLatestVersion({ modelId, graph, x, y, height, width }),
     ).unwrap();
 
     dispatch(

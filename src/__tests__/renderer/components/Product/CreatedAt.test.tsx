@@ -12,7 +12,11 @@ import { initialProductsState } from '../../../../renderer/store/products';
 const mockProductState: Partial<RootState> = {
   products: {
     ...initialProductsState,
-    product: { id: 'product-123', name: 'Test Product', createdAt: '2023-09-01T10:00:00Z' },
+    product: {
+      id: 'product-123',
+      name: 'Test Product',
+      createdAt: '2023-09-01T10:00:00Z',
+    },
   },
 };
 
@@ -25,10 +29,8 @@ const store = configureStore({
 const renderWithProviders = (component: React.ReactElement) => {
   return render(
     <Provider store={store}>
-      <Grid>
-        {component}
-      </Grid>
-    </Provider>
+      <Grid>{component}</Grid>
+    </Provider>,
   );
 };
 
@@ -50,7 +52,7 @@ describe('CreatedAt Component', () => {
     // Mock state where createdAt is undefined
     const mockEmptyState: Partial<RootState> = {
       products: {
-        ...initialProductsState, 
+        ...initialProductsState,
         product: { id: 'product-123', name: 'Test Product', createdAt: '' },
       },
     };
@@ -66,7 +68,7 @@ describe('CreatedAt Component', () => {
         <Grid>
           <CreatedAt />
         </Grid>
-      </Provider>
+      </Provider>,
     );
 
     expect(screen.getByText('Created At:')).toBeInTheDocument();

@@ -1,8 +1,8 @@
 // src/__tests__/renderer/hooks/useFetchProducts.test.ts
 
 import { render } from '@testing-library/react';
-import useFetchProducts from '../../../renderer/hooks/useFetchProducts';
 import { useDispatch, useSelector } from 'react-redux';
+import useFetchProducts from '../../../renderer/hooks/useFetchProducts';
 import { fetchProducts } from '../../../renderer/services/api/products';
 import { RootState } from '../../../renderer/store';
 
@@ -17,10 +17,10 @@ jest.mock('../../../renderer/services/api/products', () => ({
 }));
 
 // Helper component to test the hook
-const TestComponent = () => {
+function TestComponent() {
   useFetchProducts();
   return null;
-};
+}
 
 describe('useFetchProducts', () => {
   let dispatchMock: jest.Mock;

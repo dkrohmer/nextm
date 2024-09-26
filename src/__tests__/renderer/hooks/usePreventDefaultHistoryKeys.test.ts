@@ -20,7 +20,9 @@ describe('usePreventDefaultHistoryKeys', () => {
       key: 'ArrowLeft',
       metaKey: true,
     });
-    Object.defineProperty(event, 'preventDefault', { value: preventDefaultMock });
+    Object.defineProperty(event, 'preventDefault', {
+      value: preventDefaultMock,
+    });
 
     // Dispatch the event
     window.dispatchEvent(event);
@@ -38,7 +40,9 @@ describe('usePreventDefaultHistoryKeys', () => {
       key: 'Backspace',
       ctrlKey: true,
     });
-    Object.defineProperty(event, 'preventDefault', { value: preventDefaultMock });
+    Object.defineProperty(event, 'preventDefault', {
+      value: preventDefaultMock,
+    });
 
     // Dispatch the event
     window.dispatchEvent(event);
@@ -55,7 +59,9 @@ describe('usePreventDefaultHistoryKeys', () => {
     const event = new KeyboardEvent('keydown', {
       key: 'Enter',
     });
-    Object.defineProperty(event, 'preventDefault', { value: preventDefaultMock });
+    Object.defineProperty(event, 'preventDefault', {
+      value: preventDefaultMock,
+    });
 
     // Dispatch the event
     window.dispatchEvent(event);
@@ -71,11 +77,17 @@ describe('usePreventDefaultHistoryKeys', () => {
     const { unmount } = renderHook(() => usePreventDefaultHistoryKeys());
 
     // Ensure addEventListener was called for 'keydown'
-    expect(addEventListenerSpy).toHaveBeenCalledWith('keydown', expect.any(Function));
+    expect(addEventListenerSpy).toHaveBeenCalledWith(
+      'keydown',
+      expect.any(Function),
+    );
 
     // Unmount the hook and check if the event listener is removed
     unmount();
-    expect(removeEventListenerSpy).toHaveBeenCalledWith('keydown', expect.any(Function));
+    expect(removeEventListenerSpy).toHaveBeenCalledWith(
+      'keydown',
+      expect.any(Function),
+    );
 
     addEventListenerSpy.mockRestore();
     removeEventListenerSpy.mockRestore();

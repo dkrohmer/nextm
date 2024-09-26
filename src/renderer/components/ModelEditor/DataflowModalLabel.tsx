@@ -8,7 +8,9 @@ const DataflowModalLabel: React.FC = () => {
   /**
    * global states
    */
-  const { dataflowLabel } = useSelector((state: RootState) => state.modelEditor);
+  const { dataflowLabel } = useSelector(
+    (state: RootState) => state.modelEditor,
+  );
 
   /**
    * hooks
@@ -19,14 +21,14 @@ const DataflowModalLabel: React.FC = () => {
    * handlers
    */
   const handleLabelChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    let value = event.target.value;
+    let { value } = event.target;
 
     if (value.length > 250) {
       value = value.slice(0, 249);
     }
 
     dispatch(setDataflowLabel(value));
-  }
+  };
 
   /**
    * tsx

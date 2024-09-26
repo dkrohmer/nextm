@@ -9,7 +9,9 @@ const ModalStartsAt: React.FC = () => {
   /**
    * global states
    */
-  const { productsCurrentProduct } = useSelector((state: RootState) => state.products);
+  const { productsCurrentProduct } = useSelector(
+    (state: RootState) => state.products,
+  );
 
   /**
    * hooks
@@ -19,20 +21,23 @@ const ModalStartsAt: React.FC = () => {
   /**
    * handlers
    */
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, key: string) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    key: string,
+  ) => {
     let value;
     if (!e.target.value) {
       value = null;
     } else {
       value = e.target.value;
     }
-    
+
     if (productsCurrentProduct) {
       dispatch(
         setProductsCurrentProduct({
           ...productsCurrentProduct,
           [key]: value,
-        })
+        }),
       );
     }
   };
@@ -44,7 +49,11 @@ const ModalStartsAt: React.FC = () => {
     <Form.Input
       type="date"
       label="Product start"
-      value={productsCurrentProduct?.startsAt ? formatDate(productsCurrentProduct.startsAt) : ''}
+      value={
+        productsCurrentProduct?.startsAt
+          ? formatDate(productsCurrentProduct.startsAt)
+          : ''
+      }
       onChange={(e) => handleInputChange(e, 'startsAt')}
       max={formatDate(productsCurrentProduct?.endsAt || '')}
       data-testid="product-starts-at-input"

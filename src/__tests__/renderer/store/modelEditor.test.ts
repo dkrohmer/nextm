@@ -136,12 +136,18 @@ describe('modelEditorSlice', () => {
   });
 
   it('should handle setSelectedNodeId', () => {
-    const state = reducer(initialModelEditorState, setSelectedNodeId('node-id'));
+    const state = reducer(
+      initialModelEditorState,
+      setSelectedNodeId('node-id'),
+    );
     expect(state.selectedNodeId).toBe('node-id');
   });
 
   it('should handle setSelectedEdgeId', () => {
-    const state = reducer(initialModelEditorState, setSelectedEdgeId('edge-id'));
+    const state = reducer(
+      initialModelEditorState,
+      setSelectedEdgeId('edge-id'),
+    );
     expect(state.selectedEdgeId).toBe('edge-id');
   });
 
@@ -187,7 +193,10 @@ describe('modelEditorSlice', () => {
   });
 
   it('should handle setActorModalSelectedCell', () => {
-    const state = reducer(initialModelEditorState, setActorModalSelectedCell('actor-cell-id'));
+    const state = reducer(
+      initialModelEditorState,
+      setActorModalSelectedCell('actor-cell-id'),
+    );
     expect(state.actorModalSelectedCell).toBe('actor-cell-id');
   });
 
@@ -197,7 +206,10 @@ describe('modelEditorSlice', () => {
   });
 
   it('should handle setActorDescription', () => {
-    const state = reducer(initialModelEditorState, setActorDescription('Actor description'));
+    const state = reducer(
+      initialModelEditorState,
+      setActorDescription('Actor description'),
+    );
     expect(state.actorDescription).toBe('Actor description');
   });
 
@@ -207,7 +219,10 @@ describe('modelEditorSlice', () => {
   });
 
   it('should handle setSystemModalSelectedCell', () => {
-    const state = reducer(initialModelEditorState, setSystemModalSelectedCell('system-cell-id'));
+    const state = reducer(
+      initialModelEditorState,
+      setSystemModalSelectedCell('system-cell-id'),
+    );
     expect(state.systemModalSelectedCell).toBe('system-cell-id');
   });
 
@@ -217,12 +232,18 @@ describe('modelEditorSlice', () => {
   });
 
   it('should handle setSystemStack', () => {
-    const state = reducer(initialModelEditorState, setSystemStack('System Stack'));
+    const state = reducer(
+      initialModelEditorState,
+      setSystemStack('System Stack'),
+    );
     expect(state.systemStack).toBe('System Stack');
   });
 
   it('should handle setSystemDescription', () => {
-    const state = reducer(initialModelEditorState, setSystemDescription('System description'));
+    const state = reducer(
+      initialModelEditorState,
+      setSystemDescription('System description'),
+    );
     expect(state.systemDescription).toBe('System description');
   });
 
@@ -232,7 +253,10 @@ describe('modelEditorSlice', () => {
   });
 
   it('should handle setZoneModalSelectedCell', () => {
-    const state = reducer(initialModelEditorState, setZoneModalSelectedCell('zone-cell-id'));
+    const state = reducer(
+      initialModelEditorState,
+      setZoneModalSelectedCell('zone-cell-id'),
+    );
     expect(state.zoneModalSelectedCell).toBe('zone-cell-id');
   });
 
@@ -247,7 +271,10 @@ describe('modelEditorSlice', () => {
   });
 
   it('should handle setZoneDescription', () => {
-    const state = reducer(initialModelEditorState, setZoneDescription('Zone description'));
+    const state = reducer(
+      initialModelEditorState,
+      setZoneDescription('Zone description'),
+    );
     expect(state.zoneDescription).toBe('Zone description');
   });
 
@@ -257,12 +284,18 @@ describe('modelEditorSlice', () => {
   });
 
   it('should handle setDataflowModalSelectedCell', () => {
-    const state = reducer(initialModelEditorState, setDataflowModalSelectedCell('dataflow-cell-id'));
+    const state = reducer(
+      initialModelEditorState,
+      setDataflowModalSelectedCell('dataflow-cell-id'),
+    );
     expect(state.dataflowModalSelectedCell).toBe('dataflow-cell-id');
   });
 
   it('should handle setDataflowLabel', () => {
-    const state = reducer(initialModelEditorState, setDataflowLabel('New Dataflow'));
+    const state = reducer(
+      initialModelEditorState,
+      setDataflowLabel('New Dataflow'),
+    );
     expect(state.dataflowLabel).toBe('New Dataflow');
   });
 
@@ -280,7 +313,10 @@ describe('modelEditorSlice', () => {
       denialOfService: true,
       elevatePrivilege: false,
     };
-    const state = reducer(initialModelEditorState, setDataflowStride(newStride));
+    const state = reducer(
+      initialModelEditorState,
+      setDataflowStride(newStride),
+    );
     expect(state.dataflowStride).toEqual(newStride);
   });
 
@@ -290,12 +326,18 @@ describe('modelEditorSlice', () => {
   });
 
   it('should handle setTextModeInputValue', () => {
-    const state = reducer(initialModelEditorState, setTextModeInputValue('Text Input'));
+    const state = reducer(
+      initialModelEditorState,
+      setTextModeInputValue('Text Input'),
+    );
     expect(state.textModeInputValue).toBe('Text Input');
   });
 
   it('should handle setTextModeSelectedCell', () => {
-    const state = reducer(initialModelEditorState, setTextModeSelectedCell('text-cell-id'));
+    const state = reducer(
+      initialModelEditorState,
+      setTextModeSelectedCell('text-cell-id'),
+    );
     expect(state.textModeSelectedCell).toBe('text-cell-id');
   });
 
@@ -305,12 +347,18 @@ describe('modelEditorSlice', () => {
   });
 
   it('should handle setImportError', () => {
-    const state = reducer(initialModelEditorState, setImportError('Import Error'));
+    const state = reducer(
+      initialModelEditorState,
+      setImportError('Import Error'),
+    );
     expect(state.importError).toBe('Import Error');
   });
 
   it('should handle setImportFileName', () => {
-    const state = reducer(initialModelEditorState, setImportFileName('filename.json'));
+    const state = reducer(
+      initialModelEditorState,
+      setImportFileName('filename.json'),
+    );
     expect(state.importFileName).toBe('filename.json');
   });
 

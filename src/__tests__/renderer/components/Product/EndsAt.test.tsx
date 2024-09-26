@@ -12,7 +12,12 @@ import { initialProductsState } from '../../../../renderer/store/products';
 const mockProductState: Partial<RootState> = {
   products: {
     ...initialProductsState,
-    product: { id: 'product-123', name: 'Test Product', createdAt: '1', endsAt: '2023-12-01T11:00:00Z' },
+    product: {
+      id: 'product-123',
+      name: 'Test Product',
+      createdAt: '1',
+      endsAt: '2023-12-01T11:00:00Z',
+    },
   },
 };
 
@@ -25,10 +30,8 @@ const store = configureStore({
 const renderWithProviders = (component: React.ReactElement) => {
   return render(
     <Provider store={store}>
-      <Grid>
-        {component}
-      </Grid>
-    </Provider>
+      <Grid>{component}</Grid>
+    </Provider>,
   );
 };
 
@@ -51,8 +54,13 @@ describe('EndsAt Component', () => {
     // Mock state where endsAt is undefined
     const mockEmptyState: Partial<RootState> = {
       products: {
-        ...initialProductsState, 
-        product: { id: 'product-123', name: 'Test Product', createdAt: '1', endsAt: '' },
+        ...initialProductsState,
+        product: {
+          id: 'product-123',
+          name: 'Test Product',
+          createdAt: '1',
+          endsAt: '',
+        },
       },
     };
 
@@ -67,7 +75,7 @@ describe('EndsAt Component', () => {
         <Grid>
           <EndsAt />
         </Grid>
-      </Provider>
+      </Provider>,
     );
 
     expect(screen.getByText('Ends At:')).toBeInTheDocument();

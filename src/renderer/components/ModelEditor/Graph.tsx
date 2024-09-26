@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Graph as x6Graph }  from '@antv/x6';
+import { Graph as x6Graph } from '@antv/x6';
 import { RootState } from '../../store';
 import ActorModal from './ActorModal';
 import SystemModal from './SystemModal';
@@ -27,8 +27,8 @@ const Graph: React.FC<GraphProps> = ({ graph }) => {
    * handlers
    */
   const handleFileName = () => {
-    return `${product?.name}_${increment?.name}_${model?.name}`
-  }
+    return `${product?.name}_${increment?.name}_${model?.name}`;
+  };
 
   /**
    * tsx

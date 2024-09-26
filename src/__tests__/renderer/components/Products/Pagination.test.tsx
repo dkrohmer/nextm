@@ -40,7 +40,7 @@ describe('Pagination Component', () => {
           productsSort: 'name',
           productsSortby: 'asc',
         },
-      })
+      }),
     );
 
     render(<Pagination />);
@@ -71,7 +71,7 @@ describe('Pagination Component', () => {
           productsSort: 'name',
           productsSortby: 'asc',
         },
-      })
+      }),
     );
 
     render(<Pagination />);
@@ -90,7 +90,7 @@ describe('Pagination Component', () => {
         offset: 20, // (3 - 1) * 10
         sort: 'name',
         sortby: 'asc',
-      })
+      }),
     );
   });
 });

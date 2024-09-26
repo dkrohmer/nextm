@@ -1,9 +1,15 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Form } from 'semantic-ui-react';
 import { Graph } from '@antv/x6';
 import { AppDispatch } from '../../store';
-import { setImportModalOpen, setImportError, setImportFileName, setImportJsonData, setImportIsFileValid } from '../../store/modelEditor';
+import {
+  setImportModalOpen,
+  setImportError,
+  setImportFileName,
+  setImportJsonData,
+  setImportIsFileValid,
+} from '../../store/modelEditor';
 import useResetImportModalState from '../../hooks/model-editor/useResetImportModalState';
 import ImportModalDnd from './ImportModalDnd';
 import ImportModalSubmitButton from './ImportModalSubmitButton';
@@ -20,7 +26,9 @@ const ImportModal: React.FC<ImportModalProps> = ({ graph }) => {
   /**
    * global states
    */
-  const { isImportModalOpen, importJsonData } = useSelector((state: any) => state.modelEditor);
+  const { isImportModalOpen, importJsonData } = useSelector(
+    (state: any) => state.modelEditor,
+  );
 
   /**
    * hooks
@@ -34,7 +42,9 @@ const ImportModal: React.FC<ImportModalProps> = ({ graph }) => {
   const handleSubmit = async () => {
     if (graph && importJsonData) {
       try {
-        const promise = dispatch(importGraph({ graph, jsonData: importJsonData })).unwrap();
+        const promise = dispatch(
+          importGraph({ graph, jsonData: importJsonData }),
+        ).unwrap();
         dispatch(setImportModalOpen(false));
 
         dispatch(

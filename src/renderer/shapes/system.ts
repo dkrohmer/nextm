@@ -77,39 +77,6 @@ const register = () => {
             selector: 'stack',
           },
         ],
-        // propHooks(meta) {
-        //   const { name, attributes, ...others } = meta
-
-        //   if (!(name && attributes)) {
-        //     return meta
-        //   }
-
-        //   const rects = [
-        //     { type: 'name', text: name },
-        //     { type: 'attrs', text: attributes },
-        //   ]
-
-        //   let offsetY = 0
-        //   rects.forEach((rect) => {
-        //     const height = rect.text.length * 12 + 16
-        //     ObjectExt.setByPath(
-        //       others,
-        //       `attrs/${rect.type}-text/text`,
-        //       rect.text.join('\n'),
-        //     )
-        //     ObjectExt.setByPath(others, `attrs/${rect.type}-rect/height`, height)
-        //     ObjectExt.setByPath(
-        //       others,
-        //       `attrs/${rect.type}-rect/transform`,
-        //       'translate(0,' + offsetY + ')',
-        //     )
-        //     offsetY += height
-        //   })
-
-        //   others.size = { width: 160, height: offsetY }
-
-        //   return others
-        // },
       },
       true,
     );

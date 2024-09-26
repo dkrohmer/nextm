@@ -28,7 +28,10 @@ const exportJSON = ({ filename, graph }: ExportJsonArgs) => {
 // Thunk to export the graph
 export const exportGraph = createAsyncThunk(
   'modelEditor/exportGraph',
-  async ({ exportFormat, filename, graph }: ExportGraphArgs, { rejectWithValue }) => {
+  async (
+    { exportFormat, filename, graph }: ExportGraphArgs,
+    { rejectWithValue },
+  ) => {
     try {
       switch (exportFormat) {
         case 'json':
@@ -49,5 +52,5 @@ export const exportGraph = createAsyncThunk(
     } catch (error) {
       return rejectWithValue('An error occurred during export.');
     }
-  }
+  },
 );

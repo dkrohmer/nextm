@@ -73,7 +73,7 @@ describe('ActionsClone Component', () => {
     renderWithRedux(<ActionsClone increment={mockIncrement} number={1} />);
 
     const cloneButton = screen.getByRole('button');
-    
+
     fireEvent.mouseEnter(cloneButton);
     expect(screen.getByText(/clone increment/i)).toBeInTheDocument();
 
@@ -93,19 +93,20 @@ describe('ActionsClone Component', () => {
       deadline: '2024-08-15T00:00:00Z',
       state: 'active',
     };
-  
-    renderWithRedux(<ActionsClone increment={mockIncrementWithLongName} number={1} />);
-  
+
+    renderWithRedux(
+      <ActionsClone increment={mockIncrementWithLongName} number={1} />,
+    );
+
     const cloneButton = screen.getByRole('button');
     fireEvent.click(cloneButton);
-  
+
     const actions = store.getState().increments;
-  
+
     // Check that the name has been truncated correctly
     const truncatedName = `...${longName.slice(-240)} (Copy)`; // 240 because the final name length is 250
     expect(actions.currentIncrement?.name).toBe(truncatedName);
     expect(actions.incrementsIsCloning).toBe(true);
     expect(actions.incrementsModalOpen).toBe(true);
   });
-  
 });

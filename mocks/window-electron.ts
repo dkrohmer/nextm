@@ -1,5 +1,5 @@
 const windowElectron = {
-  env: 'test',  
+  env: 'test',
   openFilePicker: jest.fn(),
   openDirectoryPicker: jest.fn().mockResolvedValue('/mock/directory/path'),
   createDatabase: jest.fn().mockResolvedValue({ success: true }),

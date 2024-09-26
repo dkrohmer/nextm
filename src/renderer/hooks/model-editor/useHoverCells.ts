@@ -1,8 +1,7 @@
-import { useEffect } from "react";
-import { Cell, Graph } from "@antv/x6";
+import { useEffect } from 'react';
+import { Cell, Graph } from '@antv/x6';
 
 const useHoverCells = (graph?: Graph) => {
-
   useEffect(() => {
     if (!graph) return;
 
@@ -12,7 +11,7 @@ const useHoverCells = (graph?: Graph) => {
       } else if (cell.isEdge()) {
         cell.attr('line/strokeWidth', 3);
       }
-    }
+    };
 
     const unhoverCells = ({ cell }: { cell: Cell }) => {
       if (cell.isNode()) {
@@ -20,7 +19,7 @@ const useHoverCells = (graph?: Graph) => {
       } else if (cell.isEdge()) {
         cell.attr('line/strokeWidth', 1);
       }
-    }
+    };
 
     graph.on('cell:mouseenter', hoverCells);
     graph.on('cell:mouseleave', unhoverCells);

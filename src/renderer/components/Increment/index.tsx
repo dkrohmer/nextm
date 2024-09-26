@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Accordion } from 'semantic-ui-react';
+import { useNavigate } from 'react-router-dom';
 import Models from '../Models';
 import type { IIncrement } from '../../interfaces/IIncrement';
 import type { IProduct } from '../../interfaces/IProduct';
@@ -9,7 +10,6 @@ import Actions from './Actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store';
 import { setIncrementsActiveIndex } from '../../store/increments';
-import { useNavigate } from 'react-router-dom';
 
 interface IncrementProps {
   product: IProduct;
@@ -17,7 +17,7 @@ interface IncrementProps {
   index: number;
 }
 
-const Increment: React.FC<IncrementProps> = ({ product, increment, index }) => {  
+const Increment: React.FC<IncrementProps> = ({ product, increment, index }) => {
   /**
    * local states
    */
@@ -26,8 +26,10 @@ const Increment: React.FC<IncrementProps> = ({ product, increment, index }) => {
   /**
    * global states
    */
-  const { increments, incrementsActiveIndex } = useSelector((state: RootState) => state.increments);
-  
+  const { increments, incrementsActiveIndex } = useSelector(
+    (state: RootState) => state.increments,
+  );
+
   /**
    * hooks
    */
@@ -49,15 +51,15 @@ const Increment: React.FC<IncrementProps> = ({ product, increment, index }) => {
 
   const handleMouseEnter = () => {
     setIsHovering(true);
-  }
+  };
 
   const handleMouseLeave = () => {
     setIsHovering(false);
-  }
+  };
 
-  const handleNumbering = () =>  {
+  const handleNumbering = () => {
     return increments.length - index - 1;
-  }
+  };
 
   /**
    * tsx
@@ -77,7 +79,11 @@ const Increment: React.FC<IncrementProps> = ({ product, increment, index }) => {
         data-testid={`accordion-title-${index}`}
       >
         <Title number={handleNumbering()} name={increment.name} />
-        <Actions increment={increment} number={handleNumbering()} isHovering={isHovering} />
+        <Actions
+          increment={increment}
+          number={handleNumbering()}
+          isHovering={isHovering}
+        />
       </Accordion.Title>
       <Accordion.Content
         active={incrementsActiveIndex === index}

@@ -15,7 +15,7 @@ const ToolbarZoomIn: React.FC<ToolbarZoomInProps> = ({ graph }) => {
   const handleZoomIn = () => {
     actions.zoomInAction(graph);
   };
-  
+
   /**
    * tsx
    */

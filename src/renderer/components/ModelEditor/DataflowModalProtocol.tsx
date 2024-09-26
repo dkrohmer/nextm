@@ -8,7 +8,9 @@ const DataflowModalProtocol: React.FC = () => {
   /**
    * global states
    */
-  const { dataflowProtocol } = useSelector((state: RootState) => state.modelEditor);
+  const { dataflowProtocol } = useSelector(
+    (state: RootState) => state.modelEditor,
+  );
 
   /**
    * hooks
@@ -19,7 +21,7 @@ const DataflowModalProtocol: React.FC = () => {
    * handlers
    */
   const handleProtocolChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    let value = event.target.value;
+    let { value } = event.target;
 
     if (value.length > 250) {
       value = value.slice(0, 249);

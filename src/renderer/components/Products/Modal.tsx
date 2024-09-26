@@ -9,9 +9,21 @@ import ModalStartsAt from './ModalStartsAt';
 import ModalEndsAt from './ModalEndsAt';
 import ModalSubmitButton from './ModalSubmitButton';
 import ModalCancelButton from './ModalCancelButton';
-import { addOrUpdateProduct, fetchProduct, fetchProducts } from '../../services/api/products';
+import {
+  addOrUpdateProduct,
+  fetchProduct,
+  fetchProducts,
+} from '../../services/api/products';
 import { IProduct } from '../../interfaces/IProduct';
-import { resetProductsCurrentPage, setProductsIsCloning, setProductsIsEditing, setProductsItemsPerPage, setProductsModalOpen, setProductsSort, setProductsSortby } from '../../store/products';
+import {
+  resetProductsCurrentPage,
+  setProductsIsCloning,
+  setProductsIsEditing,
+  setProductsItemsPerPage,
+  setProductsModalOpen,
+  setProductsSort,
+  setProductsSortby,
+} from '../../store/products';
 
 const Modal: React.FC = () => {
   /**
@@ -24,7 +36,7 @@ const Modal: React.FC = () => {
     productsIsEditing,
     productsItemsPerPage,
     productsSort,
-    productsSortby
+    productsSortby,
   } = useSelector((state: RootState) => state.products);
 
   /**
@@ -42,17 +54,17 @@ const Modal: React.FC = () => {
         ? 'Edit Product'
         : 'Add Product';
   };
-  
+
   const handleSubmit = async () => {
     if (productsCurrentProduct) {
       let product: IProduct;
-  
+
       if (productsIsCloning) {
         const cloneResponse = await dispatch(
           fetchProduct({
             productId: productsCurrentProduct.id,
             isEagerLoading: true,
-          })
+          }),
         );
         if (fetchProduct.fulfilled.match(cloneResponse)) {
           const eagerProduct: IProduct = cloneResponse.payload;
@@ -86,7 +98,7 @@ const Modal: React.FC = () => {
         offset: 0,
         sort: productsSort,
         sortby: productsSortby,
-      })
+      }),
     );
     dispatch(setProductsModalOpen(false));
     dispatch(setProductsIsCloning(false));
@@ -101,10 +113,12 @@ const Modal: React.FC = () => {
    * tsx
    */
   return (
-    <SemanticModal open={productsModalOpen} onClose={closeModal} dimmer="blurring">
-      <SemanticModal.Header>
-        {handleModalHeader()}
-      </SemanticModal.Header>
+    <SemanticModal
+      open={productsModalOpen}
+      onClose={closeModal}
+      dimmer="blurring"
+    >
+      <SemanticModal.Header>{handleModalHeader()}</SemanticModal.Header>
       <SemanticModal.Content>
         <Form onSubmit={handleSubmit}>
           <ModalName />

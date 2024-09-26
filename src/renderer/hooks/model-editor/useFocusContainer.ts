@@ -15,7 +15,13 @@ const useFocusContainer = (containerRef: React.RefObject<HTMLDivElement>) => {
         containerRef.current.focus();
       }
     }
-  }, [actorModalOpen, systemModalOpen, zoneModalOpen, dataflowModalOpen, containerRef]);
+  }, [
+    actorModalOpen,
+    systemModalOpen,
+    zoneModalOpen,
+    dataflowModalOpen,
+    containerRef,
+  ]);
 };
 
 export default useFocusContainer;

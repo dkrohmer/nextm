@@ -12,14 +12,16 @@ const Error: React.FC = () => {
   /**
    * tsx
    */
-  return (
-    productError ? (
-      <Message negative className="product-error-message" data-testid='product-error'>
-        <Message.Header>Error❗️</Message.Header>
-        <p>{productError}</p>
-      </Message>
-    ) : null
-  );
-}
+  return productError ? (
+    <Message
+      negative
+      className="product-error-message"
+      data-testid="product-error"
+    >
+      <Message.Header>Error❗️</Message.Header>
+      <p>{productError}</p>
+    </Message>
+  ) : null;
+};
 
 export default Error;

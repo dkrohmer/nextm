@@ -19,17 +19,17 @@ describe('ZoneModalCancelButton Component', () => {
 
   it('renders the cancel button', () => {
     render(<ZoneModalCancelButton />);
-    
+
     // Check if the button is rendered with the correct label
     expect(screen.getByRole('button', { name: /Cancel/i })).toBeInTheDocument();
   });
 
   it('dispatches setZoneModalOpen(false) when clicked', () => {
     render(<ZoneModalCancelButton />);
-    
+
     // Trigger the click event on the button
     fireEvent.click(screen.getByRole('button', { name: /Cancel/i }));
-    
+
     // Verify that the correct action is dispatched
     expect(mockDispatch).toHaveBeenCalledWith(setZoneModalOpen(false));
   });

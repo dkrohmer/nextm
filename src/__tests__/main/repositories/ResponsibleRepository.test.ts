@@ -32,7 +32,8 @@ describe('ResponsibleRepository', () => {
     responsible.role = 'Manager';
     responsible.productId = productId;
 
-    const savedResponsible = await responsibleRepository.createResponsible(responsible);
+    const savedResponsible =
+      await responsibleRepository.createResponsible(responsible);
 
     expect(savedResponsible).toHaveProperty('id');
     expect(savedResponsible.firstName).toBe('John');
@@ -42,14 +43,16 @@ describe('ResponsibleRepository', () => {
   });
 
   it('should get all responsibles', async () => {
-    const [responsibles, count] = await responsibleRepository.getAllResponsibles();
+    const [responsibles, count] =
+      await responsibleRepository.getAllResponsibles();
 
     expect(Array.isArray(responsibles)).toBe(true);
     expect(typeof count).toBe('number');
   });
 
   it('should get all responsibles by productId', async () => {
-    const [responsibles, count] = await responsibleRepository.getAllResponsibles(productId);
+    const [responsibles, count] =
+      await responsibleRepository.getAllResponsibles(productId);
 
     expect(Array.isArray(responsibles)).toBe(true);
     expect(count).toBeGreaterThan(0);
@@ -62,15 +65,19 @@ describe('ResponsibleRepository', () => {
     responsible.lastName = 'Doe';
     responsible.role = 'Assistant';
     responsible.productId = productId;
-    const savedResponsible = await responsibleRepository.createResponsible(responsible);
+    const savedResponsible =
+      await responsibleRepository.createResponsible(responsible);
 
-    const foundResponsible = await responsibleRepository.getResponsibleById(savedResponsible.id);
+    const foundResponsible = await responsibleRepository.getResponsibleById(
+      savedResponsible.id,
+    );
     expect(foundResponsible).toBeDefined();
     expect(foundResponsible!.id).toBe(savedResponsible.id);
   });
 
   it('should return null when getting a non-existent responsible by id', async () => {
-    const foundResponsible = await responsibleRepository.getResponsibleById('non-existent-id');
+    const foundResponsible =
+      await responsibleRepository.getResponsibleById('non-existent-id');
     expect(foundResponsible).toBeNull();
   });
 
@@ -80,17 +87,24 @@ describe('ResponsibleRepository', () => {
     responsible.lastName = 'Test';
     responsible.role = 'Coordinator';
     responsible.productId = productId;
-    const savedResponsible = await responsibleRepository.createResponsible(responsible);
+    const savedResponsible =
+      await responsibleRepository.createResponsible(responsible);
 
     savedResponsible.role = 'Senior Coordinator';
-    const updatedResponsible = await responsibleRepository.updateResponsible(savedResponsible.id, savedResponsible);
+    const updatedResponsible = await responsibleRepository.updateResponsible(
+      savedResponsible.id,
+      savedResponsible,
+    );
 
     expect(updatedResponsible).toBeDefined();
     expect(updatedResponsible!.role).toBe('Senior Coordinator');
   });
 
   it('should return null when updating a non-existent responsible', async () => {
-    const updatedResponsible = await responsibleRepository.updateResponsible('non-existent-id', { role: 'Updated Role' });
+    const updatedResponsible = await responsibleRepository.updateResponsible(
+      'non-existent-id',
+      { role: 'Updated Role' },
+    );
     expect(updatedResponsible).toBeNull();
   });
 
@@ -100,16 +114,21 @@ describe('ResponsibleRepository', () => {
     responsible.lastName = 'Test';
     responsible.role = 'Intern';
     responsible.productId = productId;
-    const savedResponsible = await responsibleRepository.createResponsible(responsible);
+    const savedResponsible =
+      await responsibleRepository.createResponsible(responsible);
 
     await responsibleRepository.deleteResponsible(savedResponsible.id);
-    const deletedResponsible = await responsibleRepository.getResponsibleById(savedResponsible.id);
+    const deletedResponsible = await responsibleRepository.getResponsibleById(
+      savedResponsible.id,
+    );
 
     expect(deletedResponsible).toBeNull();
   });
 
   it('should not throw an error when deleting a non-existent responsible', async () => {
-    await expect(responsibleRepository.deleteResponsible('non-existent-id')).resolves.not.toThrow();
+    await expect(
+      responsibleRepository.deleteResponsible('non-existent-id'),
+    ).resolves.not.toThrow();
   });
 
   // Test failed validation during creation
@@ -120,9 +139,9 @@ describe('ResponsibleRepository', () => {
     invalidResponsible.role = 'Manager'; // Valid: role is optional
     invalidResponsible.productId = 'invalid-uuid'; // Invalid: productId is not a valid UUID
 
-    await expect(responsibleRepository.createResponsible(invalidResponsible))
-      .rejects
-      .toThrow('Validation failed');
+    await expect(
+      responsibleRepository.createResponsible(invalidResponsible),
+    ).rejects.toThrow('Validation failed');
   });
 
   it('should throw an error when updating a responsible with invalid data', async () => {
@@ -132,7 +151,8 @@ describe('ResponsibleRepository', () => {
     responsible.role = 'Manager';
     responsible.productId = productId; // A valid productId from the test setup
 
-    const savedResponsible = await responsibleRepository.createResponsible(responsible);
+    const savedResponsible =
+      await responsibleRepository.createResponsible(responsible);
 
     const updatedResponsible = {
       ...savedResponsible,
@@ -140,8 +160,11 @@ describe('ResponsibleRepository', () => {
       productId: 'invalid-uuid', // Invalid: not a valid UUID
     };
 
-    await expect(responsibleRepository.updateResponsible(savedResponsible.id, updatedResponsible))
-      .rejects
-      .toThrow('Validation failed');
+    await expect(
+      responsibleRepository.updateResponsible(
+        savedResponsible.id,
+        updatedResponsible,
+      ),
+    ).rejects.toThrow('Validation failed');
   });
 });

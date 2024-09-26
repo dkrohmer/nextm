@@ -4,16 +4,18 @@ import { Button, Icon, Popup } from 'semantic-ui-react';
 import { IIncrement } from '../../interfaces/IIncrement';
 import { AppDispatch } from '../../store';
 import '../../styles/products.css'; // Ensure this path is correct based on your project structure
-import { setCurrentIncrement, setIncrementsIsEditing, setIncrementsModalOpen } from '../../store/increments';
+import {
+  setCurrentIncrement,
+  setIncrementsIsEditing,
+  setIncrementsModalOpen,
+} from '../../store/increments';
 
 interface ActionsEditProps {
   increment: IIncrement;
   number: number;
 }
 
-const ActionsEdit: React.FC<ActionsEditProps> = ({
-  increment,
-}) => {
+const ActionsEdit: React.FC<ActionsEditProps> = ({ increment }) => {
   /*
    * local states
    */
@@ -35,12 +37,12 @@ const ActionsEdit: React.FC<ActionsEditProps> = ({
   };
 
   const handleMouseEnter = () => {
-    setPopupOpen(true)
-  }
+    setPopupOpen(true);
+  };
 
   const handleMouseLeave = () => {
-    setPopupOpen(false)
-  }
+    setPopupOpen(false);
+  };
 
   /*
    * tsx
@@ -60,7 +62,11 @@ const ActionsEdit: React.FC<ActionsEditProps> = ({
           <Icon name="pencil" />
         </Button>
       }
-      content={<span><strong>Edit increment</strong> "{increment.name}"</span>}
+      content={
+        <span>
+          <strong>Edit increment</strong> "{increment.name}"
+        </span>
+      }
       open={popupOpen}
       onClose={() => setPopupOpen(false)}
     />

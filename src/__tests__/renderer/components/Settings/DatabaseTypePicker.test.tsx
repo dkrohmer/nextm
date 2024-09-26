@@ -29,7 +29,7 @@ describe('DatabaseTypePicker Component', () => {
           inputPath: '/mock/input/path',
           useDefaultDatabase: true,
         },
-      })
+      }),
     );
 
     // Render the component
@@ -57,7 +57,7 @@ describe('DatabaseTypePicker Component', () => {
           path: '/mock/default/path',
           inputPath: '',
         },
-      })
+      }),
     );
 
     // Mock the electron API to return a mock file path
@@ -92,7 +92,7 @@ describe('DatabaseTypePicker Component', () => {
           path: '/mock/default/path',
           inputPath: '',
         },
-      })
+      }),
     );
 
     // Mock the electron API to return a mock file path
@@ -127,7 +127,7 @@ describe('DatabaseTypePicker Component', () => {
           path: '/mock/default/path',
           inputPath: '',
         },
-      })
+      }),
     );
 
     // Mock the electron API to return a mock directory path
@@ -174,7 +174,7 @@ describe('DatabaseTypePicker Component', () => {
           path: '/mock/default/path',
           inputPath: '',
         },
-      })
+      }),
     );
 
     // Render the component

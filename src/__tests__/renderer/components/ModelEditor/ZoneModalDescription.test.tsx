@@ -1,8 +1,8 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import { jest } from '@jest/globals';
 import ZoneModalDescription from '../../../../renderer/components/ModelEditor/ZoneModalDescription';
 import { setZoneDescription } from '../../../../renderer/store/modelEditor';
-import { jest } from '@jest/globals';
 
 // Mock useDispatch and useSelector hooks
 const mockDispatch = jest.fn();
@@ -20,11 +20,13 @@ describe('ZoneModalDescription Component', () => {
 
   it('renders the text area with the current zone description', () => {
     // Set up the mock to return a description
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      modelEditor: {
-        zoneDescription: 'Existing Zone Description',
-      }
-    }));
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        modelEditor: {
+          zoneDescription: 'Existing Zone Description',
+        },
+      }),
+    );
 
     render(<ZoneModalDescription />);
 
@@ -35,11 +37,13 @@ describe('ZoneModalDescription Component', () => {
 
   it('renders the text area with an empty value when zoneDescription is empty', () => {
     // Set up the mock to return an empty description
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      modelEditor: {
-        zoneDescription: '',
-      }
-    }));
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        modelEditor: {
+          zoneDescription: '',
+        },
+      }),
+    );
 
     render(<ZoneModalDescription />);
 
@@ -50,11 +54,13 @@ describe('ZoneModalDescription Component', () => {
 
   it('dispatches setZoneDescription action on input change', () => {
     // Set up the mock to return a description
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      modelEditor: {
-        zoneDescription: 'Existing Zone Description',
-      }
-    }));
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        modelEditor: {
+          zoneDescription: 'Existing Zone Description',
+        },
+      }),
+    );
 
     render(<ZoneModalDescription />);
 
@@ -64,24 +70,29 @@ describe('ZoneModalDescription Component', () => {
     });
 
     // Check if dispatch is called with correct action
-    expect(mockDispatch).toHaveBeenCalledWith(setZoneDescription('New Zone Description'));
+    expect(mockDispatch).toHaveBeenCalledWith(
+      setZoneDescription('New Zone Description'),
+    );
   });
 
   it('should truncate the input value to 4999 characters if it exceeds 5000 characters', () => {
-    mockUseSelector.mockImplementation((selector: any) => selector({
-      modelEditor: {
-        zoneDescription: 'Existing Zone Description',
-      }
-    }));
-  
+    mockUseSelector.mockImplementation((selector: any) =>
+      selector({
+        modelEditor: {
+          zoneDescription: 'Existing Zone Description',
+        },
+      }),
+    );
+
     render(<ZoneModalDescription />);
-  
+
     const longDescription = 'A'.repeat(5100);
     fireEvent.change(screen.getByTestId('zone-description'), {
       target: { value: longDescription },
     });
-  
-    expect(mockDispatch).toHaveBeenCalledWith(setZoneDescription('A'.repeat(4999)));
+
+    expect(mockDispatch).toHaveBeenCalledWith(
+      setZoneDescription('A'.repeat(4999)),
+    );
   });
-  
 });

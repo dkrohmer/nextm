@@ -9,7 +9,9 @@ const ModalEndsAt: React.FC = () => {
   /**
    * global states
    */
-  const { productsCurrentProduct } = useSelector((state: RootState) => state.products);
+  const { productsCurrentProduct } = useSelector(
+    (state: RootState) => state.products,
+  );
 
   /**
    * hooks
@@ -19,7 +21,10 @@ const ModalEndsAt: React.FC = () => {
   /**
    * handlers
    */
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, key: string) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    key: string,
+  ) => {
     let value;
     if (!e.target.value) {
       value = null;
@@ -32,7 +37,7 @@ const ModalEndsAt: React.FC = () => {
         setProductsCurrentProduct({
           ...productsCurrentProduct,
           [key]: value,
-        })
+        }),
       );
     }
   };
@@ -45,7 +50,11 @@ const ModalEndsAt: React.FC = () => {
       type="date"
       label="Product end"
       data-testid="product-ends-at-input"
-      value={productsCurrentProduct?.endsAt ? formatDate(productsCurrentProduct.endsAt) : ''}
+      value={
+        productsCurrentProduct?.endsAt
+          ? formatDate(productsCurrentProduct.endsAt)
+          : ''
+      }
       onChange={(e) => handleInputChange(e, 'endsAt')}
       min={formatDate(productsCurrentProduct?.startsAt || '')}
     />

@@ -18,7 +18,10 @@ const GridTypeNone: React.FC = () => {
   /**
    * handlers
    */
-  const handleGridChange = (e: React.FormEvent<HTMLInputElement>, { value }: any) => {
+  const handleGridChange = (
+    e: React.FormEvent<HTMLInputElement>,
+    { value }: any,
+  ) => {
     window.electron.setGridType(value);
     dispatch(setGridVisible(value));
     dispatch(
@@ -27,7 +30,7 @@ const GridTypeNone: React.FC = () => {
         loadingMessage: '',
         successMessage: `Grid type changed to: ${value}`,
         errorMessage: '',
-      })
+      }),
     );
   };
 

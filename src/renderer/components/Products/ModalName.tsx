@@ -8,7 +8,9 @@ const ModalName: React.FC = () => {
   /**
    * global states
    */
-  const { productsCurrentProduct } = useSelector((state: RootState) => state.products);
+  const { productsCurrentProduct } = useSelector(
+    (state: RootState) => state.products,
+  );
 
   /**
    * hooks
@@ -18,8 +20,11 @@ const ModalName: React.FC = () => {
   /**
    * handlers
    */
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, key: string) => {
-    let value = e.target.value;
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    key: string,
+  ) => {
+    let { value } = e.target;
 
     if (value.length > 250) {
       value = value.slice(0, 249);
@@ -30,7 +35,7 @@ const ModalName: React.FC = () => {
         setProductsCurrentProduct({
           ...productsCurrentProduct,
           [key]: value,
-        })
+        }),
       );
     }
   };

@@ -4,7 +4,11 @@ import { Button, Icon, Popup } from 'semantic-ui-react';
 import { IIncrement } from '../../interfaces/IIncrement';
 import { AppDispatch } from '../../store';
 import '../../styles/products.css'; // Ensure this path is correct based on your project structure
-import { setCurrentIncrement, setIncrementsIsCloning, setIncrementsModalOpen } from '../../store/increments';
+import {
+  setCurrentIncrement,
+  setIncrementsIsCloning,
+  setIncrementsModalOpen,
+} from '../../store/increments';
 
 interface ActionsCloneProps {
   increment: IIncrement;
@@ -68,7 +72,11 @@ const ActionsClone: React.FC<ActionsCloneProps> = ({ increment }) => {
           <Icon name="clone" />
         </Button>
       }
-      content={<span><strong>Clone increment</strong> "{increment.name}"</span>}
+      content={
+        <span>
+          <strong>Clone increment</strong> "{increment.name}"
+        </span>
+      }
       open={popupOpen}
       onClose={handleMouseLeave}
     />

@@ -12,11 +12,16 @@ const useInitializeGraph = (
   minimapRef: MutableRefObject<HTMLDivElement | null>,
   isGraphInitialized: MutableRefObject<boolean>,
   setGraph: Dispatch<SetStateAction<Graph | undefined>>,
-  gridVisible: 'none' | 'dot' | 'mesh'
+  gridVisible: 'none' | 'dot' | 'mesh',
 ) => {
   useEffect(() => {
     const initializeGraph = async () => {
-      if (!containerRef.current || !minimapRef.current || isGraphInitialized.current) return;
+      if (
+        !containerRef.current ||
+        !minimapRef.current ||
+        isGraphInitialized.current
+      )
+        return;
 
       const graphInstance = setup.create(containerRef.current, gridVisible);
 
@@ -29,8 +34,8 @@ const useInitializeGraph = (
       setGraph(graphInstance);
       isGraphInitialized.current = true;
       containerRef.current.focus();
-      
-      console.log(graphInstance)
+
+      console.log(graphInstance);
     };
 
     initializeGraph();

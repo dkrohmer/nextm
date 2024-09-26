@@ -4,9 +4,27 @@ import '@testing-library/jest-dom';
 import ZoneModalTrustLevel from '../../../../renderer/components/ModelEditor/ZoneModalTrustLevel';
 
 // Mock the sub-components
-jest.mock('../../../../renderer/components/ModelEditor/ZoneModalTrustLevelEmpty', () => () => <div data-testid="trust-level-empty" />);
-jest.mock('../../../../renderer/components/ModelEditor/ZoneModalTrustLevelUntrusted', () => () => <div data-testid="trust-level-untrusted" />);
-jest.mock('../../../../renderer/components/ModelEditor/ZoneModalTrustLevelTrusted', () => () => <div data-testid="trust-level-trusted" />);
+jest.mock(
+  '../../../../renderer/components/ModelEditor/ZoneModalTrustLevelEmpty',
+  () =>
+    function () {
+      return <div data-testid="trust-level-empty" />;
+    },
+);
+jest.mock(
+  '../../../../renderer/components/ModelEditor/ZoneModalTrustLevelUntrusted',
+  () =>
+    function () {
+      return <div data-testid="trust-level-untrusted" />;
+    },
+);
+jest.mock(
+  '../../../../renderer/components/ModelEditor/ZoneModalTrustLevelTrusted',
+  () =>
+    function () {
+      return <div data-testid="trust-level-trusted" />;
+    },
+);
 
 describe('ZoneModalTrustLevel Component', () => {
   it('renders the Trust Level label and all trust level options', () => {
