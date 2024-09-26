@@ -1,13 +1,10 @@
-import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import '@testing-library/jest-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import { jest } from '@jest/globals';
-import ModalResponsibleRole from '../../../../renderer/components/Products/ModalResponsibleRole'; // Adjust the import path if necessary
 import { setProductsCurrentProduct } from '../../../../renderer/store/products';
 import { IResponsible } from '../../../../renderer/interfaces/IResponsible';
+import ModalResponsibleRole from '../../../../renderer/components/Products/ModalResponsibleRole';
+import '@testing-library/jest-dom';
 
-// Mock useDispatch and useSelector hooks
 const mockDispatch = jest.fn();
 const mockUseSelector = jest.fn();
 
@@ -43,7 +40,6 @@ describe('ModalResponsibleRole Component', () => {
   });
 
   it('renders the input with the current responsible role', () => {
-    // Mock the global state with productsCurrentProduct
     mockUseSelector.mockImplementation((selector: any) =>
       selector({
         products: {
@@ -59,13 +55,11 @@ describe('ModalResponsibleRole Component', () => {
 
     render(<ModalResponsibleRole index={0} responsible={responsible1} />);
 
-    // Check if input field renders with the correct value using placeholder
     const inputElement = screen.getByPlaceholderText('Role');
     expect(inputElement).toHaveValue('Manager');
   });
 
   it('renders the input with an empty value when responsible role is empty', () => {
-    // Mock the global state with productsCurrentProduct where responsible has no role
     mockUseSelector.mockImplementation((selector: any) =>
       selector({
         products: {
@@ -81,13 +75,11 @@ describe('ModalResponsibleRole Component', () => {
 
     render(<ModalResponsibleRole index={0} responsible={emptyResponsible} />);
 
-    // Check if input field renders with an empty value using placeholder
     const inputElement = screen.getByPlaceholderText('Role');
     expect(inputElement).toHaveValue('');
   });
 
   it('dispatches setProductsCurrentProduct action on input change', () => {
-    // Mock the global state with productsCurrentProduct
     mockUseSelector.mockImplementation((selector: any) =>
       selector({
         products: {
@@ -103,19 +95,17 @@ describe('ModalResponsibleRole Component', () => {
 
     render(<ModalResponsibleRole index={0} responsible={responsible1} />);
 
-    // Simulate input change
     const inputElement = screen.getByPlaceholderText('Role');
     fireEvent.change(inputElement, { target: { value: 'Director' } });
 
-    // Ensure the dispatch updates only the correct responsible's role
     expect(mockDispatch).toHaveBeenCalledWith(
       setProductsCurrentProduct({
         id: '1',
         name: 'Test Product',
         createdAt: '1',
         responsibles: [
-          { ...responsible1, role: 'Director' }, // First responsible updated
-          responsible2, // Second responsible unchanged
+          { ...responsible1, role: 'Director' },
+          responsible2,
         ],
       }),
     );

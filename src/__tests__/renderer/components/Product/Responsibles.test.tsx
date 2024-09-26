@@ -3,11 +3,10 @@ import { render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import { Grid } from 'semantic-ui-react';
-import Responsibles from '../../../../renderer/components/Product/Responsibles';
 import { RootState } from '../../../../renderer/store';
 import { initialProductsState } from '../../../../renderer/store/products';
+import Responsibles from '../../../../renderer/components/Product/Responsibles';
 
-// Mock state with product responsibles
 const mockProductStateWithResponsibles: Partial<RootState> = {
   products: {
     ...initialProductsState,
@@ -23,7 +22,6 @@ const mockProductStateWithResponsibles: Partial<RootState> = {
   },
 };
 
-// Mock state with no responsibles
 const mockProductStateWithoutResponsibles: Partial<RootState> = {
   products: {
     ...initialProductsState,

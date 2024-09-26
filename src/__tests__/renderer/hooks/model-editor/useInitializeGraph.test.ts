@@ -9,7 +9,6 @@ import system from '../../../../renderer/shapes/system';
 import zone from '../../../../renderer/shapes/zone';
 import registry from '../../../../renderer/services/model-editor/registry';
 
-// Mock the services and shapes
 jest.mock('../../../../renderer/services/model-editor/setup');
 jest.mock('../../../../renderer/shapes/actor');
 jest.mock('../../../../renderer/shapes/dataflow');
@@ -29,8 +28,7 @@ describe('useInitializeGraph hook', () => {
     mockIsGraphInitialized = { current: false };
     mockSetGraph = jest.fn();
 
-    // Mock the focus function on the container
-    mockContainerRef.current!.focus = jest.fn(); // Use non-null assertion operator here
+    mockContainerRef.current!.focus = jest.fn();
 
     jest.clearAllMocks();
   });
@@ -49,26 +47,18 @@ describe('useInitializeGraph hook', () => {
       ),
     );
 
-    // Verify that the services and shapes are registered
     expect(actor.register).toHaveBeenCalled();
     expect(dataflow.register).toHaveBeenCalled();
     expect(system.register).toHaveBeenCalled();
     expect(zone.register).toHaveBeenCalled();
     expect(registry.register).toHaveBeenCalled();
-
-    // Verify that the graph was created and set
     expect(setup.create).toHaveBeenCalledWith(mockContainerRef.current, 'dot');
     expect(mockSetGraph).toHaveBeenCalledWith(mockGraphInstance);
-
-    // Verify that isGraphInitialized was set to true
     expect(mockIsGraphInitialized.current).toBe(true);
+    expect(mockContainerRef.current!.focus).toHaveBeenCalled();
 
-    // Verify that the container received focus
-    expect(mockContainerRef.current!.focus).toHaveBeenCalled(); // Use non-null assertion operator here
-
-    // Rerender the hook and ensure the initialization doesn't happen again
     rerender();
-    expect(setup.create).toHaveBeenCalledTimes(1); // Ensure it's called only once
+    expect(setup.create).toHaveBeenCalledTimes(1);
   });
 
   it('should not initialize the graph if the container, minimap are null or graph is already initialized', () => {
@@ -86,7 +76,6 @@ describe('useInitializeGraph hook', () => {
 
     expect(setup.create).not.toHaveBeenCalled();
 
-    // Test when minimap is null
     mockContainerRef.current = document.createElement('div');
     mockMinimapRef.current = null;
 
@@ -102,7 +91,6 @@ describe('useInitializeGraph hook', () => {
 
     expect(setup.create).not.toHaveBeenCalled();
 
-    // Test when graph is already initialized
     mockMinimapRef.current = document.createElement('div');
     mockIsGraphInitialized.current = true;
 

@@ -1,24 +1,18 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import '@testing-library/jest-dom';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
-import productsReducer, {
-  setProductsIsEditing,
-  setProductsCurrentProduct,
-  setProductsModalOpen,
-} from '../../../../renderer/store/products';
-import TableCellActionsEdit from '../../../../renderer/components/Products/TableCellActionsEdit';
 import { IProduct } from '../../../../renderer/interfaces/IProduct';
+import TableCellActionsEdit from '../../../../renderer/components/Products/TableCellActionsEdit';
+import productsReducer from '../../../../renderer/store/products';
+import '@testing-library/jest-dom';
 
-// Mock store
 const store = configureStore({
   reducer: {
     products: productsReducer,
   },
 });
 
-// Mock product data
 const mockProduct: IProduct = {
   id: '1',
   name: 'Test Product',
@@ -41,11 +35,10 @@ describe('TableCellActionsEdit Component', () => {
 
     const editButton = screen.getByTestId('edit-button');
     expect(editButton).toBeInTheDocument();
-    expect(editButton.querySelector('.pencil.icon')).toBeInTheDocument(); // Check for the pencil icon
+    expect(editButton.querySelector('.pencil.icon')).toBeInTheDocument();
 
     fireEvent.mouseEnter(editButton);
 
-    // Wait for the popup content to appear
     await waitFor(() => {
       expect(screen.getByTestId('edit-popup-content')).toBeInTheDocument();
     });
@@ -72,14 +65,12 @@ describe('TableCellActionsEdit Component', () => {
     const editButton = screen.getByTestId('edit-button');
     fireEvent.mouseEnter(editButton);
 
-    // Wait for the popup content to appear
     await waitFor(() => {
       expect(screen.getByTestId('edit-popup-content')).toBeInTheDocument();
     });
 
     fireEvent.mouseLeave(editButton);
 
-    // Ensure the popup content disappears
     await waitFor(() => {
       expect(
         screen.queryByTestId('edit-popup-content'),
@@ -93,14 +84,12 @@ describe('TableCellActionsEdit Component', () => {
     const editButton = screen.getByTestId('edit-button');
     fireEvent.mouseEnter(editButton);
 
-    // Wait for the popup content to appear
     await waitFor(() => {
       expect(screen.getByTestId('edit-popup-content')).toBeInTheDocument();
     });
 
     fireEvent.click(document.body);
 
-    // Ensure the popup content disappears after clicking outside
     await waitFor(() => {
       expect(
         screen.queryByTestId('edit-popup-content'),

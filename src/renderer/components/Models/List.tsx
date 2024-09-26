@@ -4,8 +4,8 @@ import { useSelector } from 'react-redux';
 import { IModel } from '../../interfaces/IModel';
 import { IProduct } from '../../interfaces/IProduct';
 import { IIncrement } from '../../interfaces/IIncrement';
-import Model from '../Model';
 import { RootState } from '../../store';
+import Model from '../Model';
 
 interface ListProps {
   product: IProduct;

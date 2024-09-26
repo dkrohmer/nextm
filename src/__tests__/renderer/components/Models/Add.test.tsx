@@ -1,4 +1,3 @@
-// Add.test.tsx
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { Provider } from 'react-redux';
@@ -17,7 +16,6 @@ import productsReducer, {
   initialProductsState,
 } from '../../../../renderer/store/products';
 
-// Define RootState interface and createTestStore function
 interface RootState {
   models: ModelsState;
   products: ProductsState;
@@ -45,7 +43,6 @@ const renderWithStore = (
   );
 };
 
-// Tests
 describe('Add Component', () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -61,7 +58,6 @@ describe('Add Component', () => {
   });
 
   it('dispatches actions on click', () => {
-    // Ensure mocks are correct
     jest
       .spyOn(require('../../../../renderer/store/models'), 'setModelsIsEditing')
       .mockImplementation(() => ({

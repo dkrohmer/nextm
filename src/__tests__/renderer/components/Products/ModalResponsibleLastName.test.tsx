@@ -1,13 +1,10 @@
-import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import '@testing-library/jest-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import { jest } from '@jest/globals';
-import ModalResponsibleLastName from '../../../../renderer/components/Products/ModalResponsibleLastName'; // Adjust the import path if necessary
 import { setProductsCurrentProduct } from '../../../../renderer/store/products';
 import { IResponsible } from '../../../../renderer/interfaces/IResponsible';
+import ModalResponsibleLastName from '../../../../renderer/components/Products/ModalResponsibleLastName';
+import '@testing-library/jest-dom';
 
-// Mock useDispatch and useSelector hooks
 const mockDispatch = jest.fn();
 const mockUseSelector = jest.fn();
 
@@ -36,7 +33,6 @@ describe('ModalResponsibleLastName Component', () => {
   });
 
   it('renders the input with the current responsible last name', () => {
-    // Mock the global state with productsCurrentProduct
     mockUseSelector.mockImplementation((selector: any) =>
       selector({
         products: {
@@ -52,13 +48,11 @@ describe('ModalResponsibleLastName Component', () => {
 
     render(<ModalResponsibleLastName index={0} responsible={responsible1} />);
 
-    // Check if input field renders with the correct value using placeholder
     const inputElement = screen.getByPlaceholderText('Last Name');
     expect(inputElement).toHaveValue('Doe');
   });
 
   it('renders the input with an empty value when responsible last name is empty', () => {
-    // Mock the global state with productsCurrentProduct where responsible has no last name
     const emptyResponsible: IResponsible = {
       id: '3',
       firstName: 'New',
@@ -83,13 +77,11 @@ describe('ModalResponsibleLastName Component', () => {
       <ModalResponsibleLastName index={0} responsible={emptyResponsible} />,
     );
 
-    // Check if input field renders with an empty value using placeholder
     const inputElement = screen.getByPlaceholderText('Last Name');
     expect(inputElement).toHaveValue('');
   });
 
   it('dispatches setProductsCurrentProduct action on input change', () => {
-    // Mock the global state with productsCurrentProduct
     mockUseSelector.mockImplementation((selector: any) =>
       selector({
         products: {
@@ -105,19 +97,17 @@ describe('ModalResponsibleLastName Component', () => {
 
     render(<ModalResponsibleLastName index={0} responsible={responsible1} />);
 
-    // Simulate input change
     const inputElement = screen.getByPlaceholderText('Last Name');
     fireEvent.change(inputElement, { target: { value: 'Smith' } });
 
-    // Ensure the dispatch updates only the correct responsible's last name
     expect(mockDispatch).toHaveBeenCalledWith(
       setProductsCurrentProduct({
         id: '1',
         name: 'Test Product',
         createdAt: '1',
         responsibles: [
-          { ...responsible1, lastName: 'Smith' }, // First responsible updated
-          responsible2, // Second responsible unchanged
+          { ...responsible1, lastName: 'Smith' },
+          responsible2,
         ],
       }),
     );

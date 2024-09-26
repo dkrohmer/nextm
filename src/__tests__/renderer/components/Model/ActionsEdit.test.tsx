@@ -1,13 +1,13 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import '@testing-library/jest-dom';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
+import { IModel } from '../../../../renderer/interfaces/IModel';
 import ModelActionsEdit from '../../../../renderer/components/Model/ActionsEdit';
 import modelsReducer from '../../../../renderer/store/models';
-import { IModel } from '../../../../renderer/interfaces/IModel';
+import '@testing-library/jest-dom';
 
-// Setup a test store with only the necessary slices
+
 const store = configureStore({
   reducer: {
     models: modelsReducer,
@@ -31,12 +31,10 @@ describe('ModelActionsEdit Component', () => {
 
     const editButton = screen.getByRole('button');
     expect(editButton).toBeInTheDocument();
-    expect(editButton.querySelector('i.pencil.icon')).toBeInTheDocument(); // Check for the pencil icon
+    expect(editButton.querySelector('i.pencil.icon')).toBeInTheDocument();
 
-    // Trigger the popup content to appear
     fireEvent.mouseEnter(editButton);
 
-    // Wait for the popup content to be visible
     await waitFor(() => {
       expect(screen.getByText(/Edit model/i)).toBeInTheDocument();
       expect(screen.getByText(/"Test Model"/)).toBeInTheDocument();
@@ -62,14 +60,12 @@ describe('ModelActionsEdit Component', () => {
     const editButton = screen.getByRole('button');
     fireEvent.mouseEnter(editButton);
 
-    // Wait for the popup content to be visible
     await waitFor(() => {
       expect(screen.getByText(/Edit model/i)).toBeInTheDocument();
     });
 
     fireEvent.mouseLeave(editButton);
 
-    // Wait for the popup content to be hidden
     await waitFor(() => {
       expect(screen.queryByText(/Edit model/i)).not.toBeInTheDocument();
     });
@@ -81,13 +77,10 @@ describe('ModelActionsEdit Component', () => {
     const editButton = screen.getByRole('button');
     fireEvent.mouseEnter(editButton);
 
-    // Wait for the popup content to be visible
     await waitFor(() => {
       expect(screen.getByText(/Edit model/i)).toBeInTheDocument();
     });
 
-    // Test if the popup remains open as no specific onClose handler is implemented
-    // No need to simulate outside clicks; ensure popup is still visible
     expect(screen.getByText(/Edit model/i)).toBeInTheDocument();
   });
 });

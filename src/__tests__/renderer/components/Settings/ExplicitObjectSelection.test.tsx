@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   render,
   screen,
@@ -6,17 +5,12 @@ import {
   waitFor,
   within,
 } from '@testing-library/react';
-import '@testing-library/jest-dom';
-import { Provider } from 'react-redux';
-import { configureStore } from '@reduxjs/toolkit';
-import { MemoryRouter } from 'react-router-dom';
-import settingsReducer from '../../../../renderer/store/settings';
 import ExplicitObjectSelection from '../../../../renderer/components/Settings/ExplicitObjectSelection';
 import windowElectron from '../../../../../mocks/window-electron';
+import '@testing-library/jest-dom';
 
 window.electron = windowElectron;
 
-// Mock useSelector and useDispatch hooks
 const mockUseSelector = jest.fn();
 const mockDispatch = jest.fn();
 
@@ -41,16 +35,13 @@ describe('ExplicitObjectSelection Component', () => {
 
     render(<ExplicitObjectSelection />);
 
-    // Check for the settings label
     expect(
       screen.getByText('Set explicit object selection'),
     ).toBeInTheDocument();
 
-    // Check for the info icon
     const infoIcon = screen.getByTestId('info-icon');
     expect(infoIcon).toBeInTheDocument();
 
-    // Simulate mouse hover on the info icon to trigger the popup
     fireEvent.mouseEnter(infoIcon);
 
     await waitFor(() => {
@@ -63,7 +54,6 @@ describe('ExplicitObjectSelection Component', () => {
       ).toBeInTheDocument();
     });
 
-    // Simulate mouse leave to hide the popup
     fireEvent.mouseLeave(infoIcon);
 
     await waitFor(() => {
@@ -73,7 +63,6 @@ describe('ExplicitObjectSelection Component', () => {
   });
 
   it('sets explicit object selection to active when inactive checkbox is clicked', () => {
-    // Mock useSelector to return gridVisible as 'none'
     mockUseSelector.mockImplementation((selector: any) =>
       selector({
         settings: {
@@ -82,14 +71,11 @@ describe('ExplicitObjectSelection Component', () => {
       }),
     );
 
-    // Render the component
     render(<ExplicitObjectSelection />);
 
-    // Check if the checkbox is rendered
     const checkbox = screen.getByTestId('checkbox');
     expect(checkbox).toBeInTheDocument();
 
-    // set checkbox to active
     fireEvent.click(within(checkbox).getByRole('checkbox'));
     expect(window.electron.setExplicitObjectSelection).toHaveBeenCalledWith(
       true,
@@ -109,7 +95,6 @@ describe('ExplicitObjectSelection Component', () => {
   });
 
   it('sets explicit object selection to inactive when active checkbox is clicked', () => {
-    // Mock useSelector to return gridVisible as 'none'
     mockUseSelector.mockImplementation((selector: any) =>
       selector({
         settings: {
@@ -118,14 +103,11 @@ describe('ExplicitObjectSelection Component', () => {
       }),
     );
 
-    // Render the component
     render(<ExplicitObjectSelection />);
 
-    // Check if the checkbox is rendered
     const checkbox = screen.getByTestId('checkbox');
     expect(checkbox).toBeInTheDocument();
 
-    // set checkbox to active
     fireEvent.click(within(checkbox).getByRole('checkbox'));
     expect(window.electron.setExplicitObjectSelection).toHaveBeenCalledWith(
       false,

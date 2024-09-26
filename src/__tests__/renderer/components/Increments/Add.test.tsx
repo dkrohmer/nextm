@@ -1,23 +1,22 @@
-// Add.test.tsx
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import { configureStore } from '@reduxjs/toolkit';
-import Add from '../../../../renderer/components/Increments/Add';
+import { initialIncrementsState } from '../../../../renderer/store/increments';
+import { initialProductsState } from '../../../../renderer/store/products';
 import incrementsReducer, {
   IncrementsState,
   setCurrentIncrement,
   setIncrementsIsEditing,
   setIncrementsModalOpen,
-} from '../../../../renderer/store/increments'; // Adjust import as needed
+} from '../../../../renderer/store/increments';
 import productsReducer, {
   ProductsState,
-} from '../../../../renderer/store/products'; // Adjust import as needed
-import { initialIncrementsState } from '../../../../renderer/store/increments';
-import { initialProductsState } from '../../../../renderer/store/products';
+} from '../../../../renderer/store/products';
+import Add from '../../../../renderer/components/Increments/Add';
 
-// Define RootState interface and createTestStore function
+
 interface RootState {
   increments: IncrementsState;
   products: ProductsState;

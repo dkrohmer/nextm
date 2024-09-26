@@ -1,3 +1,6 @@
+import { Model } from './Model';
+import { IsDataUriPng } from '../helpers/isDataUriPng';
+import { IsJsonString } from '../helpers/isJsonString';
 import {
   CreateDateColumn,
   Entity,
@@ -9,7 +12,6 @@ import {
 } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
 import {
-  IsDate,
   IsInt,
   IsNumber,
   IsString,
@@ -18,9 +20,6 @@ import {
   MaxLength,
   Min,
 } from 'class-validator';
-import { Model } from './Model';
-import { IsDataUriPng } from '../helpers/isDataUriPng';
-import { IsJsonString } from '../helpers/isJsonString';
 
 @Entity('Version')
 export class Version {
@@ -75,7 +74,6 @@ export class Version {
   @IsNumber({ allowInfinity: false, allowNaN: false })
   width!: number | null;
 
-  // Method to convert dates to strings
   toJSON() {
     return {
       ...this,

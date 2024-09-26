@@ -1,16 +1,17 @@
 import { validate } from 'class-validator';
 import { AppDataSource } from '../database';
 import { Product } from '../models/Product';
-import { IProduct } from '../../renderer/interfaces/IProduct';
 
 export class ProductRepository {
   private productRepository = AppDataSource.getRepository(Product);
 
+  /**
+   * create product
+   */
   async createProduct(product: Product): Promise<Product> {
     const validationErrors = await validate(product);
 
     if (validationErrors.length > 0) {
-      // Handle validation errors
       console.error(validationErrors);
       throw new Error('Validation failed');
     }
@@ -19,6 +20,9 @@ export class ProductRepository {
     return newProduct;
   }
 
+  /**
+   * get all products
+   */
   async getAllProducts(
     limit: number,
     offset: number,
@@ -37,6 +41,9 @@ export class ProductRepository {
     return [products, count];
   }
 
+  /**
+   * get one product
+   */
   async getProductById(id: string, eager: boolean): Promise<Product | null> {
     if (!id) {
       return null;
@@ -59,6 +66,9 @@ export class ProductRepository {
     });
   }
 
+  /**
+   * update product
+   */
   async updateProduct(
     id: string,
     data: Partial<Product>,
@@ -79,6 +89,9 @@ export class ProductRepository {
     return await this.productRepository.save(updatedProduct);
   }
 
+  /**
+   * delete product
+   */
   async deleteProduct(id: string): Promise<void> {
     await this.productRepository.delete({ id });
   }

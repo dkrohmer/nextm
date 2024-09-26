@@ -3,9 +3,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal as SemanticModal, Form } from 'semantic-ui-react';
 import { RootState, AppDispatch } from '../../store';
-import ModalName from './ModalName';
-import ModalCancelButton from './ModalCancelButton';
-import ModalSubmitButton from './ModalSubmitButton';
 import { IIncrement } from '../../interfaces/IIncrement';
 import {
   addOrUpdateIncrement,
@@ -17,6 +14,9 @@ import {
   setIncrementsIsEditing,
   setIncrementsModalOpen,
 } from '../../store/increments';
+import ModalName from './ModalName';
+import ModalCancelButton from './ModalCancelButton';
+import ModalSubmitButton from './ModalSubmitButton';
 import '../../styles/increments.css';
 
 const Modal: React.FC = () => {

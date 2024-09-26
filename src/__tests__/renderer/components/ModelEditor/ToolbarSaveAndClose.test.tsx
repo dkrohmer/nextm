@@ -1,28 +1,24 @@
-import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import '@testing-library/jest-dom';
 import { Graph as x6Graph } from '@antv/x6';
 import { useNavigate, useParams } from 'react-router-dom';
-import ToolbarSaveAndClose from '../../../../renderer/components/ModelEditor/ToolbarSaveAndClose';
 import { saveModel } from '../../../../renderer/utils/saveModel';
+import ToolbarSaveAndClose from '../../../../renderer/components/ModelEditor/ToolbarSaveAndClose';
+import '@testing-library/jest-dom';
 
-// Mock the `saveModel` utility function
+
 jest.mock('../../../../renderer/utils/saveModel', () => ({
   saveModel: jest.fn(),
 }));
 
-// Mock the useParams and useNavigate hooks
 jest.mock('react-router-dom', () => ({
   useParams: jest.fn(),
   useNavigate: jest.fn(),
 }));
 
-// Create a mock Graph instance
 const mockGraph = new x6Graph({
   container: document.createElement('div'),
 });
 
-// Mock the Toolbar.Item component from @antv/x6-react-components
 jest.mock('@antv/x6-react-components', () => ({
   Toolbar: {
     Item: jest.fn(({ onClick, children }) => (
@@ -33,7 +29,6 @@ jest.mock('@antv/x6-react-components', () => ({
   },
 }));
 
-// Mock useDispatch and useSelector hooks
 const mockDispatch = jest.fn();
 const mockUseSelector = jest.fn();
 
@@ -47,7 +42,6 @@ describe('ToolbarSaveAndClose Component', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-    // Mocking useParams to return specific IDs
     (useParams as jest.Mock).mockReturnValue({
       productId: 'testProductId',
       incrementId: 'testIncrementId',
@@ -57,7 +51,6 @@ describe('ToolbarSaveAndClose Component', () => {
   });
 
   it('renders the save and close toolbar item and handles save and navigate on click', async () => {
-    // Mock useSelector to return the latestVersion state
     mockUseSelector.mockImplementation((selector: any) =>
       selector({
         versions: {
@@ -68,14 +61,11 @@ describe('ToolbarSaveAndClose Component', () => {
 
     render(<ToolbarSaveAndClose graph={mockGraph} />);
 
-    // Check if the toolbar item is rendered
     const saveAndCloseButton = screen.getByTestId('toolbar-save-and-close');
     expect(saveAndCloseButton).toBeInTheDocument();
 
-    // Simulate a click on the toolbar item
     fireEvent.click(saveAndCloseButton);
 
-    // Verify that the saveModel function was called with the correct arguments
     expect(saveModel).toHaveBeenCalledWith(
       'testModelId',
       mockGraph,

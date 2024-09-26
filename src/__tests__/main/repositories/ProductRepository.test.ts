@@ -79,7 +79,7 @@ describe('ProductRepository', () => {
     );
     expect(foundProduct).toBeDefined();
     expect(foundProduct!.id).toBe(savedProduct.id);
-    expect(foundProduct!.responsibles).toBeDefined(); // Ensure eager relations are loaded
+    expect(foundProduct!.responsibles).toBeDefined();
   });
 
   it('should update a product', async () => {
@@ -125,14 +125,13 @@ describe('ProductRepository', () => {
     ).resolves.not.toThrow();
   });
 
-  // Test failed validation during creation
   it('should throw an error when creating a product with invalid data', async () => {
     const invalidProduct = new Product();
-    invalidProduct.name = ''; // Invalid: name is empty
-    invalidProduct.description = 'Valid description'; // Valid description
+    invalidProduct.name = '';
+    invalidProduct.description = 'Valid description';
     invalidProduct.startsAt = new Date();
     invalidProduct.endsAt = new Date();
-    invalidProduct.latestIncrementId = 'invalid-uuid'; // Invalid: latestIncrementId is not a valid UUID
+    invalidProduct.latestIncrementId = 'invalid-uuid';
 
     await expect(
       productRepository.createProduct(invalidProduct),
@@ -147,14 +146,12 @@ describe('ProductRepository', () => {
     product.endsAt = new Date();
     const savedProduct = await productRepository.createProduct(product);
 
-    // Try updating with invalid data
     const updatedProduct = {
       ...savedProduct,
-      name: '', // Invalid: name is empty
-      latestIncrementId: 'invalid-uuid', // Invalid: not a valid UUID
+      name: '',
+      latestIncrementId: 'invalid-uuid',
     };
 
-    // Expect the update operation to fail due to validation
     await expect(
       productRepository.updateProduct(savedProduct.id, updatedProduct),
     ).rejects.toThrow('Validation failed');

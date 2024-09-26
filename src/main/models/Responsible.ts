@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from 'uuid';
+import { Product } from './Product';
 import {
   Column,
   Entity,
@@ -9,13 +11,9 @@ import {
 import {
   IsOptional,
   IsString,
-  isUUID,
   IsUUID,
   MaxLength,
 } from 'class-validator';
-
-import { v4 as uuidv4 } from 'uuid';
-import { Product } from './Product';
 
 @Entity('Responsible')
 export class Responsible {

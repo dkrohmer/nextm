@@ -3,11 +3,10 @@ import { render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import { Grid } from 'semantic-ui-react';
-import StartsAt from '../../../../renderer/components/Product/StartsAt';
 import { RootState } from '../../../../renderer/store';
 import { initialProductsState } from '../../../../renderer/store/products';
+import StartsAt from '../../../../renderer/components/Product/StartsAt';
 
-// Mock state with a product that has a startsAt date
 const mockProductStateWithStartDate: Partial<RootState> = {
   products: {
     ...initialProductsState,
@@ -20,7 +19,6 @@ const mockProductStateWithStartDate: Partial<RootState> = {
   },
 };
 
-// Mock state with no startsAt date
 const mockProductStateWithoutStartDate: Partial<RootState> = {
   products: {
     ...initialProductsState,

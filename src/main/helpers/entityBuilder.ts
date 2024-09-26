@@ -1,4 +1,3 @@
-// helpers.ts
 import { Product } from '../models/Product';
 import { Responsible } from '../models/Responsible';
 import { Increment } from '../models/Increment';

@@ -13,7 +13,6 @@ beforeAll(async () => {
   dataSource = getDataSource();
   incrementRepository = new IncrementRepository();
 
-  // Create a product to be used for the increment entries
   const product = new Product();
   product.name = 'Test Product';
   const savedProduct = await dataSource.getRepository(Product).save(product);
@@ -106,7 +105,7 @@ describe('IncrementRepository', () => {
     );
     expect(foundIncrement).toBeDefined();
     expect(foundIncrement!.id).toBe(savedIncrement.id);
-    expect(foundIncrement!.models).toBeDefined(); // Ensure eager relations are loaded
+    expect(foundIncrement!.models).toBeDefined();
   });
 
   it('should update an increment', async () => {
@@ -203,9 +202,9 @@ describe('IncrementRepository', () => {
 
   it('should throw an error when creating an increment with invalid data', async () => {
     const invalidIncrement = new Increment();
-    invalidIncrement.name = ''; // Invalid: name is empty
-    invalidIncrement.productId = 'invalid-uuid'; // Invalid: productId is not a valid UUID
-    invalidIncrement.incrementIndex = -1; // Invalid: incrementIndex is out of range
+    invalidIncrement.name = '';
+    invalidIncrement.productId = 'invalid-uuid';
+    invalidIncrement.incrementIndex = -1;
 
     await expect(
       incrementRepository.createIncrement(invalidIncrement),
@@ -215,16 +214,15 @@ describe('IncrementRepository', () => {
   it('should throw an error when updating an increment with invalid data', async () => {
     const increment = new Increment();
     increment.name = 'Valid Increment';
-    increment.productId = productId; // Valid productId
+    increment.productId = productId;
     increment.incrementIndex = 1;
     const savedIncrement = await incrementRepository.createIncrement(increment);
 
-    // Try updating with invalid data
     const updatedIncrement = {
       ...savedIncrement,
-      name: '', // Invalid: name is empty
-      productId: 'invalid-uuid', // Invalid: not a valid UUID
-      incrementIndex: -1, // Invalid: incrementIndex is out of range
+      name: '',
+      productId: 'invalid-uuid',
+      incrementIndex: -1,
     };
 
     await expect(

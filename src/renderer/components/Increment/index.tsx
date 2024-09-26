@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { Accordion } from 'semantic-ui-react';
 import { useNavigate } from 'react-router-dom';
-import Models from '../Models';
-import type { IIncrement } from '../../interfaces/IIncrement';
-import type { IProduct } from '../../interfaces/IProduct';
-import '../../styles/increment.css';
-import Title from './Title';
-import Actions from './Actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store';
 import { setIncrementsActiveIndex } from '../../store/increments';
+import type { IIncrement } from '../../interfaces/IIncrement';
+import type { IProduct } from '../../interfaces/IProduct';
+import Models from '../Models';
+import Title from './Title';
+import Actions from './Actions';
+import '../../styles/increment.css';
 
 interface IncrementProps {
   product: IProduct;

@@ -1,14 +1,9 @@
 import { Rectangle, Graph } from '@antv/x6';
 import { saveModel } from '../../../renderer/utils/saveModel';
-import {
-  addLatestVersion,
-  fetchLatestVersion,
-} from '../../../renderer/services/api/versions';
-import { showToast } from '../../../renderer/store/settings';
+import { addLatestVersion } from '../../../renderer/services/api/versions';
 import { compareGraphHashes } from '../../../renderer/utils/compareGraphHashes';
 import { AppDispatch } from '../../../renderer/store';
 
-// Mock Redux store and actions
 jest.mock('../../../renderer/services/api/versions', () => ({
   addLatestVersion: jest.fn(),
   fetchLatestVersion: jest.fn(),
@@ -47,7 +42,7 @@ describe('saveModel', () => {
     graphMock.toJSON.mockReturnValue({ cells: [{ id: '2' }] });
 
     const mockRectangle = new Rectangle(10, 20, 100, 200);
-    graphMock.getGraphArea.mockReturnValue(mockRectangle); // This sets up the mocked return value
+    graphMock.getGraphArea.mockReturnValue(mockRectangle);
 
     await saveModel('model-id', graphMock, latestVersion, dispatch);
 
@@ -65,12 +60,12 @@ describe('saveModel', () => {
   });
 
   it('should return early if oldGraph is falsy', async () => {
-    const latestVersion = { payload: { cells: null } }; // `oldGraph` is falsy
-    graphMock.toJSON.mockReturnValue({ cells: [{ id: '2' }] }); // `newGraph` is valid
+    const latestVersion = { payload: { cells: null } };
+    graphMock.toJSON.mockReturnValue({ cells: [{ id: '2' }] });
 
     await saveModel('model-id', graphMock, latestVersion, dispatch);
 
-    expect(dispatch).not.toHaveBeenCalled(); // Ensure dispatch was not called
+    expect(dispatch).not.toHaveBeenCalled();
   });
 });
 
@@ -94,21 +89,17 @@ describe('saveModel and compareGraphHashes', () => {
   });
 
   it('should return early if compareGraphHashes returns true', async () => {
-    // Mock compareGraphHashes to return true
     (compareGraphHashes as jest.Mock).mockReturnValue(true);
 
     const latestVersion = { payload: { cells: [{ id: '1' }] } };
 
-    // Call saveModel
     await saveModel('model-id', graphMock, latestVersion, dispatchMock);
 
-    // Ensure compareGraphHashes was called
     expect(compareGraphHashes).toHaveBeenCalledWith(
       [{ id: '1' }],
       [{ id: '2' }],
     );
 
-    // Ensure no further actions (like dispatching) occur after early return
     expect(dispatchMock).not.toHaveBeenCalled();
   });
 });

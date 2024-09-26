@@ -76,7 +76,6 @@ describe('ResponsibleService', () => {
         productId,
         false,
       );
-      // expect(buildResponsibleEntity).not.toHaveBeenCalled();
       expect(
         responsibleRepositoryMock.createResponsible,
       ).not.toHaveBeenCalled();

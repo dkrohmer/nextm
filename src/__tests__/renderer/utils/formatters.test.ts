@@ -14,7 +14,7 @@ describe('formatDate', () => {
   });
 
   it('should return the current date when no date string is provided', () => {
-    const result = formatDate(''); // Calling with an empty string
+    const result = formatDate('');
     const expected = new Date().toISOString().split('T')[0];
     expect(result).toBe(expected);
   });

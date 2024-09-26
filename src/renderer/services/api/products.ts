@@ -49,7 +49,6 @@ export const fetchProducts = createAsyncThunk(
         sortby,
       });
 
-      // return response.data
       return response;
     } catch (error) {
       return rejectWithValue('Failed to load products.');

@@ -1,9 +1,7 @@
-import React from 'react';
 import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
 import ZoneModalTrustLevel from '../../../../renderer/components/ModelEditor/ZoneModalTrustLevel';
+import '@testing-library/jest-dom';
 
-// Mock the sub-components
 jest.mock(
   '../../../../renderer/components/ModelEditor/ZoneModalTrustLevelEmpty',
   () =>
@@ -28,13 +26,9 @@ jest.mock(
 
 describe('ZoneModalTrustLevel Component', () => {
   it('renders the Trust Level label and all trust level options', () => {
-    // Render the ZoneModalTrustLevel component
     render(<ZoneModalTrustLevel />);
 
-    // Check if the label is rendered correctly
     expect(screen.getByText('Trust level')).toBeInTheDocument();
-
-    // Check if all trust level components are rendered
     expect(screen.getByTestId('trust-level-empty')).toBeInTheDocument();
     expect(screen.getByTestId('trust-level-untrusted')).toBeInTheDocument();
     expect(screen.getByTestId('trust-level-trusted')).toBeInTheDocument();

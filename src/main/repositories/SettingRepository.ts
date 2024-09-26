@@ -5,12 +5,18 @@ import { Setting } from '../models/Setting';
 export class SettingRepository {
   private settingRepository = AppDataSource.getRepository(Setting);
 
+  /**
+   * get setting
+   */
   async getSettingByKey(key: string): Promise<Setting | null> {
     return await this.settingRepository.findOne({
       where: { key },
     });
   }
 
+  /**
+   * set setting
+   */
   async saveSetting(setting: Setting): Promise<Setting> {
     const validationErrors = await validate(setting);
 

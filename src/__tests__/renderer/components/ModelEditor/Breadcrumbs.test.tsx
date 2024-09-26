@@ -1,20 +1,18 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import '@testing-library/jest-dom';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import { MemoryRouter } from 'react-router-dom';
 import { Graph } from '@antv/x6';
 import Breadcrumbs from '../../../../renderer/components/ModelEditor/Breadcrumbs';
+import '@testing-library/jest-dom';
 
-// Mocking the useNavigate hook
 const navigateMock = jest.fn();
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useNavigate: () => navigateMock,
 }));
 
-// Mock saveModel function
 jest.mock('../../../../renderer/utils/saveModel', () => ({
   saveModel: jest.fn(() => Promise.resolve()),
 }));
@@ -71,22 +69,18 @@ describe('Breadcrumbs Component', () => {
   it('navigates to the correct path on breadcrumb section click', async () => {
     renderWithProviders(<Breadcrumbs graph={mockGraph} />);
 
-    // Click on "Products"
     fireEvent.click(screen.getByText('Products'));
 
-    // Wait for the navigateMock to be called
     await waitFor(() => {
       expect(navigateMock).toHaveBeenCalledWith('/products');
     });
 
-    // Click on "Test Product"
     fireEvent.click(screen.getByText('Test Product'));
 
     await waitFor(() => {
       expect(navigateMock).toHaveBeenCalledWith('/products/product-123');
     });
 
-    // Click on "Test Increment"
     fireEvent.click(screen.getByText('Test Increment'));
 
     await waitFor(() => {
@@ -99,10 +93,8 @@ describe('Breadcrumbs Component', () => {
   it('does not navigate if graph is null', async () => {
     renderWithProviders(<Breadcrumbs graph={null} />);
 
-    // Click on "Products"
     fireEvent.click(screen.getByText('Products'));
 
-    // Ensure no navigation occurred
     await waitFor(() => {
       expect(navigateMock).not.toHaveBeenCalled();
     });

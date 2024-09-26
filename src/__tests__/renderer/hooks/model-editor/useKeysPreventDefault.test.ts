@@ -1,7 +1,6 @@
 import { renderHook } from '@testing-library/react-hooks';
 import useKeysPreventDefault from '../../../../renderer/hooks/model-editor/useKeysPreventDefault';
 
-// Mock useSelector hook
 const mockUseSelector = jest.fn();
 
 jest.mock('react-redux', () => ({
@@ -12,7 +11,6 @@ describe('useKeysPreventDefault hook', () => {
   beforeEach(() => {
     jest.clearAllMocks();
 
-    // Set the default Redux state
     mockUseSelector.mockImplementation((selector: any) =>
       selector({
         modelEditor: {
@@ -33,13 +31,10 @@ describe('useKeysPreventDefault hook', () => {
       metaKey: true,
     });
 
-    // Spy on preventDefault
     const preventDefaultSpy = jest.spyOn(keydownEvent, 'preventDefault');
 
-    // Dispatch the event
     document.dispatchEvent(keydownEvent);
 
-    // Assert preventDefault was called
     expect(preventDefaultSpy).toHaveBeenCalled();
   });
 
@@ -59,7 +54,6 @@ describe('useKeysPreventDefault hook', () => {
   });
 
   it('should not prevent default for meta + space if any modal is open', () => {
-    // Simulate a modal being open
     mockUseSelector.mockImplementation((selector: any) =>
       selector({
         modelEditor: {

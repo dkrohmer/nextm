@@ -1,23 +1,20 @@
 import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
 import { useParams } from 'react-router-dom';
 import { jest } from '@jest/globals';
-import Accordion from '../../../../renderer/components/Increments/Accordion';
 import { IProduct } from '../../../../renderer/interfaces/IProduct';
 import { IIncrement } from '../../../../renderer/interfaces/IIncrement';
+import Accordion from '../../../../renderer/components/Increments/Accordion';
+import '@testing-library/jest-dom';
 
-// Mock useSelector and useParams hooks
 const mockUseSelector = jest.fn();
 jest.mock('react-redux', () => ({
   useSelector: (selector: any) => mockUseSelector(selector),
 }));
 
-// Mock useParams hook
 jest.mock('react-router-dom', () => ({
   useParams: jest.fn(),
 }));
 
-// Mock useSetActiveIncrement hook
 jest.mock('../../../../renderer/hooks/useSetActiveIncrement', () => jest.fn());
 
 jest.mock(
@@ -45,7 +42,6 @@ describe('Accordion Component', () => {
       createdAt: '2024-01-01T00:00:00Z',
     };
 
-    // Mock useSelector to return increments and product
     mockUseSelector.mockImplementation((selector: any) =>
       selector({
         increments: {
@@ -60,26 +56,20 @@ describe('Accordion Component', () => {
       }),
     );
 
-    // Mock useParams to return specific IDs
     (useParams as jest.Mock).mockReturnValue({
       productId: '1',
       incrementId: '1',
     });
 
-    // Render the Accordion component
     render(<Accordion />);
 
-    // Ensure the Accordion is rendered
     expect(screen.getByTestId('accordion')).toBeInTheDocument();
-
-    // Ensure the Increment components are rendered
     expect(screen.getAllByTestId('increment')).toHaveLength(
       mockIncrements.length,
     );
   });
 
   it('does not render the Accordion when increments are loading', () => {
-    // Mock useSelector to return a loading state
     mockUseSelector.mockImplementation((selector: any) =>
       selector({
         increments: {
@@ -96,12 +86,10 @@ describe('Accordion Component', () => {
 
     render(<Accordion />);
 
-    // Ensure the Accordion is not rendered
     expect(screen.queryByTestId('accordion')).not.toBeInTheDocument();
   });
 
   it('does not render the Accordion when there is an error', () => {
-    // Mock useSelector to return an error state
     mockUseSelector.mockImplementation((selector: any) =>
       selector({
         increments: {
@@ -118,12 +106,10 @@ describe('Accordion Component', () => {
 
     render(<Accordion />);
 
-    // Ensure the Accordion is not rendered
     expect(screen.queryByTestId('accordion')).not.toBeInTheDocument();
   });
 
   it('does not render the Accordion when there are no increments', () => {
-    // Mock useSelector to return an empty increments state
     mockUseSelector.mockImplementation((selector: any) =>
       selector({
         increments: {
@@ -144,7 +130,6 @@ describe('Accordion Component', () => {
 
     render(<Accordion />);
 
-    // Ensure the Accordion is not rendered
     expect(screen.queryByTestId('accordion')).not.toBeInTheDocument();
   });
 });

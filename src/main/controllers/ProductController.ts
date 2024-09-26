@@ -1,5 +1,3 @@
-// src/controllers/ProductController.ts
-
 import { ipcMain } from 'electron';
 import { ProductService } from '../services/ProductService';
 import { Product } from '../models/Product';
@@ -19,7 +17,6 @@ function validateSortDirection(sort: string): boolean {
   return ['asc', 'desc'].includes(sort);
 }
 
-// src/controllers/ProductController.ts
 export class ProductController {
   private productService: ProductService;
 
@@ -48,11 +45,11 @@ export class ProductController {
         let sortby = (data.sortby as string) || 'createdAt';
 
         if (!validateSortBy(sortby)) {
-          sortby = 'createdAt'; // default sort field
+          sortby = 'createdAt';
         }
 
         if (!validateSortDirection(sort)) {
-          sort = 'desc'; // Default to descending
+          sort = 'desc';
         }
 
         const { products, productsCount } =

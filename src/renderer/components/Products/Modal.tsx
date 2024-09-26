@@ -19,7 +19,6 @@ import {
   resetProductsCurrentPage,
   setProductsIsCloning,
   setProductsIsEditing,
-  setProductsItemsPerPage,
   setProductsModalOpen,
   setProductsSort,
   setProductsSortby,

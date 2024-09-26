@@ -13,7 +13,6 @@ beforeAll(async () => {
   dataSource = getDataSource();
   responsibleRepository = new ResponsibleRepository();
 
-  // Create a product to be used for the responsible entries
   const product = new Product();
   product.name = 'Test Product';
   const savedProduct = await dataSource.getRepository(Product).save(product);
@@ -131,13 +130,12 @@ describe('ResponsibleRepository', () => {
     ).resolves.not.toThrow();
   });
 
-  // Test failed validation during creation
   it('should throw an error when creating a responsible with invalid data', async () => {
     const invalidResponsible = new Responsible();
-    invalidResponsible.firstName = ''; // Invalid: firstName is empty
-    invalidResponsible.lastName = 'Doe'; // Valid: lastName is optional
-    invalidResponsible.role = 'Manager'; // Valid: role is optional
-    invalidResponsible.productId = 'invalid-uuid'; // Invalid: productId is not a valid UUID
+    invalidResponsible.firstName = '';
+    invalidResponsible.lastName = 'Doe';
+    invalidResponsible.role = 'Manager';
+    invalidResponsible.productId = 'invalid-uuid';
 
     await expect(
       responsibleRepository.createResponsible(invalidResponsible),
@@ -149,15 +147,15 @@ describe('ResponsibleRepository', () => {
     responsible.firstName = 'Valid Name';
     responsible.lastName = 'Doe';
     responsible.role = 'Manager';
-    responsible.productId = productId; // A valid productId from the test setup
+    responsible.productId = productId;
 
     const savedResponsible =
       await responsibleRepository.createResponsible(responsible);
 
     const updatedResponsible = {
       ...savedResponsible,
-      firstName: '', // Invalid: firstName is empty
-      productId: 'invalid-uuid', // Invalid: not a valid UUID
+      firstName: '',
+      productId: 'invalid-uuid', 
     };
 
     await expect(

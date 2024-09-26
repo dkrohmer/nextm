@@ -1,3 +1,4 @@
+import { IModel } from '../../../renderer/interfaces/IModel';
 import reducer, {
   initialModelsState,
   setModelsIsEditing,
@@ -14,7 +15,6 @@ import {
   addOrUpdateModel,
   deleteModel,
 } from '../../../renderer/services/api/models';
-import { IModel } from '../../../renderer/interfaces/IModel';
 
 describe('modelsSlice', () => {
   let initialState: ModelsState;
@@ -44,7 +44,7 @@ describe('modelsSlice', () => {
       name: 'Test Model',
       createdAt: '1',
       incrementId: '1',
-    }; // mock model object
+    };
     const state = reducer(initialState, setModelsCurrentModel(mockModel));
     expect(state.modelsCurrentModel).toEqual(mockModel);
   });

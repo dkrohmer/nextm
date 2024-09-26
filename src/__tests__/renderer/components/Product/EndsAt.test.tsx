@@ -1,14 +1,13 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import { Grid } from 'semantic-ui-react';
-import EndsAt from '../../../../renderer/components/Product/EndsAt';
 import { RootState } from '../../../../renderer/store';
 import { initialProductsState } from '../../../../renderer/store/products';
+import EndsAt from '../../../../renderer/components/Product/EndsAt';
+import '@testing-library/jest-dom';
 
-// Mock state
 const mockProductState: Partial<RootState> = {
   products: {
     ...initialProductsState,
@@ -43,7 +42,6 @@ describe('EndsAt Component', () => {
   it('renders the correct ends at date', () => {
     renderWithProviders(<EndsAt />);
 
-    // Extract just the date part, ignoring time
     const expectedDate = new Date('2023-12-01T11:00:00Z').toLocaleDateString();
 
     expect(screen.getByText('Ends At:')).toBeInTheDocument();
@@ -51,7 +49,6 @@ describe('EndsAt Component', () => {
   });
 
   it('renders "n/a" when endsAt is not available', () => {
-    // Mock state where endsAt is undefined
     const mockEmptyState: Partial<RootState> = {
       products: {
         ...initialProductsState,

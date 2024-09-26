@@ -6,7 +6,6 @@ import settingsReducer, {
   initialSettingsState,
 } from '../../../../renderer/store/settings';
 
-// Mock the necessary hooks and components
 jest.mock('../../../../renderer/hooks/useHandleClickOutside', () => jest.fn());
 jest.mock(
   '../../../../renderer/components/Settings',
@@ -16,7 +15,6 @@ jest.mock(
     },
 );
 
-// Create a mock store
 const createMockStore = (sidebarVisible: boolean) => {
   return configureStore({
     reducer: {
@@ -38,7 +36,6 @@ describe('SideBar Component', () => {
       </Provider>,
     );
 
-    // Check that the Semantic Sidebar is visible with the correct classes
     const sidebarElement = screen
       .getByText('Settings Component')
       .closest('.sidebar');
@@ -55,7 +52,6 @@ describe('SideBar Component', () => {
       </Provider>,
     );
 
-    // Check that the Semantic Sidebar is rendered but not visible
     const sidebarElement = screen
       .getByText('Settings Component')
       .closest('.sidebar');
@@ -73,7 +69,6 @@ describe('SideBar Component', () => {
       </Provider>,
     );
 
-    // Ensure that the useHandleClickOutside hook was called
     expect(useHandleClickOutside).toHaveBeenCalled();
   });
 });

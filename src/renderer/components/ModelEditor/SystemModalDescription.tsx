@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Form, TextAreaProps } from 'semantic-ui-react';
+import { Form } from 'semantic-ui-react';
 import { AppDispatch, RootState } from '../../store';
 import { setSystemDescription } from '../../store/modelEditor';
 

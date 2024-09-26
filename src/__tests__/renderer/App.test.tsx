@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import AppWrapper from '../../renderer/App'; // Adjust the import path if necessary
+import AppWrapper from '../../renderer/App';
 import store from '../../renderer/store';
 
 jest.mock('../../renderer/components', () => ({

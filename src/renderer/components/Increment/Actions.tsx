@@ -1,8 +1,8 @@
 import React from 'react';
+import { IIncrement } from '../../interfaces/IIncrement';
 import ActionsEdit from './ActionsEdit';
 import ActionsClone from './ActionsClone';
 import ActionsDelete from './ActionsDelete';
-import { IIncrement } from '../../interfaces/IIncrement';
 
 interface ActionsProps {
   increment: IIncrement;

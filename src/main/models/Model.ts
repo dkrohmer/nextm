@@ -1,3 +1,7 @@
+import { Version } from './Version';
+import { IsUUID, IsString, MaxLength } from 'class-validator';
+import { v4 as uuidv4 } from 'uuid';
+import { Increment } from './Increment';
 import {
   CreateDateColumn,
   Entity,
@@ -8,11 +12,6 @@ import {
   JoinColumn,
   Relation,
 } from 'typeorm';
-import { IsUUID, IsDate, IsString, MaxLength } from 'class-validator';
-
-import { v4 as uuidv4 } from 'uuid';
-import { Increment } from './Increment';
-import { Version } from './Version';
 
 @Entity('Model')
 export class Model {

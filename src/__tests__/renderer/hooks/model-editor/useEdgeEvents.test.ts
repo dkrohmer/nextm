@@ -1,12 +1,8 @@
 import { renderHook } from '@testing-library/react-hooks';
 import { Graph, Cell } from '@antv/x6';
+import { setSelectedEdgeId, setDataflowModalOpen } from '../../../../renderer/store/modelEditor';
 import useEdgeEvents from '../../../../renderer/hooks/model-editor/useEdgeEvents';
-import {
-  setSelectedEdgeId,
-  setDataflowModalOpen,
-} from '../../../../renderer/store/modelEditor';
 
-// Mock useSelector and useDispatch hooks
 const mockUseSelector = jest.fn();
 const mockDispatch = jest.fn();
 
@@ -28,7 +24,6 @@ describe('useEdgeEvents hook', () => {
   beforeEach(() => {
     jest.clearAllMocks();
 
-    // Mock the Graph and Cell
     mockGraph = {
       on: jest.fn((event: string, callback: Function) => {
         if (event === 'edge:selected') edgeSelectedCallback = callback;
@@ -58,10 +53,8 @@ describe('useEdgeEvents hook', () => {
   });
 
   it('should return early and not register events if graph is null', () => {
-    // Call the hook with graph as null
     renderHook(() => useEdgeEvents(undefined));
 
-    // Assert that no event listeners are added since graph is null
     expect(mockGraph.on).not.toHaveBeenCalled();
     expect(mockDispatch).not.toHaveBeenCalled();
   });
@@ -124,7 +117,6 @@ describe('useEdgeEvents hook', () => {
   it('should not register any events if graph is not provided', () => {
     renderHook(() => useEdgeEvents(undefined));
 
-    // Verify that no events are registered
     expect(mockGraph.on).not.toHaveBeenCalled();
     expect(mockGraph.off).not.toHaveBeenCalled();
   });

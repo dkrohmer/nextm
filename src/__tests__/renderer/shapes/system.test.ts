@@ -64,7 +64,7 @@ describe('System Module', () => {
   it('should create a system node with correct attributes', () => {
     const nodeMock = {
       setAttrs: jest.fn(),
-    } as Partial<Node>; // Mock a partial Node
+    } as Partial<Node>;
 
     graphMock.createNode.mockReturnValue(nodeMock as Node);
 

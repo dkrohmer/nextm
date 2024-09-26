@@ -1,9 +1,5 @@
-import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import '@testing-library/jest-dom';
-import { useDispatch } from 'react-redux';
 import { jest } from '@jest/globals';
-import ImportModalCancelButton from '../../../../renderer/components/ModelEditor/ImportModalCancelButton';
 import {
   setImportModalOpen,
   setImportFileName,
@@ -11,8 +7,10 @@ import {
   setImportError,
   setImportIsFileValid,
 } from '../../../../renderer/store/modelEditor';
+import ImportModalCancelButton from '../../../../renderer/components/ModelEditor/ImportModalCancelButton';
+import '@testing-library/jest-dom';
 
-// Mock the useDispatch hook
+
 const mockDispatch = jest.fn();
 jest.mock('react-redux', () => ({
   useDispatch: () => mockDispatch,
@@ -26,10 +24,8 @@ describe('ImportModalCancelButton Component', () => {
   it('dispatches the correct actions when the Cancel button is clicked', () => {
     render(<ImportModalCancelButton />);
 
-    // Simulate the button click
     fireEvent.click(screen.getByText('Cancel'));
 
-    // Verify that dispatch was called with the correct actions
     expect(mockDispatch).toHaveBeenCalledWith(setImportModalOpen(false));
     expect(mockDispatch).toHaveBeenCalledWith(setImportFileName(null));
     expect(mockDispatch).toHaveBeenCalledWith(setImportJsonData(null));

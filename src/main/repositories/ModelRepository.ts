@@ -5,6 +5,9 @@ import { Model } from '../models/Model';
 export class ModelRepository {
   private modelRepository = AppDataSource.getRepository(Model);
 
+  /**
+   * create model
+   */
   async createModel(model: Model): Promise<Model> {
     const validationErrors = await validate(model);
 
@@ -16,6 +19,9 @@ export class ModelRepository {
     return await this.modelRepository.save(model);
   }
 
+  /**
+   * get all models
+   */
   async getAllModels(
     sortBy: string,
     sort: 'asc' | 'desc',
@@ -32,6 +38,9 @@ export class ModelRepository {
     });
   }
 
+  /**
+   * get one model
+   */
   async getModelById(id: string, eager: boolean): Promise<Model | null> {
     if (eager) {
       return await this.modelRepository.findOne({
@@ -45,6 +54,9 @@ export class ModelRepository {
     });
   }
 
+  /**
+   * update model
+   */
   async updateModel(id: string, data: Partial<Model>): Promise<Model | null> {
     const model = await this.modelRepository.findOneBy({ id });
     if (!model) {
@@ -62,6 +74,9 @@ export class ModelRepository {
     return await this.modelRepository.save(updatedModel);
   }
 
+  /**
+   * delete model
+   */
   async deleteModel(id: string): Promise<void> {
     await this.modelRepository.delete(id);
   }

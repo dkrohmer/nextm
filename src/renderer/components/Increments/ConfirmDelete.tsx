@@ -2,12 +2,12 @@ import React from 'react';
 import { Confirm } from 'semantic-ui-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { AppDispatch, RootState } from '../../store';
+import { deleteIncrement } from '../../services/api/increments';
 import {
   setIncrementsActiveIndex,
   setIncrementsConfirmOpen,
 } from '../../store/increments';
-import { AppDispatch, RootState } from '../../store';
-import { deleteIncrement } from '../../services/api/increments';
 
 const ConfirmDelete: React.FC = () => {
   /**

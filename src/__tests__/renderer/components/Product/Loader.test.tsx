@@ -2,13 +2,12 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
-import Loader from '../../../../renderer/components/Product/Loader';
 import productsReducer, {
   initialProductsState,
   ProductsState,
 } from '../../../../renderer/store/products';
+import Loader from '../../../../renderer/components/Product/Loader';
 
-// Define RootState interface and createTestStore function
 interface RootState {
   products: ProductsState;
 }

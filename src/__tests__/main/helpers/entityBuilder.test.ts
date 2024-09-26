@@ -1,4 +1,3 @@
-// __tests__/entityBuilder.test.ts
 import { buildProductEntity } from '../../../main/helpers/entityBuilder';
 import { Product } from '../../../main/models/Product';
 import { Responsible } from '../../../main/models/Responsible';
@@ -6,7 +5,6 @@ import { Increment } from '../../../main/models/Increment';
 import { Model } from '../../../main/models/Model';
 import { Version } from '../../../main/models/Version';
 
-// Mock the model classes to avoid importing TypeORM and database dependencies
 jest.mock('../../../main/models/Product');
 jest.mock('../../../main/models/Responsible');
 jest.mock('../../../main/models/Increment');
@@ -182,13 +180,11 @@ describe('buildProductEntity', () => {
 
   it('should truncate the product name to fit within 250 characters including the baseline suffix', () => {
     const productData = new Product();
-    // Create a name that is 240 characters long
-    productData.name = 'A'.repeat(240); // 240 characters
+    productData.name = 'A'.repeat(240);
     productData.startsAt = new Date('2024-01-01T00:00:00.000Z');
 
     const product = buildProductEntity(productData);
 
-    // The name should be 240 characters + " - Baseline" (11 characters) = 251 characters total
-    expect(product.increments[0].name).toBe(`${'A'.repeat(239)} - Baseline`); // Truncated to fit 250 characters total
+    expect(product.increments[0].name).toBe(`${'A'.repeat(239)} - Baseline`);
   });
 });

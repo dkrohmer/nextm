@@ -1,8 +1,6 @@
-import React from 'react';
 import { render, screen } from '@testing-library/react';
 import FooterContribute from '../../../../renderer/components/Layout/FooterContribute';
 
-// Mock the entire semantic-ui-react library
 jest.mock('semantic-ui-react', () => ({
   Icon: jest.fn(() => <div>GitHub Icon</div>),
   List: {
@@ -27,7 +25,6 @@ describe('FooterContribute Component', () => {
   it('does not render any unexpected elements', () => {
     render(<FooterContribute />);
 
-    // Ensure there are no unexpected elements
     expect(screen.queryByText(/Unexpected Element/i)).not.toBeInTheDocument();
   });
 });

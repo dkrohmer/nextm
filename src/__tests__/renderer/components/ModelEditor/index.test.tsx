@@ -1,12 +1,11 @@
 import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
 import { useSelector } from 'react-redux';
 import { jest } from '@jest/globals';
 import { Graph as x6Graph } from '@antv/x6';
 import ModelEditor from '../../../../renderer/components/ModelEditor/index';
 import Graph from '../../../../renderer/components/ModelEditor/Graph';
+import '@testing-library/jest-dom';
 
-// Mock the useSelector hook and other components
 jest.mock('react-redux', () => ({
   useSelector: jest.fn(),
 }));
@@ -24,7 +23,6 @@ jest.mock('../../../../renderer/components/ModelEditor/Graph', () =>
   jest.fn(() => <div data-testid="graph" />),
 );
 
-// Mock all the hooks
 jest.mock('../../../../renderer/hooks/useFetchVersion');
 jest.mock('../../../../renderer/hooks/model-editor/useLoadLatestGraph');
 jest.mock('../../../../renderer/hooks/model-editor/useFocusContainer');
@@ -40,7 +38,6 @@ jest.mock('../../../../renderer/hooks/model-editor/useHoverCells');
 jest.mock('../../../../renderer/hooks/model-editor/useInitializeGraph');
 jest.mock('../../../../renderer/hooks/model-editor/useGraphHistoryChange');
 
-// Create a mock x6Graph instance
 const mockGraph = new x6Graph({
   container: document.createElement('div'),
 });
@@ -81,12 +78,10 @@ describe('ModelEditor Component', () => {
   it('renders the ModelEditor component when all necessary data is present', () => {
     render(<ModelEditor />);
 
-    // Check if Breadcrumbs, Loader, Error, and Graph components are rendered
     expect(screen.getByTestId('breadcrumbs')).toBeInTheDocument();
     expect(screen.getByTestId('loader')).toBeInTheDocument();
     expect(screen.getByTestId('error')).toBeInTheDocument();
 
-    // Simulate the local state "graph" being populated with mockGraph
     render(<Graph graph={mockGraph} />);
     expect(screen.getByTestId('graph')).toBeInTheDocument();
   });
@@ -118,11 +113,9 @@ describe('ModelEditor Component', () => {
       }),
     );
 
-    // Test case where the graph is not yet initialized
     render(<ModelEditor />);
     expect(screen.queryByTestId('graph')).not.toBeInTheDocument();
 
-    // Test case where a necessary piece of data is missing
     (useSelector as unknown as jest.Mock).mockImplementation((selector: any) =>
       selector({
         products: {

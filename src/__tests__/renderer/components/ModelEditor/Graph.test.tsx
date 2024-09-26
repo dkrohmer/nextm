@@ -1,6 +1,5 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import { Graph as x6Graph } from '@antv/x6';
@@ -8,8 +7,8 @@ import Graph from '../../../../renderer/components/ModelEditor/Graph';
 import productsReducer from '../../../../renderer/store/products';
 import incrementsReducer from '../../../../renderer/store/increments';
 import modelsReducer from '../../../../renderer/store/models';
+import '@testing-library/jest-dom';
 
-// Mock the sub-components
 jest.mock(
   '../../../../renderer/components/ModelEditor/Stencil',
   () =>
@@ -67,12 +66,10 @@ jest.mock(
     },
 );
 
-// Create a mock Graph instance
 const mockGraph = new x6Graph({
   container: document.createElement('div'),
 });
 
-// Create a test store with the necessary slices
 const store = configureStore({
   reducer: {
     products: productsReducer,
@@ -81,14 +78,12 @@ const store = configureStore({
   },
 });
 
-// Helper function to render components with Redux provider
 const renderWithRedux = (component: React.ReactElement) => {
   return render(<Provider store={store}>{component}</Provider>);
 };
 
 describe('Graph Component', () => {
   beforeEach(() => {
-    // Set initial state for Redux store
     store.dispatch({
       type: 'products/setProduct',
       payload: { name: 'ProductA' },
@@ -106,7 +101,6 @@ describe('Graph Component', () => {
   it('renders all child components with the correct props', () => {
     renderWithRedux(<Graph graph={mockGraph} />);
 
-    // Check if all child components are rendered
     expect(screen.getByTestId('stencil-container')).toBeInTheDocument();
     expect(screen.getByTestId('toolbar')).toBeInTheDocument();
     expect(screen.getByTestId('export-modal')).toBeInTheDocument();
@@ -120,11 +114,7 @@ describe('Graph Component', () => {
   it('passes the correct filename prop to the ExportModal component', () => {
     renderWithRedux(<Graph graph={mockGraph} />);
 
-    // Check if ExportModal receives the correct filename prop
     const exportModal = screen.getByTestId('export-modal');
     expect(exportModal).toBeInTheDocument();
-
-    // Here, you would need to check if the filename prop is correct. This can be complex as it requires the internal details of ExportModal.
-    // For now, we ensure that ExportModal is rendered. To verify props, you may need to mock or inspect the implementation of ExportModal.
   });
 });

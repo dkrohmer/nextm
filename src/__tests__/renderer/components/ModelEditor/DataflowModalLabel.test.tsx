@@ -1,10 +1,9 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import '@testing-library/jest-dom';
 import { jest } from '@jest/globals';
-import DataflowModalLabel from '../../../../renderer/components/ModelEditor/DataflowModalLabel'; // Adjust the import path if necessary
 import { setDataflowLabel } from '../../../../renderer/store/modelEditor';
+import DataflowModalLabel from '../../../../renderer/components/ModelEditor/DataflowModalLabel';
+import '@testing-library/jest-dom';
 
-// Mock useDispatch and useSelector hooks
 const mockDispatch = jest.fn();
 const mockUseSelector = jest.fn();
 
@@ -19,7 +18,6 @@ describe('DataflowModalLabel Component', () => {
   });
 
   it('renders the input with the current dataflow label', () => {
-    // Set up the mock to return a non-empty dataflowLabel
     mockUseSelector.mockImplementation((selector: any) =>
       selector({
         modelEditor: {
@@ -30,13 +28,11 @@ describe('DataflowModalLabel Component', () => {
 
     render(<DataflowModalLabel />);
 
-    // Check if input field renders with the correct value using placeholder
     const inputElement = screen.getByPlaceholderText('Add label...');
     expect(inputElement).toHaveValue('Existing Label');
   });
 
   it('renders the input with an empty value when dataflowLabel is empty', () => {
-    // Set up the mock to return an empty dataflowLabel
     mockUseSelector.mockImplementation((selector: any) =>
       selector({
         modelEditor: {
@@ -47,13 +43,11 @@ describe('DataflowModalLabel Component', () => {
 
     render(<DataflowModalLabel />);
 
-    // Check if input field renders with an empty value using placeholder
     const inputElement = screen.getByPlaceholderText('Add label...');
     expect(inputElement).toHaveValue('');
   });
 
   it('dispatches setDataflowLabel action on input change', () => {
-    // Set up the mock to return a non-empty dataflowLabel
     mockUseSelector.mockImplementation((selector: any) =>
       selector({
         modelEditor: {
@@ -64,12 +58,10 @@ describe('DataflowModalLabel Component', () => {
 
     render(<DataflowModalLabel />);
 
-    // Simulate input change
     fireEvent.change(screen.getByPlaceholderText('Add label...'), {
       target: { value: 'New Label' },
     });
 
-    // Check if dispatch is called with the correct action
     expect(mockDispatch).toHaveBeenCalledWith(setDataflowLabel('New Label'));
   });
 
@@ -84,13 +76,13 @@ describe('DataflowModalLabel Component', () => {
 
     render(<DataflowModalLabel />);
 
-    const longLabel = 'A'.repeat(260); // 260 characters
+    const longLabel = 'A'.repeat(260);
     fireEvent.change(screen.getByPlaceholderText('Add label...'), {
       target: { value: longLabel },
     });
 
     expect(mockDispatch).toHaveBeenCalledWith(
       setDataflowLabel('A'.repeat(249)),
-    ); // Truncated to 249 characters
+    );
   });
 });

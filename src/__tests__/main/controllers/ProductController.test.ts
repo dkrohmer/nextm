@@ -190,7 +190,6 @@ describe('ProductController', () => {
     });
 
     expect(response).toBeUndefined();
-    // expect(console.error).toHaveBeenCalledWith(error); // Uncomment if you want to check console.error call
   });
 
   it('should handle get-product-by-id correctly', async () => {
@@ -224,7 +223,6 @@ describe('ProductController', () => {
     });
 
     expect(response).toBeUndefined();
-    // expect(console.error).toHaveBeenCalledWith(error); // Uncomment if you want to check console.error call
   });
 
   it('should handle get-product-by-id nulled', async () => {
@@ -237,7 +235,6 @@ describe('ProductController', () => {
     });
 
     expect(response).toBeUndefined();
-    // expect(console.error).toHaveBeenCalledWith(error); // Uncomment if you want to check console.error call
   });
 
   it('should handle create-product correctly', async () => {
@@ -280,7 +277,6 @@ describe('ProductController', () => {
     });
 
     expect(response).toBeUndefined();
-    // expect(console.error).toHaveBeenCalledWith(error); // Uncomment if you want to check console.error call
   });
 
   it('should handle update-product correctly', async () => {
@@ -329,7 +325,6 @@ describe('ProductController', () => {
     });
 
     expect(response).toBeUndefined();
-    // expect(console.error).toHaveBeenCalledWith(error); // Uncomment if you want to check console.error call
   });
 
   it('should handle update-product nulled', async () => {
@@ -347,7 +342,6 @@ describe('ProductController', () => {
     });
 
     expect(response).toBeUndefined();
-    // expect(console.error).toHaveBeenCalledWith(error); // Uncomment if you want to check console.error call
   });
 
   it('should handle delete-product correctly', async () => {
@@ -368,6 +362,5 @@ describe('ProductController', () => {
     });
 
     expect(response).toBeUndefined();
-    // expect(console.error).toHaveBeenCalledWith(error); // Uncomment if you want to check console.error call
   });
 });

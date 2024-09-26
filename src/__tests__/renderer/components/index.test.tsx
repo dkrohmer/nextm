@@ -1,4 +1,3 @@
-// index.test.js
 import * as index from '../../../renderer/components';
 
 describe('Module Exports', () => {

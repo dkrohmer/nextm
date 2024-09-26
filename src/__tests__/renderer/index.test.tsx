@@ -1,6 +1,5 @@
 import { createRoot } from 'react-dom/client';
 
-// Mock the modules that are used
 jest.mock('react-dom/client', () => ({
   createRoot: jest.fn().mockReturnValue({
     render: jest.fn(),
@@ -21,10 +20,8 @@ describe('Root rendering', () => {
     container.id = 'root';
     document.body.appendChild(container);
 
-    // Import the module after setting up the mocks
     require('../../renderer/index');
 
-    // Assert createRoot was called with the correct container
     expect(createRoot).toHaveBeenCalledWith(container);
   });
 });

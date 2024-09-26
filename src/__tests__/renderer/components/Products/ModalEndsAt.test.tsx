@@ -1,13 +1,9 @@
-import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import '@testing-library/jest-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import { jest } from '@jest/globals';
-import ModalEndsAt from '../../../../renderer/components/Products/ModalEndsAt'; // Adjust the import path if necessary
 import { setProductsCurrentProduct } from '../../../../renderer/store/products';
-import { formatDate } from '../../../../renderer/utils/formatters';
+import ModalEndsAt from '../../../../renderer/components/Products/ModalEndsAt';
+import '@testing-library/jest-dom';
 
-// Mock useDispatch and useSelector hooks
 const mockDispatch = jest.fn();
 const mockUseSelector = jest.fn();
 
@@ -26,7 +22,6 @@ describe('ModalEndsAt Component', () => {
   });
 
   it('renders the input with the current product endsAt date', () => {
-    // Set up the mock to return a non-null productsCurrentProduct
     mockUseSelector.mockImplementation((selector: any) =>
       selector({
         products: {
@@ -42,18 +37,15 @@ describe('ModalEndsAt Component', () => {
 
     render(<ModalEndsAt />);
 
-    // Access the input element directly within the div with the data-testid
     const inputElement = screen
       .getByTestId('product-ends-at-input')
       .querySelector('input');
 
-    // Ensure input is found and check its value
     expect(inputElement).toBeInTheDocument();
     expect(inputElement).toHaveValue('2023-12-01');
   });
 
   it('renders the input with an empty value when productsCurrentProduct is null', () => {
-    // Set up the mock to return a null productsCurrentProduct
     mockUseSelector.mockImplementation((selector: any) =>
       selector({
         products: {
@@ -64,18 +56,15 @@ describe('ModalEndsAt Component', () => {
 
     render(<ModalEndsAt />);
 
-    // Access the input element directly within the div with the data-testid
     const inputElement = screen
       .getByTestId('product-ends-at-input')
       .querySelector('input');
 
-    // Ensure input is found and check its value is empty
     expect(inputElement).toBeInTheDocument();
     expect(inputElement).toHaveValue('');
   });
 
   it('dispatches setProductsCurrentProduct action on input change', () => {
-    // Set up the mock to return a non-null productsCurrentProduct
     mockUseSelector.mockImplementation((selector: any) =>
       selector({
         products: {
@@ -92,15 +81,12 @@ describe('ModalEndsAt Component', () => {
 
     render(<ModalEndsAt />);
 
-    // Access the input element directly within the div with the data-testid
     const inputElement = screen
       .getByTestId('product-ends-at-input')
       .querySelector('input');
 
-    // Simulate input change
     fireEvent.change(inputElement!, { target: { value: '2024-01-01' } });
 
-    // Check if dispatch is called with the correct action
     expect(mockDispatch).toHaveBeenCalledWith(
       setProductsCurrentProduct({
         id: '1',
@@ -113,7 +99,6 @@ describe('ModalEndsAt Component', () => {
   });
 
   it('sets value to null when input is cleared', () => {
-    // Set up the mock to return a non-null productsCurrentProduct
     mockUseSelector.mockImplementation((selector: any) =>
       selector({
         products: {
@@ -130,15 +115,12 @@ describe('ModalEndsAt Component', () => {
 
     render(<ModalEndsAt />);
 
-    // Access the input element directly within the div with the data-testid
     const inputElement = screen
       .getByTestId('product-ends-at-input')
       .querySelector('input');
 
-    // Simulate clearing the input (empty string)
-    fireEvent.change(inputElement!, { target: { value: '' } });
+      fireEvent.change(inputElement!, { target: { value: '' } });
 
-    // Check if dispatch is called with the correct action and value set to null
     expect(mockDispatch).toHaveBeenCalledWith(
       setProductsCurrentProduct({
         id: '1',

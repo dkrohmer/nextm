@@ -1,10 +1,10 @@
-import 'reflect-metadata';
 import { ModelService } from '../../../main/services/ModelService';
 import { ModelRepository } from '../../../main/repositories/ModelRepository';
 import { IncrementRepository } from '../../../main/repositories/IncrementRepository';
 import { buildModelEntity } from '../../../main/helpers/entityBuilder';
 import { Model } from '../../../main/models/Model';
 import { Increment } from '../../../main/models/Increment';
+import 'reflect-metadata';
 
 jest.mock('../../../main/repositories/ModelRepository');
 jest.mock('../../../main/repositories/IncrementRepository');

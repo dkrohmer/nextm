@@ -1,14 +1,11 @@
-// src/__tests__/renderer/hooks/useFetchProductAndIncrements.test.ts
-
 import { render } from '@testing-library/react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import useFetchProductAndIncrements from '../../../renderer/hooks/useFetchIncrements';
 import { fetchProduct } from '../../../renderer/services/api/products';
 import { fetchIncrements } from '../../../renderer/services/api/increments';
 import { setIncrementsActiveIndex } from '../../../renderer/store/increments';
+import useFetchProductAndIncrements from '../../../renderer/hooks/useFetchIncrements';
 
-// Mock dependencies
 jest.mock('react-redux', () => ({
   useDispatch: jest.fn(),
 }));
@@ -29,7 +26,6 @@ jest.mock('../../../renderer/store/increments', () => ({
   setIncrementsActiveIndex: jest.fn(),
 }));
 
-// Helper component to test the hook
 function TestComponent() {
   useFetchProductAndIncrements();
   return null;
@@ -39,7 +35,6 @@ describe('useFetchProductAndIncrements', () => {
   let dispatchMock: jest.Mock;
 
   beforeEach(() => {
-    // Explicitly cast useDispatch to Jest mock
     dispatchMock = jest.fn();
     (useDispatch as unknown as jest.Mock).mockReturnValue(dispatchMock);
     (useParams as jest.Mock).mockReturnValue({ productId: '123' });
@@ -78,11 +73,10 @@ describe('useFetchProductAndIncrements', () => {
   it('should dispatch actions again if productId changes', () => {
     const { rerender } = render(<TestComponent />);
 
-    // Re-render with a different productId
     (useParams as jest.Mock).mockReturnValue({ productId: '456' });
     rerender(<TestComponent />);
 
-    expect(dispatchMock).toHaveBeenCalledTimes(6); // Each dispatch function should have been called again
+    expect(dispatchMock).toHaveBeenCalledTimes(6);
     expect(dispatchMock).toHaveBeenCalledWith(setIncrementsActiveIndex(-1));
     expect(dispatchMock).toHaveBeenCalledWith(
       fetchProduct({ productId: '456', isEagerLoading: false }),

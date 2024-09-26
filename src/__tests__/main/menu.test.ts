@@ -145,7 +145,6 @@ describe('MenuBuilder', () => {
       (item) => item.label === 'Toggle Full Screen',
     );
 
-    // Simulate the mainWindow being in full screen
     (mainWindow.isFullScreen as jest.Mock).mockReturnValue(true);
     toggleFullScreenItem.click();
     expect(mainWindow.setFullScreen).toHaveBeenCalledWith(false);
@@ -160,7 +159,6 @@ describe('MenuBuilder', () => {
       (item) => item.label === 'Toggle Full Screen',
     );
 
-    // Simulate the mainWindow being in full screen
     (mainWindow.isFullScreen as jest.Mock).mockReturnValue(true);
     toggleFullScreenItem.click();
     expect(mainWindow.setFullScreen).toHaveBeenCalledWith(false);
@@ -235,7 +233,6 @@ describe('MenuBuilder', () => {
       (item) => item.label === 'Toggle &Full Screen',
     );
 
-    // Simulate the mainWindow being in full screen
     (mainWindow.isFullScreen as jest.Mock).mockReturnValue(true);
     toggleFullScreenItem.click();
     expect(mainWindow.setFullScreen).toHaveBeenCalledWith(false);
@@ -250,15 +247,12 @@ describe('MenuBuilder', () => {
       (item) => item.label === 'Toggle &Full Screen',
     );
 
-    // Ensure toggleFullScreenItem is defined before accessing its click property
     expect(toggleFullScreenItem).toBeDefined();
 
-    // Simulate the mainWindow initially not being in full screen
     (mainWindow.isFullScreen as jest.Mock).mockReturnValue(false);
     toggleFullScreenItem.click();
     expect(mainWindow.setFullScreen).toHaveBeenCalledWith(true);
 
-    // Simulate the mainWindow being in full screen
     (mainWindow.isFullScreen as jest.Mock).mockReturnValue(true);
     toggleFullScreenItem.click();
     expect(mainWindow.setFullScreen).toHaveBeenCalledWith(false);
@@ -412,7 +406,6 @@ describe('MenuBuilder', () => {
       (item) => item.label === 'Toggle &Full Screen',
     );
 
-    // Simulate the mainWindow initially not being in full screen
     (mainWindow.isFullScreen as jest.Mock).mockReturnValue(false);
     toggleFullScreenItem.click();
     expect(mainWindow.setFullScreen).toHaveBeenCalledWith(true);
@@ -427,15 +420,12 @@ describe('MenuBuilder', () => {
       (item) => item.label === 'Toggle &Full Screen',
     );
 
-    // Ensure toggleFullScreenItem is defined before accessing its click property
     expect(toggleFullScreenItem).toBeDefined();
 
-    // Simulate the mainWindow initially not being in full screen
     (mainWindow.isFullScreen as jest.Mock).mockReturnValue(false);
     toggleFullScreenItem.click();
     expect(mainWindow.setFullScreen).toHaveBeenCalledWith(true);
 
-    // Simulate the mainWindow being in full screen
     (mainWindow.isFullScreen as jest.Mock).mockReturnValue(true);
     toggleFullScreenItem.click();
     expect(mainWindow.setFullScreen).toHaveBeenCalledWith(false);
@@ -450,15 +440,12 @@ describe('MenuBuilder', () => {
       (item) => item.label === 'Toggle &Full Screen',
     );
 
-    // Ensure toggleFullScreenItem is defined before accessing its click property
     expect(toggleFullScreenItem).toBeDefined();
 
-    // Simulate the mainWindow initially not being in full screen
     (mainWindow.isFullScreen as jest.Mock).mockReturnValue(false);
     toggleFullScreenItem.click();
     expect(mainWindow.setFullScreen).toHaveBeenCalledWith(true);
 
-    // Simulate the mainWindow being in full screen
     (mainWindow.isFullScreen as jest.Mock).mockReturnValue(true);
     toggleFullScreenItem.click();
     expect(mainWindow.setFullScreen).toHaveBeenCalledWith(false);
@@ -469,7 +456,7 @@ describe('MenuBuilder', () => {
       value: 'darwin',
     });
 
-    process.env.NODE_ENV = 'production'; // Ensure environment is production for consistent template
+    process.env.NODE_ENV = 'production';
 
     const menu = menuBuilder.buildMenu();
 
@@ -483,7 +470,7 @@ describe('MenuBuilder', () => {
       value: 'win32',
     });
 
-    process.env.NODE_ENV = 'development'; // Ensure environment is development for consistent template
+    process.env.NODE_ENV = 'development';
 
     const menu = menuBuilder.buildMenu();
 

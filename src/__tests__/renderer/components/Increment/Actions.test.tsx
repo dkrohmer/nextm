@@ -1,11 +1,11 @@
 import React from 'react';
+import { IIncrement } from '../../../../renderer/interfaces/IIncrement';
 import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import Actions from '../../../../renderer/components/Increment/Actions';
 import incrementsReducer from '../../../../renderer/store/increments';
-import { IIncrement } from '../../../../renderer/interfaces/IIncrement';
+import '@testing-library/jest-dom';
 
 const store = configureStore({
   reducer: {

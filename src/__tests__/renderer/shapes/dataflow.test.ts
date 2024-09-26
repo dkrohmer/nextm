@@ -89,9 +89,9 @@ describe('Dataflow Module', () => {
   it('should create a dataflow stencil node', () => {
     const nodeMock = {
       setAttrs: jest.fn(),
-    } as Partial<Node>; // Mock a partial Node
+    } as Partial<Node>;
 
-    graphMock.createNode.mockReturnValue(nodeMock as Node); // Return the mock node
+    graphMock.createNode.mockReturnValue(nodeMock as Node);
 
     const node = dataflow.createEdgeStencil(graphMock);
 
@@ -199,7 +199,7 @@ describe('Dataflow Module', () => {
       appendLabel: jest.fn(),
     };
 
-    graphMock.addEdge.mockReturnValue(edgeMock as any); // Mock the edge
+    graphMock.addEdge.mockReturnValue(edgeMock as any);
 
     dataflow.createEdge(graphMock, nodeMock as Node);
 

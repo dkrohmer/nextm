@@ -1,21 +1,19 @@
 import { configureStore } from '@reduxjs/toolkit';
-import productsReducer from '../../../../renderer/store/products'; // Import the products reducer
 import {
   fetchProducts,
   fetchProduct,
   addOrUpdateProduct,
   deleteProduct,
 } from '../../../../renderer/services/api/products';
+import productsReducer from '../../../../renderer/store/products';
 import windowElectron from '../../../../../mocks/window-electron';
 
-// Set up a test store with the productsReducer slice
 const store = configureStore({
   reducer: {
     products: productsReducer,
   },
 });
 
-// Tests for products thunks
 describe('Products Thunks with Redux Store', () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -32,7 +30,6 @@ describe('Products Thunks with Redux Store', () => {
       getAllProducts: jest.fn().mockResolvedValue(mockProducts),
     };
 
-    // Dispatch the fetchProducts thunk
     await store.dispatch(
       fetchProducts({ limit: 10, offset: 0, sort: 'asc', sortby: 'name' }),
     );
@@ -55,7 +52,6 @@ describe('Products Thunks with Redux Store', () => {
       getProductById: jest.fn().mockResolvedValue(mockProduct),
     };
 
-    // Dispatch the fetchProduct thunk
     await store.dispatch(
       fetchProduct({ productId: '1', isEagerLoading: true }),
     );
@@ -77,11 +73,9 @@ describe('Products Thunks with Redux Store', () => {
       updateProduct: jest.fn().mockResolvedValue(mockProduct),
     };
 
-    // Dispatch the addOrUpdateProduct thunk
     await store.dispatch(addOrUpdateProduct({ product: mockProduct }));
 
     const state = store.getState().products;
-    // expect(state.products.products[0]).toEqual(mockProduct);
     expect(
       state.products.products.find((product) => product.id === '1'),
     ).toBeDefined();
@@ -100,11 +94,9 @@ describe('Products Thunks with Redux Store', () => {
       createProduct: jest.fn().mockResolvedValue(mockCreatedProduct),
     };
 
-    // Dispatch the addOrUpdateProduct thunk
     await store.dispatch(addOrUpdateProduct({ product: newProduct }));
 
     const state = store.getState().products;
-    // expect(state.products.products[0]).toEqual(mockCreatedProduct);
     expect(
       state.products.products.find((product) => product.id === '1'),
     ).toBeDefined();
@@ -118,7 +110,6 @@ describe('Products Thunks with Redux Store', () => {
       deleteIncrement: jest.fn().mockResolvedValue('1'),
     };
 
-    // Dispatch the deleteIncrement thunk
     await store.dispatch(
       deleteProduct({
         productId: '1',
@@ -143,7 +134,6 @@ describe('Products Thunks with Redux Store', () => {
         .mockRejectedValue(new Error('Failed to load products.')),
     };
 
-    // Dispatch the fetchProducts thunk
     await store.dispatch(
       fetchProducts({ limit: 10, offset: 0, sort: 'asc', sortby: 'name' }),
     );
@@ -163,7 +153,6 @@ describe('Products Thunks with Redux Store', () => {
       .fn()
       .mockRejectedValue(new Error('Failed to load product.'));
 
-    // Dispatch the fetchProduct thunk
     await store.dispatch(
       fetchProduct({ productId: '1', isEagerLoading: true }),
     );
@@ -182,7 +171,6 @@ describe('Products Thunks with Redux Store', () => {
       .fn()
       .mockRejectedValue(new Error('Failed to add or update product.'));
 
-    // Dispatch the addOrUpdateProduct thunk
     await store.dispatch(addOrUpdateProduct({ product: mockProduct }));
 
     const state = store.getState().products;
@@ -194,7 +182,6 @@ describe('Products Thunks with Redux Store', () => {
       .fn()
       .mockRejectedValue(new Error('Failed to delete product.'));
 
-    // Dispatch the deleteProduct thunk
     await store.dispatch(
       deleteProduct({
         productId: '1',

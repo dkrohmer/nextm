@@ -1,5 +1,4 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import '@testing-library/jest-dom';
 import { jest } from '@jest/globals';
 import ImportModalDnd from '../../../../renderer/components/ModelEditor/ImportModalDnd';
 import {
@@ -8,13 +7,8 @@ import {
   setImportIsDragging,
   setImportIsFileValid,
 } from '../../../../renderer/store/modelEditor';
+import '@testing-library/jest-dom';
 
-interface DispatchType {
-  payload: string | null;
-  type: 'modelEditor/setImportJsonData';
-}
-
-// Mock useDispatch and useSelector
 const mockDispatch = jest.fn();
 const mockUseSelector = jest.fn();
 
@@ -35,7 +29,6 @@ describe('ImportModalDnd Component', () => {
       importIsFileValid: false,
     });
 
-    // Mock FileReader
     const mockFileReader = jest.fn().mockImplementation(() => ({
       readAsText: jest.fn(function (this: FileReader) {
         if (this.onload) {
@@ -80,7 +73,6 @@ describe('ImportModalDnd Component', () => {
       dataTransfer: { files: [mockFile] },
     });
 
-    // Adjusting the assertions to match the actual dispatch behavior
     const dispatchedActions = mockDispatch.mock.calls.map((call) => call[0]);
 
     expect(dispatchedActions[0]).toEqual(setImportIsDragging(false));
@@ -120,7 +112,6 @@ describe('ImportModalDnd Component', () => {
     const input = screen.getByTestId('file-input') as HTMLInputElement;
     fireEvent.change(input, { target: { files: [mockFile] } });
 
-    // Adjusting the assertions to match the actual dispatch behavior
     const dispatchedActions = mockDispatch.mock.calls.map((call) => call[0]);
 
     expect(dispatchedActions[0]).toEqual({
@@ -170,11 +161,9 @@ describe('ImportModalDnd Component', () => {
   });
 
   it('handles JSON parse error and dispatches error actions', () => {
-    // Mock the FileReader to simulate an invalid JSON parse error
     const mockFileReader = jest.fn().mockImplementation(() => ({
       readAsText: jest.fn(function (this: FileReader) {
         if (this.onload) {
-          // Simulate that the file content is not valid JSON
           const mockEvent = {
             target: { result: 'invalid json' },
           } as ProgressEvent<FileReader>;
@@ -184,7 +173,6 @@ describe('ImportModalDnd Component', () => {
     }));
     window.FileReader = mockFileReader as any;
 
-    // Simulate the file drop with invalid JSON content
     const mockFile = new File(['invalid json'], 'test.json', {
       type: 'application/json',
     });
@@ -193,10 +181,8 @@ describe('ImportModalDnd Component', () => {
     const input = screen.getByTestId('file-input') as HTMLInputElement;
     fireEvent.change(input, { target: { files: [mockFile] } });
 
-    // Capture all the dispatched actions
     const dispatchedActions = mockDispatch.mock.calls.map((call) => call[0]);
 
-    // Expect the error actions to be dispatched
     expect(dispatchedActions).toContainEqual(
       setImportError('Error parsing JSON file'),
     );
@@ -211,7 +197,6 @@ describe('ImportModalDnd Component', () => {
 
     render(<ImportModalDnd />);
 
-    // Mock FileReader to simulate a JSON parsing error
     const mockFileReader = jest.fn().mockImplementation(() => ({
       readAsText: jest.fn(function (this: FileReader) {
         if (this.onload) {
@@ -228,7 +213,6 @@ describe('ImportModalDnd Component', () => {
       dataTransfer: { files: [mockFile] },
     });
 
-    // Verify the actions dispatched after the JSON parsing error
     const dispatchedActions = mockDispatch.mock.calls.map((call) => call[0]);
 
     expect(dispatchedActions).toContainEqual(
@@ -239,22 +223,17 @@ describe('ImportModalDnd Component', () => {
   });
 
   it('handles invalid file type via input and dispatches error actions', () => {
-    // Create a mock file with an invalid type (e.g., text/plain instead of application/json)
     const mockFile = new File(['Invalid content'], 'test.txt', {
       type: 'text/plain',
     });
 
-    // Render the component
     render(<ImportModalDnd />);
 
-    // Simulate the file input change event with the invalid file type
     const input = screen.getByTestId('file-input') as HTMLInputElement;
     fireEvent.change(input, { target: { files: [mockFile] } });
 
-    // Capture all the dispatched actions
     const dispatchedActions = mockDispatch.mock.calls.map((call) => call[0]);
 
-    // Expect the error actions to be dispatched due to invalid file type
     expect(dispatchedActions).toContainEqual(
       setImportError('Invalid file type. Only JSON files allowed.'),
     );
@@ -263,17 +242,13 @@ describe('ImportModalDnd Component', () => {
   });
 
   it('handles no file selected via input and dispatches error actions', () => {
-    // Render the component
     render(<ImportModalDnd />);
 
-    // Simulate the file input change event with no files
     const input = screen.getByTestId('file-input') as HTMLInputElement;
     fireEvent.change(input, { target: { files: [] } });
 
-    // Capture all the dispatched actions
     const dispatchedActions = mockDispatch.mock.calls.map((call) => call[0]);
 
-    // Expect the error actions to be dispatched due to no file being selected
     expect(dispatchedActions).toContainEqual(
       setImportError('No file selected. Please select a valid JSON file.'),
     );
@@ -282,24 +257,20 @@ describe('ImportModalDnd Component', () => {
   });
 
   it('triggers file input click when clicking on the drop area', () => {
-    // Render the component
     render(<ImportModalDnd />);
 
-    // Mock the file input click method
     const input = screen.getByTestId('file-input') as HTMLInputElement;
     const clickSpy = jest.spyOn(input, 'click');
 
-    // Simulate the click event on the drop area
     fireEvent.click(screen.getByTestId('drop-area'));
 
-    // Expect the click method to be called on the file input
     expect(clickSpy).toHaveBeenCalled();
   });
 
   it('applies dragging class when importIsDragging is true', () => {
     mockUseSelector.mockReturnValueOnce({
       isImportModalOpen: true,
-      importIsDragging: true, // Simulate dragging
+      importIsDragging: true,
       importError: null,
       importFileName: null,
       importJsonData: null,
@@ -308,7 +279,6 @@ describe('ImportModalDnd Component', () => {
 
     render(<ImportModalDnd />);
 
-    // Check that the dragging class is applied
     const dropArea = screen.getByTestId('drop-area');
     expect(dropArea).toHaveClass('drag-and-drop-area dragging');
   });
@@ -316,7 +286,7 @@ describe('ImportModalDnd Component', () => {
   it('does not apply dragging class when importIsDragging is false', () => {
     mockUseSelector.mockReturnValueOnce({
       isImportModalOpen: true,
-      importIsDragging: false, // Simulate not dragging
+      importIsDragging: false,
       importError: null,
       importFileName: null,
       importJsonData: null,
@@ -325,7 +295,6 @@ describe('ImportModalDnd Component', () => {
 
     render(<ImportModalDnd />);
 
-    // Check that the dragging class is not applied
     const dropArea = screen.getByTestId('drop-area');
     expect(dropArea).toHaveClass('drag-and-drop-area');
     expect(dropArea).not.toHaveClass('dragging');
@@ -338,14 +307,13 @@ describe('ImportModalDnd Component', () => {
       isImportModalOpen: true,
       importIsDragging: false,
       importError: null,
-      importFileName: mockFileName, // Simulate file being selected
+      importFileName: mockFileName,
       importJsonData: null,
       importIsFileValid: false,
     });
 
     render(<ImportModalDnd />);
 
-    // Check that the file message is displayed
     expect(
       screen.getByText(`Selected file: ${mockFileName}`),
     ).toBeInTheDocument();
@@ -357,7 +325,7 @@ describe('ImportModalDnd Component', () => {
     mockUseSelector.mockReturnValueOnce({
       isImportModalOpen: true,
       importIsDragging: false,
-      importError: mockError, // Simulate an error
+      importError: mockError,
       importFileName: null,
       importJsonData: null,
       importIsFileValid: false,
@@ -365,7 +333,6 @@ describe('ImportModalDnd Component', () => {
 
     render(<ImportModalDnd />);
 
-    // Check that the error message is displayed
     expect(screen.getByText(mockError)).toBeInTheDocument();
   });
 });

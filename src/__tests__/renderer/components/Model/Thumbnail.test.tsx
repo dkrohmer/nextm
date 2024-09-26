@@ -1,11 +1,11 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
 import { Provider } from 'react-redux';
+import { fetchLatestVersionThumbnail } from '../../../../renderer/services/api/versions';
 import { configureStore } from '@reduxjs/toolkit';
 import ModelThumbnail from '../../../../renderer/components/Model/Thumbnail';
 import versionsReducer from '../../../../renderer/store/versions';
-import { fetchLatestVersionThumbnail } from '../../../../renderer/services/api/versions';
+import '@testing-library/jest-dom';
 
 const store = configureStore({
   reducer: {

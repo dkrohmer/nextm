@@ -12,7 +12,6 @@ import modelsReducer from '../../../../renderer/store/models';
 import { IIncrement } from '../../../../renderer/interfaces/IIncrement';
 import { IProduct } from '../../../../renderer/interfaces/IProduct';
 
-// Mocking the useNavigate hook
 const navigateMock = jest.fn();
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),

@@ -5,6 +5,9 @@ import { Version } from '../models/Version';
 export class VersionRepository {
   private versionRepository = AppDataSource.getRepository(Version);
 
+  /**
+   * create version
+   */
   async createVersion(data: Partial<Version>): Promise<Version> {
     const version = this.versionRepository.create(data);
 
@@ -17,6 +20,9 @@ export class VersionRepository {
     return await this.versionRepository.save(version);
   }
 
+  /**
+   * get all versions
+   */
   async getAllVersions(
     sortBy: string,
     sort: 'asc' | 'desc',
@@ -34,10 +40,16 @@ export class VersionRepository {
     return [versions, count];
   }
 
+  /**
+   * get one version
+   */
   async getVersionById(id: string): Promise<Version | null> {
     return await this.versionRepository.findOneBy({ id });
   }
 
+  /**
+   * get lastest version
+   */
   async getLatestVersionByModelId(modelId: string): Promise<Version | null> {
     return await this.versionRepository.findOne({
       where: { modelId },
@@ -47,6 +59,9 @@ export class VersionRepository {
     });
   }
 
+  /**
+   * get latest version thumbnail
+   */
   async getLatestVersionThumbnailByModelId(
     modelId: string,
   ): Promise<string | null> {
@@ -60,10 +75,16 @@ export class VersionRepository {
     return version ? version.thumbnail : null;
   }
 
+  /**
+   * get version count
+   */
   async countVersionsByModelId(modelId: string): Promise<number> {
     return await this.versionRepository.count({ where: { modelId } });
   }
 
+  /**
+   * delete latest version
+   */
   async deleteEarliestVersionByModelId(modelId: string): Promise<void> {
     const earliestVersion = await this.versionRepository.findOne({
       where: { modelId },
@@ -77,6 +98,9 @@ export class VersionRepository {
     }
   }
 
+  /**
+   * delete version
+   */
   async deleteVersion(id: string): Promise<void> {
     await this.versionRepository.delete(id);
   }

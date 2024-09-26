@@ -1,11 +1,10 @@
 import { Cell, Graph } from '@antv/x6';
-import actions from '../../../../renderer/services/model-editor/actions'; // update this to the correct path
+import actions from '../../../../renderer/services/model-editor/actions';
 
 describe('Graph actions', () => {
   let graph: jest.Mocked<Graph>;
 
   beforeEach(() => {
-    // Create a mock Graph object
     graph = {
       zoomToFit: jest.fn(),
       zoom: jest.fn(),
@@ -93,7 +92,7 @@ describe('Graph actions', () => {
   });
 
   it('cutAction should cut selected cells if any exist', () => {
-    const selectedCells = [new Cell()]; // Create mock Cell instances for selected cells
+    const selectedCells = [new Cell()];
     graph.getSelectedCells.mockReturnValue(selectedCells);
 
     const result = actions.cutAction(graph);

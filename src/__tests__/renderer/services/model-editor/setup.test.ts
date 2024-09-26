@@ -1,6 +1,5 @@
-import { Cell, Graph, Node, NodeView } from '@antv/x6';
+import { Cell, Graph } from '@antv/x6';
 import { History } from '@antv/x6-plugin-history';
-import { Transform } from '@antv/x6-plugin-transform';
 import setup from '../../../../renderer/services/model-editor/setup';
 
 jest.mock('@antv/x6', () => ({
@@ -56,7 +55,6 @@ describe('Graph setup', () => {
     let beforeAddCommand: (event: string, args: any) => boolean;
     container = document.createElement('div');
 
-    // Mock document.getElementById to return a mock element with offsetHeight
     document.getElementById = jest.fn((id) => {
       if (id === 'topbar') {
         return { offsetHeight: 50 } as HTMLElement;
@@ -67,7 +65,6 @@ describe('Graph setup', () => {
       return null;
     });
 
-    // Mock window.innerHeight and window.innerWidth
     Object.defineProperty(window, 'innerHeight', {
       writable: true,
       value: 800,
@@ -97,7 +94,6 @@ describe('Graph setup', () => {
     const { beforeAddCommand } = (History as unknown as jest.Mock).mock
       .calls[0][0];
 
-    // Test command filtering logic
     const argsWithVertices = {
       current: { items: ['edge-vertices'] },
       previous: {},
@@ -118,7 +114,7 @@ describe('Graph setup', () => {
     expect(beforeAddCommand('event', argsWithHighlight)).toBe(false);
 
     const argsNormal = {
-      current: { items: ['normal-item'] }, // No filtered items
+      current: { items: ['normal-item'] },
       previous: {},
     };
     expect(beforeAddCommand('event', argsNormal)).toBe(true);
@@ -141,20 +137,13 @@ describe('Graph setup', () => {
 
     const result = beforeAddCommand('someEvent', argsWithFilteredItems);
 
-    // Assert that keepItemInHistory is false because 'edge-vertices' is present
     expect(result).toBe(false);
   });
 
   it('should return true when args.previous contains no filtered items', () => {
-    const mockGraph = new Graph({
-      container,
-    }) as unknown as Graph;
-
-    // Setup the history plugin with the beforeAddCommand function
     const { beforeAddCommand } = (History as unknown as jest.Mock).mock
       .calls[0][0];
 
-    // Test case where args.previous.items does not contain filtered items
     const argsWithNoFilteredItems = {
       previous: {
         items: ['normal-item'],
@@ -164,7 +153,6 @@ describe('Graph setup', () => {
 
     const result = beforeAddCommand('someEvent', argsWithNoFilteredItems);
 
-    // Assert that keepItemInHistory is true because no filtered items are present
     expect(result).toBe(true);
   });
 
@@ -176,7 +164,6 @@ describe('Graph setup', () => {
     const { beforeAddCommand } = (History as unknown as jest.Mock).mock
       .calls[0][0];
 
-    // Test case where args.previous.items contains 'edge-source-handle'
     const argsWithEdgeSourceHandle = {
       previous: {
         items: ['edge-source-handle'],
@@ -190,7 +177,6 @@ describe('Graph setup', () => {
     );
     expect(resultSource).toBe(false);
 
-    // Test case where args.previous.items contains 'edge-target-handle'
     const argsWithEdgeTargetHandle = {
       previous: {
         items: ['edge-target-handle'],

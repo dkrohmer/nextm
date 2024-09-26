@@ -1,14 +1,11 @@
-// src/__tests__/renderer/hooks/useDefaultDatabase.test.ts
-
 import { render } from '@testing-library/react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import useDefaultDatabase from '../../../renderer/hooks/useDefaultDatabase';
 import { fetchProduct } from '../../../renderer/services/api/products';
 import { fetchIncrements } from '../../../renderer/services/api/increments';
 import { setIncrementsActiveIndex } from '../../../renderer/store/increments';
+import useDefaultDatabase from '../../../renderer/hooks/useDefaultDatabase';
 
-// Mock dependencies
 jest.mock('react-redux', () => ({
   useDispatch: jest.fn(),
 }));
@@ -29,7 +26,6 @@ jest.mock('../../../renderer/store/increments', () => ({
   setIncrementsActiveIndex: jest.fn(),
 }));
 
-// Helper component to test the hook
 function TestComponent() {
   useDefaultDatabase();
   return null;
@@ -39,7 +35,6 @@ describe('useDefaultDatabase', () => {
   let dispatchMock: jest.Mock;
 
   beforeEach(() => {
-    // Explicitly cast useDispatch to Jest mock
     dispatchMock = jest.fn();
     (useDispatch as unknown as jest.Mock).mockReturnValue(dispatchMock);
     (useParams as jest.Mock).mockReturnValue({ productId: '123' });

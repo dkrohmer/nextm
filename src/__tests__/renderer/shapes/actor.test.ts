@@ -57,9 +57,9 @@ describe('Actor Module', () => {
   it('should create a node with actor attributes', () => {
     const nodeMock = {
       setAttrs: jest.fn(),
-    } as Partial<Node>; // Ensure we use a partial Node
+    } as Partial<Node>;
 
-    graphMock.createNode.mockReturnValue(nodeMock as Node); // Cast the return value to Node
+    graphMock.createNode.mockReturnValue(nodeMock as Node);
 
     const node = actor.create(graphMock);
 

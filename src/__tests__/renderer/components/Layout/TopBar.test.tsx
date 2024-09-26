@@ -1,10 +1,7 @@
-import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { useDispatch, useSelector } from 'react-redux';
-import TopBar from '../../../../renderer/components/Layout/TopBar';
 import { setSidebarVisible } from '../../../../renderer/store/settings';
+import TopBar from '../../../../renderer/components/Layout/TopBar';
 
-// Mocking useDispatch and useSelector hooks
 const mockDispatch = jest.fn();
 const mockUseSelector = jest.fn();
 
@@ -23,7 +20,6 @@ describe('TopBar Component', () => {
   });
 
   it('renders the TopBar component with the logo and settings icon', () => {
-    // Mock useSelector to return the sidebarVisible state as false
     mockUseSelector.mockImplementation((selector: any) =>
       selector({
         settings: { sidebarVisible: false },
@@ -71,7 +67,6 @@ describe('TopBar Component', () => {
   });
 
   it('handles cases where settings state is missing or undefined', () => {
-    // Mock useSelector to simulate missing state
     mockUseSelector.mockImplementation((selector: any) =>
       selector({
         settings: { sidebarVisible: false },

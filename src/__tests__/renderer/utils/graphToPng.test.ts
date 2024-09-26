@@ -1,5 +1,5 @@
 import { Graph } from '@antv/x6';
-import { graphToPng } from '../../../renderer/utils/graphToPng'; // Adjust the import path as necessary
+import { graphToPng } from '../../../renderer/utils/graphToPng';
 
 jest.mock('@antv/x6', () => ({
   Graph: jest.fn().mockImplementation(() => ({

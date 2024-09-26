@@ -1,5 +1,6 @@
 import { Graph, Node } from '@antv/x6';
 
+// the edge as it appears in the stencil
 const registerEdgeStencil = () => {
   Graph.registerNode(
     'dataflow-stencil',

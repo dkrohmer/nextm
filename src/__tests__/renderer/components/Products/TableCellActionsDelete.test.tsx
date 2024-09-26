@@ -1,23 +1,18 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import '@testing-library/jest-dom';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
-import productsReducer, {
-  setOpenConfirm,
-  setProductToDelete,
-} from '../../../../renderer/store/products';
-import TableCellActionsDelete from '../../../../renderer/components/Products/TableCellActionsDelete';
 import { IProduct } from '../../../../renderer/interfaces/IProduct';
+import TableCellActionsDelete from '../../../../renderer/components/Products/TableCellActionsDelete';
+import productsReducer  from '../../../../renderer/store/products';
+import '@testing-library/jest-dom';
 
-// Mock store
 const store = configureStore({
   reducer: {
     products: productsReducer,
   },
 });
 
-// Mock product data
 const mockProduct: IProduct = {
   id: '1',
   name: 'Test Product',
@@ -44,7 +39,6 @@ describe('TableCellActionsDelete Component', () => {
 
     fireEvent.mouseEnter(deleteButton);
 
-    // Wait for the popup content to appear
     await waitFor(() => {
       expect(screen.getByTestId('delete-popup-content')).toBeInTheDocument();
     });
@@ -70,14 +64,12 @@ describe('TableCellActionsDelete Component', () => {
     const deleteButton = screen.getByTestId('delete-button');
     fireEvent.mouseEnter(deleteButton);
 
-    // Wait for the popup content to appear
     await waitFor(() => {
       expect(screen.getByTestId('delete-popup-content')).toBeInTheDocument();
     });
 
     fireEvent.mouseLeave(deleteButton);
 
-    // Ensure the popup content disappears
     await waitFor(() => {
       expect(
         screen.queryByTestId('delete-popup-content'),
@@ -91,14 +83,12 @@ describe('TableCellActionsDelete Component', () => {
     const deleteButton = screen.getByTestId('delete-button');
     fireEvent.mouseEnter(deleteButton);
 
-    // Wait for the popup content to appear
     await waitFor(() => {
       expect(screen.getByTestId('delete-popup-content')).toBeInTheDocument();
     });
 
     fireEvent.click(document.body);
 
-    // Ensure the popup content disappears after clicking outside
     await waitFor(() => {
       expect(
         screen.queryByTestId('delete-popup-content'),

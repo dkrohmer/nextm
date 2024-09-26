@@ -1,14 +1,13 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import { Grid } from 'semantic-ui-react';
-import Description from '../../../../renderer/components/Product/Description';
 import { RootState } from '../../../../renderer/store';
 import { initialProductsState } from '../../../../renderer/store/products';
+import Description from '../../../../renderer/components/Product/Description';
+import '@testing-library/jest-dom';
 
-// Mock state
 const mockProductState: Partial<RootState> = {
   products: {
     ...initialProductsState,
@@ -48,7 +47,6 @@ describe('Description Component', () => {
   });
 
   it('renders "n/a" when description is not available', () => {
-    // Mock state where description is not provided
     const mockEmptyState: Partial<RootState> = {
       products: {
         ...initialProductsState,

@@ -5,6 +5,9 @@ import { Increment } from '../models/Increment';
 export class IncrementRepository {
   private incrementRepository = AppDataSource.getRepository(Increment);
 
+  /**
+   * create increment
+   */
   async createIncrement(increment: Increment): Promise<Increment> {
     const validationErrors = await validate(increment);
 
@@ -17,6 +20,9 @@ export class IncrementRepository {
     return newIncrement;
   }
 
+  /**
+   * get all incremennts
+   */
   async getAllIncrements(
     sortBy: string,
     sort: 'asc' | 'desc',
@@ -34,7 +40,10 @@ export class IncrementRepository {
 
     return [increments, count];
   }
-
+  
+  /**
+   * get one increment
+   */
   async getIncrementById(
     id: string,
     eager: boolean,
@@ -51,6 +60,9 @@ export class IncrementRepository {
     });
   }
 
+  /**
+   * get latest increment
+   */
   async getLatestIncrement(productId?: string): Promise<Increment | null> {
     const where = productId ? { productId } : {};
 
@@ -62,6 +74,9 @@ export class IncrementRepository {
     });
   }
 
+  /**
+   * get latest increment ID
+   */
   async getLatestIncrementId(productId: string): Promise<string | null> {
     const latestIncrement = await AppDataSource.getRepository(
       'Increment',
@@ -73,6 +88,9 @@ export class IncrementRepository {
     return latestIncrement?.id || null;
   }
 
+  /**
+   * update increment
+   */
   async updateIncrement(
     id: string,
     data: Partial<Increment>,
@@ -93,6 +111,9 @@ export class IncrementRepository {
     return await this.incrementRepository.save(updatedIncrement);
   }
 
+  /**
+   * delete increment
+   */
   async deleteIncrement(id: string): Promise<void> {
     await this.incrementRepository.delete(id);
   }

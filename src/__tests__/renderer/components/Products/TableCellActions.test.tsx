@@ -1,10 +1,8 @@
-import React from 'react';
 import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
-import TableCellActions from '../../../../renderer/components/Products/TableCellActions'; // Adjust the import path if necessary
 import { IProduct } from '../../../../renderer/interfaces/IProduct';
+import TableCellActions from '../../../../renderer/components/Products/TableCellActions';
+import '@testing-library/jest-dom';
 
-// Mock child components
 jest.mock(
   '../../../../renderer/components/Products/TableCellActionsEdit',
   () =>
@@ -41,7 +39,6 @@ describe('TableCellActions Component', () => {
   it('renders the edit, clone, and delete actions for the product', () => {
     render(<TableCellActions product={product} />);
 
-    // Check if the Edit, Clone, and Delete components are rendered
     expect(screen.getByTestId('edit-action-1')).toBeInTheDocument();
     expect(screen.getByTestId('edit-action-1')).toHaveTextContent('Edit');
 

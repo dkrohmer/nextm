@@ -1,6 +1,5 @@
 import { renderHook, act } from '@testing-library/react-hooks';
 import { useDispatch } from 'react-redux';
-import useToolbarStateReset from '../../../../renderer/hooks/model-editor/useToolbarStateReset';
 import {
   setSavePressed,
   setExportPressed,
@@ -16,13 +15,12 @@ import {
   setPastePressed,
   setDeletePressed,
 } from '../../../../renderer/store/modelEditor';
+import useToolbarStateReset from '../../../../renderer/hooks/model-editor/useToolbarStateReset';
 
-// Mock useDispatch from react-redux
 jest.mock('react-redux', () => ({
   useDispatch: jest.fn(),
 }));
 
-// Mock all action creators
 jest.mock('../../../../renderer/store/modelEditor', () => ({
   setSavePressed: jest.fn(),
   setExportPressed: jest.fn(),
@@ -49,9 +47,8 @@ describe('useToolbarStateReset', () => {
   });
 
   it('should dispatch the correct actions when all states are true', () => {
-    jest.useFakeTimers(); // Use fake timers to control setTimeout
+    jest.useFakeTimers();
 
-    // Define the toolbar states with all true values to cover all lines
     const states = {
       isSavePressed: true,
       isExportPressed: true,
@@ -68,15 +65,12 @@ describe('useToolbarStateReset', () => {
       isDeletePressed: true,
     };
 
-    // Render the hook
     renderHook(() => useToolbarStateReset(states));
 
-    // Fast-forward time to allow setTimeout to execute
     act(() => {
       jest.runAllTimers();
     });
 
-    // Check that all actions are dispatched
     expect(dispatchMock).toHaveBeenCalledWith(setSavePressed(false));
     expect(dispatchMock).toHaveBeenCalledWith(setExportPressed(false));
     expect(dispatchMock).toHaveBeenCalledWith(setImportPressed(false));
@@ -91,9 +85,8 @@ describe('useToolbarStateReset', () => {
     expect(dispatchMock).toHaveBeenCalledWith(setPastePressed(false));
     expect(dispatchMock).toHaveBeenCalledWith(setDeletePressed(false));
 
-    // Expect the dispatchMock to have been called 13 times
     expect(dispatchMock).toHaveBeenCalledTimes(13);
 
-    jest.useRealTimers(); // Restore real timers after the test
+    jest.useRealTimers();
   });
 });

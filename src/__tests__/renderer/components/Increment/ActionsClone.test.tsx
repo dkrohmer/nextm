@@ -1,13 +1,13 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import '@testing-library/jest-dom';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
+import { IIncrement } from '../../../../renderer/interfaces/IIncrement';
 import ActionsClone from '../../../../renderer/components/Increment/ActionsClone';
 import incrementsReducer from '../../../../renderer/store/increments';
-import { IIncrement } from '../../../../renderer/interfaces/IIncrement';
+import '@testing-library/jest-dom';
 
-// Setup a test store with only the necessary slices
+
 const store = configureStore({
   reducer: {
     increments: incrementsReducer,
@@ -83,7 +83,7 @@ describe('ActionsClone Component', () => {
   });
 
   it('truncates the increment name if it exceeds 250 characters', () => {
-    const longName = 'A'.repeat(251); // Create a string with 251 characters
+    const longName = 'A'.repeat(251);
     const mockIncrementWithLongName: IIncrement = {
       id: '1',
       name: longName,
@@ -103,8 +103,7 @@ describe('ActionsClone Component', () => {
 
     const actions = store.getState().increments;
 
-    // Check that the name has been truncated correctly
-    const truncatedName = `...${longName.slice(-240)} (Copy)`; // 240 because the final name length is 250
+    const truncatedName = `...${longName.slice(-240)} (Copy)`;
     expect(actions.currentIncrement?.name).toBe(truncatedName);
     expect(actions.incrementsIsCloning).toBe(true);
     expect(actions.incrementsModalOpen).toBe(true);

@@ -1,7 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { Graph } from '@antv/x6';
 import type { IVersion } from '../../interfaces/IVersion';
-import { RootState } from '../../store';
 import { graphToPng } from '../../utils/graphToPng';
 
 interface FetchLatestVersionArgs {
@@ -84,7 +83,6 @@ export const addLatestVersion = createAsyncThunk(
     try {
       const dataUri = await graphToPng(graph);
 
-      // Create a new version using the electron API
       const response = await window.electron.createVersion({
         modelId,
         payload: { graph: graph.toJSON() },

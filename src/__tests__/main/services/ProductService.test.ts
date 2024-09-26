@@ -1,14 +1,14 @@
-import 'reflect-metadata';
 import { ProductService } from '../../../main/services/ProductService';
 import { ProductRepository } from '../../../main/repositories/ProductRepository';
 import { ResponsibleRepository } from '../../../main/repositories/ResponsibleRepository';
 import { IncrementRepository } from '../../../main/repositories/IncrementRepository';
+import { Product } from '../../../main/models/Product';
+import { Responsible } from '../../../main/models/Responsible';
 import {
   buildProductEntity,
   buildResponsibleEntity,
 } from '../../../main/helpers/entityBuilder';
-import { Product } from '../../../main/models/Product';
-import { Responsible } from '../../../main/models/Responsible';
+import 'reflect-metadata';
 
 jest.mock('../../../main/repositories/ProductRepository');
 jest.mock('../../../main/repositories/ResponsibleRepository');
@@ -200,14 +200,10 @@ describe('ProductService', () => {
         endsAt: new Date(),
       };
 
-      // Create a new Product instance and merge the updated data
       const updatedProduct = new Product();
       Object.assign(updatedProduct, existingProduct, updatedProductData);
 
-      // mock creation of existing product repository
       productRepository.getProductById.mockResolvedValue(existingProduct);
-
-      // mock update of existing product repository
       productRepository.updateProduct.mockResolvedValue(updatedProduct);
 
       const result = await productService.updateProduct(
@@ -261,13 +257,8 @@ describe('ProductService', () => {
       const updatedProduct = new Product();
       Object.assign(updatedProduct, existingProduct, updateProductData);
 
-      // mock creation of existing product repository
       productRepository.getProductById.mockResolvedValue(existingProduct);
-
-      // mock update of existing product repository
       productRepository.updateProduct.mockResolvedValue(updatedProduct);
-
-      // mock update of existing responsible repository
       responsibleRepository.updateResponsible.mockResolvedValue(newResponsible);
 
       const result = await productService.updateProduct(
@@ -299,16 +290,10 @@ describe('ProductService', () => {
       const updatedProduct = new Product();
       Object.assign(updatedProduct, existingProduct, updateProductData);
 
-      // mock creation of existing product repository
       productRepository.getProductById.mockResolvedValue(existingProduct);
-
-      // mock update of existing product repository
       productRepository.updateProduct.mockResolvedValue(updatedProduct);
-
-      // mock creation of new responsible repository
       responsibleRepository.createResponsible.mockResolvedValue(newResponsible);
 
-      // Mock buildResponsibleEntity
       (buildResponsibleEntity as jest.Mock).mockReturnValue(newResponsible);
 
       const result = await productService.updateProduct(
@@ -356,18 +341,12 @@ describe('ProductService', () => {
         responsibles: [validResponsible],
       });
 
-      // mock creation of existing product repository
       productRepository.getProductById.mockResolvedValue(existingProduct);
-
-      // mock update of existing product repository
       productRepository.updateProduct.mockResolvedValue(updatedProduct);
-
-      // mock creation of new responsible repository
       responsibleRepository.createResponsible.mockResolvedValue(
         validResponsible,
       );
 
-      // Mock buildResponsibleEntity
       (buildResponsibleEntity as jest.Mock).mockImplementation(
         (responsibleData: Responsible) => ({
           ...responsibleData,

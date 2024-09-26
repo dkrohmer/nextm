@@ -1,3 +1,4 @@
+import type { IIncrement } from '../../../renderer/interfaces/IIncrement';
 import reducer, {
   setIncrementsActiveIndex,
   setIncrementsActiveIncrementId,
@@ -9,7 +10,6 @@ import reducer, {
   setIncrementToDelete,
   initialIncrementsState,
 } from '../../../renderer/store/increments';
-import type { IIncrement } from '../../../renderer/interfaces/IIncrement';
 import {
   fetchIncrements,
   fetchIncrement,
@@ -170,7 +170,6 @@ describe('Increments Slice', () => {
         productId: '1',
       };
 
-      // Simulate that there is already one increment with id '1' in the state, including additional properties like productId
       initialState.increments = [
         { id: '1', name: 'Increment 1', productId: '1' },
       ];
@@ -182,16 +181,13 @@ describe('Increments Slice', () => {
 
       const state = reducer(initialState, action);
 
-      // Expect the new increment to be added at the beginning of the array
       expect(state.increments[0]).toEqual(mockIncrement);
 
-      // Use partial match (toMatchObject) for the second increment to ignore unexpected properties
       expect(state.increments[1]).toMatchObject({
         id: '1',
         name: 'Increment 1',
       });
 
-      // Ensure the modal is closed after the operation
       expect(state.incrementsModalOpen).toBe(false);
     });
 

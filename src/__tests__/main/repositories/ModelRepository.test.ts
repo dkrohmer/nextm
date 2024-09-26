@@ -14,16 +14,14 @@ beforeAll(async () => {
   dataSource = getDataSource();
   modelRepository = new ModelRepository();
 
-  // Create a product to be used for the increment entries
   const product = new Product();
   product.name = 'Test Product';
   const savedProduct = await dataSource.getRepository(Product).save(product);
 
-  // Create an increment to be used for the model entries
   const increment = new Increment();
   increment.name = 'Test Increment';
   increment.incrementIndex = 1;
-  increment.product = savedProduct; // Associate the increment with the product
+  increment.product = savedProduct;
   const savedIncrement = await dataSource
     .getRepository(Increment)
     .save(increment);
@@ -99,7 +97,7 @@ describe('ModelRepository', () => {
     const foundModel = await modelRepository.getModelById(savedModel.id, true);
     expect(foundModel).toBeDefined();
     expect(foundModel!.id).toBe(savedModel.id);
-    expect(foundModel!.versions).toBeDefined(); // Ensure eager relations are loaded
+    expect(foundModel!.versions).toBeDefined();
   });
 
   it('should update a model', async () => {
@@ -148,26 +146,24 @@ describe('ModelRepository', () => {
 
   it('should throw an error when creating a model with invalid data', async () => {
     const invalidModel = new Model();
-    invalidModel.name = ''; // Invalid: name is empty
-    invalidModel.incrementId = 'invalid-uuid'; // Invalid: incrementId is not a valid UUID
+    invalidModel.name = '';
+    invalidModel.incrementId = 'invalid-uuid';
 
     await expect(modelRepository.createModel(invalidModel)).rejects.toThrow(
       'Validation failed',
     );
   });
 
-  // Test failed validation during update
   it('should throw an error when updating a model with invalid data', async () => {
     const model = new Model();
     model.name = 'Valid Name';
-    model.incrementId = incrementId; // Valid incrementId
+    model.incrementId = incrementId;
     const savedModel = await modelRepository.createModel(model);
 
-    // Try updating with invalid data
     const updatedModel = {
       ...savedModel,
-      name: '', // Invalid: name is empty
-      incrementId: 'invalid-uuid', // Invalid: not a valid UUID
+      name: '',
+      incrementId: 'invalid-uuid',
     };
 
     await expect(

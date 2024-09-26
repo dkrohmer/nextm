@@ -1,13 +1,15 @@
-import { ModelRepository } from '../repositories/ModelRepository';
 import { Model } from '../models/Model';
+import { ModelRepository } from '../repositories/ModelRepository';
 import { buildModelEntity } from '../helpers/entityBuilder';
 import { IncrementRepository } from '../repositories/IncrementRepository';
 
 export class ModelService {
   private modelRepository = new ModelRepository();
-
   private incrementRepository = new IncrementRepository();
 
+  /**
+   * create model
+   */
   async createModel(data: any): Promise<Model> {
     const { incrementId } = data;
 
@@ -28,6 +30,9 @@ export class ModelService {
     return serializedNewModel;
   }
 
+  /**
+   * get all models
+   */
   async getAllModels(
     sortBy: string,
     sort: 'asc' | 'desc',
@@ -42,18 +47,28 @@ export class ModelService {
     return { models: serializedModels, modelsCount };
   }
 
+  /**
+   * get one model
+   */
   async getModelById(id: string, eager: boolean): Promise<Model | null> {
     const model = await this.modelRepository.getModelById(id, eager);
     const serializedModel = model!.toJSON();
     return serializedModel;
   }
 
+  /**
+   * update model
+   */
   async updateModel(id: string, data: Partial<Model>): Promise<Model | null> {
     const model = await this.modelRepository.updateModel(id, data);
     const serializedModel = model!.toJSON();
     return serializedModel;
   }
 
+
+  /**
+   * delete model
+   */
   async deleteModel(id: string): Promise<void> {
     await this.modelRepository.deleteModel(id);
   }

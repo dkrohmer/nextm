@@ -1,13 +1,15 @@
-import { VersionRepository } from '../repositories/VersionRepository';
 import { Version } from '../models/Version';
+import { VersionRepository } from '../repositories/VersionRepository';
 import { buildVersionEntity } from '../helpers/entityBuilder';
 import { ModelRepository } from '../repositories/ModelRepository';
 
 export class VersionService {
   private versionRepository = new VersionRepository();
-
   private modelRepository = new ModelRepository();
 
+  /**
+   * create version
+   */
   async createVersion(data: any): Promise<Version> {
     const { modelId } = data;
 
@@ -16,22 +18,17 @@ export class VersionService {
       throw new Error('Model not found');
     }
 
-    // Find the latest version number for the given modelId
     const latestVersion =
       await this.versionRepository.getLatestVersionByModelId(modelId);
     const newVersionIndex = latestVersion ? latestVersion.versionIndex + 1 : 0;
 
-    // Build the new version entity
     const version: Version = buildVersionEntity(data, newVersionIndex);
     version.modelId = modelId;
 
-    // Count the existing versions for the model
     const versionCount =
       await this.versionRepository.countVersionsByModelId(modelId);
 
-    // Check if the version count exceeds 1000
     if (versionCount >= 1000) {
-      // Delete the earliest version
       await this.versionRepository.deleteEarliestVersionByModelId(modelId);
     }
 
@@ -41,6 +38,9 @@ export class VersionService {
     return serializedNewVersion;
   }
 
+  /**
+   * get all versions
+   */
   async getAllVersions(
     sortBy: string,
     sort: 'asc' | 'desc',
@@ -52,12 +52,18 @@ export class VersionService {
     return { versions: serializedVersions, versionsCount };
   }
 
+  /**
+   * get one version
+   */
   async getVersionById(id: string): Promise<Version | null> {
     const version = await this.versionRepository.getVersionById(id);
     const serializedVersion = version!.toJSON();
     return serializedVersion;
   }
 
+  /**
+   * get latest version
+   */
   async getLatestVersionByModelId(modelId: string): Promise<Version | null> {
     const version =
       await this.versionRepository.getLatestVersionByModelId(modelId);
@@ -65,6 +71,9 @@ export class VersionService {
     return serializedVerison;
   }
 
+  /**
+   * get latest version thumbnail
+   */
   async getLatestVersionThumbnailByModelId(
     modelId: string,
   ): Promise<string | null> {
@@ -73,6 +82,9 @@ export class VersionService {
     return versionThumbnail;
   }
 
+  /**
+   * delete version
+   */
   async deleteVersion(id: string): Promise<void> {
     await this.versionRepository.deleteVersion(id);
   }

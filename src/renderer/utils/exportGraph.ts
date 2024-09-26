@@ -12,9 +12,8 @@ interface ExportGraphArgs {
   graph: Graph;
 }
 
-// Helper function to export the graph as JSON
 const exportJSON = ({ filename, graph }: ExportJsonArgs) => {
-  const jsonString = JSON.stringify(graph.toJSON(), null, 2); // Ensure using graph.toJSON()
+  const jsonString = JSON.stringify(graph.toJSON(), null, 2);
   const blob = new Blob([jsonString], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
@@ -25,7 +24,6 @@ const exportJSON = ({ filename, graph }: ExportJsonArgs) => {
   document.body.removeChild(link);
 };
 
-// Thunk to export the graph
 export const exportGraph = createAsyncThunk(
   'modelEditor/exportGraph',
   async (

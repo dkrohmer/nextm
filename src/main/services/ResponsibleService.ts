@@ -5,9 +5,11 @@ import { buildResponsibleEntity } from '../helpers/entityBuilder';
 
 export class ResponsibleService {
   private responsibleRepository = new ResponsibleRepository();
-
   private productRepository = new ProductRepository();
 
+  /**
+   * create responsible
+   */
   async createResponsible(data: any): Promise<Responsible> {
     const { productId } = data;
 
@@ -25,6 +27,9 @@ export class ResponsibleService {
     return await this.responsibleRepository.createResponsible(responsible);
   }
 
+  /**
+   * get all responsibles
+   */
   async getAllResponsibles(
     productId?: string,
   ): Promise<{ responsibles: Responsible[]; responsiblesCount: number }> {
@@ -32,11 +37,17 @@ export class ResponsibleService {
       await this.responsibleRepository.getAllResponsibles(productId);
     return { responsibles, responsiblesCount };
   }
-
+  
+  /**
+   * get one responsible
+   */
   async getResponsibleById(id: string): Promise<Responsible | null> {
     return await this.responsibleRepository.getResponsibleById(id);
   }
 
+  /**
+   * update responsible
+   */
   async updateResponsible(
     id: string,
     data: Partial<Responsible>,
@@ -44,6 +55,9 @@ export class ResponsibleService {
     return await this.responsibleRepository.updateResponsible(id, data);
   }
 
+  /**
+   * delete responsible
+   */
   async deleteResponsible(id: string): Promise<void> {
     await this.responsibleRepository.deleteResponsible(id);
   }

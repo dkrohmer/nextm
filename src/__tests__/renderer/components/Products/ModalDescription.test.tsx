@@ -1,11 +1,9 @@
-import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import '@testing-library/jest-dom';
 import { jest } from '@jest/globals';
-import ModalDescription from '../../../../renderer/components/Products/ModalDescription';
 import { setProductsCurrentProduct } from '../../../../renderer/store/products';
+import ModalDescription from '../../../../renderer/components/Products/ModalDescription';
+import '@testing-library/jest-dom';
 
-// Mock useDispatch and useSelector hooks
 const mockDispatch = jest.fn();
 const mockUseSelector = jest.fn();
 
@@ -20,7 +18,6 @@ describe('ModalDescription Component', () => {
   });
 
   it('renders the text area with the current product description', () => {
-    // Set up the mock to return a product description
     mockUseSelector.mockImplementation((selector: any) =>
       selector({
         products: {
@@ -35,13 +32,11 @@ describe('ModalDescription Component', () => {
 
     render(<ModalDescription />);
 
-    // Check if text area renders with the correct value
     const textAreaElement = screen.getByPlaceholderText('Description');
     expect(textAreaElement).toHaveValue('Existing Product Description');
   });
 
   it('renders the text area with an empty value when description is empty', () => {
-    // Set up the mock to return an empty description
     mockUseSelector.mockImplementation((selector: any) =>
       selector({
         products: {
@@ -56,13 +51,11 @@ describe('ModalDescription Component', () => {
 
     render(<ModalDescription />);
 
-    // Check if text area renders with an empty value
     const textAreaElement = screen.getByPlaceholderText('Description');
     expect(textAreaElement).toHaveValue('');
   });
 
   it('dispatches setProductsCurrentProduct action on input change', () => {
-    // Set up the mock to return a product description
     mockUseSelector.mockImplementation((selector: any) =>
       selector({
         products: {
@@ -78,12 +71,10 @@ describe('ModalDescription Component', () => {
 
     render(<ModalDescription />);
 
-    // Simulate text area change
     fireEvent.change(screen.getByPlaceholderText('Description'), {
       target: { value: 'New Product Description' },
     });
 
-    // Check if dispatch is called with correct action
     expect(mockDispatch).toHaveBeenCalledWith(
       setProductsCurrentProduct({
         id: '1',

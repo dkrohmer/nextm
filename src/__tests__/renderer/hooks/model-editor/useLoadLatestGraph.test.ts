@@ -2,7 +2,6 @@ import { renderHook } from '@testing-library/react-hooks';
 import { Graph } from '@antv/x6';
 import useLoadLatestGraph from '../../../../renderer/hooks/model-editor/useLoadLatestGraph';
 
-// Mock useSelector
 const mockUseSelector = jest.fn();
 
 jest.mock('react-redux', () => ({
@@ -15,7 +14,6 @@ describe('useLoadLatestGraph hook', () => {
   beforeEach(() => {
     jest.clearAllMocks();
 
-    // Mock the Graph object
     mockGraph = {
       fromJSON: jest.fn(),
       zoomToRect: jest.fn(),
@@ -36,9 +34,8 @@ describe('useLoadLatestGraph hook', () => {
       }),
     );
 
-    const { result } = renderHook(() => useLoadLatestGraph(mockGraph as Graph));
+    renderHook(() => useLoadLatestGraph(mockGraph as Graph));
 
-    // Ensure the graph is loaded with the cells from the latest version
     expect(mockGraph.fromJSON).toHaveBeenCalledWith({
       id: 'cell1',
       type: 'node',
@@ -62,9 +59,8 @@ describe('useLoadLatestGraph hook', () => {
       }),
     );
 
-    const { result } = renderHook(() => useLoadLatestGraph(mockGraph as Graph));
+    renderHook(() => useLoadLatestGraph(mockGraph as Graph));
 
-    // Ensure the graph zooms to the rect provided by the latest version
     expect(mockGraph.zoomToRect).toHaveBeenCalledWith({
       x: 100,
       y: 100,
@@ -90,9 +86,8 @@ describe('useLoadLatestGraph hook', () => {
       }),
     );
 
-    const { result } = renderHook(() => useLoadLatestGraph(mockGraph as Graph));
+    renderHook(() => useLoadLatestGraph(mockGraph as Graph));
 
-    // Ensure the graph zooms to fit since no dimensions are provided
     expect(mockGraph.zoomToFit).toHaveBeenCalledWith({
       padding: { left: 200, right: 200 },
     });
@@ -105,9 +100,8 @@ describe('useLoadLatestGraph hook', () => {
       }),
     );
 
-    const { result } = renderHook(() => useLoadLatestGraph(undefined));
+    renderHook(() => useLoadLatestGraph(mockGraph as Graph));
 
-    // Ensure that graph methods are not called since no graph is provided
     expect(mockGraph.fromJSON).not.toHaveBeenCalled();
     expect(mockGraph.zoomToRect).not.toHaveBeenCalled();
     expect(mockGraph.zoomToFit).not.toHaveBeenCalled();

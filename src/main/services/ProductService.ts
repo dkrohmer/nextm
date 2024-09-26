@@ -1,21 +1,21 @@
-import { ProductRepository } from '../repositories/ProductRepository';
 import { Product } from '../models/Product';
+import { ProductRepository } from '../repositories/ProductRepository';
 import { Responsible } from '../models/Responsible';
-
+import { ResponsibleRepository } from '../repositories/ResponsibleRepository';
+import { IncrementRepository } from '../repositories/IncrementRepository';
 import {
   buildProductEntity,
   buildResponsibleEntity,
 } from '../helpers/entityBuilder';
-import { ResponsibleRepository } from '../repositories/ResponsibleRepository';
-import { IncrementRepository } from '../repositories/IncrementRepository';
 
 export class ProductService {
   private productRepository = new ProductRepository();
-
   private responsibleRepository = new ResponsibleRepository();
-
   private incrementRepository = new IncrementRepository();
 
+  /**
+   * create product
+   */
   async createProduct(data: Product): Promise<Product | null> {
     const product: Product = buildProductEntity(data);
     const newProduct = await this.productRepository.createProduct(product);
@@ -24,6 +24,9 @@ export class ProductService {
     return serializedProduct;
   }
 
+  /**
+   * get all products
+   */
   async getAllProducts(
     limit: number,
     offset: number,
@@ -46,6 +49,9 @@ export class ProductService {
     return { products: serializedProducts, productsCount: count };
   }
 
+  /**
+   * get one product
+   */
   async getProductById(id: string, eager: boolean): Promise<Product | null> {
     const product = await this.productRepository.getProductById(id, eager);
     if (!product) {
@@ -56,6 +62,9 @@ export class ProductService {
     return serializedProduct;
   }
 
+  /**
+   * update product
+   */
   async updateProduct(id: string, data: any) {
     const { responsibles } = data;
 
@@ -124,6 +133,9 @@ export class ProductService {
     return this.productRepository.updateProduct(product.id, productData);
   }
 
+  /**
+   * delete product
+   */
   async deleteProduct(id: string): Promise<void> {
     await this.productRepository.deleteProduct(id);
   }

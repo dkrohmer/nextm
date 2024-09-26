@@ -1,8 +1,8 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import '@testing-library/jest-dom';
 import { jest } from '@jest/globals';
-import ActorModalName from '../../../../renderer/components/ModelEditor/ActorModalName'; // Adjust the import path if necessary
 import { setActorName } from '../../../../renderer/store/modelEditor';
+import ActorModalName from '../../../../renderer/components/ModelEditor/ActorModalName';
+import '@testing-library/jest-dom';
 
 const mockDispatch = jest.fn();
 const mockUseSelector = jest.fn();
@@ -81,6 +81,6 @@ describe('ActorModalName Component', () => {
       target: { value: longName },
     });
 
-    expect(mockDispatch).toHaveBeenCalledWith(setActorName('A'.repeat(249))); // Truncated to 249 characters
+    expect(mockDispatch).toHaveBeenCalledWith(setActorName('A'.repeat(249)));
   });
 });

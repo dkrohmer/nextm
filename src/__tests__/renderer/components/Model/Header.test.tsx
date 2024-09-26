@@ -1,16 +1,15 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import '@testing-library/jest-dom';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import { MemoryRouter } from 'react-router-dom';
-import ModelHeader from '../../../../renderer/components/Model/Header';
-import modelsReducer from '../../../../renderer/store/models';
 import { IModel } from '../../../../renderer/interfaces/IModel';
 import { IIncrement } from '../../../../renderer/interfaces/IIncrement';
 import { IProduct } from '../../../../renderer/interfaces/IProduct';
+import ModelHeader from '../../../../renderer/components/Model/Header';
+import modelsReducer from '../../../../renderer/store/models';
+import '@testing-library/jest-dom';
 
-// Mock useNavigate hook
 const navigateMock = jest.fn();
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
@@ -68,13 +67,10 @@ describe('ModelHeader Component', () => {
       />,
     );
 
-    // Check if the model name is rendered
     expect(screen.getByText(mockModel.name)).toBeInTheDocument();
 
-    // Simulate a click event on the header
     fireEvent.click(screen.getByText(mockModel.name));
 
-    // Verify that navigate was called with the correct URL
     expect(navigateMock).toHaveBeenCalledWith(
       `/products/${mockProduct.id}/increments/${mockIncrement.id}/models/${mockModel.id}`,
     );

@@ -1,3 +1,6 @@
+import { Model } from './Model';
+import { Product } from './Product';
+import { v4 as uuidv4 } from 'uuid';
 import {
   Column,
   CreateDateColumn,
@@ -10,16 +13,12 @@ import {
 } from 'typeorm';
 import {
   IsUUID,
-  IsDate,
   IsString,
   MaxLength,
   Min,
   Max,
   IsInt,
 } from 'class-validator';
-import { v4 as uuidv4 } from 'uuid';
-import { Product } from './Product';
-import { Model } from './Model';
 
 @Entity('Increment')
 export class Increment {

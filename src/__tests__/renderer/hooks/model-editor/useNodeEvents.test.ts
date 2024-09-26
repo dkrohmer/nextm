@@ -1,6 +1,5 @@
 import { renderHook, act } from '@testing-library/react-hooks';
 import { Graph, Cell } from '@antv/x6';
-import useNodeEvents from '../../../../renderer/hooks/model-editor/useNodeEvents';
 import {
   setSelectedNodeId,
   setSelectedEdgeId,
@@ -21,8 +20,8 @@ import {
   setZoneTrustLevel,
   setZoneDescription,
 } from '../../../../renderer/store/modelEditor';
+import useNodeEvents from '../../../../renderer/hooks/model-editor/useNodeEvents';
 
-// Mock useDispatch and useSelector
 const mockUseDispatch = jest.fn();
 const mockUseSelector = jest.fn();
 
@@ -45,7 +44,6 @@ describe('useNodeEvents hook', () => {
   beforeEach(() => {
     jest.clearAllMocks();
 
-    // Mock Graph
     mockGraph = {
       on: jest.fn((event: string, callback: Function) => {
         if (event === 'node:selected') nodeSelectedCallback = callback;
@@ -56,11 +54,10 @@ describe('useNodeEvents hook', () => {
       getSelectedCells: jest.fn(() => []),
     } as unknown as Graph;
 
-    // Mock Cell with proper type predicate for `isNode`
     mockCell = {
       id: 'mockCellId',
-      shape: 'actor', // We set the shape initially since it's read-only
-      isNode: jest.fn(() => true), // Mock type predicate correctly
+      shape: 'actor',
+      isNode: jest.fn(() => true),
       getAttrs: jest.fn(() => ({
         text: { text: 'Mock Text' },
         name: { text: 'Actor Name' },
@@ -76,7 +73,6 @@ describe('useNodeEvents hook', () => {
       isNode: () => boolean;
     };
 
-    // Mock useSelector responses
     mockUseSelector.mockImplementation((selector: any) =>
       selector({
         modelEditor: { selectedNodeId: null },
@@ -93,7 +89,6 @@ describe('useNodeEvents hook', () => {
   it('should handle node:selected event', () => {
     renderHook(() => useNodeEvents(mockGraph));
 
-    // Simulate node:selected event
     act(() => {
       nodeSelectedCallback({ cell: mockCell });
     });
@@ -105,7 +100,6 @@ describe('useNodeEvents hook', () => {
   });
 
   it('should handle node:unselected event', () => {
-    // Mock selectedNodeId to match mockCell.id
     mockUseSelector.mockImplementation((selector: any) =>
       selector({
         modelEditor: { selectedNodeId: 'mockCellId' },
@@ -115,7 +109,6 @@ describe('useNodeEvents hook', () => {
 
     renderHook(() => useNodeEvents(mockGraph));
 
-    // Simulate node:unselected event
     act(() => {
       nodeUnselectedCallback({ cell: mockCell });
     });
@@ -127,7 +120,6 @@ describe('useNodeEvents hook', () => {
   it('should handle node:contextmenu event for an actor', () => {
     renderHook(() => useNodeEvents(mockGraph));
 
-    // Simulate node:contextmenu event
     act(() => {
       nodeContextmenuCallback({
         cell: mockCell,
@@ -152,7 +144,6 @@ describe('useNodeEvents hook', () => {
   });
 
   it('should handle node:contextmenu event for a system', () => {
-    // Re-initialize the mockCell with `system` shape
     mockCell = {
       ...mockCell,
       shape: 'system',
@@ -160,7 +151,6 @@ describe('useNodeEvents hook', () => {
 
     renderHook(() => useNodeEvents(mockGraph));
 
-    // Simulate node:contextmenu event
     act(() => {
       nodeContextmenuCallback({
         cell: mockCell,
@@ -199,7 +189,6 @@ describe('useNodeEvents hook', () => {
   });
 
   it('should handle node:contextmenu event for a zone', () => {
-    // Re-initialize the mockCell with `zone` shape
     mockCell = {
       ...mockCell,
       shape: 'zone',
@@ -207,7 +196,6 @@ describe('useNodeEvents hook', () => {
 
     renderHook(() => useNodeEvents(mockGraph));
 
-    // Simulate node:contextmenu event
     act(() => {
       nodeContextmenuCallback({
         cell: mockCell,
@@ -215,7 +203,6 @@ describe('useNodeEvents hook', () => {
       });
     });
 
-    // Verify that the correct zone-related dispatch actions are called
     expect(mockUseDispatch).toHaveBeenCalledWith(setZoneName('Actor Name'));
     expect(mockUseDispatch).toHaveBeenCalledWith(
       setZoneTrustLevel('High Trust'),
@@ -230,17 +217,15 @@ describe('useNodeEvents hook', () => {
   });
 
   it('should handle node:contextmenu event when explicitObjectSelection is false', () => {
-    // Mock useSelector to return explicitObjectSelection as false
     mockUseSelector.mockImplementation((selector: any) =>
       selector({
         modelEditor: { selectedNodeId: null },
-        settings: { explicitObjectSelection: false }, // explicitObjectSelection is false
+        settings: { explicitObjectSelection: false },
       }),
     );
 
     renderHook(() => useNodeEvents(mockGraph));
 
-    // Simulate node:contextmenu event
     act(() => {
       nodeContextmenuCallback({
         cell: mockCell,
@@ -251,21 +236,18 @@ describe('useNodeEvents hook', () => {
     expect(mockUseDispatch).toHaveBeenCalledWith(
       setTextModeInputValue('Mock Text'),
     );
-    // Other dispatch checks here...
   });
 
   it('should handle node:contextmenu event when explicitObjectSelection is true and selectedNodeId matches cell.id', () => {
-    // Mock useSelector to return explicitObjectSelection as true and selectedNodeId matching cell.id
     mockUseSelector.mockImplementation((selector: any) =>
       selector({
-        modelEditor: { selectedNodeId: 'mockCellId' }, // selectedNodeId matches cell.id
-        settings: { explicitObjectSelection: true }, // explicitObjectSelection is true
+        modelEditor: { selectedNodeId: 'mockCellId' },
+        settings: { explicitObjectSelection: true },
       }),
     );
 
     renderHook(() => useNodeEvents(mockGraph));
 
-    // Simulate node:contextmenu event
     act(() => {
       nodeContextmenuCallback({
         cell: mockCell,
@@ -276,6 +258,5 @@ describe('useNodeEvents hook', () => {
     expect(mockUseDispatch).toHaveBeenCalledWith(
       setTextModeInputValue('Mock Text'),
     );
-    // Other dispatch checks here...
   });
 });

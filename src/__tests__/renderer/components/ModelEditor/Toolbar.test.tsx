@@ -1,13 +1,12 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import { Graph as x6Graph } from '@antv/x6';
 import CustomToolbar from '../../../../renderer/components/ModelEditor/Toolbar';
 import modelEditorReducer from '../../../../renderer/store/modelEditor';
+import '@testing-library/jest-dom';
 
-// Mock the sub-components
 jest.mock(
   '../../../../renderer/components/ModelEditor/ToolbarSave',
   () =>
@@ -107,28 +106,24 @@ jest.mock(
     },
 );
 
-// Create a mock Graph instance
 const mockGraph = new x6Graph({
   container: document.createElement('div'),
 });
 
-// Create a test store with the necessary slices
 const store = configureStore({
   reducer: {
     modelEditor: modelEditorReducer,
   },
 });
 
-// Helper function to render components with Redux provider
 const renderWithRedux = (component: React.ReactElement) => {
   return render(<Provider store={store}>{component}</Provider>);
 };
 
 describe('CustomToolbar Component', () => {
   beforeEach(() => {
-    // Set initial state for Redux store
     store.dispatch({
-      type: 'modelEditor/setInitialData', // Use appropriate action if required
+      type: 'modelEditor/setInitialData',
       payload: {},
     });
   });
@@ -136,7 +131,6 @@ describe('CustomToolbar Component', () => {
   it('renders all toolbar components with the correct props', () => {
     renderWithRedux(<CustomToolbar graph={mockGraph} />);
 
-    // Check if all toolbar components are rendered
     expect(screen.getByTestId('toolbar-save')).toBeInTheDocument();
     expect(screen.getByTestId('toolbar-export')).toBeInTheDocument();
     expect(screen.getByTestId('toolbar-import')).toBeInTheDocument();
@@ -152,6 +146,4 @@ describe('CustomToolbar Component', () => {
     expect(screen.getByTestId('toolbar-delete')).toBeInTheDocument();
     expect(screen.getByTestId('toolbar-saveandclose')).toBeInTheDocument();
   });
-
-  // Additional tests can be added here as needed
 });

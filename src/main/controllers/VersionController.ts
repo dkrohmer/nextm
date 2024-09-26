@@ -1,5 +1,3 @@
-// src/controllers/VersionController.ts
-
 import { ipcMain } from 'electron';
 import { VersionService } from '../services/VersionService';
 
@@ -7,7 +5,6 @@ function validateSortDirection(sort: string): boolean {
   return ['asc', 'desc'].includes(sort);
 }
 
-// src/controllers/ModelController.ts
 export class VersionController {
   private versionService: VersionService;
 
@@ -51,7 +48,6 @@ export class VersionController {
           height,
         });
 
-        // Return the created version with the graph still as an object for immediate use
         return { ...newVersion, payload: graphJson };
       } catch (error) {
         return error;
@@ -67,10 +63,10 @@ export class VersionController {
         let sortby = (data.sortby as string) || 'createdAt';
         const modelId = data.modelId as string | undefined;
 
-        sortby = 'createdAt'; // default sort field if invalid
+        sortby = 'createdAt';
 
         if (!validateSortDirection(sort)) {
-          sort = 'desc'; // Default to ascending if invalid
+          sort = 'desc';
         }
         const { versions, versionsCount } =
           await this.versionService.getAllVersions(sortby, sort, modelId);
@@ -92,7 +88,7 @@ export class VersionController {
         if (version) {
           const payloadWithParsedGraph = {
             ...version,
-            payload: JSON.parse(version.payload), // Parse the payload back to JSON object
+            payload: JSON.parse(version.payload),
           };
           return payloadWithParsedGraph;
         }

@@ -1,11 +1,8 @@
-// src/__tests__/renderer/hooks/useFetchVersionThumbnail.test.ts
-
 import { render } from '@testing-library/react';
 import { useDispatch } from 'react-redux';
-import useFetchVersionThumbnail from '../../../renderer/hooks/useFetchVersionThumbnail';
 import { fetchLatestVersionThumbnail } from '../../../renderer/services/api/versions';
+import useFetchVersionThumbnail from '../../../renderer/hooks/useFetchVersionThumbnail';
 
-// Mock dependencies
 jest.mock('react-redux', () => ({
   useDispatch: jest.fn(),
 }));
@@ -14,7 +11,6 @@ jest.mock('../../../renderer/services/api/versions', () => ({
   fetchLatestVersionThumbnail: jest.fn(),
 }));
 
-// Helper component to test the hook
 function TestComponent({ modelId }: { modelId: string }) {
   useFetchVersionThumbnail(modelId);
   return null;
@@ -24,7 +20,6 @@ describe('useFetchVersionThumbnail', () => {
   let dispatchMock: jest.Mock;
 
   beforeEach(() => {
-    // Mock the dispatch function
     dispatchMock = jest.fn();
     (useDispatch as unknown as jest.Mock).mockReturnValue(dispatchMock);
   });
@@ -60,7 +55,6 @@ describe('useFetchVersionThumbnail', () => {
       fetchLatestVersionThumbnail({ modelId: 'model1' }),
     );
 
-    // Re-render with a different modelId
     rerender(<TestComponent modelId="model2" />);
 
     expect(dispatchMock).toHaveBeenCalledWith(

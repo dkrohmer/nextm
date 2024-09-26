@@ -1,5 +1,3 @@
-// ActionsEdit.test.tsx
-
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
@@ -9,7 +7,6 @@ import ActionsEdit from '../../../../renderer/components/Increment/ActionsEdit';
 import incrementsReducer from '../../../../renderer/store/increments';
 import { IIncrement } from '../../../../renderer/interfaces/IIncrement';
 
-// Setup a test store with only the necessary slices
 const store = configureStore({
   reducer: {
     increments: incrementsReducer,
@@ -36,7 +33,7 @@ describe('ActionsEdit Component', () => {
 
     const editButton = screen.getByRole('button');
     expect(editButton).toBeInTheDocument();
-    expect(editButton.querySelector('.pencil.icon')).toBeInTheDocument(); // Check for the pencil icon
+    expect(editButton.querySelector('.pencil.icon')).toBeInTheDocument();
 
     fireEvent.mouseEnter(editButton);
     expect(screen.getByText(/edit increment/i)).toBeInTheDocument();
@@ -76,7 +73,7 @@ describe('ActionsEdit Component', () => {
     fireEvent.mouseEnter(editButton);
     expect(screen.getByText(/edit increment/i)).toBeInTheDocument();
 
-    fireEvent.click(document.body); // clicking outside should trigger onClose
+    fireEvent.click(document.body);
 
     expect(screen.queryByText(/edit increment/i)).not.toBeInTheDocument();
   });

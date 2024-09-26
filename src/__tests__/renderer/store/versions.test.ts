@@ -1,3 +1,4 @@
+import type { IVersion } from '../../../renderer/interfaces/IVersion';
 import reducer, {
   initialState,
   VersionsState,
@@ -7,7 +8,6 @@ import {
   addLatestVersion,
   fetchLatestVersionThumbnail,
 } from '../../../renderer/services/api/versions';
-import type { IVersion } from '../../../renderer/interfaces/IVersion';
 
 describe('versionsSlice', () => {
   let initialVersionsState: VersionsState;

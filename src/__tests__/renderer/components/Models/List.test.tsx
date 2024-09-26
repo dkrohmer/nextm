@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
-import List from '../../../../renderer/components/Models/List';
+import { IModel } from '../../../../renderer/interfaces/IModel';
 import modelsReducer, {
   initialModelsState,
   ModelsState,
@@ -15,9 +15,8 @@ import incrementsReducer, {
   initialIncrementsState,
   IncrementsState,
 } from '../../../../renderer/store/increments';
-import { IModel } from '../../../../renderer/interfaces/IModel';
+import List from '../../../../renderer/components/Models/List';
 
-// Mock the Model component
 jest.mock(
   '../../../../renderer/components/Model',
   () =>
@@ -26,7 +25,6 @@ jest.mock(
     },
 );
 
-// Define RootState interface and createTestStore function
 interface RootState {
   models: ModelsState;
   products: ProductsState;
@@ -52,7 +50,6 @@ const renderWithStore = (
   return render(<Provider store={store}>{ui}</Provider>);
 };
 
-// Tests
 describe('List Component', () => {
   const mockProduct = {
     id: '1',
@@ -81,7 +78,6 @@ describe('List Component', () => {
       initialState,
     );
 
-    // Check if Model components are rendered
     expect(screen.getAllByText('Model Component').length).toBe(2);
   });
 
@@ -96,7 +92,6 @@ describe('List Component', () => {
       emptyState,
     );
 
-    // Ensure that Model components are not rendered
     expect(screen.queryByText('Model Component')).not.toBeInTheDocument();
   });
 
@@ -111,7 +106,6 @@ describe('List Component', () => {
       loadingState,
     );
 
-    // Ensure that Model components are not rendered
     expect(screen.queryByText('Model Component')).not.toBeInTheDocument();
   });
 
@@ -126,7 +120,6 @@ describe('List Component', () => {
       errorState,
     );
 
-    // Ensure that Model components are not rendered
     expect(screen.queryByText('Model Component')).not.toBeInTheDocument();
   });
 });

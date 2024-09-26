@@ -1,12 +1,9 @@
-import React from 'react';
 import { render, screen } from '@testing-library/react';
+import Products from '../../../../renderer/components/Products';
 import '@testing-library/jest-dom';
-import Products from '../../../../renderer/components/Products'; // Adjust the import path if necessary
 
-// Mock the useFetchProducts hook
 jest.mock('../../../../renderer/hooks/useFetchProducts', () => jest.fn());
 
-// Mock the subcomponents used in Products
 jest.mock('../../../../renderer/components/Products/Breadcrumbs', () =>
   jest.fn(() => <div data-testid="breadcrumbs" />),
 );
@@ -40,21 +37,12 @@ describe('Products Component', () => {
   it('renders all subcomponents correctly', () => {
     render(<Products />);
 
-    // Check if Breadcrumbs is rendered
     expect(screen.getByTestId('breadcrumbs')).toBeInTheDocument();
-
-    // Check if Filters and Add components are rendered
     expect(screen.getByTestId('filters')).toBeInTheDocument();
     expect(screen.getByTestId('add')).toBeInTheDocument();
-
-    // Check if the Table is rendered
     expect(screen.getByTestId('table')).toBeInTheDocument();
-
-    // Check if Pagination and ItemsPerPage are rendered
     expect(screen.getByTestId('pagination')).toBeInTheDocument();
     expect(screen.getByTestId('items-per-page')).toBeInTheDocument();
-
-    // Check if ConfirmDelete and Modal are rendered
     expect(screen.getByTestId('confirm-delete')).toBeInTheDocument();
     expect(screen.getByTestId('modal')).toBeInTheDocument();
   });
@@ -63,7 +51,6 @@ describe('Products Component', () => {
     const mockUseFetchProducts = require('../../../../renderer/hooks/useFetchProducts');
     render(<Products />);
 
-    // Ensure the hook is called when the component is rendered
     expect(mockUseFetchProducts).toHaveBeenCalled();
   });
 });

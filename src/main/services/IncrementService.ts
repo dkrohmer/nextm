@@ -1,13 +1,15 @@
-import { IncrementRepository } from '../repositories/IncrementRepository';
 import { Increment } from '../models/Increment';
+import { IncrementRepository } from '../repositories/IncrementRepository';
 import { ProductRepository } from '../repositories/ProductRepository';
 import { buildIncrementEntity } from '../helpers/entityBuilder';
 
 export class IncrementService {
   private incrementRepository = new IncrementRepository();
-
   private productRepository = new ProductRepository();
 
+  /**
+   * create increment
+   */
   async createIncrement(data: Increment): Promise<Increment> {
     const { productId } = data;
 
@@ -19,14 +21,11 @@ export class IncrementService {
       throw new Error('Product not found');
     }
 
-    // Find the latest version number for the given modelId
     const latestIncrement =
       await this.incrementRepository.getLatestIncrement(productId);
-    // Set the new version number
     const newIncrementIndex = latestIncrement
       ? latestIncrement.incrementIndex + 1
       : 0;
-    // increment.incrementIndex = newIncrementIndex
 
     const increment: Increment = buildIncrementEntity(
       { ...data, incrementIndex: null },
@@ -41,6 +40,9 @@ export class IncrementService {
     return serializedNewIncrement;
   }
 
+  /**
+   * get all increments
+   */
   async getAllIncrements(
     sortBy: string,
     sort: 'asc' | 'desc',
@@ -54,6 +56,9 @@ export class IncrementService {
     return { increments: serializedIncrements, incrementsCount };
   }
 
+  /**
+   * get one increment
+   */
   async getIncrementById(
     id: string,
     eager: boolean,
@@ -66,6 +71,9 @@ export class IncrementService {
     return serializedIncrement;
   }
 
+  /**
+   * get latest increment
+   */
   async getLatestIncrement(productId?: string): Promise<Increment | null> {
     const increment =
       await this.incrementRepository.getLatestIncrement(productId);
@@ -73,6 +81,9 @@ export class IncrementService {
     return serializedIncrement;
   }
 
+  /**
+   * update increment
+   */
   async updateIncrement(
     id: string,
     data: Partial<Increment>,
@@ -82,6 +93,9 @@ export class IncrementService {
     return serializedIncrement;
   }
 
+  /**
+   * delete increment
+   */
   async deleteIncrement(id: string): Promise<void> {
     await this.incrementRepository.deleteIncrement(id);
   }

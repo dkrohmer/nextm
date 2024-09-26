@@ -1,13 +1,12 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import '@testing-library/jest-dom';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
+import { IModel } from '../../../../renderer/interfaces/IModel';
 import ActionsDelete from '../../../../renderer/components/Model/ActionsDelete';
 import modelsReducer from '../../../../renderer/store/models';
-import { IModel } from '../../../../renderer/interfaces/IModel';
+import '@testing-library/jest-dom';
 
-// Setup a test store with only the necessary slices
 const store = configureStore({
   reducer: {
     models: modelsReducer,
@@ -31,12 +30,10 @@ describe('ActionsDelete Component', () => {
 
     const deleteButton = screen.getByRole('button');
     expect(deleteButton).toBeInTheDocument();
-    expect(deleteButton.querySelector('i.trash.icon')).toBeInTheDocument(); // Check for the trash icon
+    expect(deleteButton.querySelector('i.trash.icon')).toBeInTheDocument();
 
-    // Trigger the popup content to appear
     fireEvent.mouseEnter(deleteButton);
 
-    // Wait for the popup content to be visible
     await waitFor(() => {
       expect(screen.getByText(/Delete model/i)).toBeInTheDocument();
       expect(screen.getByText(/"Test Model"/)).toBeInTheDocument();
@@ -61,14 +58,12 @@ describe('ActionsDelete Component', () => {
     const deleteButton = screen.getByRole('button');
     fireEvent.mouseEnter(deleteButton);
 
-    // Wait for the popup content to be visible
     await waitFor(() => {
       expect(screen.getByText(/Delete model/i)).toBeInTheDocument();
     });
 
     fireEvent.mouseLeave(deleteButton);
 
-    // Wait for the popup content to be hidden
     await waitFor(() => {
       expect(screen.queryByText(/Delete model/i)).not.toBeInTheDocument();
     });

@@ -1,8 +1,8 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import '@testing-library/jest-dom';
 import { jest } from '@jest/globals';
-import SystemModalName from '../../../../renderer/components/ModelEditor/SystemModalName'; // Adjust the import path if necessary
 import { setSystemName } from '../../../../renderer/store/modelEditor';
+import SystemModalName from '../../../../renderer/components/ModelEditor/SystemModalName';
+import '@testing-library/jest-dom';
 
 const mockDispatch = jest.fn();
 const mockUseSelector = jest.fn();

@@ -1,5 +1,3 @@
-// src/controllers/ProductController.ts
-
 import { ipcMain } from 'electron';
 import { IncrementService } from '../services/IncrementService';
 import { Increment } from '../models/Increment';
@@ -19,7 +17,6 @@ function validateSortDirection(sort: string): boolean {
   return ['asc', 'desc'].includes(sort);
 }
 
-// src/controllers/IncrementController.ts
 export class IncrementController {
   private incrementService: IncrementService;
 
@@ -59,16 +56,13 @@ export class IncrementController {
         let { sortby }: { sortby: string } = data;
         sortby = sortby || 'createdAt';
         const { productId }: { productId: string | undefined } = data;
-        // let sort = data.sort as 'asc' | 'desc';
-        // let sortby = data.sortby as string || 'createdAt';
-        // const productId = data.productId as string | undefined;
 
         if (!validateSortBy(sortby)) {
-          sortby = 'createdAt'; // default sort field if invalid
+          sortby = 'createdAt';
         }
 
         if (!validateSortDirection(sort)) {
-          sort = 'desc'; // Default to ascending if invalid
+          sort = 'desc';
         }
 
         const { increments, incrementsCount } =

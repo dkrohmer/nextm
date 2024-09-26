@@ -1,12 +1,9 @@
-import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import '@testing-library/jest-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import { jest } from '@jest/globals';
-import ModalName from '../../../../renderer/components/Products/ModalName';
 import { setProductsCurrentProduct } from '../../../../renderer/store/products';
+import ModalName from '../../../../renderer/components/Products/ModalName';
+import '@testing-library/jest-dom';
 
-// Mock useDispatch and useSelector hooks
 const mockDispatch = jest.fn();
 const mockUseSelector = jest.fn();
 
@@ -21,7 +18,6 @@ describe('ModalName Component', () => {
   });
 
   it('renders the input with the current product name', () => {
-    // Set up the mock to return a non-null productsCurrentProduct
     mockUseSelector.mockImplementation((selector: any) =>
       selector({
         products: {
@@ -36,13 +32,11 @@ describe('ModalName Component', () => {
 
     render(<ModalName />);
 
-    // Check if input field renders with the correct value
     const inputElement = screen.getByPlaceholderText('Product Name');
     expect(inputElement).toHaveValue('Old Product Name');
   });
 
   it('renders the input with an empty value when productsCurrentProduct is null', () => {
-    // Set up the mock to return a null productsCurrentProduct
     mockUseSelector.mockImplementation((selector: any) =>
       selector({
         products: {
@@ -53,13 +47,11 @@ describe('ModalName Component', () => {
 
     render(<ModalName />);
 
-    // Check if input field renders with an empty value
     const inputElement = screen.getByPlaceholderText('Product Name');
     expect(inputElement).toHaveValue('');
   });
 
   it('dispatches setProductsCurrentProduct action on input change', () => {
-    // Set up the mock to return a non-null productsCurrentProduct
     mockUseSelector.mockImplementation((selector: any) =>
       selector({
         products: {
@@ -74,12 +66,10 @@ describe('ModalName Component', () => {
 
     render(<ModalName />);
 
-    // Simulate input change
     fireEvent.change(screen.getByPlaceholderText('Product Name'), {
       target: { value: 'New Product Name' },
     });
 
-    // Check if dispatch is called with the correct action
     expect(mockDispatch).toHaveBeenCalledWith(
       setProductsCurrentProduct({
         id: '1',
@@ -104,7 +94,7 @@ describe('ModalName Component', () => {
 
     render(<ModalName />);
 
-    const longInputValue = 'A'.repeat(260); // Create a string of 260 characters
+    const longInputValue = 'A'.repeat(260);
     fireEvent.change(screen.getByPlaceholderText('Product Name'), {
       target: { value: longInputValue },
     });

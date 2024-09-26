@@ -6,10 +6,6 @@ import { Increment } from './models/Increment';
 import { Model } from './models/Model';
 import { Version } from './models/Version';
 import { Responsible } from './models/Responsible';
-import { IncrementController } from './controllers/IncrementController';
-import { ModelController } from './controllers/ModelController';
-import { ProductController } from './controllers/ProductController';
-import { VersionController } from './controllers/VersionController';
 
 export let AppDataSource: DataSource;
 

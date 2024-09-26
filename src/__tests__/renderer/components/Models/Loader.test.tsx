@@ -2,7 +2,6 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
-import Loader from '../../../../renderer/components/Models/Loader';
 import modelsReducer, {
   initialModelsState,
   ModelsState,
@@ -15,8 +14,8 @@ import incrementsReducer, {
   initialIncrementsState,
   IncrementsState,
 } from '../../../../renderer/store/increments';
+import Loader from '../../../../renderer/components/Models/Loader';
 
-// Define RootState interface and createTestStore function
 interface RootState {
   models: ModelsState;
   products: ProductsState;
@@ -42,7 +41,6 @@ const renderWithStore = (
   return render(<Provider store={store}>{ui}</Provider>);
 };
 
-// Tests
 describe('Loader Component', () => {
   const initialState = {
     models: initialModelsState,

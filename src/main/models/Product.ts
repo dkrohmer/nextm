@@ -1,3 +1,6 @@
+import { v4 as uuidv4 } from 'uuid';
+import { Responsible } from './Responsible';
+import { Increment } from './Increment';
 import {
   Column,
   CreateDateColumn,
@@ -14,9 +17,6 @@ import {
   IsOptional,
   IsNotEmpty,
 } from 'class-validator';
-import { v4 as uuidv4 } from 'uuid';
-import { Responsible } from './Responsible';
-import { Increment } from './Increment';
 
 export interface ResponsibleInput {
   firstName: string;

@@ -1,5 +1,3 @@
-// src/controllers/ProductController.ts
-
 import { ipcMain } from 'electron';
 import { ModelService } from '../services/ModelService';
 
@@ -12,7 +10,6 @@ function validateSortDirection(sort: string): boolean {
   return ['asc', 'desc'].includes(sort);
 }
 
-// src/controllers/ModelController.ts
 export class ModelController {
   private modelService: ModelService;
 
@@ -52,11 +49,11 @@ export class ModelController {
         const incrementId = data.incrementId as string | undefined;
 
         if (!validateSortBy(sortby)) {
-          sortby = 'createdAt'; // default sort field if invalid
+          sortby = 'createdAt';
         }
 
         if (!validateSortDirection(sort)) {
-          sort = 'desc'; // Default to ascending if invalid
+          sort = 'desc';
         }
 
         const { models, modelsCount } = await this.modelService.getAllModels(

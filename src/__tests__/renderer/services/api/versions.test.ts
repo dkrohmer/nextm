@@ -1,34 +1,30 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { Graph as x6Graph } from '@antv/x6';
-import versionsReducer from '../../../../renderer/store/versions';
+import { graphToPng } from '../../../../renderer/utils/graphToPng';
 import {
   fetchLatestVersion,
   fetchLatestVersionThumbnail,
   addLatestVersion,
 } from '../../../../renderer/services/api/versions';
 import windowElectron from '../../../../../mocks/window-electron';
-import { graphToPng } from '../../../../renderer/utils/graphToPng';
+import versionsReducer from '../../../../renderer/store/versions';
 
-// Mock graphToPng utility
 jest.mock('../../../../renderer/utils/graphToPng', () => ({
   graphToPng: jest.fn().mockResolvedValue('data:image/png;base64,...'),
 }));
 
-// Mock the Graph constructor to avoid DOM issues
 jest.mock('@antv/x6', () => ({
   Graph: jest.fn().mockImplementation(() => ({
     toJSON: jest.fn().mockReturnValue({ nodes: [], edges: [] }),
   })),
 }));
 
-// Set up a test store with the versionsReducer slice
 const store = configureStore({
   reducer: {
     versions: versionsReducer,
   },
 });
 
-// Tests for versions thunks
 describe('Versions Thunks with Redux Store', () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -42,7 +38,6 @@ describe('Versions Thunks with Redux Store', () => {
       getLatestVersion: jest.fn().mockResolvedValue(mockVersion),
     };
 
-    // Dispatch the fetchLatestVersion thunk
     await store.dispatch(fetchLatestVersion({ modelId: 'model-123' }));
 
     const state = store.getState().versions;
@@ -57,7 +52,6 @@ describe('Versions Thunks with Redux Store', () => {
       .fn()
       .mockRejectedValue(new Error('Failed to load increment.'));
 
-    // Dispatch the fetchLatestVersion thunk
     await store.dispatch(fetchLatestVersion({ modelId: 'model-123' }));
 
     const state = store.getState().versions;
@@ -72,7 +66,6 @@ describe('Versions Thunks with Redux Store', () => {
       getLatestVersionThumbnail: jest.fn().mockResolvedValue(mockThumbnail),
     };
 
-    // Dispatch the fetchLatestVersionThumbnail thunk
     await store.dispatch(fetchLatestVersionThumbnail({ modelId: 'model-123' }));
 
     const state = store.getState().versions;
@@ -87,7 +80,6 @@ describe('Versions Thunks with Redux Store', () => {
       .fn()
       .mockRejectedValue(new Error('Failed to load version thumbnail.'));
 
-    // Dispatch the fetchLatestVersionThumbnail thunk
     await store.dispatch(fetchLatestVersionThumbnail({ modelId: 'model-123' }));
 
     const state = store.getState().versions;
@@ -99,7 +91,6 @@ describe('Versions Thunks with Redux Store', () => {
   it('dispatches addLatestVersion and updates the store on success', async () => {
     const mockVersion = { id: '1', name: 'Version 1', createdAt: '2023-09-01' };
 
-    // Create a mock x6Graph instance
     const mockGraph = new x6Graph({
       container: document.createElement('div'),
     });
@@ -109,7 +100,6 @@ describe('Versions Thunks with Redux Store', () => {
       createVersion: jest.fn().mockResolvedValue(mockVersion),
     };
 
-    // Dispatch the addLatestVersion thunk
     await store.dispatch(
       addLatestVersion({
         modelId: 'model-123',
@@ -122,7 +112,7 @@ describe('Versions Thunks with Redux Store', () => {
     );
 
     const state = store.getState().versions;
-    expect(graphToPng).toHaveBeenCalledWith(mockGraph); // Check if graphToPng was called
+    expect(graphToPng).toHaveBeenCalledWith(mockGraph);
     expect(window.electron.createVersion).toHaveBeenCalledWith({
       modelId: 'model-123',
       payload: { graph: mockGraph.toJSON() },
@@ -136,7 +126,6 @@ describe('Versions Thunks with Redux Store', () => {
   });
 
   it('handles addLatestVersion failure correctly', async () => {
-    // Create a mock x6Graph instance
     const mockGraph = new x6Graph({
       container: document.createElement('div'),
     });
@@ -145,7 +134,6 @@ describe('Versions Thunks with Redux Store', () => {
       .fn()
       .mockRejectedValue(new Error('Failed to create version.'));
 
-    // Dispatch the addLatestVersion thunk
     await store.dispatch(
       addLatestVersion({
         graph: mockGraph,

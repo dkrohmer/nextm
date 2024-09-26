@@ -1,5 +1,5 @@
+import { compareGraphHashes } from '../../../renderer/utils/compareGraphHashes';
 import crypto from 'crypto-js';
-import { compareGraphHashes } from '../../../renderer/utils/compareGraphHashes'; // Adjust the path if necessary
 
 jest.mock('crypto-js', () => ({
   SHA256: jest.fn((input: string) => ({
@@ -18,11 +18,9 @@ describe('compareGraphHashes', () => {
 
     const result = compareGraphHashes(oldGraph, newGraph);
 
-    // Check that computeHash was called with both graphs
     expect(crypto.SHA256).toHaveBeenCalledWith(JSON.stringify(oldGraph));
     expect(crypto.SHA256).toHaveBeenCalledWith(JSON.stringify(newGraph));
 
-    // Since we're mocking the hash function to return `hash_${input}`, the hashes will match
     expect(result).toBe(true);
   });
 
@@ -32,11 +30,9 @@ describe('compareGraphHashes', () => {
 
     const result = compareGraphHashes(oldGraph, newGraph);
 
-    // Check that computeHash was called with both graphs
     expect(crypto.SHA256).toHaveBeenCalledWith(JSON.stringify(oldGraph));
     expect(crypto.SHA256).toHaveBeenCalledWith(JSON.stringify(newGraph));
 
-    // Since the mock will return different hashes for different inputs, the result should be false
     expect(result).toBe(false);
   });
 

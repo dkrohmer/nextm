@@ -5,6 +5,9 @@ import { Responsible } from '../models/Responsible';
 export class ResponsibleRepository {
   private responsibleRepository = AppDataSource.getRepository(Responsible);
 
+  /**
+   * create responsible
+   */
   async createResponsible(responsible: Responsible): Promise<Responsible> {
     const validationErrors = await validate(responsible);
 
@@ -16,6 +19,9 @@ export class ResponsibleRepository {
     return await this.responsibleRepository.save(responsible);
   }
 
+  /**
+   * get all responsibles
+   */
   async getAllResponsibles(
     productId?: string,
   ): Promise<[Responsible[], number]> {
@@ -27,10 +33,16 @@ export class ResponsibleRepository {
     return await this.responsibleRepository.findAndCount();
   }
 
+  /**
+   * get one responsible
+   */
   async getResponsibleById(id: string): Promise<Responsible | null> {
     return await this.responsibleRepository.findOneBy({ id });
   }
 
+  /**
+   * update responsible
+   */
   async updateResponsible(
     id: string,
     data: Partial<Responsible>,
@@ -54,6 +66,9 @@ export class ResponsibleRepository {
     return await this.responsibleRepository.save(updatedResponsible);
   }
 
+  /**
+   * delete responsible
+   */
   async deleteResponsible(id: string): Promise<void> {
     await this.responsibleRepository.delete(id);
   }

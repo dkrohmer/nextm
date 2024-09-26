@@ -59,7 +59,6 @@ describe('ModelController', () => {
     });
 
     expect(response).toBeUndefined();
-    // expect(console.error).toHaveBeenCalledWith(error); // Uncomment if you want to check console.error call
   });
 
   it('should handle get-all-models correctly', async () => {
@@ -188,7 +187,6 @@ describe('ModelController', () => {
     });
 
     expect(response).toBeUndefined();
-    // expect(console.error).toHaveBeenCalledWith(error); // Uncomment if you want to check console.error call
   });
 
   it('should handle get-model-by-id correctly', async () => {
@@ -222,7 +220,6 @@ describe('ModelController', () => {
     });
 
     expect(response).toBeUndefined();
-    // expect(console.error).toHaveBeenCalledWith(error); // Uncomment if you want to check console.error call
   });
 
   it('should handle get-model-by-id nulled', async () => {
@@ -235,7 +232,6 @@ describe('ModelController', () => {
     });
 
     expect(response).toBeUndefined();
-    // expect(console.error).toHaveBeenCalledWith(error); // Uncomment if you want to check console.error call
   });
 
   it('should handle update-model correctly', async () => {
@@ -271,7 +267,6 @@ describe('ModelController', () => {
     });
 
     expect(response).toBeUndefined();
-    // expect(console.error).toHaveBeenCalledWith(error); // Uncomment if you want to check console.error call
   });
 
   it('should handle update-model nulled', async () => {
@@ -284,7 +279,6 @@ describe('ModelController', () => {
     });
 
     expect(response).toBeUndefined();
-    // expect(console.error).toHaveBeenCalledWith(error); // Uncomment if you want to check console.error call
   });
 
   it('should handle delete-model correctly', async () => {
@@ -305,6 +299,5 @@ describe('ModelController', () => {
     });
 
     expect(response).toBeUndefined();
-    // expect(console.error).toHaveBeenCalledWith(error); // Uncomment if you want to check console.error call
   });
 });

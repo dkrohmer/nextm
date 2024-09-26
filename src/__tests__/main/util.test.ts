@@ -1,16 +1,16 @@
-import path from 'path';
 import { resolveHtmlPath } from '../../main/util';
+import path from 'path';
 
 describe('resolveHtmlPath', () => {
   const originalEnv = process.env;
 
   beforeEach(() => {
-    jest.resetModules(); // Clears the cache
-    process.env = { ...originalEnv }; // Make a copy
+    jest.resetModules();
+    process.env = { ...originalEnv };
   });
 
   afterEach(() => {
-    process.env = originalEnv; // Restore the original environment
+    process.env = originalEnv;
   });
 
   it('should return the correct URL in development environment', () => {
@@ -23,7 +23,7 @@ describe('resolveHtmlPath', () => {
 
   it('should return the correct URL with default port in development environment', () => {
     process.env.NODE_ENV = 'development';
-    delete process.env.PORT; // Remove PORT to test default value
+    delete process.env.PORT;
     const htmlFileName = 'index.html';
     const result = resolveHtmlPath(htmlFileName);
     expect(result).toBe('http://localhost:1212/index.html');

@@ -1,12 +1,9 @@
-// src/__tests__/renderer/hooks/useFetchModels.test.ts
-
 import { render } from '@testing-library/react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import useFetchModels from '../../../renderer/hooks/useFetchModels';
 import { fetchModels } from '../../../renderer/services/api/models';
+import useFetchModels from '../../../renderer/hooks/useFetchModels';
 
-// Mock dependencies
 jest.mock('react-redux', () => ({
   useDispatch: jest.fn(),
 }));
@@ -19,7 +16,6 @@ jest.mock('../../../renderer/services/api/models', () => ({
   fetchModels: jest.fn(),
 }));
 
-// Helper component to test the hook
 function TestComponent() {
   useFetchModels();
   return null;
@@ -29,7 +25,6 @@ describe('useFetchModels', () => {
   let dispatchMock: jest.Mock;
 
   beforeEach(() => {
-    // Explicitly cast useDispatch to Jest mock
     dispatchMock = jest.fn();
     (useDispatch as unknown as jest.Mock).mockReturnValue(dispatchMock);
     (useParams as jest.Mock).mockReturnValue({ incrementId: '123' });
@@ -64,11 +59,10 @@ describe('useFetchModels', () => {
   it('should dispatch fetchModels again if incrementId changes', () => {
     const { rerender } = render(<TestComponent />);
 
-    // Re-render with a different incrementId
     (useParams as jest.Mock).mockReturnValue({ incrementId: '456' });
     rerender(<TestComponent />);
 
-    expect(dispatchMock).toHaveBeenCalledTimes(2); // Once for each valid incrementId
+    expect(dispatchMock).toHaveBeenCalledTimes(2);
     expect(dispatchMock).toHaveBeenCalledWith(
       fetchModels({ incrementId: '456' }),
     );

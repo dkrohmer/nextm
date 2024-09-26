@@ -1,8 +1,7 @@
 import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
 import TableBody from '../../../../renderer/components/Products/TableBody';
+import '@testing-library/jest-dom';
 
-// Mock child components
 jest.mock(
   '../../../../renderer/components/Products/TableRow',
   () =>
@@ -32,7 +31,6 @@ jest.mock(
     },
 );
 
-// Mock useSelector
 const mockUseSelector = jest.fn();
 jest.mock('react-redux', () => ({
   useSelector: (selector: any) => mockUseSelector(selector),

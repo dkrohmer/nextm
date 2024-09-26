@@ -1,21 +1,19 @@
 import { configureStore } from '@reduxjs/toolkit';
-import modelsReducer from '../../../../renderer/store/models'; // Import the models reducer
 import {
   fetchModels,
   fetchModel,
   addOrUpdateModel,
   deleteModel,
 } from '../../../../renderer/services/api/models';
+import modelsReducer from '../../../../renderer/store/models';
 import windowElectron from '../../../../../mocks/window-electron';
 
-// Set up a test store with the modelsReducer slice
 const store = configureStore({
   reducer: {
     models: modelsReducer,
   },
 });
 
-// Tests for models thunks
 describe('Models Thunks with Redux Store', () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -31,7 +29,6 @@ describe('Models Thunks with Redux Store', () => {
       getAllModels: jest.fn().mockResolvedValue(mockModels),
     };
 
-    // Dispatch the fetchModels thunk
     await store.dispatch(fetchModels({ incrementId: 'increment-123' }));
 
     const state = store.getState().models;
@@ -54,7 +51,6 @@ describe('Models Thunks with Redux Store', () => {
       getModelById: jest.fn().mockResolvedValue(mockModel),
     };
 
-    // Dispatch the fetchModel thunk
     await store.dispatch(fetchModel({ modelId: '1', isEagerLoading: true }));
 
     expect(window.electron.getModelById).toHaveBeenCalledWith({
@@ -79,7 +75,6 @@ describe('Models Thunks with Redux Store', () => {
       updateModel: jest.fn().mockResolvedValue(mockModel),
     };
 
-    // Dispatch the addOrUpdateModel thunk
     await store.dispatch(
       addOrUpdateModel({ model: mockModel, incrementId: '123' }),
     );
@@ -111,7 +106,6 @@ describe('Models Thunks with Redux Store', () => {
       createModel: jest.fn().mockResolvedValue(mockCreatedModel),
     };
 
-    // Dispatch the addOrUpdateModel thunk
     await store.dispatch(
       addOrUpdateModel({ model: newModel, incrementId: '123' }),
     );
@@ -130,7 +124,6 @@ describe('Models Thunks with Redux Store', () => {
       deleteModel: jest.fn().mockResolvedValue('1'),
     };
 
-    // Dispatch the deleteModel thunk
     await store.dispatch(deleteModel('1'));
 
     const state = store.getState().models;
@@ -146,7 +139,6 @@ describe('Models Thunks with Redux Store', () => {
         .mockRejectedValue(new Error('Failed to load models.')),
     };
 
-    // Dispatch the fetchModels thunk
     await store.dispatch(fetchModels({ incrementId: 'increment-123' }));
 
     const state = store.getState().models;
@@ -161,7 +153,6 @@ describe('Models Thunks with Redux Store', () => {
       .fn()
       .mockRejectedValue(new Error('Failed to load model.'));
 
-    // Dispatch the fetchModel thunk
     await store.dispatch(fetchModel({ modelId: '1', isEagerLoading: true }));
 
     const state = store.getState().models;
@@ -183,7 +174,6 @@ describe('Models Thunks with Redux Store', () => {
       .fn()
       .mockRejectedValue(new Error('Failed to add or update model.'));
 
-    // Dispatch the addOrUpdateModel thunk
     await store.dispatch(
       addOrUpdateModel({ model: mockModel, incrementId: 'increment-123' }),
     );
@@ -197,7 +187,6 @@ describe('Models Thunks with Redux Store', () => {
       .fn()
       .mockRejectedValue(new Error('Failed to delete model.'));
 
-    // Dispatch the deleteModel thunk
     await store.dispatch(deleteModel('1'));
 
     const state = store.getState().models;

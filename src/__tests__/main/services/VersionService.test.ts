@@ -1,10 +1,10 @@
-import 'reflect-metadata';
 import { VersionService } from '../../../main/services/VersionService';
 import { VersionRepository } from '../../../main/repositories/VersionRepository';
 import { ModelRepository } from '../../../main/repositories/ModelRepository';
 import { buildVersionEntity } from '../../../main/helpers/entityBuilder';
 import { Version } from '../../../main/models/Version';
 import { Model } from '../../../main/models/Model';
+import 'reflect-metadata';
 
 jest.mock('../../../main/repositories/VersionRepository');
 jest.mock('../../../main/repositories/ModelRepository');

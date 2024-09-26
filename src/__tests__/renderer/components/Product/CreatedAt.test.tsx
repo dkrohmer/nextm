@@ -1,14 +1,13 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import { Grid } from 'semantic-ui-react';
-import CreatedAt from '../../../../renderer/components/Product/CreatedAt';
 import { RootState } from '../../../../renderer/store';
 import { initialProductsState } from '../../../../renderer/store/products';
+import CreatedAt from '../../../../renderer/components/Product/CreatedAt';
+import '@testing-library/jest-dom';
 
-// Mock state
 const mockProductState: Partial<RootState> = {
   products: {
     ...initialProductsState,
@@ -49,7 +48,6 @@ describe('CreatedAt Component', () => {
   });
 
   it('renders "n/a" when createdAt is not available', () => {
-    // Mock state where createdAt is undefined
     const mockEmptyState: Partial<RootState> = {
       products: {
         ...initialProductsState,

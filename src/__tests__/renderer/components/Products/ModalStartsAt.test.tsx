@@ -1,13 +1,9 @@
-import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import '@testing-library/jest-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import { jest } from '@jest/globals';
-import ModalStartsAt from '../../../../renderer/components/Products/ModalStartsAt'; // Adjust the import path if necessary
 import { setProductsCurrentProduct } from '../../../../renderer/store/products';
-import { formatDate } from '../../../../renderer/utils/formatters';
+import ModalStartsAt from '../../../../renderer/components/Products/ModalStartsAt';
+import '@testing-library/jest-dom';
 
-// Mock useDispatch and useSelector hooks
 const mockDispatch = jest.fn();
 const mockUseSelector = jest.fn();
 
@@ -26,7 +22,6 @@ describe('ModalStartsAt Component', () => {
   });
 
   it('renders the input with the current product startsAt date', () => {
-    // Set up the mock to return a non-null productsCurrentProduct
     mockUseSelector.mockImplementation((selector: any) =>
       selector({
         products: {
@@ -42,18 +37,15 @@ describe('ModalStartsAt Component', () => {
 
     render(<ModalStartsAt />);
 
-    // Access the input element directly within the wrapper div with data-testid
     const inputElement = screen
       .getByTestId('product-starts-at-input')
       .querySelector('input');
 
-    // Ensure the input element is found and check its value
     expect(inputElement).toBeInTheDocument();
     expect(inputElement).toHaveValue('2023-01-01');
   });
 
   it('renders the input with an empty value when productsCurrentProduct is null', () => {
-    // Set up the mock to return a null productsCurrentProduct
     mockUseSelector.mockImplementation((selector: any) =>
       selector({
         products: {
@@ -64,18 +56,15 @@ describe('ModalStartsAt Component', () => {
 
     render(<ModalStartsAt />);
 
-    // Access the input element directly within the wrapper div with data-testid
     const inputElement = screen
       .getByTestId('product-starts-at-input')
       .querySelector('input');
 
-    // Ensure the input element is found and check its value is empty
     expect(inputElement).toBeInTheDocument();
     expect(inputElement).toHaveValue('');
   });
 
   it('dispatches setProductsCurrentProduct action on input change', () => {
-    // Set up the mock to return a non-null productsCurrentProduct
     mockUseSelector.mockImplementation((selector: any) =>
       selector({
         products: {
@@ -92,15 +81,12 @@ describe('ModalStartsAt Component', () => {
 
     render(<ModalStartsAt />);
 
-    // Access the input element directly within the wrapper div with data-testid
     const inputElement = screen
       .getByTestId('product-starts-at-input')
       .querySelector('input');
 
-    // Simulate input change
     fireEvent.change(inputElement!, { target: { value: '2023-02-01' } });
 
-    // Ensure the dispatch updates the startsAt field correctly
     expect(mockDispatch).toHaveBeenCalledWith(
       setProductsCurrentProduct({
         id: '1',
@@ -113,7 +99,6 @@ describe('ModalStartsAt Component', () => {
   });
 
   it('sets the max attribute correctly based on the endsAt date', () => {
-    // Mock the productsCurrentProduct with both startsAt and endsAt
     mockUseSelector.mockImplementation((selector: any) =>
       selector({
         products: {
@@ -130,17 +115,14 @@ describe('ModalStartsAt Component', () => {
 
     render(<ModalStartsAt />);
 
-    // Access the input element directly within the wrapper div with data-testid
     const inputElement = screen
       .getByTestId('product-starts-at-input')
       .querySelector('input');
 
-    // Ensure the max attribute is set correctly
     expect(inputElement).toHaveAttribute('max', '2023-12-31');
   });
 
   it('sets startsAt to null when the input is cleared', () => {
-    // Mock the global state with productsCurrentProduct having a startsAt date
     mockUseSelector.mockImplementation((selector: any) =>
       selector({
         products: {
@@ -157,15 +139,12 @@ describe('ModalStartsAt Component', () => {
 
     render(<ModalStartsAt />);
 
-    // Access the input element directly within the wrapper div with data-testid
     const inputElement = screen
       .getByTestId('product-starts-at-input')
       .querySelector('input');
 
-    // Simulate clearing the input (setting value to empty string)
     fireEvent.change(inputElement!, { target: { value: '' } });
 
-    // Ensure the dispatch updates the startsAt field to null
     expect(mockDispatch).toHaveBeenCalledWith(
       setProductsCurrentProduct({
         id: '1',

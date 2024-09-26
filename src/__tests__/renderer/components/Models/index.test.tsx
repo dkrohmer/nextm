@@ -2,7 +2,6 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
-import Models from '../../../../renderer/components/Models/index';
 import modelsReducer, {
   initialModelsState,
   ModelsState,
@@ -15,9 +14,9 @@ import incrementsReducer, {
   IncrementsState,
   initialIncrementsState,
 } from '../../../../renderer/store/increments';
+import Models from '../../../../renderer/components/Models/index';
 import useFetchModels from '../../../../renderer/hooks/useFetchModels';
 
-// Mock the dependent components and hooks
 jest.mock('../../../../renderer/hooks/useFetchModels');
 jest.mock(
   '../../../../renderer/components/Models/Loader',
@@ -69,7 +68,6 @@ jest.mock(
     },
 );
 
-// Define RootState interface and createTestStore function
 interface RootState {
   models: ModelsState;
   products: ProductsState;
@@ -95,7 +93,6 @@ const renderWithStore = (
   return render(<Provider store={store}>{ui}</Provider>);
 };
 
-// Tests
 describe('Models Component', () => {
   const mockProduct = { id: '1', name: 'Test Product', createdAt: '1' };
   const mockIncrement = { id: '1', name: 'Test Increment', productId: '1' };
@@ -117,7 +114,6 @@ describe('Models Component', () => {
       initialState,
     );
 
-    // Check if Add and Modal components are rendered
     expect(screen.getByText('Add Component')).toBeInTheDocument();
     expect(screen.getByText('Modal Component')).toBeInTheDocument();
   });
@@ -128,7 +124,6 @@ describe('Models Component', () => {
       initialState,
     );
 
-    // Check if all the components are rendered
     expect(screen.getByText('Loader Component')).toBeInTheDocument();
     expect(screen.getByText('Error Component')).toBeInTheDocument();
     expect(screen.getByText('Empty Component')).toBeInTheDocument();
@@ -141,7 +136,6 @@ describe('Models Component', () => {
       initialState,
     );
 
-    // Check if ConfirmDelete component is rendered
     expect(screen.getByText('ConfirmDelete Component')).toBeInTheDocument();
   });
 });

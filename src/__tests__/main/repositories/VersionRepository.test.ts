@@ -1,6 +1,5 @@
 import { DataSource } from 'typeorm';
-import { v4 as uuidv4 } from 'uuid'; // Import the UUID generator
-import { Version } from '../../../main/models/Version';
+import { v4 as uuidv4 } from 'uuid';
 import { Model } from '../../../main/models/Model';
 import { initializeDataSource, getDataSource } from '../../../main/database';
 import { VersionRepository } from '../../../main/repositories/VersionRepository';
@@ -16,12 +15,10 @@ beforeAll(async () => {
   dataSource = getDataSource();
   versionRepository = new VersionRepository();
 
-  // Create a product to be used for the increment entries
   const product = new Product();
   product.name = 'Test Product';
   const savedProduct = await dataSource.getRepository(Product).save(product);
 
-  // Create an increment to be used for the model entries
   const increment = new Increment();
   increment.name = 'Test Increment';
   increment.incrementIndex = 1;
@@ -30,7 +27,6 @@ beforeAll(async () => {
     .getRepository(Increment)
     .save(increment);
 
-  // Create a model to be used for the version entries
   const model = new Model();
   model.name = 'Test Model';
   model.increment = savedIncrement;
@@ -45,10 +41,10 @@ afterAll(async () => {
 describe('VersionRepository', () => {
   it('should create a new version', async () => {
     const version = {
-      payload: JSON.stringify({ key: 'value' }), // Valid stringified JSON
-      modelId, // Valid UUID
+      payload: JSON.stringify({ key: 'value' }),
+      modelId,
       versionIndex: 1,
-      thumbnail: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA', // Valid PNG Data URI
+      thumbnail: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA',
       x: 1.0,
       y: 2.0,
       height: 10.0,
@@ -59,7 +55,7 @@ describe('VersionRepository', () => {
 
     expect(savedVersion).toHaveProperty('id');
     expect(savedVersion.payload).toBe(JSON.stringify({ key: 'value' }));
-    expect(savedVersion.modelId).toBe(modelId); // Match the correct modelId
+    expect(savedVersion.modelId).toBe(modelId);
     expect(savedVersion.thumbnail).toContain('data:image/png;base64,');
   });
 
@@ -71,7 +67,7 @@ describe('VersionRepository', () => {
 
     expect(Array.isArray(versions)).toBe(true);
     expect(typeof count).toBe('number');
-    expect(count).toBeGreaterThan(0); // There should be at least one version
+    expect(count).toBeGreaterThan(0);
   });
 
   it('should get all versions for a modelId', async () => {
@@ -88,10 +84,10 @@ describe('VersionRepository', () => {
 
   it('should get a version by id', async () => {
     const version = {
-      payload: JSON.stringify({ key: 'FindByID' }), // Valid stringified JSON
+      payload: JSON.stringify({ key: 'FindByID' }),
       modelId,
       versionIndex: 2,
-      thumbnail: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA', // Valid PNG Data URI
+      thumbnail: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA',
       x: 1.0,
       y: 2.0,
       height: 10.0,
@@ -114,10 +110,10 @@ describe('VersionRepository', () => {
 
   it('should get the latest version by modelId', async () => {
     const version = {
-      payload: JSON.stringify({ key: 'Latest Version' }), // Valid stringified JSON
+      payload: JSON.stringify({ key: 'Latest Version' }),
       modelId,
       versionIndex: 3,
-      thumbnail: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA', // Valid PNG Data URI
+      thumbnail: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA',
       x: 1.0,
       y: 2.0,
       height: 10.0,
@@ -142,15 +138,15 @@ describe('VersionRepository', () => {
     await versionRepository.deleteEarliestVersionByModelId(modelId);
     const earliestVersion =
       await versionRepository.getLatestVersionByModelId(modelId);
-    expect(earliestVersion!.versionIndex).not.toBe(1); // Ensure that the earliest version is deleted
+    expect(earliestVersion!.versionIndex).not.toBe(1);
   });
 
   it('should delete a version', async () => {
     const version = {
-      payload: JSON.stringify({ key: 'Delete Version' }), // Valid stringified JSON
+      payload: JSON.stringify({ key: 'Delete Version' }),
       modelId,
       versionIndex: 4,
-      thumbnail: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA', // Valid PNG Data URI
+      thumbnail: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA',
       x: 1.0,
       y: 2.0,
       height: 10.0,
@@ -175,10 +171,10 @@ describe('VersionRepository', () => {
   describe('getLatestVersionThumbnailByModelId', () => {
     it('should return the latest version thumbnail for a model', async () => {
       const version = {
-        payload: JSON.stringify({ key: 'Thumbnail Test' }), // Valid stringified JSON
+        payload: JSON.stringify({ key: 'Thumbnail Test' }),
         modelId,
         versionIndex: 5,
-        thumbnail: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA', // Valid PNG Data URI
+        thumbnail: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA',
         x: 1.0,
         y: 2.0,
         height: 10.0,
@@ -193,7 +189,7 @@ describe('VersionRepository', () => {
     });
 
     it('should return null if no version is found for the modelId', async () => {
-      const nonExistentModelId = uuidv4(); // Generate a valid UUID
+      const nonExistentModelId = uuidv4();
       const thumbnail =
         await versionRepository.getLatestVersionThumbnailByModelId(
           nonExistentModelId,
@@ -203,17 +199,16 @@ describe('VersionRepository', () => {
 
     it('should throw an error when validation fails', async () => {
       const invalidVersion = {
-        payload: 'Invalid Payload', // Invalid payload (not a valid JSON string)
-        modelId, // Valid UUID
+        payload: 'Invalid Payload',
+        modelId,
         versionIndex: 1,
-        thumbnail: 'invalid-thumbnail', // Invalid thumbnail (not a valid PNG Data URI)
+        thumbnail: 'invalid-thumbnail',
         x: 1.0,
         y: 2.0,
         height: 10.0,
         width: 20.0,
       };
 
-      // Expect the createVersion method to throw an error due to validation failure
       await expect(
         versionRepository.createVersion(invalidVersion),
       ).rejects.toThrow('Validation failed');

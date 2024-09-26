@@ -60,7 +60,6 @@ describe('IncrementController', () => {
     });
 
     expect(response).toBeUndefined();
-    // expect(console.error).toHaveBeenCalledWith(error); // Uncomment if you want to check console.error call
   });
 
   it('should handle get-all-increments correctly', async () => {
@@ -189,7 +188,6 @@ describe('IncrementController', () => {
     });
 
     expect(response).toBeUndefined();
-    // expect(console.error).toHaveBeenCalledWith(error); // Uncomment if you want to check console.error call
   });
 
   it('should handle get-all-increments with default sortby', async () => {
@@ -251,7 +249,6 @@ describe('IncrementController', () => {
     });
 
     expect(response).toBeUndefined();
-    // expect(console.error).toHaveBeenCalledWith(error); // Uncomment if you want to check console.error call
   });
 
   it('should handle get-increment-by-id nulled', async () => {
@@ -264,7 +261,6 @@ describe('IncrementController', () => {
     });
 
     expect(response).toBeUndefined();
-    // expect(console.error).toHaveBeenCalledWith(error); // Uncomment if you want to check console.error call
   });
 
   it('should handle get-latest-increment correctly', async () => {
@@ -298,7 +294,6 @@ describe('IncrementController', () => {
     });
 
     expect(response).toBeUndefined();
-    // expect(console.error).toHaveBeenCalledWith(error); // Uncomment if you want to check console.error call
   });
 
   it('should handle get-latest-increment nulled', async () => {
@@ -310,7 +305,6 @@ describe('IncrementController', () => {
     });
 
     expect(response).toBeUndefined();
-    // expect(console.error).toHaveBeenCalledWith(error); // Uncomment if you want to check console.error call
   });
 
   it('should handle update-increment correctly', async () => {
@@ -346,7 +340,6 @@ describe('IncrementController', () => {
     });
 
     expect(response).toBeUndefined();
-    // expect(console.error).toHaveBeenCalledWith(error); // Uncomment if you want to check console.error call
   });
 
   it('should handle update-increment nulled', async () => {
@@ -359,7 +352,6 @@ describe('IncrementController', () => {
     });
 
     expect(response).toBeUndefined();
-    // expect(console.error).toHaveBeenCalledWith(error); // Uncomment if you want to check console.error call
   });
 
   it('should handle delete-increment correctly', async () => {
@@ -380,6 +372,5 @@ describe('IncrementController', () => {
     });
 
     expect(response).toBeUndefined();
-    // expect(console.error).toHaveBeenCalledWith(error); // Uncomment if you want to check console.error call
   });
 });

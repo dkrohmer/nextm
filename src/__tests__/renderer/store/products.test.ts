@@ -1,3 +1,4 @@
+import { IProduct } from '../../../renderer/interfaces/IProduct';
 import reducer, {
   initialProductsState,
   setProductsIsCloning,
@@ -21,7 +22,6 @@ import {
   addOrUpdateProduct,
   deleteProduct,
 } from '../../../renderer/services/api/products';
-import { IProduct } from '../../../renderer/interfaces/IProduct';
 
 describe('productsSlice', () => {
   let initialState: ProductsState;
@@ -240,9 +240,7 @@ describe('productsSlice', () => {
     expect(state.openConfirm).toBe(false);
   });
 
-  // Test deleteProduct.fulfilled when products array is empty
   it('should handle deleteProduct.fulfilled with empty products array', () => {
-    // Simulate a scenario where products.products is an empty array
     const modifiedState = {
       ...initialState,
       products: { ...initialState.products, products: [] },
@@ -250,7 +248,6 @@ describe('productsSlice', () => {
     const action = { type: deleteProduct.fulfilled.type, payload: '1' };
     const state = reducer(modifiedState, action);
 
-    // Check that the products array remains empty
     expect(state.products.products).toEqual([]);
     expect(state.openConfirm).toBe(false);
   });
@@ -266,7 +263,6 @@ describe('productsSlice', () => {
     expect(state.openConfirm).toBe(false);
   });
 
-  // Test deleteProduct.fulfilled with existing products array
   it('should handle deleteProduct.fulfilled with existing products array', () => {
     const existingProducts: IProduct[] = [
       { id: '1', name: 'Product 1', createdAt: '1' },

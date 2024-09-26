@@ -1,4 +1,4 @@
-import store from '../../../renderer/store'; // Adjust the path if necessary
+import store from '../../../renderer/store';
 import productsReducer from '../../../renderer/store/products';
 import incrementsReducer from '../../../renderer/store/increments';
 import modelsReducer from '../../../renderer/store/models';
@@ -29,7 +29,6 @@ describe('Redux Store', () => {
   });
 
   it('should dispatch an action and update the state', () => {
-    // Example dispatch and state change test
     store.dispatch({ type: 'settings/setSidebarVisible', payload: true });
     const state = store.getState();
 

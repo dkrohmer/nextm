@@ -1,5 +1,3 @@
-// Disable no-unused-vars, broken for spread args
-/* eslint no-unused-vars: off */
 import { contextBridge, ipcRenderer } from 'electron';
 
 // TODO: change "payload: any" to respective types.
@@ -30,6 +28,7 @@ const electronHandler = {
     ipcRenderer.invoke('update-product', payload),
   deleteProduct: (payload: any) =>
     ipcRenderer.invoke('delete-product', payload),
+
   // increment
   getAllIncrements: (payload: any) =>
     ipcRenderer.invoke('get-all-increments', payload),
@@ -43,6 +42,7 @@ const electronHandler = {
     ipcRenderer.invoke('update-increment', payload),
   deleteIncrement: (payload: any) =>
     ipcRenderer.invoke('delete-increment', payload),
+
   // model
   getAllModels: (payload: any) => ipcRenderer.invoke('get-all-models', payload),
   getModelById: (payload: any) =>
@@ -50,6 +50,7 @@ const electronHandler = {
   createModel: (payload: any) => ipcRenderer.invoke('create-model', payload),
   updateModel: (payload: any) => ipcRenderer.invoke('update-model', payload),
   deleteModel: (payload: any) => ipcRenderer.invoke('delete-model', payload),
+  
   // version
   getAllVersions: (payload: any) =>
     ipcRenderer.invoke('get-all-versions', payload),
@@ -66,7 +67,5 @@ const electronHandler = {
 };
 
 contextBridge.exposeInMainWorld('electron', electronHandler);
-// contextBridge.exposeInMainWorld('rendererApi', rendererApiHandler);
 
 export type ElectronHandler = typeof electronHandler;
-// export type RendererApiHandler = typeof rendererApiHandler;

@@ -8,19 +8,24 @@
  * When running `npm run build` or `npm run build:main`, this file is compiled to
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
-import fs from 'fs';
-import path from 'path';
-import { app, BrowserWindow, shell, ipcMain, screen, dialog } from 'electron';
-import { autoUpdater } from 'electron-updater';
-import log from 'electron-log';
-import MenuBuilder from './menu';
-import { resolveHtmlPath } from './util';
 
-import { initializeDataSource } from './database'; // Import the database initialization function
+import { resolveHtmlPath } from './util';
+import { initializeDataSource } from './database';
 import { IncrementController } from './controllers/IncrementController';
 import { ModelController } from './controllers/ModelController';
 import { ProductController } from './controllers/ProductController';
 import { VersionController } from './controllers/VersionController';
+import { 
+  app, 
+  BrowserWindow, 
+  shell, 
+  ipcMain, 
+  screen, 
+  dialog 
+} from 'electron';
+import fs from 'fs';
+import path from 'path';
+import MenuBuilder from './menu';
 
 let isQuitting: boolean = false;
 
@@ -41,20 +46,6 @@ const getDefaultDbPath = () => {
       : path.resolve(app.getPath('userData'), 'nextm.db');
   return dbPath;
 };
-
-// const setCurrentDbPath = (dbPath: string) => {
-//   const config = { databasePath: dbPath }
-//   fs.writeFileSync(configPath, JSON.stringify(config), 'utf-8')
-// }
-
-// const getCurrentDbPath = () => {
-//   if (fs.existsSync(configPath)) {
-//     const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'))
-//     return config.databasePath
-//   } else {
-//     return null;
-//   }
-// }
 
 interface Config {
   [key: string]: string;
@@ -104,14 +95,6 @@ import('electron-unhandled')
   .catch((err) => {
     console.error(`Error during loading module: ${err}`);
   });
-
-class AppUpdater {
-  constructor() {
-    log.transports.file.level = 'info';
-    autoUpdater.logger = log;
-    autoUpdater.checkForUpdatesAndNotify();
-  }
-}
 
 let mainWindow: BrowserWindow | null = null;
 
@@ -167,10 +150,6 @@ const createWindow = async () => {
         process.env.NODE_ENV === 'development'
           ? path.join(__dirname, '../../.erb/dll/preload.js')
           : path.join(__dirname, 'preload.js'),
-      // preload: app.isPackaged
-      // ? path.join(__dirname, 'preload.js')
-      // : path.join(__dirname, '../../.erb/dll/preload.js'),
-      // preload: path.join(__dirname, 'preload.js')
     },
   });
 
@@ -199,18 +178,17 @@ const createWindow = async () => {
       event.preventDefault();
       dialog
         .showMessageBox(mainWindow!, {
-          type: 'warning', // Set to 'warning' to enable the icon
+          type: 'warning',
           buttons: ['Cancel', 'Quit'],
           defaultId: 1,
           cancelId: 0,
           title: 'Confirm',
           message: 'Do you really want to quit?',
           detail: 'All unsaved changes will be lost.',
-          icon: getAssetPath('icon.png'), // Path to your custom icon
+          icon: getAssetPath('icon.png'),
         })
         .then((result) => {
           if (result.response === 1) {
-            // 'Quit' button
             isQuitting = true;
             app.quit();
           }
@@ -223,7 +201,13 @@ const createWindow = async () => {
   });
 
   /**
-   * IPC handlers
+   * ipc handlers for persisting some settings in the nextm config file.
+   * allows some settings to be stored throughout multiple sessions.
+   * can be compared with storing cookies in the web browser. 
+   */
+
+  /**
+   * open file dialog in settings to create a new custom database
    */
   ipcMain.handle('open-file-dialog', async (event) => {
     try {
@@ -234,7 +218,6 @@ const createWindow = async () => {
       const result = await dialog.showOpenDialog(mainWindow!, {
         properties: ['openFile'],
         filters: [{ name: 'Database Files', extensions: ['db', 'sqlite'] }],
-        // multiSelections: false
       });
       if (!result.canceled && result.filePaths.length > 0) {
         return result.filePaths[0];
@@ -246,6 +229,9 @@ const createWindow = async () => {
     }
   });
 
+  /**
+   * open directory dialog in settings to open an existing custom database
+   */
   ipcMain.handle('open-directory-dialog', async (event) => {
     try {
       if (!mainWindow) {
@@ -253,7 +239,7 @@ const createWindow = async () => {
       }
 
       const result = await dialog.showOpenDialog(mainWindow, {
-        properties: ['openDirectory'], // Ensure 'openDirectory' is in an array of allowed properties
+        properties: ['openDirectory'],
       });
 
       if (!result.canceled && result.filePaths.length > 0) {
@@ -266,12 +252,13 @@ const createWindow = async () => {
     }
   });
 
+  /**
+   * create the new db at the location passed via open-directory-dialog
+   */
   ipcMain.handle('create-database', async (event, input) => {
     try {
-      // Check if the directory exists
       fs.accessSync(input, fs.constants.F_OK);
 
-      // Generate a unique file name if file already exists
       let count = 1;
       let dbPath = input;
 
@@ -293,11 +280,7 @@ const createWindow = async () => {
         }
       }
 
-      // Perform any other checks or validations as needed
-      // For now, assuming directory exists and filename is unique
-
-      // Call initialization function
-      const result = await initializeDataSource(dbPath); // Adjust function call as per your logic
+      const result = await initializeDataSource(dbPath);
 
       if (result) {
         // persist current dbPath in config file
@@ -312,6 +295,9 @@ const createWindow = async () => {
     }
   });
 
+  /**
+   * open the existing db at the location passed via open-file-dialog
+   */
   ipcMain.handle('open-database', async (event, input) => {
     try {
       console.log(input);
@@ -344,14 +330,23 @@ const createWindow = async () => {
     }
   });
 
+  /**
+   * get the default db path when no custom db is specified
+   */
   ipcMain.handle('get-default-db-path', async (event) => {
     return getDefaultDbPath();
   });
 
+  /**
+   * get the current db path when app is started
+   */
   ipcMain.handle('get-current-db-path', async (event) => {
     return getConfig('databasePath');
   });
 
+  /**
+   * set a new grid type in the model editor
+   */
   ipcMain.handle('set-grid-type', async (event, input) => {
     try {
       if (input === 'none' || 'dot' || 'mesh') {
@@ -364,10 +359,16 @@ const createWindow = async () => {
     }
   });
 
+  /**
+   * get the current grid type in the model editor
+   */
   ipcMain.handle('get-grid-type', async (event) => {
     return getConfig('gridType');
   });
 
+  /**
+   * set explicit object selection in the model editor
+   */
   ipcMain.handle('set-explicit-object-selection', async (event, input) => {
     try {
       if (input === true || false) {
@@ -380,6 +381,9 @@ const createWindow = async () => {
     }
   });
 
+  /**
+   * get explicit object selection in the model editor
+   */
   ipcMain.handle('get-explicit-object-selection', async (event) => {
     return getConfig('explicitObjectSelection');
   });
@@ -392,50 +396,7 @@ const createWindow = async () => {
     shell.openExternal(edata.url);
     return { action: 'deny' };
   });
-
-  // Remove this if your app does not use auto updates
-  // eslint-disable-next-line
-
-  // new AppUpdater();
 };
-
-/**
- * Add event listeners...
- */
-// Listen for before-quit event
-// app.on('before-quit', (event) => {
-//   console.log("ipcMain: Quit triggered")
-//   // Send the 'before-quit' event to the renderer process
-//   if (mainWindow) {
-//     mainWindow.webContents.send('pong');
-//     // Delay the quit to ensure the renderer process has time to handle the event
-//     event.preventDefault();
-//     setTimeout(() => {
-//       app.quit();
-//     }, 3000);
-//   }
-// });
-
-const isModelSaved = false;
-
-// app.on('before-quit', (event) => {
-//   if (!isModelSaved) {
-//     // Prevent the default action (quit)
-//     event.preventDefault();
-//     // Send a message to the renderer process to save the model
-//     if (mainWindow) {
-//       console.log("[ipcMain] Sending...");
-//       mainWindow.webContents.send('save-model');
-//       console.log("[ipcMain] Sending done");
-//     }
-//     // Listen for the response from the renderer process
-//     ipcMain.once('model-saved', () => {
-//       isModelSaved = true;
-//       // Quit the app after the model is saved
-//       app.quit();
-//     });
-//   }
-// });
 
 app.on('window-all-closed', () => {
   // Respect the OSX convention of having the application in memory even
@@ -455,8 +416,8 @@ app
       setConfig('databasePath', dbPath);
     }
 
-    // const databasePath = path.join(__dirname, '..', 'nextm.db');
-    await initializeDataSource(dbPath); // Initialize the data source
+    // Initialize the data source
+    await initializeDataSource(dbPath); 
     initializeControllers();
 
     createWindow();

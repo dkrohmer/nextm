@@ -71,8 +71,6 @@ describe('VersionController', () => {
       new Error('Model not found'),
     );
 
-    // const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation();
-
     const response = await ipcRenderer.invoke('create-version', {
       modelId: null,
       payload: { graph: { graph: {} } },
@@ -176,8 +174,6 @@ describe('VersionController', () => {
     const error = new Error('Fetch error');
     versionService.getAllVersions.mockRejectedValue(error);
 
-    // const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation();
-
     const response = await ipcRenderer.invoke('get-all-versions', {
       sort: 'asc',
       sortby: 'createdAt',
@@ -275,7 +271,6 @@ describe('VersionController', () => {
 
   it('should handle get-latest-version by model ID with nulled modelId', async () => {
     const error = new Error('No modelId provided');
-    // versionService.getLatestVersionByModelId.mockResolvedValue(null);
 
     const response = await ipcRenderer.invoke('get-latest-version', {
       modelId: null,

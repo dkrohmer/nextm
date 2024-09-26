@@ -1,13 +1,11 @@
-import React from 'react';
 import { render, screen } from '@testing-library/react';
+import TableHeaders from '../../../../renderer/components/Products/TableHeaders';
 import '@testing-library/jest-dom';
-import TableHeaders from '../../../../renderer/components/Products/TableHeaders'; // Adjust the import path if necessary
 
 describe('TableHeaders Component', () => {
   it('renders the correct table headers', () => {
     render(<TableHeaders />);
 
-    // Check if each header cell is rendered
     expect(screen.getByText('Name')).toBeInTheDocument();
     expect(screen.getByText('Description')).toBeInTheDocument();
     expect(screen.getByText('Responsible(s)')).toBeInTheDocument();

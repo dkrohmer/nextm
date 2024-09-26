@@ -1,6 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
+import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import { Graph as x6Graph } from '@antv/x6';
@@ -9,16 +8,14 @@ import productsReducer from '../../../../renderer/store/products';
 import incrementsReducer from '../../../../renderer/store/increments';
 import modelsReducer from '../../../../renderer/store/models';
 import useSetupStencil from '../../../../renderer/hooks/model-editor/useSetupStencil';
+import '@testing-library/jest-dom';
 
-// Mock the useSetupStencil hook
 jest.mock('../../../../renderer/hooks/model-editor/useSetupStencil');
 
-// Create a mock Graph instance
 const mockGraph = new x6Graph({
   container: document.createElement('div'),
 });
 
-// Create a test store with the necessary slices
 const store = configureStore({
   reducer: {
     products: productsReducer,
@@ -27,17 +24,15 @@ const store = configureStore({
   },
 });
 
-// Helper function to render components with Redux provider
 const renderWithRedux = (component: React.ReactElement) => {
   return render(<Provider store={store}>{component}</Provider>);
 };
 
 describe('StencilContainer Component', () => {
-  const mockRef = { current: document.createElement('div') }; // Create a mock ref object
+  const mockRef = { current: document.createElement('div') };
 
   beforeEach(() => {
     jest.clearAllMocks();
-    // Mock the implementation of useSetupStencil to return the mockRef
     (useSetupStencil as jest.Mock).mockReturnValue(mockRef);
   });
 
@@ -46,7 +41,6 @@ describe('StencilContainer Component', () => {
       <StencilContainer graph={mockGraph} />,
     );
 
-    // Check that the stencil container is rendered with the correct class
     const stencilElement = container.querySelector('.stencil-container');
     expect(stencilElement).toBeInTheDocument();
     expect(stencilElement).toHaveClass('stencil-container');
@@ -55,7 +49,6 @@ describe('StencilContainer Component', () => {
   it('calls useSetupStencil with the correct graph', () => {
     renderWithRedux(<StencilContainer graph={mockGraph} />);
 
-    // Check that useSetupStencil was called with the correct graph
     expect(useSetupStencil).toHaveBeenCalledWith(mockGraph);
   });
 });

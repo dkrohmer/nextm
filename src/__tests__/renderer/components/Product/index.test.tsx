@@ -1,13 +1,12 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
-import Product from '../../../../renderer/components/Product';
 import { RootState } from '../../../../renderer/store';
 import { initialProductsState } from '../../../../renderer/store/products';
+import Product from '../../../../renderer/components/Product';
+import '@testing-library/jest-dom';
 
-// Mock the dependent components and hooks
 jest.mock('../../../../renderer/hooks/useFetchProduct', () => jest.fn());
 jest.mock(
   '../../../../renderer/components/Product/Breadcrumbs',
@@ -89,7 +88,6 @@ const renderWithProviders = (
   return render(<Provider store={store}>{component}</Provider>);
 };
 
-// Tests
 describe('Product Component', () => {
   const mockProduct = {
     id: '1',
@@ -132,7 +130,6 @@ describe('Product Component', () => {
   it('renders the Loader and Breadcrumbs components when loading', () => {
     renderWithProviders(<Product />, initialStateWithLoading);
 
-    // Check if Loader and Breadcrumbs components are rendered
     expect(screen.getByText('Loader Component')).toBeInTheDocument();
     expect(screen.getByText('Breadcrumbs Component')).toBeInTheDocument();
   });
@@ -140,7 +137,6 @@ describe('Product Component', () => {
   it('renders the Error component when there is an error', () => {
     renderWithProviders(<Product />, initialStateWithError);
 
-    // Check if Error and Breadcrumbs components are rendered
     expect(screen.getByText('Error Component')).toBeInTheDocument();
     expect(screen.getByText('Breadcrumbs Component')).toBeInTheDocument();
   });
@@ -148,11 +144,9 @@ describe('Product Component', () => {
   it('renders product details when the product is available and no error or loading', () => {
     renderWithProviders(<Product />, initialStateWithProduct);
 
-    // Check if Breadcrumbs and Increments components are rendered
     expect(screen.getByText('Breadcrumbs Component')).toBeInTheDocument();
     expect(screen.getByText('Increments Component')).toBeInTheDocument();
 
-    // Check if product detail components are rendered
     expect(screen.getByText('Description Component')).toBeInTheDocument();
     expect(screen.getByText('Responsibles Component')).toBeInTheDocument();
     expect(screen.getByText('StartsAt Component')).toBeInTheDocument();
@@ -172,7 +166,6 @@ describe('Product Component', () => {
 
     renderWithProviders(<Product />, initialStateWithoutProduct);
 
-    // Check if Breadcrumbs is rendered but product details are not
     expect(screen.getByText('Breadcrumbs Component')).toBeInTheDocument();
     expect(screen.queryByText('Description Component')).not.toBeInTheDocument();
     expect(
