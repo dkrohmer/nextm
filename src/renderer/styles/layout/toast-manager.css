@@ -5,4 +5,11 @@
   box-shadow: 0 .5px 3px rgba(0, 0, 0, 0.2);
   border-radius: 0.28571429rem;
   border: 0.5px white solid;
+  padding: 10px;
+  max-width: 300px;
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-break: break-all;
+  width: fit-content;
+  white-space: normal;
 }

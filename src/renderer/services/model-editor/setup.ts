@@ -1,10 +1,11 @@
-import { Node, Graph, Cell } from '@antv/x6';
+import { Graph } from '@antv/x6';
 import { Transform } from '@antv/x6-plugin-transform';
 import { Selection } from '@antv/x6-plugin-selection';
 import { Snapline } from '@antv/x6-plugin-snapline';
 import { Keyboard } from '@antv/x6-plugin-keyboard';
 import { Clipboard } from '@antv/x6-plugin-clipboard';
 import { History } from '@antv/x6-plugin-history';
+// import { MiniMap } from '@antv/x6-plugin-minimap'
 import { Export } from '@antv/x6-plugin-export';
 
 const topbar = document.getElementById('topbar');
@@ -71,51 +72,43 @@ const create = (
     embedding: {
       enabled: true,
       findParent({ node }) {
+        const selectedCells = this.getSelectedCells();
+    
+        // multiselect currently not possible
+        if (selectedCells.length > 1) {
+          return [];
+        }
+    
         const bbox = node.getBBox();
-        return this.getNodes().filter((node) => {
-          const data = node.getData<{ parent: boolean }>();
+        return this.getNodes().filter((potentialParent) => {
+          const data = potentialParent.getData<{ parent: boolean }>();
           if (data && data.parent) {
-            const targetBBox = node.getBBox();
-            return bbox.isIntersectWithRect(targetBBox);
+            const targetBBox = potentialParent.getBBox();
+            return (
+              targetBBox.containsRect(bbox)
+            );
           }
           return false;
         });
       },
     },
+  
   })
     .use(
       new Transform({
-        resizing: {
-          enabled: true,
-          allowReverse: false,
-          minWidth: 80,
-          minHeight(cell: Cell) {
-            if (cell.shape === 'system') {
-              return 80;
-            } else {
-              return 40;
-            }
-          },
-          preserveAspectRatio(cell: Cell) {
-            if (cell.shape === 'system') {
-              return true;
-            } else {
-              return false;
-            }
-          },
-        },
+        resizing: true,
       }),
     )
     .use(new Snapline())
     .use(
       new Selection({
         className: 'custom-selection',
-        rubberband: true,
+        rubberband: false, // multiselect conflicts with embedding
         showNodeSelectionBox: true,
         showEdgeSelectionBox: true,
         strict: true,
         movable: false,
-        multipleSelectionModifiers: 'shift',
+        // multipleSelectionModifiers: 'shift', // multiselect conflicts with embedding
         pointerEvents: 'none',
       }),
     )
@@ -124,9 +117,9 @@ const create = (
     .use(
       new History({
         beforeAddCommand: (event: string, args: any) => {
-          let keepItemInHistory: boolean = true;
+          let keepItemInHistory = true;
         
-          // do not keep vertices in history
+          // Check current items
           if (args && args.current && args.current.items) {
             const { items } = args.current;
             for (const item of items) {
@@ -140,7 +133,7 @@ const create = (
             }
           }
         
-          // do not keep vertices in history
+          // Check previous items
           if (args && args.previous && args.previous.items) {
             const { items } = args.previous;
             for (const item of items) {
@@ -154,7 +147,7 @@ const create = (
             }
           }
         
-          // do not keep mouse hover highlighting in history
+          // Check for mouse hover highlighting
           if (args && args.options && args.options.propertyPath) {
             if (
               args.options.propertyPath === 'attrs/line/strokeWidth' ||
@@ -165,18 +158,11 @@ const create = (
           }
         
           return keepItemInHistory;
-        }
+        },        
       }),
     )
-    // .use(
-    //   new MiniMap({
-    //     container: minimap,
-    //     width: 200,
-    //     height: 160,
-    //     padding: 10
-    //   })
-    // )
     .use(new Export());
+
 export default {
   create,
 };

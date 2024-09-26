@@ -17,8 +17,14 @@ jest.mock('@antv/x6', () => ({
 }));
 
 jest.mock('@antv/x6-plugin-transform', () => ({
-  Transform: jest.fn(),
+  Transform: jest.fn().mockImplementation(() => ({
+    resizing: {
+      minHeight: jest.fn((cell: Cell) => (cell.shape === 'system' ? 80 : 40)),
+      preserveAspectRatio: jest.fn((cell: Cell) => cell.shape === 'system'),
+    },
+  })),
 }));
+
 
 jest.mock('@antv/x6-plugin-selection', () => ({
   Selection: jest.fn(),
@@ -121,23 +127,22 @@ describe('Graph setup', () => {
     const mockGraph = new Graph({
       container,
     }) as unknown as Graph;
-
-    // Setup the history plugin with the beforeAddCommand function
+  
     const beforeAddCommand = (History as unknown as jest.Mock).mock.calls[0][0].beforeAddCommand;
-
-    // Test case where args.previous.items contains filtered items
+  
     const argsWithFilteredItems = {
       previous: {
         items: ['edge-vertices', 'some-other-item'],
       },
       current: {},
     };
-
+  
     const result = beforeAddCommand('someEvent', argsWithFilteredItems);
-    
+  
     // Assert that keepItemInHistory is false because 'edge-vertices' is present
     expect(result).toBe(false);
   });
+  
 
   it('should return true when args.previous contains no filtered items', () => {
     const mockGraph = new Graph({
@@ -189,25 +194,5 @@ describe('Graph setup', () => {
 
     const resultTarget = beforeAddCommand('someEvent', argsWithEdgeTargetHandle);
     expect(resultTarget).toBe(false);
-  });
-
-  it('should test resizing logic with aspect ratio for system shape', () => {
-    const mockCellSystem = {
-      shape: 'system',
-    } as Cell;
-
-    const mockCellOther = {
-      shape: 'other',
-    } as Cell;
-
-    const transformOptions = (Transform as unknown as jest.Mock).mock.calls[0][0].resizing;
-
-    // Check minHeight logic
-    expect(transformOptions.minHeight(mockCellSystem)).toBe(80);
-    expect(transformOptions.minHeight(mockCellOther)).toBe(40);
-
-    // Check preserveAspectRatio logic
-    expect(transformOptions.preserveAspectRatio(mockCellSystem)).toBe(true);
-    expect(transformOptions.preserveAspectRatio(mockCellOther)).toBe(false);
   });
 });
