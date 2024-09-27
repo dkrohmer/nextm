@@ -1,7 +1,7 @@
 {
   "name": "nextm",
-  "version": "0.1.0",
-  "description": "A portable threat modeling tool for agile development.",
+  "version": "1.0.0",
+  "description": "nexTM is a threat modeling tool tailored towards agile software development.",
   "license": "AGPL-3.0-only",
   "author": {
     "name": "dkrohmer",

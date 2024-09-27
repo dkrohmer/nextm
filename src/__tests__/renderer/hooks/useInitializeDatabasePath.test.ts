@@ -17,37 +17,6 @@ beforeEach(() => {
 });
 
 describe('useInitializeDatabasePath', () => {
-  // TODO
-  // it('should dispatch setUseDefaultDatabase(true) and setInputPath with default path if path equals default path', async () => {
-  //   // Mock useSelector to return a path equal to the default path
-  //   mockUseSelector.mockImplementation((selector: any) =>
-  //     selector({
-  //       settings: { path: 'default/db/path' },
-  //     })
-  //   );
-
-  //   // Mock the Electron API to return the default database path
-  //   mockGetDefaultDbPath.mockResolvedValue('default/db/path');
-
-  //   // Render the hook
-  //   renderHook(() => useInitializeDatabasePath());
-
-  //   // Wait for the useEffect async operation to complete
-  //   await waitFor(() => expect(mockDispatch).toHaveBeenCalled());
-
-  //   // Ensure setUseDefaultDatabase(true) was dispatched
-  //   expect(mockDispatch).toHaveBeenCalledWith({
-  //     type: 'settings/setUseDefaultDatabase',
-  //     payload: true,
-  //   });
-
-  //   // Ensure setInputPath was dispatched with the default path
-  //   expect(mockDispatch).toHaveBeenCalledWith({
-  //     type: 'settings/setInputPath',
-  //     payload: 'default/db/path',
-  //   });
-  // });
-
   it('should dispatch setUseDefaultDatabase(false) and setInputPath with path if path does not equal default path', async () => {
     mockUseSelector.mockImplementation((selector: any) =>
       selector({

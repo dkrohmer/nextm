@@ -1,4 +1,3 @@
-import React from 'react';
 import { render, screen } from '@testing-library/react';
 import Title from '../../../../renderer/components/Increment/Title';
 import '@testing-library/jest-dom';
@@ -9,9 +8,8 @@ describe('Title Component', () => {
     const name = 'Test Increment';
 
     const { container } = render(<Title number={number} name={name} />);
-
-    // Verify the icon is rendered by checking the class name
     const iconElement = container.querySelector('.dropdown.icon');
+
     expect(iconElement).toBeInTheDocument();
 
     expect(

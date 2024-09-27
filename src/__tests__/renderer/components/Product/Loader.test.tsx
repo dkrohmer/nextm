@@ -29,7 +29,6 @@ const renderWithStore = (
   return render(<Provider store={store}>{ui}</Provider>);
 };
 
-// Tests
 describe('Product Loader Component', () => {
   const initialState = {
     products: initialProductsState,

@@ -11,6 +11,12 @@ interface DarwinMenuItemConstructorOptions extends MenuItemConstructorOptions {
   submenu?: DarwinMenuItemConstructorOptions[] | Menu;
 }
 
+const appName = process.env.APP_NAME;
+const github = process.env.APP_GITHUB;
+const discord = process.env.APP_DISCORD;
+const patreon = process.env.APP_PATREON;
+
+
 export default class MenuBuilder {
   mainWindow: BrowserWindow;
 
@@ -54,17 +60,17 @@ export default class MenuBuilder {
 
   buildDarwinTemplate(): MenuItemConstructorOptions[] {
     const subMenuAbout: DarwinMenuItemConstructorOptions = {
-      label: 'Electron',
+      label: appName,
       submenu: [
         {
-          label: 'About ElectronReact',
+          label: `About ${appName}`,
           selector: 'orderFrontStandardAboutPanel:',
         },
         { type: 'separator' },
         { label: 'Services', submenu: [] },
         { type: 'separator' },
         {
-          label: 'Hide ElectronReact',
+          label: `Hide ${appName}`,
           accelerator: 'Command+H',
           selector: 'hide:',
         },
@@ -155,30 +161,16 @@ export default class MenuBuilder {
       label: 'Help',
       submenu: [
         {
-          label: 'Learn More',
-          click() {
-            shell.openExternal('https://electronjs.org');
-          },
+          label: 'Contribute',
+          click() { shell.openExternal(github!) },
         },
         {
-          label: 'Documentation',
-          click() {
-            shell.openExternal(
-              'https://github.com/electron/electron/tree/main/docs#readme',
-            );
-          },
+          label: 'Discuss',
+          click() { shell.openExternal(discord!) },
         },
         {
-          label: 'Community Discussions',
-          click() {
-            shell.openExternal('https://www.electronjs.org/community');
-          },
-        },
-        {
-          label: 'Search Issues',
-          click() {
-            shell.openExternal('https://github.com/electron/electron/issues');
-          },
+          label: 'Donate',
+          click() { shell.openExternal(patreon!) },
         },
       ],
     };
@@ -256,30 +248,16 @@ export default class MenuBuilder {
         label: 'Help',
         submenu: [
           {
-            label: 'Learn More',
-            click() {
-              shell.openExternal('https://electronjs.org');
-            },
+            label: 'Contribute',
+            click() { shell.openExternal(github!) },
           },
           {
-            label: 'Documentation',
-            click() {
-              shell.openExternal(
-                'https://github.com/electron/electron/tree/main/docs#readme',
-              );
-            },
+            label: 'Discuss',
+            click() { shell.openExternal(discord!) },
           },
           {
-            label: 'Community Discussions',
-            click() {
-              shell.openExternal('https://www.electronjs.org/community');
-            },
-          },
-          {
-            label: 'Search Issues',
-            click() {
-              shell.openExternal('https://github.com/electron/electron/issues');
-            },
+            label: 'Donate',
+            click() { shell.openExternal(patreon!) },
           },
         ],
       },

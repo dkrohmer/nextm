@@ -1,16 +1,14 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import '@testing-library/jest-dom';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import { MemoryRouter } from 'react-router-dom';
-import Increment from '../../../../renderer/components/Increment';
-import incrementsReducer, {
-  setIncrementsActiveIndex,
-} from '../../../../renderer/store/increments';
-import modelsReducer from '../../../../renderer/store/models';
 import { IIncrement } from '../../../../renderer/interfaces/IIncrement';
 import { IProduct } from '../../../../renderer/interfaces/IProduct';
+import incrementsReducer, { setIncrementsActiveIndex } from '../../../../renderer/store/increments';
+import Increment from '../../../../renderer/components/Increment';
+import modelsReducer from '../../../../renderer/store/models';
+import '@testing-library/jest-dom';
 
 const navigateMock = jest.fn();
 jest.mock('react-router-dom', () => ({
@@ -110,14 +108,11 @@ describe('Increment Component', () => {
     const incrementWrapper = screen.getByTestId('increment-wrapper-0');
     const actionsContainer = screen.getByTestId('actions-container');
 
-    // Ensure actions container is visible before hovering
     expect(actionsContainer).toBeVisible();
 
-    // Simulate mouse enter
     fireEvent.mouseEnter(incrementWrapper);
 
-    // Check if the actions container is visible and has the correct class/style indicating hover
-    expect(actionsContainer).toHaveClass('visible'); // Replace 'visible' with the correct class or style
+    expect(actionsContainer).toHaveClass('visible');
   });
 
   it('sets isHovering to false on mouse leave', () => {
@@ -134,16 +129,12 @@ describe('Increment Component', () => {
     const incrementWrapper = screen.getByTestId('increment-wrapper-0');
     const actionsContainer = screen.getByTestId('actions-container');
 
-    // Simulate mouse enter to set isHovering to true first
     fireEvent.mouseEnter(incrementWrapper);
 
-    // Ensure actions container is visible after hover
-    expect(actionsContainer).toHaveClass('visible'); // Replace 'visible' with the correct class or style
+    expect(actionsContainer).toHaveClass('visible');
 
-    // Simulate mouse leave
     fireEvent.mouseLeave(incrementWrapper);
 
-    // Check if the actions container is no longer visible or has the correct class/style indicating non-hover
-    expect(actionsContainer).not.toHaveClass('visible'); // Replace 'visible' with the correct class or style
+    expect(actionsContainer).not.toHaveClass('visible');
   });
 });

@@ -6,7 +6,6 @@ import { Graph } from '@antv/x6';
 import { jest } from '@jest/globals';
 import modelEditorReducer, {setExportModalOpen} from '../../../../renderer/store/modelEditor';
 import ExportModal from '../../../../renderer/components/ModelEditor/ExportModal';
-
 import '@testing-library/jest-dom';
 
 jest.mock('@antv/x6', () => {
@@ -54,13 +53,6 @@ describe('ExportModal Component', () => {
 
     fireEvent.click(screen.getByText('JSON'));
     fireEvent.click(screen.getByRole('button', { name: /Export/i }));
-
-    // TODO: FIX THIS
-    // expect(dispatch).toHaveBeenCalledWith(exportGraph({
-    //   format: 'json', // Ensure this matches the default or selected format
-    //   filename: mockFilename,
-    //   graph: mockGraph,
-    // }));
     
     expect(dispatch).toHaveBeenCalledWith(setExportModalOpen(false));
   });

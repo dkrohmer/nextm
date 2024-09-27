@@ -1,6 +1,6 @@
 {
   "name": "nexTM",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "year": "2024",
   "description": "nexTM is a threat modeling tool tailored towards agile software development.",
   "license": "AGPL v3.0",

@@ -44,7 +44,6 @@ const renderWithStore = (
   );
 };
 
-// Tests
 describe('Add Component', () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -60,7 +59,6 @@ describe('Add Component', () => {
   });
 
   it('dispatches actions on click', () => {
-    // Ensure mocks are correct
     jest
       .spyOn(
         require('../../../../renderer/store/increments'),
