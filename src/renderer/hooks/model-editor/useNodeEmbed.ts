@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
-import { Cell, Graph } from '@antv/x6';
+import { Cell, Graph, Edge } from '@antv/x6';
 
-const useNodeEmbed = (graph?: Graph) => {
+const useNodeAndEdgeEmbed = (graph?: Graph) => {
   useEffect(() => {
     if (!graph) return;
 
@@ -35,14 +35,25 @@ const useNodeEmbed = (graph?: Graph) => {
       }
     };
 
+    const bringEdgeToFrontOnSelect = ({ cell }: { cell: Cell }) => {
+      if (cell.isEdge()) {
+        const maxZIndex = Math.max(
+          ...graph.getCells().map((node) => node.getZIndex() || 0),
+        );
+        cell.setZIndex(maxZIndex + 1);
+      }
+    };
+
     graph.on('node:selected', bringToFrontOnSelect);
     graph.on('node:change:parent', nodeEmbed);
+    graph.on('edge:selected', bringEdgeToFrontOnSelect);
 
     return () => {
       graph.off('node:change:parent', nodeEmbed);
       graph.off('node:selected', bringToFrontOnSelect);
+      graph.off('edge:selected', bringEdgeToFrontOnSelect);
     };
   }, [graph]);
 };
 
-export default useNodeEmbed;
+export default useNodeAndEdgeEmbed;

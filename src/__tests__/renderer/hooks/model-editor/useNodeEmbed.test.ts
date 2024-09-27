@@ -1,13 +1,15 @@
 import { renderHook } from '@testing-library/react-hooks';
-import { Graph, Cell } from '@antv/x6';
-import useNodeEmbed from '../../../../renderer/hooks/model-editor/useNodeEmbed';
+import { Graph, Cell, Edge } from '@antv/x6';
+import useNodeAndEdgeEmbed from '../../../../renderer/hooks/model-editor/useNodeEmbed';
 
-describe('useNodeEmbed hook', () => {
+describe('useNodeAndEdgeEmbed hook', () => {
   let mockGraph: Graph;
   let mockCell: jest.Mocked<Cell>;
+  let mockEdge: jest.Mocked<Edge>;
   let mockParent: jest.Mocked<Cell>;
   let mockChildCell: jest.Mocked<Cell>;
   let nodeEmbedCallback: Function;
+  let edgeSelectCallback: Function;
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -15,8 +17,10 @@ describe('useNodeEmbed hook', () => {
     mockGraph = {
       on: jest.fn((event: string, callback: Function) => {
         if (event === 'node:change:parent') nodeEmbedCallback = callback;
+        if (event === 'edge:selected') edgeSelectCallback = callback;
       }),
       off: jest.fn(),
+      getCells: jest.fn(),
     } as unknown as Graph;
 
     mockParent = {
@@ -37,16 +41,21 @@ describe('useNodeEmbed hook', () => {
       getZIndex: jest.fn(() => 10),
       setZIndex: jest.fn(),
     } as unknown as jest.Mocked<Cell>;
+
+    mockEdge = {
+      setZIndex: jest.fn(),
+      isEdge: jest.fn(() => true),
+    } as unknown as jest.Mocked<Edge>;
   });
 
   it('should return early if graph is undefined', () => {
-    renderHook(() => useNodeEmbed(undefined));
+    renderHook(() => useNodeAndEdgeEmbed(undefined));
 
     expect(mockGraph.on).not.toHaveBeenCalled();
   });
 
   it('should handle node embedding and update z-index of the node and its children', () => {
-    renderHook(() => useNodeEmbed(mockGraph));
+    renderHook(() => useNodeAndEdgeEmbed(mockGraph));
 
     nodeEmbedCallback({ cell: mockCell });
 
@@ -56,7 +65,7 @@ describe('useNodeEmbed hook', () => {
   });
 
   it('should clean up the event listener on unmount', () => {
-    const { unmount } = renderHook(() => useNodeEmbed(mockGraph));
+    const { unmount } = renderHook(() => useNodeAndEdgeEmbed(mockGraph));
 
     unmount();
 
@@ -64,10 +73,14 @@ describe('useNodeEmbed hook', () => {
       'node:change:parent',
       expect.any(Function),
     );
+    expect(mockGraph.off).toHaveBeenCalledWith(
+      'edge:selected',
+      expect.any(Function),
+    );
   });
 
   it('should update z-index of parent and children when node is embedded', () => {
-    renderHook(() => useNodeEmbed(mockGraph));
+    renderHook(() => useNodeAndEdgeEmbed(mockGraph));
 
     nodeEmbedCallback({ cell: mockCell });
 
@@ -78,7 +91,7 @@ describe('useNodeEmbed hook', () => {
   it('should fallback to z-index 0 when parent.getZIndex() returns undefined', () => {
     mockParent.getZIndex.mockReturnValue(undefined);
 
-    renderHook(() => useNodeEmbed(mockGraph));
+    renderHook(() => useNodeAndEdgeEmbed(mockGraph));
 
     nodeEmbedCallback({ cell: mockCell });
 
@@ -102,7 +115,7 @@ describe('useNodeEmbed hook', () => {
 
     mockCell.setZIndex = jest.fn();
 
-    renderHook(() => useNodeEmbed(mockGraph));
+    renderHook(() => useNodeAndEdgeEmbed(mockGraph));
 
     const nodeSelectCallback = (mockGraph.on as jest.Mock).mock.calls.find(
       (call) => call[0] === 'node:selected',
@@ -120,7 +133,7 @@ describe('useNodeEmbed hook', () => {
 
     mockCell.setZIndex = jest.fn();
 
-    renderHook(() => useNodeEmbed(mockGraph));
+    renderHook(() => useNodeAndEdgeEmbed(mockGraph));
 
     const nodeSelectCallback = (mockGraph.on as jest.Mock).mock.calls.find(
       (call) => call[0] === 'node:selected',
@@ -146,7 +159,7 @@ describe('useNodeEmbed hook', () => {
 
     mockCell.setZIndex = jest.fn();
 
-    renderHook(() => useNodeEmbed(mockGraph));
+    renderHook(() => useNodeAndEdgeEmbed(mockGraph));
 
     const nodeSelectCallback = (mockGraph.on as jest.Mock).mock.calls.find(
       (call) => call[0] === 'node:selected',
@@ -154,5 +167,40 @@ describe('useNodeEmbed hook', () => {
     nodeSelectCallback({ cell: mockCell });
 
     expect(mockCell.setZIndex).toHaveBeenCalledWith(6);
+  });
+
+  it('should bring the selected edge to the front', () => {
+    const mockCells = [
+      { getZIndex: jest.fn(() => 5) } as unknown as Cell,
+      { getZIndex: jest.fn(() => 10) } as unknown as Cell,
+      { getZIndex: jest.fn(() => 3) } as unknown as Cell,
+    ];
+
+    mockGraph.getCells = jest.fn(() => mockCells);
+
+    mockEdge.setZIndex = jest.fn();
+
+    renderHook(() => useNodeAndEdgeEmbed(mockGraph));
+
+    edgeSelectCallback({ cell: mockEdge });
+
+    expect(mockEdge.setZIndex).toHaveBeenCalledWith(11);
+  });
+
+  it('should handle edges without z-index (undefined z-index) and bring selected edge to the front', () => {
+    const mockCells = [
+      { getZIndex: jest.fn(() => 5) } as unknown as Cell,
+      { getZIndex: jest.fn(() => undefined) } as unknown as Cell,
+      { getZIndex: jest.fn(() => 3) } as unknown as Cell,
+    ];
+
+    mockGraph.getCells = jest.fn(() => mockCells);
+    mockEdge.setZIndex = jest.fn();
+
+    renderHook(() => useNodeAndEdgeEmbed(mockGraph));
+
+    edgeSelectCallback({ cell: mockEdge });
+
+    expect(mockEdge.setZIndex).toHaveBeenCalledWith(6);
   });
 });
