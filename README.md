@@ -24,8 +24,8 @@ Clone the repo and install dependencies:
 
 ```bash
 git clone https://github.com/dkrohmer/nextm.git
-cd nextm
-npm install
+cd nextm-main
+npm install --legacy-peer-deps
 ```
 
 ## Starting Development
